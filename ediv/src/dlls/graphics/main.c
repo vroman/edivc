@@ -173,6 +173,7 @@ int ExportaFuncs(EXPORTAFUNCS_PARAMS)
 	FUNCTION("graphic_info",3,eDIV_GRAPHIC_INFO) ;
 	FUNCTION("fade",4,eDIV_FADE) ;
 	FUNCTION("xput",6,eDIV_XPUT);
+	FUNCTION("setmode",4,eDIV_SETMODE);
 
 	ENTRYPOINT( frame ) ;
 	ENTRYPOINT( first_load ) ;
@@ -1163,6 +1164,21 @@ int eDIV_FADE(FUNCTION_PARAMS2)
 	return 1 ;
 }
 	
+int eDIV_SETMODE(FUNCTION_PARAMS)
+{
+	int x,y,bpp,full;
+	full = getparm();
+	bpp  = getparm();
+	y = getparm();
+	x = getparm();
+//SDL_SWSURFACE SDL_HWSURFACE
+
+	if(full)
+	screen = SDL_SetVideoMode(x, y, bpp, SDL_SWSURFACE  |SDL_FULLSCREEN );
+	else
+	screen = SDL_SetVideoMode(x, y, bpp, SDL_SWSURFACE   );
+return;
+}
 
 //*********************************** Entry Points **********************************************//
 
@@ -1338,7 +1354,7 @@ void frame(FUNCTION_PARAMS)
 	last_blit = -1 ;
 
 	SDL_Flip(screen) ;
-
+	fp->screen=screen;
 	fclose(fichero);
 
 }
@@ -1364,8 +1380,8 @@ void first_load(FUNCTION_PARAMS2)
 		//k_error(K_ERR_SDL_SET_VIDEO_MODE);
 
 
-	screen = SDL_SetVideoMode(320, 200, 24, SDL_HWSURFACE  );
-		rmask = 0x00ff0000;
+	screen = SDL_SetVideoMode(320, 200, 24, SDL_HWSURFACE   );
+	    rmask = 0x00ff0000;
 		gmask = 0x0000ff00;
 		bmask = 0x000000ff;
 		amask = 0x00000000;
@@ -1415,7 +1431,7 @@ void first_load(FUNCTION_PARAMS2)
 int Dibuja(SDL_Surface *src , SDL_Rect srcrect , SDL_Rect dstrect , int z , int trans,int size,int angle)
 {
 	float zoom;
-
+	double angulo;
 	register int i , j ;
 	
 	last_blit++ ;
@@ -1425,11 +1441,13 @@ int Dibuja(SDL_Surface *src , SDL_Rect srcrect , SDL_Rect dstrect , int z , int 
 		
 	zoom=size*0.01;
 
-
+	angulo=angle*10;
 	
-	blits[last_blit].src = rotozoomSurface (src, 0, zoom,smooth);//zoomSurface (src, zoom,zoom,SMOOTHING_OFF);;
+	//blits[last_blit].src =  //rotozoomSurface (src, angle, zoom,smooth);//zoomSurface (src, zoom,zoom,SMOOTHING_OFF);;
 	//blits[last_blit].src = SDL_BlitSurface(rotozoomSurface (src, angle, 2,1), NULL , fondo , &dstrect );//src ;
+	
 	//blits[last_blit].src = src;
+	blits[last_blit].src =xput(src, zoom,angulo);
 	blits[last_blit].srcrect.x = srcrect.x ;
 	blits[last_blit].srcrect.y = srcrect.y ;
 	blits[last_blit].srcrect.w = blits[last_blit].src->w;//srcrect.w ;
@@ -1467,11 +1485,15 @@ int Dibuja(SDL_Surface *src , SDL_Rect srcrect , SDL_Rect dstrect , int z , int 
 
 SDL_Surface *xput(SDL_Surface *src,double size,double angle)
 {
-SDL_Surface *dst;
-SDL_Surface *tmp;
 
-    tmp= zoomSurface (src, size/100, size/100,1);
-	dst=rotozoomSurface (tmp, angle, 1,1);
+	int s;
+	SDL_Surface *dst;
+	SDL_Surface *tmp;
+
+    s=smooth;
+	if(size==1 && angle ==0)s=0;
+    tmp= zoomSurface (src, size, size,s);
+	dst=rotozoomSurface (tmp, angle, 1,s);
 	SDL_FreeSurface (tmp);
 	
 	return dst;

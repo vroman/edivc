@@ -200,7 +200,7 @@ int main(int argc, char* argv[])
 
 				for(i=0;i<num_indexed_vars;i++) {
 					varindex[i].hash=*ptr++;
-					varindex[i].nombre=strdup(ptr);
+					varindex[i].nombre=_strdup(ptr);
 					while(*ptr!=0) ptr++;
 					ptr++;
 					varindex[i].offset=*(int*)ptr; ptr+=4;
@@ -336,8 +336,10 @@ int main(int argc, char* argv[])
 					teclas=SDL_GetKeyState(NULL);
 					if(teclas[SDLK_x] && (teclas[SDLK_RALT] || teclas[SDLK_LALT]))
 						stub_quit(0);
-
-					interprete();
+					if(teclas[SDLK_p] && (teclas[SDLK_RALT] || teclas[SDLK_LALT]))
+						SDL_SaveBMP(fp.screen,"SC.BMP");
+					
+						interprete();
 
 					#ifdef _DEBUG
 						if(sp!=0) printf("PANIC! Quedan restos en la pila!! (sp=%d)\n",sp);
