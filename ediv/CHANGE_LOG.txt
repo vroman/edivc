@@ -1,3 +1,8 @@
+28/5/2003
+---------
+ * Vuelvo a las andadas xD (|RooT|)
+
+
 27/5/2003
 ---------
  * Añadida la función fp->Custom_Error(int tipoerror, char* mensaje) al
