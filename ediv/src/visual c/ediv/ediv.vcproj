@@ -32,7 +32,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="zlib.lib ws2_32.lib"
+				AdditionalDependencies="zdll.lib ws2_32.lib"
 				OutputFile="../../../bin/ediv.exe"
 				LinkIncremental="2"
 				IgnoreAllDefaultLibraries="FALSE"
@@ -64,7 +64,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="r:\ediv"
+			OutputDirectory="Release"
 			IntermediateDirectory="Release"
 			ConfigurationType="1"
 			CharacterSet="2">
@@ -86,10 +86,11 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="zlib.lib ws2_32.lib sdlmain.lib sdl.lib"
-				OutputFile="$(OutDir)/ediv.exe"
+				AdditionalDependencies="zdll.lib ws2_32.lib"
+				OutputFile="../../../bin/ediv.exe"
 				LinkIncremental="1"
 				GenerateDebugInformation="TRUE"
+				ProgramDatabaseFile="$(OutDir)/ediv.pdb"
 				SubSystem="1"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"

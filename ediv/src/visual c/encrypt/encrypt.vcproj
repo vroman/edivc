@@ -36,7 +36,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="zlib.lib"
+				AdditionalDependencies="zdll.lib"
 				OutputFile="../../../bin/encrypt.exe"
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
@@ -66,7 +66,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="r:\encrypt"
+			OutputDirectory="Release"
 			IntermediateDirectory="Release"
 			ConfigurationType="1"
 			CharacterSet="2">
@@ -91,10 +91,11 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="zlib.lib"
-				OutputFile="$(OutDir)/encrypt.exe"
+				AdditionalDependencies="zdll.lib"
+				OutputFile="../../../bin/encrypt.exe"
 				LinkIncremental="1"
 				GenerateDebugInformation="TRUE"
+				ProgramDatabaseFile="$(OutDir)/encrypt.pdb"
 				SubSystem="1"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"

@@ -4,6 +4,7 @@
 	Version="7.10"
 	Name="stub"
 	ProjectGUID="{D8C297FE-5A3C-4023-B089-7C4387DA7840}"
+	RootNamespace="stub"
 	SccProjectName=""
 	SccAuxPath=""
 	SccLocalPath=""
@@ -39,7 +40,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="zlib.lib"
+				AdditionalDependencies="zdll.lib"
 				ShowProgress="0"
 				OutputFile="../../../bin/stub.exe"
 				LinkIncremental="2"
@@ -79,7 +80,7 @@ makelib.bat win32.rel
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="r:\stub"
+			OutputDirectory="Release"
 			IntermediateDirectory="Release"
 			ConfigurationType="1"
 			CharacterSet="2">
@@ -101,9 +102,10 @@ makelib.bat win32.rel
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="sdlmain.lib sdl.lib zlib.lib"
-				OutputFile="$(OutDir)/stub.exe"
+				AdditionalDependencies="zdll.lib"
+				OutputFile="../../../bin/stub.exe"
 				LinkIncremental="1"
+				IgnoreAllDefaultLibraries="FALSE"
 				ModuleDefinitionFile="stub.def"
 				GenerateDebugInformation="TRUE"
 				SubSystem="2"
@@ -153,7 +155,7 @@ makelib.bat win32.rel
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="sdlmain.lib sdl.lib zlib.lib"
+				AdditionalDependencies="zdll.lib"
 				OutputFile="../../../bin/stub.exe"
 				LinkIncremental="2"
 				ModuleDefinitionFile="stub.def"
@@ -209,8 +211,8 @@ makelib.bat win32.dbg
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="sdlmain.lib sdl.lib zlib.lib"
-				OutputFile="$(OutDir)/stub.exe"
+				AdditionalDependencies="zdll.lib"
+				OutputFile="../../../bin/stub.exe"
 				LinkIncremental="1"
 				ModuleDefinitionFile="stub.def"
 				GenerateDebugInformation="TRUE"
