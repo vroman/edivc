@@ -1489,9 +1489,9 @@ void first_load(FUNCTION_PARAMS2)
 
 	define_region = 1 ;
 
-	SDL_WM_SetCaption("eDiv testing", NULL);
+	SDL_WM_SetCaption(fp->nombre_program, NULL);
 
-	prueba = SDL_LoadBMP("prueba.bmp" );
+	//prueba = SDL_LoadBMP("prueba.bmp" );
 
 	//fclose(fichero ) ;
 

@@ -33,6 +33,8 @@
 // GLOBALES DEL INTERPRETE
 //
 
+byte nombre_program[256];	// nombre del programa, titulo por defecto de la ventana
+
 int ignore_errors;		// 1 = se ignoran los errores 'evitables'
 
 #ifdef DBG

@@ -252,6 +252,7 @@ struct _fun_params{
 	int *num_procs ;
 	int *proc_orden ;
 	int *proceso_actual ;
+	unsigned char* nombre_program;
 	struct _regions *regions ;
 	struct _existe existe ;
 	struct _files *files ;
@@ -296,7 +297,7 @@ void frame(FUNCTION_PARAMS);
 void trace(int imem, char* nombreprg, int* lin, void* dbg);
 void debug(int imem, char* nombreprg, int* lin, void* dbg);
 void first_load(FUNCTION_PARAMS) ;
-void quit(int dont_quit);
+void quit(void);
 
 //////////////////////////////
 

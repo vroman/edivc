@@ -323,6 +323,7 @@ void compila()
 	#endif
 
 	if ((f=fopen(outfilename,"ab"))!=NULL) {
+		fwrite(nombre_program,strlen(nombre_program)+1,1,f);
 		p=(byte*)e_malloc((imem+iloc)*4);
 		m=(imem+iloc)*4+1024;
 		q=(byte*)e_malloc(m);

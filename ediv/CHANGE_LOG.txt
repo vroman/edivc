@@ -1,3 +1,8 @@
+28/9/2002
+---------
+ * El título por defecto de la ventana del juego compilado es el nombre in-
+   dicado en la sentencia program. (Er_Makina)
+
 26/9/2002
 ---------
  * Algunos bugfixes y cambios menores. CicTec y yo andamos tras la pista de
@@ -13,8 +18,6 @@
      produce si no usamos procesos con más de un parámetro.
    - Al llegar a x procesos (600, 900...) el programa se queda bloqueado.
    (Er_Makina)
- * Para mañana, haré que el título por defecto de la ventana sea el nombre
-   del programa indicado en program. (Er_Makina)
 
 25/9/2002
 ---------

@@ -251,6 +251,7 @@ struct _fun_params{
 	int *num_procs ;
 	int *proc_orden ;
 	int *proceso_actual ;
+	byte* nombre_program;
 	struct _regions *regions ;
 	struct _existe existe ;
 	struct _files *files ;

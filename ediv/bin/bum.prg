@@ -1,4 +1,3 @@
-compiler_options _max_process=2000;
 program bum;
 private
     numprocs;

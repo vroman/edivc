@@ -58,6 +58,7 @@ int main(int argc, char* argv[])
 	byte * ptr;
 	unsigned long len,len_descomp;
 	byte* vartemp;
+	byte* p;
 	//const SDL_version* sdl_version;
 #ifdef DBG
 	int start_lin;
@@ -114,6 +115,11 @@ int main(int argc, char* argv[])
 	read(f,&stub_size,4);
 	printf("STUB_SIZE: %d\n",stub_size);
 	lseek(f,stub_size,SEEK_SET);
+	p=nombre_program;
+	do {
+		read(f,p,1);
+	} while(*p++!=0);
+
 	read(f,mimem,4*10);
 	read(f,&len,4);
 

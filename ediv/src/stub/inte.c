@@ -79,6 +79,7 @@ int ini_interprete()
 	fp.num_procs = &num_proc_orden ;
 	fp.proc_orden = proc_orden ;
 	fp.proceso_actual = &proceso_actual ;
+	fp.nombre_program=nombre_program;
 	fp.existe.regions = 0 ;
 	fp.existe.dibuja = 0 ;
 	fp.Runtime_Error=error;
