@@ -322,7 +322,7 @@ int main(int argc, char* argv[])
 						switch( event[0].type )
 						{
 						case SDL_QUIT:
-							assert(0);
+							//assert(0);
 							stub_quit(0) ;
 							break ;
 						case SDL_NOEVENT:

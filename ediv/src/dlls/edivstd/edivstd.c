@@ -23,6 +23,17 @@
  * DIV, tal como las opciones de compilación, estructura reserved, etc.
  */
  
+#ifdef _WIN32
+#	include <time.h>
+#	include <sys/timeb.h>
+	unsigned int tiempo;
+	unsigned int ultimo_tiempo;
+#else
+#	error ¡adapta las rutinas de timer a Linux!
+#endif
+
+#include <stdio.h>
+
 #include "export.h"
 //#include "../../shared/varindex.h"
 
@@ -152,6 +163,7 @@ int ExportaFuncs(EXPORTAFUNCS_PARAMS)
 	FUNCTION("define_region",5,eDiv_DefineRegion) ;
 
 	ENTRYPOINT( first_load ) ;
+	ENTRYPOINT(frame);
 
 	// POR HACER: funciones signal, system, ignore_error...
 	
@@ -201,7 +213,7 @@ int eDiv_GetId(FUNCTION_PARAMS)
 		{
 			return ( fp->procs_s[ fp->proc_orden[ i ] ].id ) ;
 		}
-	}
+	} 
 	*last_type = 0 ;
 	return 0 ;
 }
@@ -242,6 +254,12 @@ void first_load(FUNCTION_PARAMS)
 {
 	int i ;
 
+	#ifdef _WIN32
+		struct timeb tiempob;
+		ftime(&tiempob);
+		ultimo_tiempo=tiempob.time*100+tiempob.millitm/10;
+	#endif
+
 	for ( i = 0 ; i < 32 ; i++ )
 	{
 		regions[i].x = 0 ;
@@ -253,8 +271,23 @@ void first_load(FUNCTION_PARAMS)
 	
 	fp->regions = regions ;
 	fp->existe.regions = 1 ;
-
 	
 }
+
+void frame(FUNCTION_PARAMS)
+{
+	int i;
+	int timer;
+	#ifdef _WIN32
+		struct timeb tiempob;
+		ftime(&tiempob);
+		tiempo=tiempob.time*100+tiempob.millitm/10;
+		timer=globalptr("timer");
+		for(i=0;i<10;i++)
+			fp->mem[timer+i]+=tiempo-ultimo_tiempo;
+		ultimo_tiempo=tiempo;
+	#endif
+}
+
 
 

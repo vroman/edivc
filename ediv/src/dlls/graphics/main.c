@@ -9,10 +9,16 @@
 //#include <zlib.h>
 //#include <assert.h>
 #include "export.h"
-#include "errors.h"
+//#include "errors.h"	// Falta añadir errors.h al CVS
 #include <SDL/SDL.h>
 #include "graphics.h"
 #include "SDL_rotozoom.h"
+
+#define ERR_CANNOTOPENFPG 105
+#define ERR_INVALIDFPGHEADER 106
+#define ERR_INVALIDMAPCODE 110
+
+#define Miedzy(x,a,b)	(((x) >= (a)) && ((x) <= (b)))
 
 //#include "varindex.h"
 
@@ -213,6 +219,22 @@ int ExportaFuncs(EXPORTAFUNCS_PARAMS)
 	return TRUE;
 }
 
+/*
+ * int IntersectionRR(int rc1left,int rc1top,int rc1right,int rc1bottom,int rc2left,int rc2top,int rc2right,int rc2bottom)
+ * Comprueba si hay colisión entre dos regiones rectangulares.
+ *
+ * Devuelve:
+ * 0 - No hay colisión
+ * 1 - Hay colisión
+ */
+int IntersectionRR(int rc1left,int rc1top,int rc1right,int rc1bottom,int rc2left,int rc2top,int rc2right,int rc2bottom)
+{
+	return ((Miedzy(rc1left,rc2left,rc2right) || Miedzy(rc1right,rc2left,rc2right) ||
+		Miedzy(rc2left,rc1left,rc1right) || Miedzy(rc2right,rc1left,rc1right)) &&
+		(Miedzy(rc1top,rc2top,rc2bottom) || Miedzy(rc1bottom,rc2top,rc2bottom) ||
+		Miedzy(rc2top,rc1top,rc1bottom) || Miedzy(rc2bottom,rc1top,rc1bottom)));
+}
+
 /* A continuación las funciones que queremos exportar. Para una mayor
  * sencillez las hemos puesto en este mismo archivo, aunque puede ser
  * aconsejable ponerlas en archivos aparte.
@@ -226,14 +248,19 @@ int eDIV_COLLISION(FUNCTION_PARAMS)
 	int a, i ;
 	SDL_Rect r1 , r2 ;
 	a = getparm() ;
+
+	id1 = fp->procs_s[ fp->proc_orden[ *fp->proceso_actual ] ].id ;
+
+	g1 = local("graph",id1)  ;
+	f1 = local("file",id1) ;
+	if ( files[f1].existe == 0 || files[f1].mapa[g1].existe == 0 )
+		return 0;
+
 	// Si se le pasa un ID
-	if ( a < 4000000 )
+	//if ( a < 4000000 )
+	if(a<fp->imem_max)
 	{
-		id1 = fp->procs_s[ fp->proc_orden[ *fp->proceso_actual ] ].id ;
-		g1 = local("graph",id1)  ;
-		f1 = local("file",id1) ;
-		if ( files[f1].existe == 0 || files[f1].mapa[g1].existe == 0 )
-			return -1 ;
+		if(a==id1) return 0;
 		r1.x = local("x",id1) ;
 		r1.y = local("y",id1) ;
 		r1.w = files[f1].mapa[g1].Surface->w ;
@@ -242,47 +269,66 @@ int eDIV_COLLISION(FUNCTION_PARAMS)
 		g2 = local("graph",id2) ;
 		f2 = local("file",id2);
 		if ( files[f2].existe == 0 || files[f2].mapa[g2].existe == 0 )
-			return -1 ;
+			return 0;
 		r2.x = local("x",id2) ;
 		r2.y = local("y",id2) ;
 		r2.w = files[f2].mapa[g2].Surface->w ;
 		r2.h = files[f2].mapa[g1].Surface->h ;
 		//Colision barata :P
-		if (!( (r2.x > r1.x && r2.x > r1.x + r1.w) || (r2.x+r2.w < r1.x && r2.x+r2.w<r1.x+r1.w )))
+		if(IntersectionRR(r1.x,r1.y,r1.x+r1.w-1,r1.x+r1.h-1,r2.x,r2.y,r2.x+r2.w-1,r2.y+r2.h-1))
+			return id2;
+		/*if (!( (r2.x > r1.x && r2.x > r1.x + r1.w) || (r2.x+r2.w < r1.x && r2.x+r2.w<r1.x+r1.w )))
 			if (!( (r2.y > r1.y && r2.y > r1.y + r1.h) || (r2.y+r2.h < r1.y && r2.y+r2.h<r1.y+r1.h )))
-				return 1 ;
-	}else
-	{
+				return 1 ;*/
+	}
+	else {
+		int* type_scan=&reserved("type_scan",id1);
+		int* id_scan=&reserved("id_scan",id1);
+		//assert(0);
 		// Si se le pasa un type
-		for ( i = 0 ; i < *fp->num_procs ; i++ )
+
+		if(*type_scan!=a) {
+			*id_scan=0;
+			*type_scan=a;
+		}
+
+		for ( i = *id_scan+1 ; i < *fp->num_procs ; i++ )
 		{
-			id1 = fp->procs_s[ fp->proc_orden[ i ] ].id ;
+			id2 = fp->procs_s[ fp->proc_orden[ i ] ].id;
+			if(id2==id1) continue;
+			printf("collision: %d\n",id2);
 			//Si el proceso se corresponde con el type
-			if ( reserved("process_type",id1) == a )
+			if ( reserved("process_type",id2) == a )
 			{
-				g1 = local("graph",id1)  ;
-				f1 = local("file",id1) ;
-				if ( files[f1].existe == 0 || files[f1].mapa[g1].existe == 0 )
-					return -1 ;
+				printf("collision: encontrado: id %d\n",id2);
 				r1.x = local("x",id1) ;
 				r1.y = local("y",id1) ;
 				r1.w = files[f1].mapa[g1].Surface->w ;
 				r1.h = files[f1].mapa[g1].Surface->h ;
-				id2 = a ;
+				//id2 = a ;
 				g2 = local("graph",id2) ;
 				f2 = local("file",id2) ;
 				if ( files[f2].existe == 0 || files[f2].mapa[g2].existe == 0 )
-					return -1 ;
+					continue;
 				r2.x = local("x",id2) ;
 				r2.y = local("y",id2) ;
 				r2.w = files[f2].mapa[g2].Surface->w ;
 				r2.h = files[f2].mapa[g1].Surface->h ;
 				//Colision barata :P
-				if (!( (r2.x > r1.x && r2.x > r1.x + r1.w) || (r2.x+r2.w < r1.x && r2.x+r2.w<r1.x+r1.w )))
-					if (!( (r2.y > r1.y && r2.y > r1.y + r1.h) || (r2.y+r2.h < r1.y && r2.y+r2.h<r1.y+r1.h )))
-						return 1 ;
+				if(IntersectionRR(r1.x,r1.y,r1.x+r1.w-1,r1.x+r1.h-1,r2.x,r2.y,r2.x+r2.w-1,r2.y+r2.h-1)) {
+					*id_scan=i;
+					printf("COLISION: %d con %d\n",id1,id2);
+					return id2;
+				}
+
+				/*if (!( (r2.x > r1.x && r2.x > r1.x + r1.w) || (r2.x+r2.w < r1.x && r2.x+r2.w<r1.x+r1.w )))
+					if (!( (r2.y > r1.y && r2.y > r1.y + r1.h) || (r2.y+r2.h < r1.y && r2.y+r2.h<r1.y+r1.h ))) {
+						*id_scan=i;
+						return id2;
+					}*/
 			}
 		}
+		*type_scan=0;
 	}
 
 	return 0 ;

@@ -1,3 +1,12 @@
+24/10/2002
+----------
+ * Ahora los id's de los procesos son siempre impares. (Er_Makina)
+ * Arreglado collision. He sustituido el algoritmo de choque entre dos cajas,
+   aunque no hacía falta, pero quizás así queda un poco más limpio. (Er_Makina)
+ * Añadido timer[], pero sólo en Win32. Hay que adaptarlo a Linux. (Er_Makina)
+ * tutor0b ya rula.. el robots asesinos ya parece que rula bien pero no puedo
+   mover al personaje, no se por qué... fallo en la input? (Er_Makina)
+
 21/10/2002
 ----------
  * delete_text() daba un runtime error si no existia el texto a eliminar. en

@@ -105,6 +105,7 @@
 				SuppressStartupBanner="TRUE"
 				IgnoreDefaultLibraryNames="LIBCMTD.lib"
 				ModuleDefinitionFile=".\graphics.def"
+				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile=".\Debug/graphics.pdb"
 				ImportLibrary=".\Debug/graphics.lib"/>
 			<Tool

@@ -24,6 +24,9 @@ int main( int argc, char** argv )
 		RegCloseKey(subkey);
 		Main.personal_folder.setLatin1((char*)datos);
 	}
+	else {
+		Main.personal_folder.setLatin1(".\\");
+	}
 #else
 	Main.personal_folder.setLatin1(getenv("HOME"));
 #endif

@@ -86,6 +86,7 @@ int ini_interprete()
 	fp.Critical_Error=critical_error;
 	fp.GetVarOffset=GetVarOffset;
 	fp.Stub_Quit=stub_quit;
+	fp.imem_max=imem_max;
 
 	#ifdef DBG
 		last_lin=0;
@@ -328,7 +329,7 @@ int proceso( int num, int padre )
 		case ltyp://32
 			if ( procs_s[num_proc].tipo != 0 )
 				critical_error(3); // redefinición del tipo de proceso
-			procs_s[num_proc].id = mem[2] + ( num_proc * iloc_len ) ;
+			procs_s[num_proc].id = (mem[2] + ( num_proc * iloc_len ))|1;
 			if(procs_s[num_proc].id>imem_max-iloc_len) critical_error(8);	// demasiados procesos en ejecución
 			memcpy(&mem[procs_s[num_proc].id],&mem[iloc],iloc_pub_len<<2);
 			reserved("process_id",procs_s[num_proc].id)=procs_s[num_proc].id;
@@ -548,7 +549,8 @@ int proceso( int num, int padre )
 
 	if ( devolver > 0 && no_devuelve == 0 )
 	{
-		pila[++sp] = 0 ;// AQUI SE DEBERA DEVOLVER EL ID
+		//pila[++sp] = 0 ;// AQUI SE DEBERA DEVOLVER EL ID
+		pila[++sp]=procs_s[num_proc].id;
 		devolver-- ;
 	}
 

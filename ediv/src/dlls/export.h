@@ -271,6 +271,7 @@ struct _fun_params{
 	TYPEOF_Critical_Error *Critical_Error ;
 	TYPEOF_GetVarOffset *GetVarOffset ;
 	TYPEOF_Stub_Quit *Stub_Quit ;
+	int imem_max;
 } ;
 
 

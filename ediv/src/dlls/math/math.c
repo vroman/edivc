@@ -381,6 +381,7 @@ void first_load()
 		seno[i] = ftomil( sin( (i / 1000)*PIOVER180 ) );
 	}
 	seno[90000] = 0x7FFFFFFF ;
+	srand(time(NULL));
 }
 	
 
