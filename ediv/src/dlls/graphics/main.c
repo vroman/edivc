@@ -173,6 +173,7 @@ int ExportaFuncs(EXPORTAFUNCS_PARAMS)
 	FUNCTION("graphic_info",3,eDIV_GRAPHIC_INFO) ;
 	FUNCTION("fade",4,eDIV_FADE) ;
 	FUNCTION("xput",6,eDIV_XPUT);
+	FUNCTION("get_rgb",4,eDIV_GET_RGB);
 //	FUNCTION("setmode",4,eDIV_SETMODE);
 
 	ENTRYPOINT( frame ) ;
@@ -386,6 +387,32 @@ int eDIV_RGB(FUNCTION_PARAMS)
 	r = getparm() ;
 
 	return ( b + g*256 + r*65536 ) ;
+}
+
+/*****************************************************************/
+/*                                                               */
+/* eDIV_GET_RGB(color, offset r, offset g, offset b);            */
+/*                                                               */
+/* Obtiene las componentes RGB de un color dado.                 */
+/*                                                               */
+/* r=Rojo (Red) g=Verde (Green) b=Blue (Azul)                    */
+/*                                                               */
+/* Retorna: 1                                                    */
+/*                                                               */
+/*****************************************************************/
+int eDIV_GET_RGB(FUNCTION_PARAMS)
+{
+	unsigned int color,roff,goff,boff;
+	unsigned char r,g,b;
+	boff=getparm();
+	goff=getparm();
+	roff=getparm();
+	color=getparm();
+	SDL_GetRGB(color,fp->screen->format,&r,&g,&b);
+	if(roff) fp->mem[roff]=(int)r;
+	if(goff) fp->mem[goff]=(int)g;
+	if(boff) fp->mem[boff]=(int)b;
+	return 1;
 }
 
 /*****************************************************************/

@@ -1,3 +1,11 @@
+13/12/2002
+----------
+ * Nueva funcion en la graphics.dll: get_rgb(color,&r,&g,&b). obtiene las
+   componentes RGB de un color dado. naturalmente es similar a la funcion
+   homonima que hice en su dia para div2 ;) ojo, no esta preparada para
+   8 bpp (en esta profundidad debera devolver valores de 0..63, ademas de
+   diferenciar la paleta activa de la paleta cargada) (Er_Makina)
+
 12/12/2002
 ----------
  * Corregido fallo en la math.c... el seno de 90º no es infinito, sino 1 ¬¬
