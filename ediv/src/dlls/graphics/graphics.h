@@ -49,3 +49,4 @@ int eDIV_GET_REAL_POINT(FUNCTION_PARAMS) ;
 int eDIV_GRAPHIC_INFO(FUNCTION_PARAMS) ;
 int eDIV_FADE(FUNCTION_PARAMS) ;
 
+int Dibuja(SDL_Surface *src , SDL_Rect srcrect , SDL_Rect dstrect , int z , int trans );

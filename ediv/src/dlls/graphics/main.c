@@ -144,6 +144,7 @@ int ExportaFuncs(EXPORTAFUNCS_PARAMS)
 	GLOBAL_STRUCT("video_modes",31);
 		_INT("wide",0);
 		_INT("height",0);
+		_INT("bpp",0);		// NUEVO
 		_INT("mode",0);
 	END_STRUCT;
 	
@@ -440,9 +441,9 @@ int eDIV_COLLISION(FUNCTION_PARAMS)
 		r1.h = files[f1].mapa[g1].Surface->h ;
 		id2 = a ;
 		g2 = local("graph",id2) ;
+		f2 = local("file",id2);
 		if ( files[f2].existe == 0 || files[f2].mapa[g2].existe == 0 )
 			return -1 ;
-		f2 = local("file",id2) ;
 		r2.x = local("x",id2) ;
 		r2.y = local("y",id2) ;
 		r2.w = files[f2].mapa[g2].Surface->w ;
@@ -470,9 +471,9 @@ int eDIV_COLLISION(FUNCTION_PARAMS)
 				r1.h = files[f1].mapa[g1].Surface->h ;
 				id2 = a ;
 				g2 = local("graph",id2) ;
+				f2 = local("file",id2) ;
 				if ( files[f2].existe == 0 || files[f2].mapa[g2].existe == 0 )
 					return -1 ;
-				f2 = local("file",id2) ;
 				r2.x = local("x",id2) ;
 				r2.y = local("y",id2) ;
 				r2.w = files[f2].mapa[g2].Surface->w ;
@@ -1208,6 +1209,7 @@ int eDIV_LOAD_FPG(FUNCTION_PARAMS2)
    	}
    	fclose(r);*/
 	fclose(f);
+	return 0;
 }
 
 int eDIV_GET_POINT(FUNCTION_PARAMS2)
@@ -1270,6 +1272,7 @@ int eDIV_GRAPHIC_INFO(FUNCTION_PARAMS2)
 		case 3:
 			return files[f].mapa[g].cpoint[0].y ;
 	}
+	return -1;
 }
 
 	
@@ -1291,7 +1294,7 @@ int eDIV_FADE(FUNCTION_PARAMS2)
 FILE * fichero ;
 FILE * memo ;
 
-void frame(FUNCTION_PARAMS2 )
+void frame(FUNCTION_PARAMS)
 {
 	static int una_vez = 1 ;
 	int i , temp , id , f , g , r , z , trans;
@@ -1299,7 +1302,6 @@ void frame(FUNCTION_PARAMS2 )
 
 	fichero = fopen( "draw.txt" , "w" ) ;
 
-	
 	if ( define_region == 1)
 	{
 
@@ -1316,7 +1318,7 @@ void frame(FUNCTION_PARAMS2 )
 	//SDL_FillRect( screen , NULL , 0 ) ;
 	SDL_BlitSurface( fondo , NULL , screen , NULL ) ;
 
-// Draws
+	// Draws
 	z = global("draw_z");
 	for ( i = 0 ; i <= last_draw ; i++ )
 	{
@@ -1337,7 +1339,8 @@ void frame(FUNCTION_PARAMS2 )
 					dstrect.y = draws[i].y ;
 					dstrect.w = 0 ; // Se ignora
 					dstrect.h = 0 ; // Se ignora
-					Dibuja( files[f].mapa[g].Surface , srcrect , dstrect , z ) ; 
+					//Dibuja( files[f].mapa[g].Surface , srcrect , dstrect , z , 0 ) ; 
+					Dibuja( draws[i].Surface , srcrect , dstrect , z , draws[i].t ) ; 
 				}
 			}
 		}
@@ -1431,6 +1434,8 @@ void frame(FUNCTION_PARAMS2 )
 	last_blit = -1 ;
 
 	SDL_Flip(screen) ;
+
+	fclose(fichero);
 
 }
 

@@ -183,9 +183,9 @@
 
 
 
-//อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
+//-----------------------------------------------------------------------------
 // Variables locales del sistema de sprites (las primeras no son pฃblicas)
-//อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
+//-----------------------------------------------------------------------------
 
 #define _Id         0  //Para comprobar validez de accesos externos
 #define _IdScan     1  //Recorrido del resto de los procesos (p.ej.colisiones)

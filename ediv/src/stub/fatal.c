@@ -109,6 +109,7 @@ static void eDIV_Parachute(int sig)
 #endif
 	fprintf(stderr,"\ndbg: num_procesos:%d, proceso actual:%d\n",num_proc_orden,proceso_actual);
 	fprintf(stderr,"dbg: imem:%d, imem_max:%d, mem:0x%X\n",imem,imem_max,mem);
+	fprintf(stderr,"dbg: iloc:%d, iloc_len:%d, iloc_pub_len:%d, inicio_privadas:%d\n",iloc,iloc_len,iloc_pub_len,inicio_privadas);
 	fprintf(stderr,"dbg: sp:%d, pila:0x%X, pila_max:%d\n",sp,pila,pila_max);
 	if(pila) {
 		int s,e,i;

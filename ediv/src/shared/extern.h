@@ -245,8 +245,8 @@ struct _fun_params{
 	int *pila ;
 	int *sp ;
 	int *mem ;
-	int *varindex ;
-	struct _procs_s *procs_s ;
+	varindex_t *varindex ;
+	struct _procs_s (*procs_s)[4096] ;
 	int *num_procs ;
 	int *proc_orden ;
 	int *proceso_actual ;

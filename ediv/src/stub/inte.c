@@ -271,7 +271,7 @@ int proceso( int num )
 		case lfun://25 NO USADO
 			break ;
 		case lcal://26
-			assert(num_proc_orden<153);
+			//assert(num_proc_orden<153);
 			devolver++ ;
 			v1 = busca_proc_libre() ;
 			procs_s[v1].imem = mem[imem++] ;
@@ -311,6 +311,8 @@ int proceso( int num )
 			break;
 		case ltyp://32
 			procs_s[num_proc].id = mem[2] + ( num_proc * iloc_len ) ; 
+			reserved("process_id",procs_s[num_proc].id)=procs_s[num_proc].id;
+			memcpy(&mem[procs_s[num_proc].id],&mem[iloc],iloc_pub_len<<2);
 			if ( procs_s[num_proc].tipo != 0 )
 				critical_error(3); // redefinición del tipo de proceso
 			procs_s[num_proc].tipo = mem[ imem++ ] ;

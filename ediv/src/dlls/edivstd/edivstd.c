@@ -23,7 +23,7 @@
  * DIV, tal como las opciones de compilación, estructura reserved, etc.
  */
  
-#include <export.h>
+#include "export.h"
 //#include "../../shared/varindex.h"
 
 #include "main.h"

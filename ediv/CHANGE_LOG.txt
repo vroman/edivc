@@ -21,7 +21,11 @@
  * Naturalmente ha sido necesario adaptar el stub y todas las dlls. De paso he
    aprovechado para cambiar alguna cosilla por ahí para quitar warnings (uf
    la graphics tiene cada warnings mas peligrosos.. variables sin inicializar..
-   de to) :P (Er_Makina)   
+   de to) :P (Er_Makina)
+ * ¡¡Corregido bug de los 154 procesos!! (Er_Makina)
+ * ¡¡Ya se inicializan las variables locales!! (Er_Makina)
+ * Cambiado max_process en ediv.cfg de 20 a 1024 (Er_Makina)
+ * Por hacer: controlar el máximo de procesos permitidos. (Er_Makina)
       
 9/9/2002
 --------

@@ -307,7 +307,7 @@ int main(int argc, char* argv[])
 					fprintf(file_tiempo , "fps: %d\n" , 1000/(tiempo - tiempo_pre) ) ;
                     */
 
-					// PETA EN AMD????
+					// PETA EN AMD???? <-- y esto? a mi no me peta.. (Er_Makina)
 					tiempo_i ++ ;
 					if ( tiempo_i > 99 ) tiempo_i = 0 ;
 					tiempo[ tiempo_i ] = SDL_GetTicks() ;

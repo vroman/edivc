@@ -24,6 +24,8 @@
  *  
  */
 
+// se supone ke todo esto sirve para algo? (Er_Makina)
+
 #include <stdio.h>
 #include <string.h>
 

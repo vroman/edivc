@@ -758,7 +758,7 @@ int Call_Entrypoint(int ep, ...)
 				case EDIV_frame:
 				case EDIV_first_load:
 					{
-						void (*funcion_ep)(void);
+						void (*funcion_ep)(struct _fun_params* fp);
 						funcion_ep=entrypoints[i].hfuncion;
 						funcion_ep(&fp) ;
 					}
