@@ -1,7 +1,56 @@
+2/6/2003
+--------
+ * Modificada la función Dibuja (otra vez :P) ahora permite indicarle los flags (aunque sólo
+   hace caso a los flags 1 y 2) y sí, funcionan :D (Er_Makina)
+ * Ya funciona perfectamente el rotozoomer, y respeta el centro del gráfico :D (Er_Makina)
+ * Algunas variables del mouse ya funcionan (Er_Makina)
+ * Las regiones daban fallos, ya está solucionado (Er_Makina)
+
+1/6/2003
+--------
+ * He dividido la graphics en varios .c, buena falta le hacía :P (Er_Makina)
+ * He pasado define_region() a la graphics, estaba en la edivstd (Er_Makina)
+ * Documentada casi toda la graphics con el doxygen, solo falta SDL_rotozoom.c
+   y .h, k se me olvido xD incluyo proyecto para el doxywizard, en
+   ediv/doc/dlls/graphics (Er_Makina)
+
+29/5/2003
+---------
+ * Añadida la estructura fp->graphics. Ahora cualquier DLL puede saber si hay
+   una librería gráfica inicializada (en cuyo caso estará activado el bit
+   GR_ACTIVE de fp->graphics->resflags) y conocer el modo de vídeo actual.
+   fp->graphics->flags se usa para los flags que se setean desde set_mode
+   (de momento sólo está GR_FULLSCREEN, o _fullscreen desde el lenguaje).
+   fp->graphics->resflags se usa para los flags internos del sistema ("res"
+   viene de "reserved" :P) actualmente están GR_ACTIVE y GR_CHANGED. Esta
+   última se activa cuando modificamos el modo de vídeo con set_mode, y se
+   apaga en el entrypoint frame de la graphics. De esta forma las demás
+   DLL's podrán darse cuenta de cuándo se cambia el modo de vídeo y actuar
+   en consecuencia (por ejemplo, la text.dll tendrá que eliminar los textos,
+   la scroll.dll tendrá que eliminar las ventanas de scroll, etc). Por cierto,
+   la estructura también contiene sendos punteros al backbuffer y al buffer del
+   fondo, pero apuntan directamente al bitmap, no son SDL_Surface's, ya que como
+   explico mas abajo el SDK y el stub son independientes de SDL ahora. (Er_Makina)
+ * Ya se inicializa la paleta cuando iniciamos un modo de 8 bpp. Pone la paleta
+   por defecto del DIV2. (Er_Makina)
+ * Corregido el put_pixel, que estaba bastante chapuza :P ahora usa SDL_MapRGB.
+   (Er_Makina)
+ * Añadido nuevo (en verdad no tan nuevo) ejemplo, torus3.prg, es igual que
+   torus.prg solo que inicializa el modo de video a 800x600x8 en fullscreen, y
+   el toroide se ve grandote, centrado y ocupando toda la pantalla. (Er_Makina)
+ * El stub ya es totalmente independiente de SDL (weno, todavía keda una cosilla
+   por cambiar, el sistema de fpg's) el caso es que ahora es en la graphics donde
+   se gestiona todo lo relacionado con SDL, incluidos los eventos (la X de la
+   ventana, evitar ke el windows lo de por blokeado..), el ALT+X, el ALT+P, etc.
+   Esto facilitará el hacer graphics ke usen distintas librerías (DX, OGL...)
+   (Er_Makina)
+ * He mejorado el ALT+P, ahora la captura no se guarda siempre en el mismo BMP,
+   sino que añade al nombre del fichero un numero de cuatro cifras que va
+   aumentando según esté disponible (0000, 0001, 0002...) (Er_Makina)
+
 28/5/2003
 ---------
  * Vuelvo a las andadas xD (|RooT|)
-
 
 27/5/2003
 ---------
