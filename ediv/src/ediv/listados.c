@@ -1,7 +1,7 @@
 /*
  * eDiv Compiler
- * Copyleft (C) 2000-2002 Sion Entertainment
- * http://www.sion-e.com
+ * Copyright (C) 2000-2002 Sion, Ltd.
+ * http://www.sionhq.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,9 +27,9 @@
 
 #include "language.h"
 
-//-----------------------------------------------------------------------------
-//      Graba el fichero de la tabla de objetos
-//-----------------------------------------------------------------------------
+/*
+ * Graba el fichero de la tabla de objetos
+ */
 
 void listado_objetos (void)
 {
@@ -154,11 +154,6 @@ void listado_objetos (void)
         fprintf(sta,"\toffset=%u\n",obj[n].proc.offset);
         fprintf(sta,"\tnum_par=%u\n",obj[n].proc.num_par);
         break;
-/*      case tfunc: fprintf(sta,"%5u\ttfunc: %s",n,obj[n].name);
-        if (obj[n].usado) fprintf(sta," (*) usado\n"); else fprintf(sta,"\n");
-        fprintf(sta,"\tcodigo=%u\n",obj[n].func.codigo);
-        fprintf(sta,"\tnum_par=%u\n",obj[n].func.num_par);
-        break;*/
       case tfext: fprintf(sta,"%5u\ttfext: %s",n,obj[n].name);
         if (obj[n].usado) fprintf(sta," (*) usado\n"); else fprintf(sta,"\n");
         fprintf(sta,"\tcodigo=%u\n",obj[n].fext.codigo);
@@ -209,10 +204,9 @@ void listado_objetos (void)
 }
 
 
-//-----------------------------------------------------------------------------
-//      Graba el fichero ensamblador
-//-----------------------------------------------------------------------------
-
+/*
+ *  Graba el fichero ensamblador
+ */
 void listado_ensamblador (void)
 {
   FILE * sta;

@@ -93,7 +93,7 @@ void KillDLLLoad(void)
 	cur=g_pImageParamHead;
 	while(cur!=NULL) {
 		next=cur->next;
-		free(cur);
+		e_free(cur);
 		cur=next;
 	}
 
@@ -124,7 +124,7 @@ static int AddDLLReference(void *pImageBase, char *svName, DWORD dwFlags)
 	}
 
 	// Add new dll to list
-	cur=(IMAGE_PARAMETERS *)malloc(sizeof(IMAGE_PARAMETERS));
+	cur=(IMAGE_PARAMETERS *)e_malloc(sizeof(IMAGE_PARAMETERS));
 	if(cur==NULL) {
 		LeaveCriticalSection(&g_DLLCrit);
 		return -1;
@@ -171,10 +171,10 @@ static int RemoveDLLReference(void *pImageBase, char *svName, DWORD *pdwFlags)
 	if(cur->nLockCount==0) {
 		if(prev==NULL) {
 			g_pImageParamHead=g_pImageParamHead->next;
-			free(cur);
+			e_free(cur);
 		} else {
 			prev->next=cur->next;
-			free(cur);
+			e_free(cur);
 		}
 
 		LeaveCriticalSection(&g_DLLCrit);

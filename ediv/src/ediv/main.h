@@ -1,7 +1,7 @@
 /*
  * eDiv Compiler
- * Copyleft (C) 2000-2002 Sion Entertainment
- * http://www.sion-e.com
+ * Copyright (C) 2000-2002 Sion, Ltd.
+ * http://www.sionhq.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -59,11 +59,11 @@ word error_25;        // Para emitir "se esperaba una sentencia"
 
 // Prototipos
 
-void * e_malloc(size_t size);		// un malloc con mensaje de error
+void *e_malloc(size_t size);		// un malloc con mensaje de error
+void *e_free(void *puntero);
 void errormem();					// mensaje "memoria insuficiente"
 void save_error(word tipo);			// guarda una posición de error
 void error(word tipo,word num, ...);// error de compilación
 void warning(int num, ...);			// warning en el proceso
-//void c_error(int num);
 
 #endif // __MAIN_H

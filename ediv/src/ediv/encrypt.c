@@ -1,18 +1,18 @@
-/* 
+/*
  * eDiv Compiler
- * Copyright (C) 2000-2002 Sion Entertainment
+ * Copyright (C) 2000-2002 Sion, Ltd.
  * http://www.sionhq.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
@@ -115,7 +115,7 @@ void _encriptar(int encode, char * fichero, char * clave)
 				fclose(f);
 			} else { 
 				fclose(f);
-				free(ptr);
+				e_free(ptr);
 				return;
 			}
 		} else { 
@@ -147,7 +147,7 @@ void _encriptar(int encode, char * fichero, char * clave)
 
 
   if ((f=fopen("temp.dj!","wb"))==NULL) {
-	  free(ptr);
+	  e_free(ptr);
 	  return;
   }
 
@@ -155,18 +155,18 @@ void _encriptar(int encode, char * fichero, char * clave)
     if(fwrite(magic,1,14,f)!=14) {
       fclose(f);
       remove(fichero);
-      rename("temp.dj!",fichero); free(ptr); return;
+      rename("temp.dj!",fichero); e_free(ptr); return;
     }
   }
 
   if(fwrite(p,1,size,f)!=(unsigned int)size) {
     fclose(f);
-	free(ptr); return;
+	e_free(ptr); return;
   }
 
   /* Si todo ha ido bien ... */
   fclose(f);
-  free(ptr);
+  e_free(ptr);
 
 }
 
@@ -187,7 +187,7 @@ void _comprimir(int encode, char *fichero) {
 				fclose(f);
 			} else { 
 				fclose(f); 
-				free(ptr); 
+				e_free(ptr); 
 				return; 
 			}
 		} else { 
@@ -203,20 +203,20 @@ void _comprimir(int encode, char *fichero) {
 		size2=size+size/100+256;
 		
 		if ((ptr_dest=(byte *)malloc(size2))==NULL) {
-			free(ptr);
+			e_free(ptr);
 			return;
 		}
 		
 		if (compress(ptr_dest, &size2, ptr, size)) {
-			free(ptr_dest);
-			free(ptr);
+			e_free(ptr_dest);
+			e_free(ptr);
 			return;
 		}
 
 		/* Si no se gana espacio, se deja el fichero sin comprimir */
 		if (size2>=size-12) { 
-			free(ptr_dest); 
-			free(ptr); 
+			e_free(ptr_dest); 
+			e_free(ptr); 
 			return; 
 		}
 	} else {
@@ -226,29 +226,29 @@ void _comprimir(int encode, char *fichero) {
 		size2=*(int*)(ptr+8);
 		
 		if ((ptr_dest=(byte *)malloc(size2))==NULL) {
-			free(ptr);
+			e_free(ptr);
 			return;
 		}
 		
 		if (uncompress(ptr_dest, &size2, ptr+12, size-12)) {
-			free(ptr_dest);
-			free(ptr);
+			e_free(ptr_dest);
+			e_free(ptr);
 			return;
 		}
 		
 		size2=*(int*)(ptr+8);
 	}
 
-	free(ptr);
+	e_free(ptr);
 
 	if (rename(fichero,"temp.ZX!")) {
-		free(ptr_dest);
+		e_free(ptr_dest);
 		return;
 	}
 
 	if ((f=fopen(fichero,"wb"))==NULL) {
 		rename("temp.ZX!",fichero); 
-		free(ptr_dest); 
+		e_free(ptr_dest); 
 		return;
   }
 
@@ -258,7 +258,7 @@ void _comprimir(int encode, char *fichero) {
 		  fclose(f);
 		  remove(fichero);
 		  rename("temp.ZX!",fichero);
-		  free(ptr_dest); 
+		  e_free(ptr_dest); 
 		  return;
 	  }
 	  
@@ -266,7 +266,7 @@ void _comprimir(int encode, char *fichero) {
 		  fclose(f);
 		  remove(fichero);
 		  rename("temp.ZX!",fichero);
-		  free(ptr_dest);
+		  e_free(ptr_dest);
 		  return;
 	  }
 	}
@@ -275,12 +275,12 @@ void _comprimir(int encode, char *fichero) {
 		fclose(f);
 		remove(fichero);
 		rename("temp.ZX!",fichero);
-		free(ptr_dest);
+		e_free(ptr_dest);
 		return;
 	}
 
   /* Si todo ha ido bien ... */
 	fclose(f);
-	free(ptr_dest);
+	e_free(ptr_dest);
 	remove("temp.ZX!");
 }

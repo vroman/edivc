@@ -1,7 +1,5 @@
-/* Fenix - Compilador/intérprete de videojuegos
- * Copyright (C) 1999 José Luis Cebrián Pagüe
- *
- * Adaptado a eDiv por Sion Entertainment
+/* Copyright (C) 1999 José Luis Cebrián Pagüe
+ * Copyright (C) 2000-2002 Sion, Ltd
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -86,12 +84,7 @@ void set_c_lower (const byte * from, const byte * to)
 
 void inicializa_lower()
 {
-
-	/* ¡Esto hay que revisarlo bastante!
-	 */
-
-	memset (lower, 0, 256);  // es necesario
-
+	memset (lower, 0, 256);
 	set_c_lower  ("ABCDEFGHIJKLMNOPQRSTUVWXYZ",
 		      "abcdefghijklmnopqrstuvwxyz");
 	set_c_lower  ("abcdefghijklmnopqrstuvwxyz",

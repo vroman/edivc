@@ -1,7 +1,7 @@
 /*
  * eDiv Compiler
- * Copyleft (C) 2000-2002 Sion Entertainment
- * http://www.sion-e.com
+ * Copyright (C) 2000-2002 Sion, Ltd.
+ * http://www.sionhq.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,12 +38,12 @@ int detecta_idioma_iso(char* lang)
 {
 	int i;
 	static char getid[NUM_LANGUAGES][3] = {
-		"es",	// español
-		"it",	// italiano
-		"pt",	// portugués
-		"en",	// inglés
-		"ca",	// catalán
-		"eu"	// euskera
+		"es",	/* español   */
+		"it",	/* italiano  */
+		"pt",	/* portugués */
+		"en",	/* inglés    */
+		"ca",	/* catalán   */
+		"eu"	/* euskera   */
 	};
 	if(lang==NULL) return DEFAULT_LANGUAGE;
 	if(strlen(lang)>2) lang[2]=0;
@@ -65,12 +65,12 @@ int detecta_idioma()
 		#ifdef _WIN32
 			int i;
 			static int getid[NUM_LANGUAGES] = {
-				0x0a,	// español
-				0x10,	// italiano
-				0x16,	// portugués
-				0x09,	// inglés
-				0x03,	// catalán
-				0x2d	// euskera
+				0x0a,	/* español   */
+				0x10,	/* italiano  */
+				0x16,	/* portugués */
+				0x09,	/* inglés    */
+				0x03,	/* catalán   */
+				0x2d	/* euskera   */
 			};
 			LANGID lang;
 
@@ -155,9 +155,9 @@ char* translate_error(int num)
 	/* 56	*/	"Esperando BEGIN",
 	/* 57	*/	"Esperando END",
 	/* 58	*/	"Esperando UNTIL",
-	/* 59	*/	"Esperando una variable", // (para el FROM)	
+	/* 59	*/	"Esperando una variable", /* (para el FROM)	*/
 	/* 60	*/	"Esperando TO",
-	/* 61	*/	"Sentencia FROM incorrecta", // (from==to)
+	/* 61	*/	"Sentencia FROM incorrecta", /* (from==to) */
 	/* 62	*/	"El valor STEP no es válido",
 	/* 63	*/	"Esperando CASE, DEFAULT o END",
 	/* 64	*/	"Esperando ':'",
@@ -232,9 +232,9 @@ char* translate_error(int num)
 	/* 56	*/	"Aspettando BEGIN",
 	/* 57	*/	"Aspettando END",
 	/* 58	*/	"Aspettando UNTIL",
-	/* 59	*/	"Aspettando una variabile", // (para el FROM)	
+	/* 59	*/	"Aspettando una variabile",
 	/* 60	*/	"Aspettando TO",
-	/* 61	*/	"Sentenza FROM incorretta", // (from==to)
+	/* 61	*/	"Sentenza FROM incorretta",
 	/* 62	*/	"Il valore STEP non è valido",
 	/* 63	*/	"Aspettando CASE, DEFAULT o END",
 	/* 64	*/	"Aspettando ':'",
@@ -309,9 +309,9 @@ char* translate_error(int num)
 	/* 56	*/	"Esperando BEGIN",
 	/* 57	*/	"Esperando END",
 	/* 58	*/	"Esperando UNTIL",
-	/* 59   */  "Esperando uma variable", // (para el FROM) 
+	/* 59   */  "Esperando uma variable", 
 	/* 60	*/	"Esperando TO",
-	/* 61   */  "Sentença FROM incorrecta", // (from==to)
+	/* 61   */  "Sentença FROM incorrecta", 
 	/* 62   */  "O valor STEP não é válido",
 	/* 63   */  "Esperando CASE, DEFAULT ou END",
 	/* 64	*/	"Esperando ':'",
@@ -386,9 +386,9 @@ char* translate_error(int num)
 	/* 56	*/	"Expecting BEGIN",
 	/* 57	*/	"Expecting END",
 	/* 58	*/	"Expecting UNTIL",
-	/* 59	*/	"Expecting variable", // (para el FROM)	
+	/* 59	*/	"Expecting variable",
 	/* 60	*/	"Expecting TO",
-	/* 61	*/	"Incorrect FROM statement", // (from==to)
+	/* 61	*/	"Incorrect FROM statement", 
 	/* 62	*/	"Incorrect STEP value",
 	/* 63	*/	"Expecting CASE, DEFAULT or END",
 	/* 64	*/	"Expecting ':'",
@@ -463,9 +463,9 @@ char* translate_error(int num)
 	/* 56	*/ "Esperant BEGIN",
 	/* 57	*/ "Esperant END",
 	/* 58	*/ "Esperant UNTIL",
-	/* 59	*/ "Esperant una variable", // (per al FROM)
+	/* 59	*/ "Esperant una variable",
 	/* 60	*/ "Esperant TO",
-	/* 61	*/ "Sentència FROM incorrecta", // (from==to)
+	/* 61	*/ "Sentència FROM incorrecta",
 	/* 62	*/ "El valor STEP no es vàlid",
 	/* 63	*/ "Esperant CASE, DEFAULT o END",
 	/* 64	*/ "Esperant ':'",
@@ -540,9 +540,9 @@ char* translate_error(int num)
 	/* 56	*/ "BEGIN-en zai...",
 	/* 57	*/ "END-en zai...",
 	/* 58	*/ "UNTIL-en zai..",
-	/* 59	*/ "Aldagai baten zai...", // (para el FROM)	
+	/* 59	*/ "Aldagai baten zai...",
 	/* 60	*/ "TO-ren zai...",
-	/* 61	*/ "Okerreko FROM Sententzia", // (from==to)
+	/* 61	*/ "Okerreko FROM Sententzia",
 	/* 62	*/ "Okerreko STEP balioa",
 	/* 63	*/ "CASE, DEFAULT edo END-en zai...",
 	/* 64	*/ "':'-ren zai...",
@@ -754,7 +754,7 @@ char* translate(int id_cadena)
 {
 	switch(idioma) {
 
-	case 0:	// español
+	case 0:	/* español */
 		{
 			static char* msg[] = {
 				/* 0	*/ " **** Compilador eDIV " VERSION " ****\nCopyleft (c) 2000-2002 Sion, Ltd.\nhttp://www.edivcentral.com\n",
@@ -822,7 +822,7 @@ char* translate(int id_cadena)
 			return msg[id_cadena];
 		}
 
-	case 1:	// italiano
+	case 1:	/* italiano */
 		{
 			static char* msg[] = {
 				/* 0	*/ " **** Compilatore eDIV " VERSION " ****\nCopyleft (c) 2000-2002 Sion, Ltd.\nhttp://www.edivcentral.com\n",
@@ -890,7 +890,7 @@ char* translate(int id_cadena)
 			return msg[id_cadena];
 		}
 
-	case 2:	// portugués
+	case 2:	/* portugués */
 		{
 			static char* msg[] = {
 				/* 0	*/ " **** Compilador eDIV " VERSION " ****\nCopyleft (c) 2000-2002 Sion, Ltd.\nhttp://www.edivcentral.com\n",
@@ -952,7 +952,7 @@ char* translate(int id_cadena)
 				/* 47	*/ "Não se encontra ExportaFuncs em %s - Biblioteca invalida (%s)\n",
 				#endif
 
-				// FIXME: revisar/traducir esto
+				/* FIXME: revisar/traducir esto */
 				/* 48	*/ "    -n, --news      Mostra a última notícia de eDivCentral.com e sai\n",
 				/* 49	*/ "Error: no se ha configurado un servidor de noticias en ediv.cfg\n",
 				/* 50	*/ "Error: el fichero recibido no es del tipo esperado\n"
@@ -960,7 +960,7 @@ char* translate(int id_cadena)
 			return msg[id_cadena];
 		}
 
-	case 3:	// inglés
+	case 3:	/* inglés */
 		{
 			static char* msg[] = {
 				/* 0	*/ " **** eDIV Compiler " VERSION " ****\nCopyleft (c) 2000-2002Sion, Ltd.\nhttp://www.edivcentral.com\n",
@@ -1028,7 +1028,7 @@ char* translate(int id_cadena)
 			return msg[id_cadena];
 		}
 
-	case 4: // catalán
+	case 4: /* catalán */
 		{
 			static char* msg[] = {
 				/* 0	*/ " **** Compilador eDIV " VERSION " ****\nCopyleft (c) 2000-2002 Sion, Ltd.\nhttp://www.edivcentral.com\n",
@@ -1095,7 +1095,7 @@ char* translate(int id_cadena)
 			};
 			return msg[id_cadena];
 		}
-	case 5: // euskera
+	case 5: /* euskera */
 		{
 			static char* msg[] = {
 				/* 0	*/ " **** eDIV konpiladorea " VERSION " ****\nCopyleft (c) 2000-2002 Sion, Ltd.\nhttp://www.edivcentral.com\n",

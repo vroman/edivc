@@ -1,3 +1,12 @@
+20/10/2002
+----------
+ * Ahora si no hay archivos .dll o .so solo muestra el mensaje de error, pero NO
+   sale de la compilacion (Daijo)
+ * Cambio todos los free/malloc de dll_load.c por e_free y e_malloc (Daijo)
+ * Cambio todos los free de los archivos que quedaban por e_free (Daijo)
+ * Mas comentarizacion (Daijo)
+ 
+
 19/10/2002
 ----------
  * Añado la rutina e_free() en ediv.c. Se encarga de comprobar si hay un puntero
