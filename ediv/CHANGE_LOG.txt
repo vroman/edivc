@@ -1,5 +1,10 @@
 29/10/2002
 ----------
+ * Añadido un Capturador de Pantalla que crea screenshoots pulsando ATL+P 
+   en la ejecución de un PROGRAMA. Se guarda con el nombre del programa
+   estoy arreglando para que se guarde en JPG y se puedan guardar varias caputras de el (|RooT|)
+ * Añadido al EXPORT.H y EXTERN.H a la estructura 'fp' la variable
+   screen. Para poder acceder a la SCREEN desde el STUB (|RooT|)
  * Bug arreglado: el programa se bloqueaba al llegar a cierta cantidad de
    procesos. El problema estaba en que los procesos no desechaban los parámetros
    de la pila después de leerlos. He cuidado que funcione bien tanto con
