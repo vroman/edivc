@@ -123,9 +123,9 @@ int lista_quita( int num )
 {
 	int i ;
 
-	procs_s[num].tipo=0;
+	procs_s[proc_orden[num]].tipo=0;
 
-	for ( i = procs_s[num].orden+1 ; i < num_proc_orden ; i++ )
+	for ( i = num+1 ; i < num_proc_orden ; i++ )
 	{
 		procs_s[ proc_orden[ i ] ].orden-- ;
 		proc_orden[ i - 1 ] = proc_orden[ i ] ;
@@ -155,9 +155,12 @@ int interprete()
 
 		for ( proceso_actual = 0 ; proceso_actual < num_proc_orden ; proceso_actual++ )
 		{
+			//printf("Proceso %d - Estado: %d\n",procs_s[proc_orden[proceso_actual]].id,mem[procs_s[proc_orden[proceso_actual]].id+_status]);
 			if(mem[procs_s[proc_orden[proceso_actual]].id+_status]==1) {
-				//mem[procs_s[num].id+_status=0;
+				mem[procs_s[proc_orden[proceso_actual]].id+_status]=0;
+				//assert(0);
 				lista_quita(proceso_actual);
+				proceso_actual--;
 			}
 		}
 		

@@ -32,6 +32,7 @@
 #else
  #error ¡adapta las rutinas de timer a Linux!
 #endif
+#include <assert.h>
 
 #include <stdio.h>
 
@@ -40,6 +41,21 @@
 
 int last_type ;
 int last_proc ;
+
+int DEBUG_PROCESOS(FUNCTION_PARAMS)
+{
+	int i,n;
+	FILE* f;
+	f=fopen("procs.txt","a");
+	fprintf(f,"\n--- COMIENZO ---\n");
+	for(i=0;i<*fp->num_procs;i++) {
+		n=fp->procs_s[fp->proc_orden[i]].id;
+		fprintf(f,"(%d) ID: %d  TYPE: %d  TIPO: %d  STATUS: %d  ORDEN: %d\n",i,n,reserved("process_type",n),fp->procs_s[fp->proc_orden[i]].tipo,reserved("status",n),fp->procs_s[fp->proc_orden[i]].orden);
+	}
+	fprintf(f,"\n--- FIN ---\n");
+	fclose(f);
+	return 0;
+}
 
 int ExportaFuncs(EXPORTAFUNCS_PARAMS)
 {
@@ -164,6 +180,8 @@ int ExportaFuncs(EXPORTAFUNCS_PARAMS)
 	FUNCTION("signal",2,eDIV_Signal);
 	FUNCTION("let_me_alone",0,eDIV_Let_Me_Alone);
 
+	FUNCTION("debug_procesos",0,DEBUG_PROCESOS);
+
 	ENTRYPOINT( first_load ) ;
 	ENTRYPOINT(frame);
 
@@ -251,9 +269,10 @@ int eDiv_DefineRegion(FUNCTION_PARAMS)
 void signal_tree(int proc, int signal, FUNCTION_PARAMS)
 {
 	int id2;
+	reserved("status",proc)=signal;
 	if(id2=local("son",proc)) {
 		signal_tree(id2,signal,fp);
-		reserved("status",id2)=signal;
+		//reserved("status",id2)=signal;
 	}
 	while(local("bigbro",id2)) {
 		proc=local("bigbro",id2);
@@ -266,19 +285,19 @@ int eDIV_Signal(FUNCTION_PARAMS)
 	int signal=getparm();
 	int proc=getparm();
 	char tree=FALSE;
-
+	
+//	assert(0);
 	if(signal>=100) {
 		signal-=100;
 		tree=TRUE;
 	}
 
 	signal++;
-
 	/* Si se le pasa un ID */
 	if(proc<fp->imem_max)
 	{
 		reserved("status",proc)=signal;
-		if(tree && (proc=reserved("son",proc)))
+		if(tree && (proc=local("son",proc)))
 			signal_tree(proc,signal,fp);
 	}
 	/* Si se le pasa un type */
@@ -287,7 +306,7 @@ int eDIV_Signal(FUNCTION_PARAMS)
 		for(i=0;i<*fp->num_procs;i++) {
 			if(fp->procs_s[fp->proc_orden[i]].tipo==proc) {
 				reserved("status",fp->procs_s[fp->proc_orden[i]].id)=signal;
-				if(tree && (p=reserved("son",fp->procs_s[fp->proc_orden[i]].id)))
+				if(tree && (p=local("son",fp->procs_s[fp->proc_orden[i]].id)))
 					signal_tree(fp->procs_s[fp->proc_orden[i]].id,signal,fp);
 			}
 		}

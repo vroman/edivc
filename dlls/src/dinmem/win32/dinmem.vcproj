@@ -41,7 +41,7 @@
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(OutDir)/dinmem.pdb"
 				SubSystem="2"
-				ImportLibrary="$(OutDir)/dinmem.lib"
+				ImportLibrary=""
 				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"/>

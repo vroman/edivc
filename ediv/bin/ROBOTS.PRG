@@ -57,6 +57,7 @@ BEGIN
 //    fade_on();
 //    prota=protag(rand(0,39)*8,rand(0,24)*8);
     protag(rand(0,39)*8,rand(0,24)*8);
+    debug_procesos();
     for(i=1;i<=num_robots;i++)
         loop
             x=rand(0,39);
@@ -189,8 +190,11 @@ BEGIN
             mueve_robots();
         end
     end
+    debug_procesos();
     signal(prota,s_kill);
+    debug_procesos();
     signal(type robot,s_kill);
+    debug_procesos();
     muertos=0;
     cogido=0;
     ya=0;

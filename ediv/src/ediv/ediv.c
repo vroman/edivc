@@ -242,9 +242,9 @@ int main(int argc, char *argv[])
 	/* mete el PRG en el buffer prog */
 	fseek(fp,0,SEEK_END);
 	progsize=ftell(fp);
-	prog = (char *)e_malloc(progsize+1);
+	prog = (unsigned char *)e_malloc(progsize+1);
 	fseek(fp,0,SEEK_SET);
-	p=prog;
+	p=(char*)prog;
 	do {
 		*p = getc(fp);
 		p++;

@@ -335,7 +335,7 @@ void compila()
 	#endif
 
 	if ((f=fopen(outfilename,"ab"))!=NULL) {
-		fwrite(nombre_program,strlen(nombre_program)+1,1,f);
+		fwrite(nombre_program,strlen((const char*)nombre_program)+1,1,f);
 		p=(byte*)e_malloc((imem+iloc)*4);
 		m=(imem+iloc)*4+1024;
 		q=(byte*)e_malloc(m);
@@ -1065,7 +1065,7 @@ void escribe_lin(FILE* f)
 	b++;
 	progcomp=e_malloc(b*2);
 	l=b*2;
-	if(compress(progcomp,&l,prog,b)) {
+	if(compress(progcomp,(unsigned long*)&l,prog,b)) {
 		fclose(linf);
 		fclose(f);
 		errormem();

@@ -545,7 +545,7 @@ BOOL PrepareDLLImage(void *pMemoryImage, DWORD dwImageSize, BOOL bResolve, BOOL 
 					if(func==NULL) return FALSE;
 
 					// Write address to appropriate location
-					ptd_out->u1.Function = (PDWORD) func;
+					ptd_out->u1.Function = (unsigned long)(PDWORD) func;
 
 					ptd_in++;
 					ptd_out++;

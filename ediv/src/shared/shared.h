@@ -39,4 +39,4 @@
 
 #define long_header 9 /* Longitud de la cabecera al inicio de los programas */
 
-#endif /* __EDIV_SHARED_H_
+#endif /* __EDIV_SHARED_H_ */

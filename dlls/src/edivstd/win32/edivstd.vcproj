@@ -12,7 +12,7 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="../../../bin"
+			OutputDirectory="./Debug"
 			IntermediateDirectory="Debug"
 			ConfigurationType="2"
 			CharacterSet="2">
@@ -40,12 +40,13 @@
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(OutDir)/edivstd.pdb"
 				SubSystem="2"
-				ImportLibrary="$(OutDir)/edivstd.lib"
+				ImportLibrary=""
 				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCPostBuildEventTool"
+				CommandLine="copy Debug\edivstd.dll ..\..\..\..\ediv\bin\dll"/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool

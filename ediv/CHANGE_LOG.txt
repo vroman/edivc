@@ -1,3 +1,15 @@
+05/03/2003
+----------
+ * Hay algún fallo cuando se elimina un proceso, tiene que ver con la
+   eliminación de procesos de procs_s y proc_orden y la creación y
+   ejecución de nuevos procesos (probad a rular robots.prg y pasaros el
+   primer nivel, os dará un error "redefinición del tipo de proceso" cuando
+   intentéis mover el personaje). (Er_Makina)
+
+04/03/2003
+----------
+ * signal() arreglado, ya funcionan las señales tree (Er_Makina)
+
 18/12/2002
 ----------
  * Mas comentarizacion siguiendo las normas del ANSI C (Daijo)

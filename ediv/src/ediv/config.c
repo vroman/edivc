@@ -33,12 +33,12 @@ char* buffer;
 int linea;
 char cfg[256];
 
-void cfg_error(int error)
+/*void cfg_error(int error)
 {
 	printf(translate(41),cfg,linea,translate_cfg_error(error));
 	printf(translate(42));
 	exit(1);
-}
+}*/
 
 void salta_spc() {
 	while(lower[buffer[i]]==0 && i<tamano) {

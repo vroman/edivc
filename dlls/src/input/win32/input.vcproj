@@ -41,7 +41,7 @@
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(OutDir)/input.pdb"
 				SubSystem="2"
-				ImportLibrary="$(OutDir)/input.lib"
+				ImportLibrary=""
 				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"/>
