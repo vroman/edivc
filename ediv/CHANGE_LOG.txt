@@ -1,3 +1,15 @@
+27/5/2003
+---------
+ * Añadida la función fp->Custom_Error(int tipoerror, char* mensaje) al
+   SDK. Permite a las DLL's definir sus propios mensajes de error, tanto
+   runtime como critical. Ver los comentarios de custom_error() en error.c
+   del stub para ver cómo funciona. (Er_Makina)
+ * Añadido set_mode(). De momento es necesario ke se inicialice un modo de
+   24 o 32 bits para poder ver algo en pantalla. Los flags aún no funcionan.
+   Hay que modificar otras cosas para que rule bien (regiones, eliminar
+   textos, etc) y hay que avisar a las DLL's de cuando se produce el cambio.
+   (Er_Makina)
+
 26/5/2003
 ---------
  * Ya están comprobados todos los nuevos opcodes de string, parece ke
