@@ -20,6 +20,10 @@
 
 */
 
+/*! \file SDL_rotozoom.c
+ * \brief Funciones para transformar superficies (angle y size)
+ */
+
 #ifdef WIN32
 #include <windows.h>
 #endif

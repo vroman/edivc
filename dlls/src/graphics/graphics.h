@@ -118,6 +118,8 @@ int gamma[3] ;
 
 int smooth;						/*!< Indica si se desea suavizar los gráficos @see xput() */
 
+struct _graphics* graphics;		/*!< Para que todas las funciones puedan acceder a fp->graphics */
+
 /*
 ** Prototipos
 */

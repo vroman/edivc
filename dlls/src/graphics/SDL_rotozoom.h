@@ -1,3 +1,10 @@
+/*! \file SDL_rotozoom.h
+ * \brief Cabecera para la SDL_rotozoom
+ * \defgroup SDL_rotozoom SDL_rotozoom
+ * Rutinas de size y angle
+ * @{
+ */
+
 #ifndef _SDL_rotozoom_h
 #define _SDL_rotozoom_h
 
@@ -12,7 +19,6 @@ extern "C"
 #define M_PI	3.141592654
 #endif
 #include <SDL/SDL.h>
-
 
 /* ---- Defines */
 
@@ -39,9 +45,7 @@ extern "C"
 
 /* ---- Prototypes */
 
-/* 
- 
- rotozoomSurface()
+/*!
 
  Rotates and zoomes a 32bit or 8bit 'src' surface to newly created 'dst' surface.
  'angle' is the rotation in degrees. 'zoom' a scaling factor. If 'smooth' is 1
@@ -54,9 +58,7 @@ extern "C"
 				int smooth);
 
 
-/* 
- 
- zoomSurface()
+/*!
 
  Zoomes a 32bit or 8bit 'src' surface to newly created 'dst' surface.
  'zoomx' and 'zoomy' are scaling factors for width and height. If 'smooth' is 1
@@ -75,3 +77,5 @@ extern "C"
 #endif
 
 #endif /* _SDL_rotozoom_h */
+
+/*! @} */

@@ -563,6 +563,8 @@ void first_load(FUNCTION_PARAMS)
 
 	fp->graphics->buffer=screen->pixels;
 	fp->graphics->background=fondo->pixels;
+
+	graphics=fp->graphics;
 }
 
 
@@ -580,6 +582,9 @@ void first_load(FUNCTION_PARAMS)
  * transparencia, etc.
  * La función hace "clipping" al gráfico automáticamente según la región que se le
  * indique.
+ * \todo Hacer que no obligue a la DLL que la llama a usar SDL. Puede convertirse
+ * esta función o usar una alternativa, esta se usaría de forma interna y la otra se
+ * almacenaría en fp->Dibuja para que la usen las demás DLL's.
  * @param src Superficie donde se encuentra el gráfico a dibujar
  * @param x Coordenada X destino
  * @param y Coordenada Y destino
@@ -614,10 +619,19 @@ int Dibuja(SDL_Surface *src,int x,int y,int cx,int cy,int region,int z,int flags
 		
 	zoom=size*0.01f;
 
-	angulo=(angle%360000)/1000;
+	angle=angle%360000;
+	if(angle<0) angle+=360000;
+	angulo=angle/1000;
 	
+	/*! Ahora siempre se crea una copia de la surface, lo he puesto así porque
+	 * tiene la ventaja de que con el smooth no kedan bordes negros y hace un
+	 * perfecto antialiasing, pero vamos, esto hay ke optimizarlo bastante (habrá
+	 * que guarrear bastante en el SDL_rotozoomer.c)
+	 */
+	temp=SDL_CreateRGBSurface(src->flags,src->w,src->h,src->format->BitsPerPixel,0,0,0,0);
+	SDL_SetColorKey(temp,src->flags,color_transparente);
+
 	if(flags&3) {
-		temp=SDL_CreateRGBSurface(src->flags,src->w,src->h,src->format->BitsPerPixel,0,0,0,0);
 		/* el volteado vertical es más rápido */
 		if((flags&3)==2) {
 			for(i=0;i<src->h;i++)
@@ -638,36 +652,39 @@ int Dibuja(SDL_Surface *src,int x,int y,int cx,int cy,int region,int z,int flags
 						(byte*)src->pixels+(u*src->format->BytesPerPixel)+(v*src->pitch),src->format->BytesPerPixel);
 				}
 		}
-		SDL_SetColorKey(temp,src->flags,color_transparente);
 		if(flags&1)
 			cx=src->w-cx-1;
 		if(flags&2)
 			cy=src->h-cy-1;
 	}
-	blits[last_blit].src = xput(temp,zoom,angulo);
-
-	if(temp!=src)
-		SDL_FreeSurface(temp);
+	else {
+		memcpy(temp->pixels,src->pixels,temp->h*temp->pitch);
+	}
 
 	/*! 
 	 * Pequeño hack para arreglar transparency
 	 * \todo Debería limpiarse y revisarse un poco :P
 	 */
-	if(blits[last_blit].src->flags & SDL_SRCALPHA) {
-		for(i=0;i<blits[last_blit].src->h*blits[last_blit].src->w*blits[last_blit].src->format->BytesPerPixel;i+=blits[last_blit].src->format->BytesPerPixel) {
-			if(*((int*)&((byte*)blits[last_blit].src->pixels)[i])!=color_transparente)
-				((byte*)blits[last_blit].src->pixels)[i+3]=trans;
+	if(src->flags & SDL_SRCALPHA) {
+		for(i=0;i<temp->h*temp->w*temp->format->BytesPerPixel;i+=temp->format->BytesPerPixel) {
+			if(*((int*)&((byte*)src->pixels)[i])!=color_transparente)
+				((byte*)temp->pixels)[i+3]=trans;
 		}
 	}
 	else {
-		SDL_SetAlpha(blits[last_blit].src,SDL_SRCALPHA,trans);
+		SDL_SetAlpha(temp,SDL_SRCALPHA,trans);
 	}
+
+	blits[last_blit].src = xput(temp,zoom,angulo);
+
+//	if(temp!=src)
+		SDL_FreeSurface(temp);
 
 #define redondea(x) (int)(floor(x)+(((x)-(int)(x))<.5?0:1))
 
 	if(size!=100) {
 		if(angle!=0)
-			i=j=(sqrt(cx*cx+cy*cy)*zoom+1);
+			i=j=sqrt(cx*cx+cy*cy)*zoom+1.0;
 		else {
 			i=(int)(cx*zoom);
 			j=(int)(cy*zoom);
@@ -715,7 +732,7 @@ SDL_Surface *xput(SDL_Surface *src,double size,double angle)
 	SDL_Surface *tmp;
 	
     s=smooth&1;
-	if(size==1 && angle ==0) s=0;
+	if((size==1 && angle==0) || graphics->bpp<16) s=0;
 //	tmp= zoomSurface (src, size, size,s);
 	dst=rotozoomSurface (src, angle, size,s);
 	//SDL_FreeSurface (tmp);
