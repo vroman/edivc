@@ -1,7 +1,7 @@
 /*
  * eDiv Compiler
- * Copyleft (C) 2000-2002 Sion Entertainment
- * http://www.sion-e.com
+ * Copyright (C) 2000-2002 Sion Entertainment
+ * http://www.sionhq.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,10 +21,6 @@
 
 #include <string.h>
 #include <stdlib.h>
-//#include <sys/stat.h>
-//#ifdef __linux__
-//#	include <limits.h>
-//#endif
 
 #include <zlib.h>
 
@@ -42,7 +38,7 @@
 #include "varindex.h"
 #include "language.h"
 
-void analiza_ltlex(void);	// en ltlex.c
+void analiza_ltlex(void);	/* en ltlex.c */
 
 
 void prepara_compilacion()
@@ -63,18 +59,18 @@ void prepara_compilacion()
 	
 	inicializa_lower();
 
-	// Inicializamos la tabla de objetos
+	/* Inicializamos la tabla de objetos */
 	memset(obj,0,sizeof(obj[0])*max_obj);
 	iobj=obj;
 	num_obj=0;
 
-	// Inicializamos la tabla de símbolos
+	/* Inicializamos la tabla de símbolos */
 	memset(lex_simb,0,sizeof(lex_simb));
 	ilex_simb=lex_simb;
 	num_nodos=0;
 
 
-	// Inicializamos los caracteres básicos en lex_case
+	/* Inicializamos los caracteres básicos en lex_case */
 	for (n=0;n<256;n++)
 		if (lower[n]) {
 			if (n>='0' && n<='9')
@@ -86,33 +82,33 @@ void prepara_compilacion()
 			lex_case[n]=(struct lex_ele *)l_err;
 
 
-	// Inicializamos el vector de nombres
+	/* Inicializamos el vector de nombres */
 	vnom=(byte *) e_malloc(max_obj*long_med_id+1024);
 	ivnom.b=vnom;
 
 
-	// Leemos los símbolos y palabras reservadas de ltlex.def
+	/* Leemos los símbolos y palabras reservadas de ltlex.def */
 	analiza_ltlex();
 
 
-	// Terminamos de inicializar lex_case
+	/* Terminamos de inicializar lex_case */
 	lex_case[' ']=(struct lex_ele *)l_spc;
 	lex_case[tab]=(struct lex_ele *)l_spc;
 	lex_case[cr]=(struct lex_ele *)l_cr;
 	lex_case[lf]=(struct lex_ele *)l_cr;
 	lex_case[0]=(struct lex_ele *)l_eof;
 
-	// Buffer para el bytecode
+	/* Buffer para el bytecode */
 	imem_max=default_buffer; imem=0;
 	mem_ory=mem=(int*)e_malloc(imem_max*sizeof(int));
 	memset(mem,0,imem_max*sizeof(int));
 
-	// Buffer para variables locales y privadas
+	/* Buffer para variables locales y privadas */
 	iloc_max=default_buffer/2; iloc=0; iloc_len=0;
 	loc=(int*)e_malloc(iloc_max*sizeof(int));
 	memset(loc,0,iloc_max*sizeof(int));
 
-	// No se lo que es
+	/* ¿Que es esto? */
 	ifrm_max=default_buffer/2;
 	frm=(int*)e_malloc(ifrm_max*sizeof(int));
 	memset(frm,0,ifrm_max*sizeof(int));
@@ -132,7 +128,7 @@ void compila()
 	unsigned long m;
 	byte * q, * p;
 	int start_lin, start_dbg;
-	byte* varptr;			// variables indexadas
+	byte* varptr;		/* variables indexadas */
 	FILE* fvar;
 	
 	ultima_linea=prog;
@@ -142,7 +138,7 @@ void compila()
 	printf(translate(27));
 	
 	itxt=inicio_textos=imem;
-	psintactico();		// Para obtener "longitud_textos"
+	psintactico();		/* Para obtener "longitud_textos" */
 	imem+=longitud_textos;
 	#ifdef _DEBUG
 		printf("dbg: longitud_textos: %d\n",longitud_textos);
@@ -154,7 +150,7 @@ void compila()
 
 	num_obj_predefinidos=num_obj;
 
-	ultima_linea=source; //fwrite(&cero,1,1,lprg);
+	ultima_linea=source; 
 	acceso_remoto=0; parametros=0; linea=1;
 
 	sintactico();
@@ -164,14 +160,14 @@ void compila()
 		if (i->usado) {
 			linea=i->linea;
 			ierror=i->ierror;
-			error(0,34,i->name); // nombre desconocido
+			error(0,34,i->name); /* nombre desconocido */
 		}
 		i++;
 	}
 	
 	if(n_errors>0) return;
 	
-	// Borra todo y comienza de nuevo :P
+	/* Borra todo y comienza de nuevo :P */
 	
 	printf(translate(28));
 	
@@ -183,8 +179,8 @@ void compila()
 	prepara_compilacion();
 	source=prog;
 	
-	inicializa_index();	// ahora toca construir el indice de variables
-	dll_func2();		// recarga sólo las dlls necesarias
+	inicializa_index();	/* ahora toca construir el indice de variables */
+	dll_func2();		 /* recarga sólo las dlls necesarias */
 	
 	if(debug) {
 		if((linf=tmpfile())==NULL) {
@@ -201,8 +197,10 @@ void compila()
 	
 	sintactico();
 	
-	// Ahora que estamos en el final del bytecode, añadiremos la rutina que carga
-	// las DLLs. Lo primero es guardar las cadenas con los nombres:
+	/* 
+	 * Ahora que estamos en el final del bytecode, añadiremos la rutina que carga
+	 * las DLLs. Lo primero es guardar las cadenas con los nombres:
+	 */
 	for(n=0;n<numdlls;n++)
 		if(dlls[n].usado || dlls[n].prioridad>=P_SIEMPRE) {
 			dlls[n].mem_nombre=imem;
@@ -212,7 +210,7 @@ void compila()
 			test_buffer(&mem,&imem_max,imem);
 		}
 
-	// Si estamos compilando en modo debug, añadimos tambien la debug.dll
+	/* Si estamos compilando en modo debug, añadimos tambien la debug.dll */
 	if(debug) {
 		dlls[numdlls].mem_nombre=imem;
 		memcpy(&mem[imem],"debug",6);
@@ -220,11 +218,13 @@ void compila()
 		test_buffer(&mem,&imem_max,imem);
 	}
 	
-	// Ahora estamos en la posición donde comienza la rutina, por lo que tenemos
-	// que guardar la posición actual en el offset que guardamos en salto_import
+	/* 
+	 * Ahora estamos en la posición donde comienza la rutina, por lo que tenemos
+	 * que guardar la posición actual en el offset que guardamos en salto_import
+	 */
 	mem[salto_import]=imem;
 	
-	// Escribimos la rutina de carga de DLLs
+	/* Escribimos la rutina de carga de DLLs */
 	for(n=0;n<numdlls;n++)
 		if(dlls[n].usado || dlls[n].prioridad>=P_SIEMPRE)
 			g2(limp,dlls[n].mem_nombre);
@@ -234,41 +234,47 @@ void compila()
 
 	g2(ljmp,salto_import+1);			
 	
-	// Ya está !! :)
+	/* Ya está !! :) */
 	
-	// Preparamos la cabecera del bytecode
+	/* Preparamos la cabecera del bytecode */
 	mem[2]=imem;
-	mem[3]=max_process; // Antes long_header, ahora no se utiliza
-	mem[4]=0; // Antes mem[1]-mem[3] (long datos globales), ahora no se utiliza
+	mem[3]=max_process; /* Antes long_header, ahora no se utiliza */
+	mem[4]=0; /* Antes mem[1]-mem[3] (long datos globales), ahora no se utiliza */
 	mem[5]=iloc_len-iloc;
 	mem[6]=iloc;
-	mem[7]=0; // Antes imem+iloc (inicio textos), ahora no se utiliza
-	mem[8]=imem+iloc; // Número de elementos ocupados en mem[]
+	mem[7]=0; /* Antes imem+iloc (inicio textos), ahora no se utiliza */
+	mem[8]=imem+iloc; /* Número de elementos ocupados en mem[] */
 
-	// mem[0] se usa para almacenar flags para el ejecutable. En el caso de DIV 2,
-	// éstas eran:
-	// +1	= El programa es un setup de sonido (setup_program)
-	// +128	= El programa invoca al trazador nada más ejecutarse (compilado con F12)
-	// +512	= Se ignoran los errores de ejecución (ignore_errors)
-	// +1024= Modo DEMO (mensaje en el centro de la pantalla parpadeando diciendo
-	//		  "VERSIÓN DE DEMOSTRACIÓN")
+	/*
+	 * mem[0] se usa para almacenar flags para el ejecutable. En el caso de DIV 2,
+	 * éstas eran:
+	 * +1	= El programa es un setup de sonido (setup_program)
+	 * +128	= El programa invoca al trazador nada más ejecutarse (compilado con F12)
+	 * +512	= Se ignoran los errores de ejecución (ignore_errors)
+	 * +1024= Modo DEMO (mensaje en el centro de la pantalla parpadeando diciendo
+	 *		  "VERSIÓN DE DEMOSTRACIÓN")
+	 */
 
-	// nosotros usaremos las siguientes:
-	// +16	= El exe lleva incluidas las DLL's
-	//        A ver como lo hacemos en Linux.. 1) con temporales o 2) hurgando en el codigo
-	//        de dlopen y demas y haciendonos una pekeña lib (esto es mas aconsejable)
-	// +32	= El exe lleva incluido el PAK
-	// +64	= Compilado en modo debug
-	// +128 = Igual que en DIV2, el programa invoca al trazador nada más ejecutarse (se
-	//        ha usado la orden "trazar programa" en el IDE)
-	// +512	= ignore_errors, igual que en DIV2
+	/*
+	 * nosotros usaremos las siguientes:
+	 * +16	= El exe lleva incluidas las DLL's
+	 *        A ver como lo hacemos en Linux.. 1) con temporales o 2) hurgando en el codigo
+	 *        de dlopen y demas y haciendonos una pekeña lib (esto es mas aconsejable)
+	 * +32	= El exe lleva incluido el PAK
+	 * +64	= Compilado en modo debug
+	 * +128 = Igual que en DIV2, el programa invoca al trazador nada más ejecutarse (se
+	 *        ha usado la orden "trazar programa" en el IDE)
+	 * +512	= ignore_errors, igual que en DIV2
+	 */
 		
 	mem[0]=0;
 	if (debug) mem[0]+=64;
 	if (ignore_errors) mem[0]+=512;
 
-	// Generamos los listados
-	// (debe hacerse ahora porque en el listado de objetos guardamos los valores de mem[1..8])
+	/*
+	 * Generamos los listados (debe hacerse ahora porque en el listado de objetos guardamos 
+	 * los valores de mem[1..8])
+	 */
 	if(listados) {
 		printf(translate(30));
 		if(listados & 1) listado_ensamblador();
@@ -279,23 +285,23 @@ void compila()
 
 	printf(translate(31));
 
-   	// descomprime la edivrun.lib y guarda una copia con el nombre temp.dj!
+   	/* descomprime la edivrun.lib y guarda una copia con el nombre temp.dj! */
    	_encriptar(0,edivrun_lib,la_clave);
    	_comprimir(0,"temp.dj!");
 
-   	// si el archivo de salida ya existe, lo borra
+   	/* si el archivo de salida ya existe, lo borra */
    	if((f = fopen(outfilename, "rb"))!=NULL) {
    		fclose(f);
    		remove(outfilename);
    	}
 
-   	// renombra temp.dj! al nombre del exe
+   	/* renombra temp.dj! al nombre del exe */
    	rename("temp.dj!",outfilename);
 
-	// ordenamos varindex
+	/* ordenamos varindex */
 	ordena_varindex();
 
-	// escribimos en un temporal todo el indice de variables
+	/* escribimos en un temporal todo el indice de variables */
 	fvar=tmpfile();
 	for(n=0;n<num_indexed_vars;n++) {
 		fputc(varindex[n].hash,fvar);
@@ -304,12 +310,12 @@ void compila()
 		fputc(varindex[n].tipo,fvar);
 	}
 
-	// liberamos varindex
+	/* liberamos varindex */
 	for(n=0;n<num_indexed_vars;n++)
 		free(varindex[n].nombre);
 	free(varindex);
 
-	// lo pasamos todo del temporal a la memoria
+	/* lo pasamos todo del temporal a la memoria */
 	l=ftell(fvar);
 	fseek(fvar,0,SEEK_SET);
 	varptr=(byte*)e_malloc(l);
@@ -328,26 +334,25 @@ void compila()
 		m=(imem+iloc)*4+1024;
 		q=(byte*)e_malloc(m);
 		if (p!=NULL && q!=NULL) {
-			fwrite(mem,4,9,f); // mem[0..8]
+			fwrite(mem,4,9,f); /* mem[0..8] */
 			memcpy(p,&mem[9],(imem-9)*4);
 			memcpy(p+(imem-9)*4,loc,iloc*4);
 			n=(imem-9+iloc)*4;
 			if (!compress(q,&m,p,n)) {
-				fwrite(&n,1,4,f); // mem[0]..mem[8],longitud_datos_descomp,longitud_datos_comp,datos comp...
+				fwrite(&n,1,4,f); /* mem[0]..mem[8],longitud_datos_descomp,longitud_datos_comp,datos comp... */
 				fwrite(&m,1,sizeof(unsigned long),f);
 				fwrite(q,1,m,f);
 				free(q); free(p);
-				//get_varptr(&varptr,&nvars);	// indice de variables
 				m=l*2;
 				q=(byte*)e_malloc(m);
-				if(!compress(q,&m,varptr,l)) { // nºvariables,longitud_datos_descomp,longitud_datos_comp,datos_comp...
+				if(!compress(q,&m,varptr,l)) { /* nºvariables,longitud_datos_descomp,longitud_datos_comp,datos_comp... */
 					fwrite(&num_indexed_vars,1,4,f);
 					fwrite(&l,1,4,f);
 					fwrite(&m,1,sizeof(unsigned long),f);
 					fwrite(q,1,m,f);
 					free(q);
 					free(varptr);
-					if(debug) {			// formato de ejecutable de debug
+					if(debug) {			/* formato de ejecutable de debug */
 						printf(translate(32));
 						start_lin=ftell(f);
 						escribe_lin(f);
@@ -356,7 +361,7 @@ void compila()
 						fwrite(&start_lin,1,4,f);
 						fwrite(&start_dbg,1,4,f);
 					}			
-					fwrite(&stub_size,1,4,f); // Ultimos 4 bytes siempre son el tamaño del stub
+					fwrite(&stub_size,1,4,f); /* Ultimos 4 bytes siempre son el tamaño del stub */
 					fclose(f);
 				} else {
 					free(q);
@@ -385,18 +390,18 @@ void compila()
 	}
 	
 	#ifndef _WIN32
-		chmod(outfilename,493);		// -rwxr-xr-x
+		chmod(outfilename,493); /* -rwxr-xr-x */
 	#endif
 
 	printf(translate(34));
 }
 
 
-//-----------------------------------------------------------------------------
-//      Comprueba los límites de un buffer de generación de código
-//-----------------------------------------------------------------------------
-
-void test_buffer(int * * buffer,int * maximo,int n)
+/*
+ * void test_buffer(int **bufer, int *maximo, int n);
+ * Comprueba los límites de un buffer de generación de código
+ */
+void test_buffer(int **buffer,int *maximo,int n)
 {
 	int max;
 
@@ -418,11 +423,11 @@ void test_buffer(int * * buffer,int * maximo,int n)
 }
 
 
-//-----------------------------------------------------------------------------
-//      Analisis de un bloque de sentencias
-//-----------------------------------------------------------------------------
-
-void sentencia() {
+/*
+ * void sentencia(void)
+ * Analiza un bloque de sentencias
+ */
+void sentencia(void) {
 
   int im1,im2,im3,im4;
   int dir,from,to,step;
@@ -434,7 +439,7 @@ void sentencia() {
         inicio_sentencia();
         lexico(); if (pieza==p_abrir) {
           lexico(); if (pieza!=p_cerrar) {
-            expresion(); if (pieza!=p_cerrar) error(3,18); // esperando ')'
+            expresion(); if (pieza!=p_cerrar) error(3,18); /* esperando ')' */
             g1(lrtf);
             } else {
             g1(lret);
@@ -442,17 +447,17 @@ void sentencia() {
           } else {
           g1(lret);
         }
-        if (!free_sintax) if (pieza!=p_ptocoma) error(3,9); // esperando ';'
+        if (!free_sintax) if (pieza!=p_ptocoma) error(3,9); /* esperando ';' */
         while (pieza==p_ptocoma || pieza==p_coma) lexico();
         final_sentencia(); grabar_sentencia(); break;
       case p_if:
         telseif[itelseif++]=0;
         inicio_sentencia();
         lexico();
-        if (!free_sintax) if (pieza!=p_abrir) error(3,22); // esperando '('
+        if (!free_sintax) if (pieza!=p_abrir) error(3,22); /* esperando '(' */
         if (pieza==p_abrir) lexico();
         condicion();
-        if (!free_sintax) if (pieza!=p_cerrar) error(3,18); // esperando ')'
+        if (!free_sintax) if (pieza!=p_cerrar) error(3,18); /* esperando ')' */
         if (pieza==p_cerrar) lexico();
         g2(ljpf,0); im1=imem-1;
         final_sentencia(); grabar_sentencia();
@@ -465,28 +470,28 @@ void sentencia() {
           final_sentencia(); grabar_sentencia();
           sentencia();
         }else if (pieza==p_elseif) {
-          if (itelseif==0) error(0,73); // elseif fuera de bloque if
+          if (itelseif==0) error(0,73); /* elseif fuera de bloque if */
           inicio_sentencia();
           g2(ljmp,0); telseif[itelseif++]=imem-1;
           mem[im1]=imem;
 		  lexico();
-          if (!free_sintax) if (pieza!=p_abrir) error(3,22); // esperando '('
+          if (!free_sintax) if (pieza!=p_abrir) error(3,22); /* esperando '(' */
           if (pieza==p_abrir) lexico();
           condicion();
-          if (!free_sintax) if (pieza!=p_cerrar) error(3,18); // esperando ')'
+          if (!free_sintax) if (pieza!=p_cerrar) error(3,18); /* esperando ')' */
           if (pieza==p_cerrar) lexico();
           g2(ljpf,0); im1=imem-1;
           final_sentencia(); grabar_sentencia();
           goto if1;
         }
-        mem[im1]=imem; if (pieza!=p_end) error(0,57); lexico(); // esperando END
+        mem[im1]=imem; if (pieza!=p_end) error(0,57); lexico(); /* esperando END */
         while (telseif[--itelseif]!=0) mem[telseif[itelseif]]=imem;
         break;
       case p_loop:
         tbreak[itbreak++]=0; tcont[itcont++]=0;
         lexico();
         im1=imem; sentencia();
-        if (pieza!=p_end) error(0,57); // esperando END
+        if (pieza!=p_end) error(0,57); /* esperando END */
         inicio_sentencia(); lexico();
         g2(ljmp,im1);
         while (tbreak[--itbreak]!=0) mem[tbreak[itbreak]]=imem;
@@ -497,15 +502,15 @@ void sentencia() {
         inicio_sentencia();
         tbreak[itbreak++]=0; tcont[itcont++]=0; im1=imem;
         lexico();
-        if (!free_sintax) if (pieza!=p_abrir) error(3,22); // esperando '('
+        if (!free_sintax) if (pieza!=p_abrir) error(3,22); /* esperando '(' */
         if (pieza==p_abrir) lexico();
         condicion();
-        if (!free_sintax) if (pieza!=p_cerrar) error(3,18); // esperando ')'
+        if (!free_sintax) if (pieza!=p_cerrar) error(3,18); /* esperando ')' */
         if (pieza==p_cerrar) lexico();
         g2(ljpf,0); im2=imem-1;
         final_sentencia(); grabar_sentencia();
         sentencia();
-        if (pieza!=p_end) error(0,57); inicio_sentencia(); // esperando END
+        if (pieza!=p_end) error(0,57); inicio_sentencia(); /* esperando END */
         lexico();
         g2(ljmp,im1); mem[im2]=imem;
         while (tbreak[--itbreak]!=0) mem[tbreak[itbreak]]=imem;
@@ -516,13 +521,13 @@ void sentencia() {
         tbreak[itbreak++]=0; tcont[itcont++]=0;
         lexico();
         im1=imem; sentencia();
-        if (pieza!=p_until) error(0,58); // esperando UNTIL
+        if (pieza!=p_until) error(0,58); /* esperando UNTIL */
         inicio_sentencia();
         lexico();
-        if (!free_sintax) if (pieza!=p_abrir) error(3,22); // esperando '('
+        if (!free_sintax) if (pieza!=p_abrir) error(3,22); /* esperando '(' */
         if (pieza==p_abrir) lexico();
         condicion();
-        if (!free_sintax) if (pieza!=p_cerrar) error(3,18); // esperando ')'
+        if (!free_sintax) if (pieza!=p_cerrar) error(3,18); /* esperando ')' */
         if (pieza==p_cerrar) lexico();
         g2(ljpf,im1);
         while (tbreak[--itbreak]!=0) mem[tbreak[itbreak]]=imem;
@@ -533,35 +538,35 @@ void sentencia() {
         inicio_sentencia();
         tbreak[itbreak++]=0; tcont[itcont++]=0;
         lexico();
-        if (pieza!=p_id) error(0,59); // esperando una variable
+        if (pieza!=p_id) error(0,59); /* esperando una variable */
 
         if ((*o).tipo==tvglo) {
           dir=(*o).vglo.offset; g2(lcar,dir);
         } else if ((*o).tipo==tvloc && (!(*o).bloque || (*o).bloque==bloque_actual)) {
           dir=-(*o).vloc.offset;
           g2(lcar,-dir); g1(laid);
-        } else error(0,59); // esperando una variable
+        } else error(0,59); /* esperando una variable */
 
         lexico();
-        if (pieza!=p_asig) error(3,7); lexico(); // esperando '='
+        if (pieza!=p_asig) error(3,7); lexico(); /* esperando '=' */
         from=constante();
-        if (pieza!=p_to) error(1,60); lexico(); // esperando TO
+        if (pieza!=p_to) error(1,60); lexico(); /* esperando TO */
         to=constante();
-        if (from==to) error(4,61); // sentencia FROM incorrecta
+        if (from==to) error(4,61); /* sentencia FROM incorrecta */
         if (pieza==p_step) {
           lexico();
           step=constante();
-          if (from<to && step<=0) error(4,62); // el valor step no es válido
+          if (from<to && step<=0) error(4,62); /* el valor step no es válido */
           if (from>to && step>=0) error(4,62);
         } else {
           if (from<to) step=1; else step=-1;
         }
-        g2(lcar,from); // Asignación del from
+        g2(lcar,from); /* Asignación del from */
         g1(lasi); g1(lasp);
 
-        im1=imem; // Inicio del bucle
+        im1=imem; /* Inicio del bucle */
 
-        if (dir>=0) { // Comparación de la condición de permanencia
+        if (dir>=0) { /* Comparación de la condición de permanencia */
           g2(lcar,dir);
         } else {
           g2(lcar,-dir); g1(laid);
@@ -571,16 +576,16 @@ void sentencia() {
         g2(ljpf,0); im2=imem-1;
 
         final_sentencia(); grabar_sentencia();
-        if (!free_sintax) if (pieza!=p_ptocoma) error(3,9); // esperando ';'
+        if (!free_sintax) if (pieza!=p_ptocoma) error(3,9); /* esperando ';' */
         while (pieza==p_ptocoma || pieza==p_coma) lexico();
 
         sentencia();
-        if (pieza!=p_end) error(0,57); inicio_sentencia(); // esperando END
+        if (pieza!=p_end) error(0,57); inicio_sentencia(); /* esperando END */
         lexico();
 
-        im3=imem; // Posición del continue
+        im3=imem; /* Posición del continue */
 
-        if (dir>=0) { // Incremento y vuelta al inicio del bucle
+        if (dir>=0) { /* Incremento y vuelta al inicio del bucle */
           g2(lcar,dir);
         } else {
           g2(lcar,-dir); g1(laid);
@@ -599,12 +604,12 @@ void sentencia() {
         inicio_sentencia();
         tbreak[itbreak++]=0; tcont[itcont++]=0;
         lexico();
-        if (pieza!=p_abrir) error(3,22); lexico(); // esperando '('
+        if (pieza!=p_abrir) error(3,22); lexico(); /* esperando '(' */
         if (pieza!=p_ptocoma) {
           expresion(); g1(lasp);
           while (pieza==p_coma) { lexico(); expresion(); g1(lasp); }
         } im1=imem;
-        if (pieza!=p_ptocoma) error(3,9); lexico(); // esperando ';'
+        if (pieza!=p_ptocoma) error(3,9); lexico(); /* esperando ';' */
         if (pieza==p_ptocoma) {
           g2(lcar,1);
         } else expresion();
@@ -612,16 +617,16 @@ void sentencia() {
         while (pieza==p_coma) { lexico(); expresion();
           g2(ljpf,im2); im2=imem-1; }
         g2(ljmp,0); im3=imem-1;
-        if (pieza!=p_ptocoma) error(3,9); lexico(); // esperando ';'
+        if (pieza!=p_ptocoma) error(3,9); lexico(); /* esperando ';' */
         if (pieza!=p_cerrar) {
           expresion(); g1(lasp);
           while (pieza==p_coma) { lexico(); expresion(); g1(lasp); }
         }
         g2(ljmp,im1);
-        if (pieza!=p_cerrar) error(3,18); lexico(); // esperando ')'
+        if (pieza!=p_cerrar) error(3,18); lexico(); /* esperando ')' */
         final_sentencia(); grabar_sentencia();
         mem[im3++]=imem; sentencia();
-        if (pieza!=p_end) error(0,57); // esperando END
+        if (pieza!=p_end) error(0,57); /* esperando END */
         inicio_sentencia(); lexico();
           g2(ljmp,im3);
           do { im1=mem[im2]; mem[im2]=imem; im2=im1; } while(im2);
@@ -632,10 +637,10 @@ void sentencia() {
       case p_switch:
         inicio_sentencia();
         lexico();
-        if (!free_sintax) if (pieza!=p_abrir) error(3,22); // esperando '('
+        if (!free_sintax) if (pieza!=p_abrir) error(3,22); /* esperando '(' */
         if (pieza==p_abrir) lexico();
         condicion();
-        if (!free_sintax) if (pieza!=p_cerrar) error(3,18); // esperando ')'
+        if (!free_sintax) if (pieza!=p_cerrar) error(3,18); /* esperando ')' */
         if (pieza==p_cerrar) lexico();
         while (pieza==p_ptocoma) {
           lexico();
@@ -667,13 +672,13 @@ void sentencia() {
           } else if (pieza==p_default) {
             lexico();
             if (im1) mem[im1]=imem; im1=0;
-          } else error(0,63); // esperando case, default o end
-          if (!free_sintax) if (pieza!=p_ptocoma) error(3,64); // esperando ':'
+          } else error(0,63); /* esperando case, default o end */
+          if (!free_sintax) if (pieza!=p_ptocoma) error(3,64); /* esperando ':' */
           while (pieza==p_ptocoma || pieza==p_coma) lexico();
           g1(lasp);
           final_sentencia(); grabar_sentencia();
           sentencia();
-          if (pieza!=p_end) error(0,57); // esperando END
+          if (pieza!=p_end) error(0,57); /* esperando END */
           inicio_sentencia();
             g2(ljmp,im2); im2=imem-1;
           pasa_ptocoma();
@@ -687,7 +692,7 @@ void sentencia() {
         inicio_sentencia();
         lexico(); if (pieza==p_abrir) {
           lexico(); if (pieza!=p_cerrar) {
-            expresion(); if (pieza!=p_cerrar) error(3,18); // esperando ')'
+            expresion(); if (pieza!=p_cerrar) error(3,18); /* esperando ')' */
             g1(lfrf);
           } else {
             g1(lfrm);
@@ -695,27 +700,27 @@ void sentencia() {
         } else {
           g1(lfrm);
         }
-        if (!free_sintax) if (pieza!=p_ptocoma) error(3,9); // esperando ';'
+        if (!free_sintax) if (pieza!=p_ptocoma) error(3,9); /* esperando ';' */
         while (pieza==p_ptocoma || pieza==p_coma) lexico();
         final_sentencia(); grabar_sentencia(); break;
       case p_debug:
         inicio_sentencia();
         g1(ldbg); lexico();
-        if (!free_sintax) if (pieza!=p_ptocoma) error(3,9); // esperando ';'
+        if (!free_sintax) if (pieza!=p_ptocoma) error(3,9); /* esperando ';' */
         while (pieza==p_ptocoma || pieza==p_coma) lexico();
         final_sentencia(); grabar_sentencia();
         break;
       case p_break:
         inicio_sentencia();
-        if (itbreak==0) error(0,65); lexico(); // break fuera de un bucle
-        if (!free_sintax) if (pieza!=p_ptocoma) error(3,9); // esperando ';'
+        if (itbreak==0) error(0,65); lexico(); /* break fuera de un bucle */
+        if (!free_sintax) if (pieza!=p_ptocoma) error(3,9); /* esperando ';' */
         while (pieza==p_ptocoma || pieza==p_coma) lexico();
         g2(ljmp,0); tbreak[itbreak++]=imem-1;
         final_sentencia(); grabar_sentencia(); break;
       case p_continue:
         inicio_sentencia();
-        if (itcont==0) error(0,66); lexico(); // continue fuera de un bucle
-        if (!free_sintax) if (pieza!=p_ptocoma) error(3,9); // esperando ';'
+        if (itcont==0) error(0,66); lexico(); /* continue fuera de un bucle */
+        if (!free_sintax) if (pieza!=p_ptocoma) error(3,9); /* esperando ';' */
         while (pieza==p_ptocoma || pieza==p_coma) lexico();
         g2(ljmp,0); tcont[itcont++]=imem-1;
         final_sentencia(); grabar_sentencia(); break;
@@ -724,7 +729,7 @@ void sentencia() {
         lexico(); g2(lclo,0); im1=imem-1;
         final_sentencia(); grabar_sentencia();
         sentencia();
-        if (pieza!=p_end) error(0,57); lexico(); // esperando END
+        if (pieza!=p_end) error(0,57); lexico(); /* esperando END */
         mem[im1]=imem; break;
       case p_ptocoma:
         lexico(); break;
@@ -738,7 +743,6 @@ void sentencia() {
         error_25=25;
         switch((*_exp).tipo) {
           case ecall: break;
-          //case efunc: break;
           case efext: break;
           case eoper:
             switch((*_exp).token) {
@@ -758,11 +762,11 @@ void sentencia() {
               case p_or_asigchar: case p_xor_asigchar: case p_shr_asigchar: case p_shl_asigchar:
 
               case p_strcpy: case p_strcat: case p_strsub: break;
-              default: error(4,68); break; // expresion sin sentido
+              default: error(4,68); break; /* expresion sin sentido */
             } break;
-          default: error(4,68); // expresion sin sentido
+          default: error(4,68); /* expresion sin sentido */
         }
-        if (!free_sintax) if (pieza!=p_ptocoma) error(3,9); // esperando ';'
+        if (!free_sintax) if (pieza!=p_ptocoma) error(3,9); /* esperando ';' */
         while (pieza==p_ptocoma || pieza==p_coma) lexico();
         g1(lasp);
         final_sentencia(); grabar_sentencia();
@@ -772,29 +776,9 @@ void sentencia() {
 }
 
 
-//-----------------------------------------------------------------------------
-//  Funciones de generación de código
-//-----------------------------------------------------------------------------
-
-// void g1(int op) { mem[imem++]=op; }
-// void g2(int op, int pa) { mem[imem++]=op; mem[imem++]=pa; }
-
-//-----------------------------------------------------------------------------
-//  Optimización peephole de código intermedio EML
-//-----------------------------------------------------------------------------
-
-// *** OJO!!! *** quizá se pueda quitar "dir" y esa comprobación absurda ...
-
-//struct {      // Peephole, "mirilla" de optimizacion
-//  int dir;    // Dirección
-//  int param;  // Indica el número de parametros de la instruccion
-//  int op;     // Opcode
-//} code[16];   // En code[15] debe quedar siempre la última instrucción generada
-
-void gen(int param, int op, int pa);
-void remove_code(int i);
-void delete_code(void);
-void add_code(int dir, int param, int op);
+/*
+ * Funciones de generación de código
+ */
 
 void g1(int op) {
   if (optimizar) gen(0,op,0); else mem[imem++]=op;
@@ -804,11 +788,19 @@ void g2(int op, int pa) {
   if (optimizar) gen(1,op,pa); else { mem[imem++]=op; mem[imem++]=pa; }
 }
 
+/*
+ *  Optimización peephole de código intermedio EML
+ */
+
+void gen(int param, int op, int pa);
+void remove_code(int i);
+void delete_code(void);
+void add_code(int dir, int param, int op);
+
 int optimizado;
 
-void gen(int param, int op, int pa) {
-//  int n;
-
+void gen(int param, int op, int pa) 
+{
   optimizado=0;
 
   switch(op) {
@@ -960,7 +952,7 @@ void gen(int param, int op, int pa) {
       } else if (code[15].op==lcar){
         if (mem[imem-1]==1) remove_code(1);
         else if (mem[imem-1]!=0) {
-          code[15].op=mem[imem-2]=lcardiv; // Un cardiv nunca será "cardiv 0"
+          code[15].op=mem[imem-2]=lcardiv; /* Un cardiv nunca será "cardiv 0" */
           optimizado=1;
         }
       } break;
@@ -1014,10 +1006,9 @@ void add_code(int dir, int param, int op) {
 }
 
 
-//-----------------------------------------------------------------------------
-//  Con el primer token leido guarda el inicio de una sentencia
-//-----------------------------------------------------------------------------
-
+/*
+ * Con el primer token leido guarda el inicio de una sentencia
+ */
 void inicio_sentencia(void)
 {
 	byte * p=ierror-1;
@@ -1029,10 +1020,9 @@ void inicio_sentencia(void)
 	}
 }
 
-//-----------------------------------------------------------------------------
-//  Con el primer token que no es de la sentecia guarda el fin de una sentencia
-//-----------------------------------------------------------------------------
-
+/*
+ * Con el primer token que no es de la sentecia guarda el fin de una sentencia
+ */
 void final_sentencia(void)
 {
 	byte * p=old_ierror_end-1;
@@ -1044,9 +1034,9 @@ void final_sentencia(void)
 	}
 }
 
-//-----------------------------------------------------------------------------
-//  Guarda un registro (inicio,final,linea1,...) en el temporal (linf)
-//-----------------------------------------------------------------------------
+/*
+ * Guarda un registro (inicio,final,linea1,...) en el temporal (linf)
+ */
 
 void grabar_sentencia(void)
 {
@@ -1060,31 +1050,17 @@ void grabar_sentencia(void)
 	}
 }
 
-//-----------------------------------------------------------------------------
-//  Agrega información de depurado al ejecutable
-//-----------------------------------------------------------------------------
+/*
+ * Agrega información de depurado al ejecutable
+ */
 
 void escribe_lin(FILE* f)
 {
 	int b=0;
 	int l;
 	byte* progcomp;
-	
-	/*#ifdef WIN32
-		// Resuelve la ruta del PRG
-		char resolved_path[_MAX_PATH];
-		_fullpath(resolved_path,fichero_prg,_MAX_PATH);
-	#else
-		// Lo mismo pero en Linux
-		char resolved_path[PATH_MAX];	
-		realpath(fichero_prg,resolved_path);
-	#endif
 
-	// Escribe la ruta resuelta
-	fputs(resolved_path,f);
-	fputc(0,f);*/
-
-	// comprimimos el codigo fuente
+	/* comprimimos el codigo fuente */
 	while(prog[b]!=0) b++;
 	progcomp=e_malloc(b*2);
 	l=b*2;
@@ -1093,22 +1069,22 @@ void escribe_lin(FILE* f)
 		fclose(f);
 		errormem();
 	}
-	// escribe el tamaño del codigo descomprimido
+	/* escribe el tamaño del codigo descomprimido */
 	fwrite(&b,1,4,f);
-	// escribe el tamaño del codigo comprimido
+	/* escribe el tamaño del codigo comprimido */
 	fwrite(&l,1,4,f);
-	// escribe el codigo comprimido
+	/* escribe el codigo comprimido */
 	fwrite(progcomp,1,l,f);
 	free(progcomp);
 	
-	// Escribe el tamaño del LIN
+	/* Escribe el tamaño del LIN */
 	b=ftell(linf);
 	#ifdef _DEBUG
 		printf("dbg: TAMANO LIN: %d\n",b);
 	#endif
 	fwrite(&b,1,4,f);
 
-	// Escribe la información LIN (offset de cada sentencia en el prg y en el bytecode)
+	/* Escribe la información LIN (offset de cada sentencia en el prg y en el bytecode) */
 	fseek(linf,0,SEEK_SET);
 	while((b=fgetc(linf))!=EOF)
 		fputc(b,f);
@@ -1117,13 +1093,14 @@ void escribe_lin(FILE* f)
 }		
 
 
-// Escribe información sobre los objetos
-
+/*
+ * Escribe información sobre los objetos
+ */
 void escribe_dbg(FILE* f)
 {
 	int n;
 	
-	// Datos comunes de cada objeto
+	/* Datos comunes de cada objeto */
 	struct {
 		int tipo;
 		int nombre;
@@ -1132,7 +1109,7 @@ void escribe_dbg(FILE* f)
 		int v0,v1,v2,v3,v4,v5;
 	} ob;
 	
-	// Cabecera de sección DBG
+	/* Cabecera de sección DBG */
 	fwrite(&num_obj,4,1,f);
 	fwrite(&num_obj_predefinidos,4,1,f);
 	n=(int)&obj[0];
@@ -1140,10 +1117,10 @@ void escribe_dbg(FILE* f)
 	n=sizeof(struct objeto);
 	fwrite(&n,4,1,f);
 	
-	// Escribe los datos de cada objeto
+	/* Escribe los datos de cada objeto */
 	for (n=0;n<num_obj;n++) {
 		ob.tipo=(int)obj[n].tipo;
-		ob.nombre=(int)obj[n].name-(int)vnom; // offset que apunta al nombre en vnom
+		ob.nombre=(int)obj[n].name-(int)vnom; /* offset que apunta al nombre en vnom */
 		ob.bloque=(int)obj[n].bloque;
 		ob.miembro=(int)obj[n].member;
 		ob.v0=(int)obj[n].sglo.offset;
@@ -1153,14 +1130,15 @@ void escribe_dbg(FILE* f)
 		ob.v4=(int)obj[n].sglo.items2;
 		ob.v5=(int)obj[n].sglo.items3;
 		if (obj[n].tipo==tpsgl || obj[n].tipo==tpslo) ob.v1=(ob.v1-(int)&obj[0])/sizeof(struct objeto);
-		// OJO ! que no se pueden añadir objetos aquí (ver uso de &obj[0] y sizeof(struct objeto))
+
+		/* OJO ! que no se pueden añadir objetos aquí (ver uso de &obj[0] y sizeof(struct objeto)) */
 		fwrite(&ob,sizeof(ob),1,f);
 	}
 	
-	// Escribe el tamaño del vector de nombres
+	/* Escribe el tamaño del vector de nombres */
 	n=(int)ivnom.b-(int)vnom;
 	fwrite(&n,4,1,f);
 	
-	// Escribe el vector de nombres
+	/* Escribe el vector de nombres */
 	fwrite(vnom,1,n,f);
 }
