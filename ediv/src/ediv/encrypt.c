@@ -1,7 +1,7 @@
 /* 
  * eDiv Compiler
- * Copyleft (C) 2000-2002 Sion Entertainment
- * http://www.sion-e.com
+ * Copyright (C) 2000-2002 Sion Entertainment
+ * http://www.sionhq.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,12 +29,12 @@
 #include <zlib.h>
 #include "encrypt.h"
 
-#include "shared.h" // Contiene la clave de cifrado
+#include "shared.h" /* Contiene la clave de cifrado */
 
 union {
 	byte b[128];
 	int d[32];
-} seed_coder; // Seed aleatorio (127 bytes + PTR)
+} seed_coder; /* Seed aleatorio (127 bytes + PTR) */
 
 byte rndb(void) 
 {
@@ -84,9 +84,9 @@ void init_rnd_coder(int n, char * clave)
 		rndb();
 }
 
-//อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
-//  Funciขn de encriptaciขn/desencriptaciขn
-//อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
+/*
+ *  Funciขn de encriptaciขn/desencriptaciขn
+ */
 
 void coder(byte * ptr, int len, char * clave) 
 {
@@ -164,8 +164,7 @@ void _encriptar(int encode, char * fichero, char * clave)
 	free(ptr); return;
   }
 
-  // Si todo ha ido bien ...
-
+  /* Si todo ha ido bien ... */
   fclose(f);
   free(ptr);
 
@@ -214,8 +213,7 @@ void _comprimir(int encode, char *fichero) {
 			return;
 		}
 
-		// Si no se gana espacio, se deja el fichero sin comprimir
-		
+		/* Si no se gana espacio, se deja el fichero sin comprimir */
 		if (size2>=size-12) { 
 			free(ptr_dest); 
 			free(ptr); 
@@ -281,8 +279,7 @@ void _comprimir(int encode, char *fichero) {
 		return;
 	}
 
-  // Si todo ha ido bien ...
-	
+  /* Si todo ha ido bien ... */
 	fclose(f);
 	free(ptr_dest);
 	remove("temp.ZX!");
