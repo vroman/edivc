@@ -326,6 +326,7 @@ void sintactico(void)
 	hacer_strfix=1;
 	optimizar=1;*/
 
+	printf("** CHECKPOINT 1\n");
 	if(case_sensitive) {
 		memcpy(lower+129,"üיגהאוחךכטןמלהויזזפצעûשÿצü¢£¥בםףת",35);
 		memcpy(lower+'A',"ABCDEFGHIJKLMNOPQRSTUVWXYZ",26);
@@ -435,7 +436,7 @@ void sintactico(void)
 
 	//if ((lins=fopen(cWork,"wb"))==NULL) c_error(0,0);	// cWork="system\exec.ins"
 
-	inicio_sentencia(); lexico();
+	/**/inicio_sentencia();/**/	lexico();
 	if (pieza!=p_id) error(1,45);	// esperando el nombre del programa
 	
 	ob=o;
@@ -444,6 +445,7 @@ void sintactico(void)
 	(*ob).proc.bloque=bloque_actual=ob;
 	(*ob).proc.offset=0;
 	(*ob).proc.num_par=0;
+	nombre_program=(*ob).name;
 	lexico();
 	if (!free_sintax) if (pieza!=p_ptocoma) error(3,9); // esperando ';'
 	while (pieza==p_ptocoma || pieza==p_coma) lexico();

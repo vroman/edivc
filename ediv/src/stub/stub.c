@@ -280,6 +280,7 @@ int main(int argc, char* argv[])
 
 
 				while (1) {
+					char noevent;
 /*
 					for ( i = 0 ; i < 256 ; i ++ )
 					{
@@ -297,13 +298,19 @@ int main(int argc, char* argv[])
 						}
 					}
 					*/
-					while ( SDL_PollEvent(&event[0] ) )
+					//assert(0);
+					noevent=0;
+					while ( SDL_PollEvent(&event[0] ) && !noevent )
 					{
 						switch( event[0].type )
 						{
 						case SDL_QUIT:
-							exit(0) ;
+							assert(0);
+							stub_quit(0) ;
 							break ;
+						case SDL_NOEVENT:
+							noevent=1;
+							break;
 						}
 					}
 
@@ -341,7 +348,7 @@ int main(int argc, char* argv[])
 					//SDL_Flip(screen);
 				}
 				
-				exit(0); // fin del programa
+				stub_quit(0); // fin del programa
 				
 			} else {
 				close(f);

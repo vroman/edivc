@@ -1,3 +1,21 @@
+26/9/2002
+---------
+ * Algunos bugfixes y cambios menores. CicTec y yo andamos tras la pista de
+   algunos bugs:
+   - En Windows 98, ediv peta cuando compila algunos programas que no tienen
+     compiler_options y no tienen una línea en blanco (o de comentarios)
+     antes del program. Al parecer el fallo está en inicio_sentencia().
+   - Al pasar de 512 procesos y cerrar el juego, se produce un error. Aparen-
+     temente salta al llegar a SDL_Quit, así que he deducido que puede ser
+     porque no se liberan los recursos (surfaces, etc) antes de salir. Para
+     permitir esto, añadiré un entrypoint "quit" que será llamado desde
+     stub_quit (lo dejo para mañana). Aunque, curiosamente, este fallo no se
+     produce si no usamos procesos con más de un parámetro.
+   - Al llegar a x procesos (600, 900...) el programa se queda bloqueado.
+   (Er_Makina)
+ * Para mañana, haré que el título por defecto de la ventana sea el nombre
+   del programa indicado en program. (Er_Makina)
+
 25/9/2002
 ---------
  * Añadido un control para evitar que haya más de "max_process" procesos. Si

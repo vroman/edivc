@@ -7,7 +7,7 @@
 #include <unistd.h>
 #endif
 //#include <zlib.h>
-#include <assert.h>
+//#include <assert.h>
 #include "export.h"
 #include <SDL/SDL.h>
 #include "graphics.h"

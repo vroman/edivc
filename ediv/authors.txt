@@ -5,12 +5,13 @@ Programadores
 - Riseven (riseven@hotmail.com)
 - |RooT| (alfaher@terra.es)
 - Daijo (daijo@softhome.net)
+- CicTec (francescoamato5@tin.it)
 
 
 Traductores
 -----------
 
-- CicTec (italiano) (francesco.amato4@tin.it)
+- CicTec (italiano) (francescoamato5@tin.it)
 - tareko (português) (miauz@clix.pt)
 - Er_Makina (inglés) (ermakina@ya.com)
 - BenKo (català) (benkojedi@hotmail.com)
@@ -20,6 +21,7 @@ Traductores
 Betatesters
 -----------
 
+- CicTec (francescoamato5@tin.it)
 - Matías Iacono (gmakers@yahoo.com)
 - EHSN (EHSN@softhome.net)
 - chinodiv (zacsoft@hotmail.com)
@@ -32,7 +34,6 @@ Betatesters
 - BenKo (benkojedi@hotmail.com)
 - Ferminho
 - Bb_LaRiOs (daniel@danielesteban.com)
-- CicTec (francesco.amato@tin.it)
 - Satv
 - Joyal
 - SHeLe

@@ -271,3 +271,5 @@ rellena el fondo con un color
 Incluir Psycle (tracker musical) en el IDE: http://sourceforge.net/projects/psycle/
 
 punteros a estructuras genericos (que no haga falta indicarle a qué tipo de estructura apuntan)
+
+poder cargar fuentes de letra directamente a partir de .map

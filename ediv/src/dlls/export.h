@@ -296,6 +296,7 @@ void frame(FUNCTION_PARAMS);
 void trace(int imem, char* nombreprg, int* lin, void* dbg);
 void debug(int imem, char* nombreprg, int* lin, void* dbg);
 void first_load(FUNCTION_PARAMS) ;
+void quit(int dont_quit);
 
 //////////////////////////////
 

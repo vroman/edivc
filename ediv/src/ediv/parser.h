@@ -24,6 +24,8 @@
 #include "main.h"
 
 
+byte* nombre_program;	// nombre del programa, para guardarlo en el exe
+
 /* A continuacion viene el asunto de los objetos. Para el que no se haya estudiado a fondo
  * el DIVC.CPP (ejem) diré que un objeto es cada una de las variables, constantes, tipos
  * de proceso (declarados con PROCESS), tipos de funcion (declarados con FUNCTION), funciones

@@ -1,9 +1,9 @@
 yo me lio con estos ficheros todo, asi k pongo mi propia seccion todo ( Riseven ) xDD
-- cambiar el trasparency (255-0) a (0-255)
-- valores por defecto de las variables locales
-- indexado de estructuras
-- variables privadas
-- nuevo valor de flags ( +8 -> modo 50% / Trasparency )
+- cambiar el trasparency (255-0) a (0-255) <-- hecho
+- valores por defecto de las variables locales <-- hecho
+- indexado de estructuras <-- hecho
+- variables privadas <-- ¿? hecho, no?
+- nuevo valor de flags ( +8 -> modo 50% / Trasparency ) <-- hecho
 
 
 Cosas por hacer cuanto antes:

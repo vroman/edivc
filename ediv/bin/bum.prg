@@ -1,11 +1,14 @@
+compiler_options _max_process=2000;
 program bum;
 private
     numprocs;
 
 begin
     rand_seed(343);
-    load_bmp("hola.bmp");
+//    load_bmp("hola.bmp");
+    load_fpg("test.fpg");
     load_fnt("system.fnt");
+    put_screen(0,1);
     write_int(1,0,0,0,&numprocs);
     define_region(1,0,10,320,190);
     loop
@@ -17,7 +20,7 @@ end
 
 process cosa()
 begin
-    graph=1000;
+    graph=100;
 
     x=rand(0,319);
     y=rand(0,199);

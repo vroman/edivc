@@ -64,7 +64,7 @@ void error(int num, ...)
 		printf("%s\n",mensaje);
 	#endif
 
-	exit(num);
+	stub_quit(num);
 }
 
 
@@ -79,8 +79,7 @@ void critical_error(int num, ...)
 {
 	va_list opparam;
 	char mensaje[256];
-
-
+	
 	va_start(opparam,num);
 	sprintf(mensaje,translate(0), num);
 	vsprintf(mensaje,translate_critical_error(num),opparam);
@@ -91,6 +90,6 @@ void critical_error(int num, ...)
 		printf("%s\n",mensaje);
 	#endif
 
-	exit(num);
+	stub_quit(num);
 }
 

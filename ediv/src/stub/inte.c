@@ -166,7 +166,7 @@ int proceso( int num )
 	//printf("num_proc: %d\n",num);
 
 	
-	if(num==972) assert(0);
+	//if(num==972) assert(0);
 
 	while( retcode == 0 )
 	{
