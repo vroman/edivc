@@ -77,7 +77,7 @@ struct{
 
 int last_draw ;
 
-struct{
+struct _blits {
 	SDL_Surface *src ;
 	SDL_Rect srcrect ;
 	SDL_Surface *dst ;
@@ -1169,6 +1169,17 @@ int eDIV_FADE(FUNCTION_PARAMS2)
 FILE * fichero ;
 FILE * memo ;
 
+/*
+ * Función para usar con qsort() para ordenar los blits por su Z
+ */
+
+int ordena_por_z(const void* a, const void* b)
+{
+	struct _blits* aa=(struct _blits*)a;
+	struct _blits* bb=(struct _blits*)b;
+	return (aa->z>bb->z)?-1:((aa->z<bb->z)?1:0);
+}
+
 void frame(FUNCTION_PARAMS)
 {
 	static int una_vez = 1 ;
@@ -1193,7 +1204,10 @@ void frame(FUNCTION_PARAMS)
 	//SDL_FillRect( screen , NULL , 0 ) ;
 	SDL_BlitSurface( fondo , NULL , screen , NULL ) ;
 
-	// Draws
+	/*
+	 * Draws
+	 */
+
 	z = global("draw_z");
 	smooth = global("smooth");
 	for ( i = 0 ; i <= last_draw ; i++ )
@@ -1216,11 +1230,15 @@ void frame(FUNCTION_PARAMS)
 					dstrect.w = 0 ; // Se ignora
 					dstrect.h = 0 ; // Se ignora
 					//Dibuja( files[f].mapa[g].Surface , srcrect , dstrect , z , 0 ) ; 
-					Dibuja( draws[i].Surface , srcrect , dstrect , z , draws[i].t,0,0) ; 
+					Dibuja( draws[i].Surface , srcrect , dstrect , z , draws[i].t,100,0) ; 
 				}
 			}
 		}
 	}
+
+	/*
+	 * Procesos
+	 */
 
 	for ( i = 0 ; i < *fp->num_procs ; i++ )
 	{
@@ -1305,12 +1323,17 @@ void frame(FUNCTION_PARAMS)
 	//if ( last_map >= 2 )
 	//	Mapa[2]->flags |= SDL_SRCALPHA ;
 
-	// Volcamos la pila de bliteos
+	/*
+	 * Volcamos la pila de bliteos
+	 */
+
+	qsort(blits,last_blit+1,sizeof(struct _blits),ordena_por_z);
+
 	for ( i = 0 ; i <= last_blit ; i++ )
 	{
-		SDL_SetAlpha( orden[i]->src, SDL_SRCALPHA , orden[i]->trans ) ;
-		SDL_BlitSurface( orden[i]->src , &orden[i]->srcrect , screen , &orden[i]->dstrect ) ;
-	    SDL_FreeSurface (orden[i]->src);
+		SDL_SetAlpha( blits[i].src, SDL_SRCALPHA , blits[i].trans ) ;
+		SDL_BlitSurface( blits[i].src , &blits[i].srcrect , screen , &blits[i].dstrect ) ;
+	    SDL_FreeSurface (blits[i].src);
 	}
 	last_blit = -1 ;
 
@@ -1371,7 +1394,7 @@ void first_load(FUNCTION_PARAMS2)
 	define_region = 1 ;
 
 	SDL_WM_SetCaption(fp->nombre_program, NULL);
-//	SDL_ShowCursor(SDL_DISABLE);
+	SDL_ShowCursor(SDL_DISABLE);
 
 	//prueba = SDL_LoadBMP("prueba.bmp" );
 
@@ -1421,7 +1444,7 @@ int Dibuja(SDL_Surface *src , SDL_Rect srcrect , SDL_Rect dstrect , int z , int 
 
 
 	// Buscamos su posicion
-	for ( i = 0 ; i < last_blit ; )
+/*	for ( i = 0 ; i < last_blit ; )
 	{
 		if ( orden[i]->z < z ) 
 		{
@@ -1433,7 +1456,7 @@ int Dibuja(SDL_Surface *src , SDL_Rect srcrect , SDL_Rect dstrect , int z , int 
 		}
 		i++ ;
 	}
-	orden[i] = &blits[last_blit] ;
+	orden[i] = &blits[last_blit] ;*/
 
 
 

@@ -570,7 +570,7 @@ void frame(FUNCTION_PARAMS)
 		dstrect.h=mapamouse->h;
 
 		// TODO: añadir chequeo de error si no existe file o mapa
-		fp->Dibuja(mapamouse,srcrect,dstrect,/*fp->mem[_mouse+4]*/0,255,0,0);
+		fp->Dibuja(mapamouse,srcrect,dstrect,fp->mem[_mouse+4],255,0,0);
 	}
 
 	/* FIN DE MOUSE */
