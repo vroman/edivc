@@ -18,8 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef __LISTADOS_H
-#define __LISTADOS_H
+#ifndef __EDIV_LISTADOS_H_
+#define __EDIV_LISTADOS_H_
 
 void listado_objetos (void);
 void listado_ensamblador (void);

@@ -757,8 +757,8 @@ char* translate(int id_cadena)
 	case 0:	/* español */
 		{
 			static char* msg[] = {
-				/* 0	*/ " **** Compilador eDIV " VERSION " ****\nCopyleft (c) 2000-2002 Sion, Ltd.\nhttp://www.edivcentral.com\n",
-				/* 1	*/ "ATENCION: Esta version de eDIV esta inacabada.\nPor favor informe de cualquier bug a: bugs@edivcentral.com\n",
+				/* 0	*/ " **** Compilador eDIV " VERSION " ****\nCopyleft (c) 2000-2002 Sion, Ltd.\nhttp://ediv.divsite.net\n",
+				/* 1	*/ "ATENCION: Esta version de eDIV esta inacabada.\nPor favor informe de cualquier bug a: ediv@divsite.net\n",
 				/* 2	*/ "Ayuda de opciones de comando:\n\n",
 				/* 3	*/ "%s [opciones] archivo.prg [ejecutable]\n\n",
 				/* 4	*/ "Lista de opciones:\n",
@@ -825,8 +825,8 @@ char* translate(int id_cadena)
 	case 1:	/* italiano */
 		{
 			static char* msg[] = {
-				/* 0	*/ " **** Compilatore eDIV " VERSION " ****\nCopyleft (c) 2000-2002 Sion, Ltd.\nhttp://www.edivcentral.com\n",
-				/* 1	*/ "ATTENZIONE: Questa versione di eDIV è incompleta.\nPer favore informa su qualunque bug a: bugs@edivcentral.com\n",
+				/* 0	*/ " **** Compilatore eDIV " VERSION " ****\nCopyleft (c) 2000-2002 Sion, Ltd.\nhttp://ediv.divsite.net\n",
+				/* 1	*/ "ATTENZIONE: Questa versione di eDIV è incompleta.\nPer favore informa su qualunque bug a: ediv@divsite.net\n",
 				/* 2	*/ "Guida opzioni di comando:\n\n",
 				/* 3	*/ "%s [opzioni] archivio.prg [eseguibile]\n\n",
 				/* 4	*/ "Lista opzioni:\n",
@@ -893,8 +893,8 @@ char* translate(int id_cadena)
 	case 2:	/* portugués */
 		{
 			static char* msg[] = {
-				/* 0	*/ " **** Compilador eDIV " VERSION " ****\nCopyleft (c) 2000-2002 Sion, Ltd.\nhttp://www.edivcentral.com\n",
-				/* 1    */ "ATENÇÃO: Esta versão de eDIV está inacabada.\nPor favor informe-nos de qualquer bug a: bugs@edivcentral.com\n",
+				/* 0	*/ " **** Compilador eDIV " VERSION " ****\nCopyleft (c) 2000-2002 Sion, Ltd.\nhttp://ediv.divsite.net\n",
+				/* 1    */ "ATENÇÃO: Esta versão de eDIV está inacabada.\nPor favor informe-nos de qualquer bug a: ediv@divsite.net\n",
 				/* 2    */ "Ajuda de opções de comando:\n\n",
 				/* 3    */ "%s [opções] arquivo.prg [executavel]\n\n",
 				/* 4    */ "Lista de opções:\n",
@@ -963,8 +963,8 @@ char* translate(int id_cadena)
 	case 3:	/* inglés */
 		{
 			static char* msg[] = {
-				/* 0	*/ " **** eDIV Compiler " VERSION " ****\nCopyleft (c) 2000-2002Sion, Ltd.\nhttp://www.edivcentral.com\n",
-				/* 1	*/ "WARNING: This version of eDIV is unfinished.\nPlease report any bug to: bugs@edivcentral.com\n",
+				/* 0	*/ " **** eDIV Compiler " VERSION " ****\nCopyleft (c) 2000-2002Sion, Ltd.\nhttp://ediv.divsite.net\n",
+				/* 1	*/ "WARNING: This version of eDIV is unfinished.\nPlease report any bug to: ediv@divsite.net\n",
 				/* 2	*/ "Command line help:\n\n",
 				/* 3	*/ "%s [options] file.prg [executable]\n\n",
 				/* 4	*/ "Options list:\n",
@@ -1031,8 +1031,8 @@ char* translate(int id_cadena)
 	case 4: /* catalán */
 		{
 			static char* msg[] = {
-				/* 0	*/ " **** Compilador eDIV " VERSION " ****\nCopyleft (c) 2000-2002 Sion, Ltd.\nhttp://www.edivcentral.com\n",
-				/* 1	*/ "ATENCIÓ: Aquesta versió d' eDIV està sense acabar.\nSi us plau, informi de qualsevol bug a: bugs@edivcentral.com\n",
+				/* 0	*/ " **** Compilador eDIV " VERSION " ****\nCopyleft (c) 2000-2002 Sion, Ltd.\nhttp://ediv.divsite.net\n",
+				/* 1	*/ "ATENCIÓ: Aquesta versió d' eDIV està sense acabar.\nSi us plau, informi de qualsevol bug a: ediv@divsite.net\n",
 				/* 2	*/ "Ajuda d' opcions de comand:\n\n",
 				/* 3	*/ "%s [opcions] arxiu.prg [executable]\n\n",
 				/* 4	*/ "Llista d' opcions:\n",
@@ -1098,8 +1098,8 @@ char* translate(int id_cadena)
 	case 5: /* euskera */
 		{
 			static char* msg[] = {
-				/* 0	*/ " **** eDIV konpiladorea " VERSION " ****\nCopyleft (c) 2000-2002 Sion, Ltd.\nhttp://www.edivcentral.com\n",
-				/* 1	*/ "KONTUZ: eDIV bertsio hau ez dago bukaturik.\nMesedez eman berri edozein akatzi buruz helbide honetan: bugs@edivcentral.com\n",
+				/* 0	*/ " **** eDIV konpiladorea " VERSION " ****\nCopyleft (c) 2000-2002 Sion, Ltd.\nhttp://ediv.divsite.net\n",
+				/* 1	*/ "KONTUZ: eDIV bertsio hau ez dago bukaturik.\nMesedez eman berri edozein akatzi buruz helbide honetan: ediv@divsite.net\n",
 				/* 2	*/ "Komandoei buruzko laguntza:\n\n",
 				/* 3	*/ "%s [aukerak] archivo.prg [exekutagarria]\n\n",
 				/* 4	*/ "Aukeren zerrenda:\n",

@@ -18,15 +18,16 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef __PARSER_H
-#define __PARSER_H
+#ifndef __EDIV_PARSER_H_
+#define __EDIV_PARSER_H_
 
 #include "main.h"
 
 
-byte* nombre_program;	// nombre del programa, para guardarlo en el exe
+byte* nombre_program;	/* nombre del programa, para guardarlo en el exe */
 
-/* A continuacion viene el asunto de los objetos. Para el que no se haya estudiado a fondo
+/*
+ * A continuacion viene el asunto de los objetos. Para el que no se haya estudiado a fondo
  * el DIVC.CPP (ejem) diré que un objeto es cada una de las variables, constantes, tipos
  * de proceso (declarados con PROCESS), tipos de funcion (declarados con FUNCTION), funciones
  * de DLL, estructuras, etc. etc. etc.
@@ -34,152 +35,144 @@ byte* nombre_program;	// nombre del programa, para guardarlo en el exe
  * y familiarizaros con las abreviaturas... ;)
  */
 
-#define max_obj 4096    //Limite maximo de objetos del compilador
-#define long_med_id 16  //Longitud media de los identificadores (+4+4+1)
+#define max_obj 4096    /* Limite maximo de objetos del compilador        */
+#define long_med_id 16  /* Longitud media de los identificadores (+4+4+1) */
 
-//-----------------------------------------------------------------------------
 
-// Tabla de objetos - - - - - - - - - - - - - - - - - *iobj primer objeto libre
+/* Tabla de objetos - - - - - - - - - - - - - - - - - *iobj primer objeto libre */
 
 struct objeto {
-  byte tipo;    // Tipo de objeto
-  byte usado;   // Indica si el objeto ha sido usado antes de definirse
-  byte * name;  // Puntero al nombre, para algún listado
-  byte * ierror;// Puntero al código para determinar la columna si es necesario
-  int linea;    // Línea de código fuente, para informar del error
-  int param;    // Indica que es un objeto declarado en los parámetros
-  int dll;	// En qué dll se declara el objeto, -1 = pertenece al prg
-  struct objeto * anterior; // Anterior objeto de igual nombre
-  struct objeto * bloque;   // Bloque de este proceso (0-global/local N-private)
-  struct objeto * member;   // Indica a que struct pertenece (0-n/a)
+  byte tipo;    /* Tipo de objeto                                                */
+  byte usado;   /* Indica si el objeto ha sido usado antes de definirse          */
+  byte * name;  /* Puntero al nombre, para algún listado                         */
+  byte * ierror;/* Puntero al código para determinar la columna si es necesario  */
+  int linea;    /* Línea de código fuente, para informar del error               */
+  int param;    /* Indica que es un objeto declarado en los parámetros           */
+  int dll;	    /* En qué dll se declara el objeto, -1 = pertenece al prg        */
+  struct objeto * anterior; /* Anterior objeto de igual nombre                   */
+  struct objeto * bloque;   /* Bloque de este proceso (0-global/local N-private) */
+  struct objeto * member;   /* Indica a que struct pertenece (0-n/a)             */
   union {
-    struct {                                            // Constante
+    struct {                                            /* Constante                 */ 
       int valor;
-      int literal;                                      // 0-no, 1-si
+      int literal;                                      /* 0-no, 1-si                */
     } cons;
-    struct {                                            // Variable global
+    struct {                                            /* Variable global           */
       int offset;
-    } vglo;
-    struct {                                            // Tabla global
+    } vglo; 
+    struct {                                            /* Tabla global              */
       int offset;
-      int totalen;                                      // numero total de elementos
-      int len1,len2,len3;                               // len2/3==-1 si n/a
+      int totalen;                                      /* numero total de elementos */
+      int len1,len2,len3;                               /* len2/3==-1 si n/a         */
     } tglo,pigl;
-    struct {                                            // Byte global
+    struct {                                            /* Byte global               */
       int offset;
-      int totalen;                                      // numero total de elementos
-      int len1,len2,len3;                               // len2/3==-1 si n/a
+      int totalen;                                      /* numero total de elementos */
+      int len1,len2,len3;                               /* len2/3==-1 si n/a         */
     } bglo,pbgl;
-    struct {                                            // Word global
+    struct {                                            /* Word global               */
       int offset;
-      int totalen;                                      // numero total de elementos
-      int len1,len2,len3;                               // len2/3==-1 si n/a
+      int totalen;                                      /* numero total de elementos */
+      int len1,len2,len3;                               /* len2/3==-1 si n/a         */
     } wglo,pwgl;
-    struct {                                            // Cadena (string) global
+    struct {                                            /* Cadena (string) global    */
       int offset;
-      int totalen;                                      // numero total de elementos
+      int totalen;                                      /* numero total de elementos */
     } cglo,pcgl;
-    struct {                                            // Struct
+    struct {                                            /* Struct                    */
       int offset;
-      int len_item;                                     // Número de campos
-      int totalitems;                                   // Numero total de registros
-      int items1,items2,items3;                         // -1 si n/a
+      int len_item;                                     /* Número de campos          */
+      int totalitems;                                   /* Numero total de registros */
+      int items1,items2,items3;                         /* -1 si n/a                 */
     } sglo,sloc;
-    struct {                                            // Struct pointer
+    struct {                                            /* Struct pointer            */
       int offset;
-      struct objeto * ostruct;                          // Puntero al struct
-      int totalitems;                                   // Número total de registros
-      int items1,items2,items3;                         // -1 si n/a
+      struct objeto * ostruct;                          /* Puntero al struct         */
+      int totalitems;                                   /* Número total de registros */
+      int items1,items2,items3;                         /* -1 si n/a                 */
     } psgl,pslo;
-    struct {                                            // Variable local
+    struct {                                            /* Variable local            */
       int offset;
     } vloc;
-    struct {                                            // Tabla local
+    struct {                                            /* Tabla local               */
       int offset;
       int totalen;
       int len1,len2,len3;
     } tloc,pilo;
-    struct {                                            // Byte local
+    struct {                                            /* Byte local                */
       int offset;
-      int totalen;                                      // numero total de elementos
-      int len1,len2,len3;                               // len2/3==-1 si n/a
+      int totalen;                                      /* numero total de elementos */
+      int len1,len2,len3;                               /* len2/3==-1 si n/a         */
     } bloc,pblo;
-    struct {                                            // Word local
+    struct {                                            /* Word local                */
       int offset;
-      int totalen;                                      // numero total de elementos
-      int len1,len2,len3;                               // len2/3==-1 si n/a
+      int totalen;                                      /* numero total de elementos */
+      int len1,len2,len3;                               /* len2/3==-1 si n/a         */
     } wloc,pwlo;
-    struct {                                            // Cadena (string) local
+    struct {                                            /* Cadena (string) local     */
       int offset;
-      int totalen;                                      // numero total de elementos
+      int totalen;                                      /* numero total de elementos */
     } cloc,pclo;
-    struct {                                            // Proceso
+    struct {                                            /* Proceso                   */
       struct objeto * bloque;
       int offset;
-      int num_par;										// Número de parámetros
+      int num_par;										/* Número de parámetros      */
     } proc;
 
-	  // qsort requiere como parametros un nombre de estructura y un campo
-      // Ya le buscaremos una solución (p.ej. una función complementaria a EDIV_Export)
+	  /*
+	   * qsort requiere como parametros un nombre de estructura y un campo
+       * Ya le buscaremos una solución (p.ej. una función complementaria a EDIV_Export)
+	   */
 
-    struct {                                            // Funcion externa (DLL)
+    struct {                                            /* Funcion externa (DLL)     */
       int codigo;
       int num_par;
     } fext;
   };
 } obj[max_obj], * iobj; // - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-//-----------------------------------------------------------------------------
 
-#define tnone   0       // Tipos de objetos en obj[]
-#define tcons   1		// Constantes
-#define tvglo   2		// Int global
-#define ttglo   3		// Tabla int global
-#define tcglo   4		// Cadena global
-#define tvloc   5		// Locales
+#define tnone   0       /* Tipos de objetos en obj[]                      */
+#define tcons   1		/* Constantes                                     */
+#define tvglo   2		/* Int global                                     */
+#define ttglo   3		/* Tabla int global                               */
+#define tcglo   4		/* Cadena global                                  */
+#define tvloc   5		/* Locales                                        */
 #define ttloc   6
 #define tcloc   7
-#define tproc   8		// Proceso
+#define tproc   8		/* Proceso                                        */
 #define tfunc   9
-#define tsglo   10		// Structs
+#define tsglo   10		/* Structs                                        */
 #define tsloc   11
-#define tfext   12      // Función de una librer¡a externa
-
-#define tbglo   13      // Byte global
-#define twglo   14		// Word global
-#define tbloc   15		// Byte local
-#define twloc   16		// Word local
-
-#define tpigl   17      // Puntero a ints global (un ttglo direccionable)
-#define tpilo   18      // Puntero a ints local (idem)
-
-#define tpwgl   19      // Punteros a word
+#define tfext   12      /* Función de una librer¡a externa                */
+#define tbglo   13      /* Byte global                                    */
+#define twglo   14		/* Word global                                    */
+#define tbloc   15		/* Byte local                                     */
+#define twloc   16		/* Word local                                     */
+#define tpigl   17      /* Puntero a ints global (un ttglo direccionable) */
+#define tpilo   18      /* Puntero a ints local (idem)                    */
+#define tpwgl   19      /* Punteros a word                                */
 #define tpwlo   20
-#define tpbgl   21      // Punteros a byte
+#define tpbgl   21      /* Punteros a byte                                */
 #define tpblo   22
-
-#define tpcgl   23      // Punteros a string
+#define tpcgl   23      /* Punteros a string                              */
 #define tpclo   24
-#define tpsgl   25      // Punteros a struct
+#define tpsgl   25      /* Punteros a struct                              */
 #define tpslo   26
 
-//-----------------------------------------------------------------------------
-
-byte * vnom;			// Vector de nombres (cad_hash:int, pieza (o iobj):int, asciiz)
+byte * vnom;			/* Vector de nombres (cad_hash:int, pieza (o iobj):int, asciiz) */
 
 union {
 	byte *b;
 	byte **p;
 } ivnom;
 
-byte * inicio_objetos;	// Para el crear listado de la tabla de objetos
-
-byte * vhash[256];		// Punteros al vector de nombres;
-
-//-----------------------------------------------------------------------------
+byte * inicio_objetos;	/* Para el crear listado de la tabla de objetos */
+byte * vhash[256];		/* Punteros al vector de nombres;               */
 
 
-/* Ahora viene todo lo referente al parser en si, es decir, al analizador léxico y sintáctico.
+/*
+ * Ahora viene todo lo referente al parser en si, es decir, al analizador léxico y sintáctico.
  * También se incluye aquí al evaluador de expresiones (por cierto, usa notación polaca xD)
  * El parser de DIV es realmente bueno, y además muy personalizable. Que yo sepa, sólo existe
  * un bug en el evaluador de expresiones, al parecer los operadores lógicos no funcionan de
@@ -188,28 +181,26 @@ byte * vhash[256];		// Punteros al vector de nombres;
  * al listado EML ;)
  */
 
-#define max_nodos 128   //Máximo número de nodos del léxico para símbolos
+#define max_nodos 128   /* Máximo número de nodos del léxico para símbolos */
 
-#define cr 13           //Retorno de carro
-#define lf 10           //Salto de linea
-#define tab 9           //Tabulación
+#define cr 13           /* Retorno de carro */
+#define lf 10           /* Salto de linea   */
+#define tab 9           /* Tabulación       */
 
-//Valores de lex_case, si no son punteros a lex_simb
-#define l_err 0         //Caracter desconocido
-#define l_cr  1         //Fin de linea (l_err Carácter no esperado)
-#define l_id  2         //Identificador o palabra reservada
-#define l_spc 3         //Espacios y tabulaciones
-#define l_lit 4         //Literal
-#define l_num 5         //Constante numérica
-#define l_eof 6			//Fin de fichero
+/* Valores de lex_case, si no son punteros a lex_simb */
+#define l_err 0         /* Caracter desconocido                      */
+#define l_cr  1         /* Fin de linea (l_err Carácter no esperado) */
+#define l_id  2         /* Identificador o palabra reservada         */
+#define l_spc 3         /* Espacios y tabulaciones                   */
+#define l_lit 4         /* Literal                                   */
+#define l_num 5         /* Constante numérica                        */
+#define l_eof 6			/* Fin de fichero                            */
 
 
-//-----------------------------------------------------------------------------
-//      Valores sintácticos o tokens (pieza)
-//-----------------------------------------------------------------------------
-
-#define p_ultima        0x00 //Fin de fichero <EOF>
-
+/*
+ * Valores sintácticos o tokens (pieza)
+ */
+#define p_ultima        0x00 /* Fin de fichero <EOF> */
 #define p_program       0x01
 #define p_const         0x02
 #define p_global        0x03
@@ -219,8 +210,8 @@ byte * vhash[256];		// Punteros al vector de nombres;
 #define p_process       0x07
 #define p_private       0x08
 #define p_struct        0x09
-#define p_import        0x0A // sólo para mostrar el warning de que ya no se usa
-#define p_setup_program 0x0B // idem
+#define p_import        0x0A /* sólo para mostrar el warning de que ya no se usa */
+#define p_setup_program 0x0B /* idem                                             */
 
 #define p_string        0x0C
 #define p_byte          0x0D
@@ -230,9 +221,9 @@ byte * vhash[256];		// Punteros al vector de nombres;
 #define p_compiler_options 0x10
 #define p_function      0x11
 
-#define p_until         0x15 // antes 0x16
-#define p_else          0x16 // antes 0x17
-#define p_elseif		0x17 // NUEVO!
+#define p_until         0x15 /* antes 0x16 */
+#define p_else          0x16 /* antes 0x17 */
+#define p_elseif		0x17 /* NUEVO!     */
 
 #define p_return        0x18
 
@@ -328,9 +319,9 @@ byte * vhash[256];		// Punteros al vector de nombres;
 #define p_shr_asig      0x73
 #define p_shl_asig      0x74
 
-#define p_ini_rem       0x7d //Inicio comentario
-#define p_end_rem       0x7e //Fin comentario
-#define p_rem           0x7f //Comentario de una linea
+#define p_ini_rem       0x7d /* Inicio comentario       */
+#define p_end_rem       0x7e /* Fin comentario          */
+#define p_rem           0x7f /* Comentario de una linea */
 
 #define p_strigu        0xc0
 #define p_strdis        0xc1
@@ -383,70 +374,55 @@ byte * vhash[256];		// Punteros al vector de nombres;
 
 #define p_pointerbyte   0xf7
 
-#define p_lit           0xfc //Puntero al literal (txt) en pieza_num
-#define p_id            0xfd //o es un ptr a vnom (a un ptr al objeto)
-#define p_num           0xfe //Número en pieza_num
+#define p_lit           0xfc /* Puntero al literal (txt) en pieza_num   */
+#define p_id            0xfd /* o es un ptr a vnom (a un ptr al objeto) */
+#define p_num           0xfe /* Número en pieza_num                     */
 
-
-//-----------------------------------------------------------------------------
-
-// Tabla de elementos léxicos (distintos tipos de token)
-
+/* Tabla de elementos léxicos (distintos tipos de token) */
 struct lex_ele { byte caracter;
          byte token;
                  struct lex_ele * alternativa;
                  struct lex_ele * siguiente; }
        lex_simb[max_nodos], * ilex_simb, * lex_case[256];
 
-// Pieza (token) que se está leyendo (ver constantes p_xxxx)
+/* Pieza (token) que se está leyendo (ver constantes p_xxxx) */
 int pieza, pieza_num;
 
-struct objeto * o; // Cuando pieza=p_id, objeto de tipo (**o).tipo
-struct objeto * bloque_actual; // Bloque que esta siendo analizado
-struct objeto * bloque_lexico; // Es 0 hasta las privadas del program
+struct objeto * o;             /* Cuando pieza=p_id, objeto de tipo (**o).tipo */
+struct objeto * bloque_actual; /* Bloque que esta siendo analizado             */
+struct objeto * bloque_lexico; /* Es 0 hasta las privadas del program          */
+struct objeto * member;        /* !=0 al declarar/acceder un miembro de un struct */
 
-struct objeto * member; // !=0 al declarar/acceder un miembro de un struct
-
-// número de nodos, número de objetos
+/* número de nodos, número de objetos */
 int num_nodos, num_obj;
-
 int num_obj_predefinidos;
 
 
-//-----------------------------------------------------------------------------
-//      Variables relacionadas con el listado formateado
-//-----------------------------------------------------------------------------
-
-int coment;           // 0-Código, 1-Dentro de comentario, 2-Anidado, ...
-//int convert;          // Indica si se deben generar ya los token en ls
+/*
+ *      Variables relacionadas con el listado formateado
+ */
+int coment; /* 0-Código, 1-Dentro de comentario, 2-Anidado, ... */
 
 
-//-----------------------------------------------------------------------------
 
-int old_linea; // Situación en el fichero del token anterior al último leido
+int old_linea; /* Situación en el fichero del token anterior al último leido */
 byte * old_ierror, * old_ierror_end;
 
-// El último token leido está en (linea,ierror,ierror_end)
-
+/* El último token leido está en (linea,ierror,ierror_end) */
 byte * ultima_linea,cero;
 
-// Siguiente token -> next_lexico()
+/* Siguiente token -> next_lexico() */
 int next_pieza;
 int next_linea;
 byte * next_source;
 
-//-----------------------------------------------------------------------------
-
 int parametros;
-
-int acceso_remoto; // Para no permitir id.private
-
-//-----------------------------------------------------------------------------
+int acceso_remoto; /* Para no permitir id.private */
 
 
-//-----------------------------------------------------------------------------
-//  PROTOTIPOS
-//-----------------------------------------------------------------------------
+/*
+ *  PROTOTIPOS
+ */
 
 int crea_objeto(byte * nombre, int nparam);
 void psintactico(void);
@@ -466,4 +442,4 @@ void tglo_init(int tipo);
 void tloc_init(int tipo);
 void tglo_init2(int tipo);
 
-#endif // __PARSER_H
+#endif /* __EDIV_PARSER_H_ */

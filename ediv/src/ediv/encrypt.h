@@ -18,8 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef __ENCRYPT_H
-#define __ENCRYPT_H
+#ifndef __EDIV_ENCRYPT_H_
+#define __EDIV_ENCRYPT_H_
 
 void _encriptar(int encode, char * fichero, char * clave);
 void _comprimir(int encode, char *fichero);

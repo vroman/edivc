@@ -18,14 +18,14 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef __KEYWORDS_H__
-#define __KEYWORDS_H__
+#ifndef __EDIV_KEYWORDS_H_
+#define __EDIV_KEYWORDS_H_
 
-// tabla de keywords
+/* tabla de keywords */
 extern struct keywords {
-	char  keyword[20];	// Max. 20 caracteres por keyword
-    char  code;			// Code del keyword
-	void* hfuncion;		// Puntero a la función correspondiente (para no usar SWITCH)
+	char  keyword[20];	/* Max. 20 caracteres por keyword */
+    char  code;			/* Code del keyword */
+	void* hfuncion;		/* Puntero a la función correspondiente (para no usar SWITCH) */
 } table[];
 
 extern struct prioridades {
@@ -33,16 +33,16 @@ extern struct prioridades {
 	char prioridad;
 } prioridad[];
 
-// Defines de los keywords con su code
+/* Defines de los keywords con su code */
 
-// CM = TIPO DE COMANDO
-#define CM_SEPARATE		0		// Se pone entre linea y linea
-#define CM_STATEMENT	1		// Statement
-#define CM_CALL			2		// Llamada a una función o un proceso
-#define CM_SIGNO		3		// Asignación
-#define CM_DATA			4		// Cualquier dato
+/* CM = TIPO DE COMANDO */
+#define CM_SEPARATE		0		/* Se pone entre linea y linea        */
+#define CM_STATEMENT	1		/* Statement                          */
+#define CM_CALL			2		/* Llamada a una función o un proceso */
+#define CM_SIGNO		3		/* Asignación                         */
+#define CM_DATA			4		/* Cualquier dato                     */
 
-// ST = STATEMENTS
+/* ST = STATEMENTS */
 #define ST_COMPILER_OPT 1
 #define ST_PROGRAM		2
 #define ST_CONST		3
@@ -50,7 +50,7 @@ extern struct prioridades {
 #define ST_LOCAL		5
 #define ST_PRIVATE		6
 #define ST_BEGIN		7
-#define ST_END			8		// Este end vale para todos los end
+#define ST_END			8		/* Este end vale para todos los end */
 #define ST_PROCESS		9
 #define ST_FUNCTION		10
 
@@ -85,21 +85,21 @@ extern struct prioridades {
 #define ST_CLONE		35
 #define ST_DEBUG		36
 
-// DT = DATA TYPES
+/* DT = DATA TYPES */
 #define DT_BYTE			0
 #define DT_WORD			1
 #define DT_INTEGER		2
 #define DT_STRING		3
 #define DT_POINTER		4
 #define DT_STRUCT		5
-#define DT_FLOAT		7 // Tipo de dato FLOAT (nuevo)
+#define DT_FLOAT		7 /* Tipo de dato FLOAT (nuevo) */
 #define DT_UNDECLARED	8
 
-#define DT_GLOBAL		20 // Variable global
+#define DT_GLOBAL		20 /* Variable global */
 #define DT_LOCAL		21
 #define DT_PRIVATE		22
 
-// SG = SIGNOS
+/* SG = SIGNOS */
 #define	SG_CALL_OPEN			0
 #define	SG_COMA					1
 #define	SG_PARENTESIS_OPEN		2
@@ -125,13 +125,13 @@ extern struct prioridades {
 #define	SG_AND					20
 #define	SG_OR					21
 #define	SG_XOR					22
-#define	SG_IGUALDAD				23	//Comparacion
+#define	SG_IGUALDAD				23	/* Comparacion */
 #define	SG_DISTINTO				24
 #define	SG_MAYOR				25
 #define	SG_MAYOR_IGUAL			26
 #define	SG_MENOR				27
 #define	SG_MENOR_IGUAL			28
-#define	SG_IGUAL				29	//Asignacion
+#define	SG_IGUAL				29	/* Asignacion */
 
 #define	SG_SUMA_IGUAL			30
 #define	SG_RESTA_IGUAL			31
@@ -144,17 +144,18 @@ extern struct prioridades {
 #define	SG_DESP_DERECHA_IGUAL	38
 #define	SG_DESP_IZQUIERDA_IGUAL	39
 
-//CL = Tipos de call
+/* CL = Tipos de call */
 #define CL_USER					0
 #define CL_DLL					1
 
 
-/* PROTOTIPOS DE FUNCIONES
+/*
+ * PROTOTIPOS DE FUNCIONES
  */
 
 typedef void (TYPEOF_hfuncion)();
 
-// h = HANDLERS de los statements
+/* h = HANDLERS de los statements */
 void h_compiler_options();
 void h_program();
 void h_const();

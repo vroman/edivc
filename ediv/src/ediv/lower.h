@@ -18,8 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef __LOWER_H
-#define __LOWER_H
+#ifndef __EDIV_LOWER_H_
+#define __EDOV_LOWER_H_
 
 #include "main.h"
 

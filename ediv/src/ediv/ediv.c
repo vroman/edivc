@@ -347,7 +347,7 @@ void* e_malloc(size_t size)
 	void* ret;
 
 	if(!(ret = malloc(size))) {
-		printf(translate(24)); // memoria insuficiente
+		printf(translate(24)); /* memoria insuficiente */
 		exit(1);
 	}
 

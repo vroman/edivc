@@ -18,8 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef __COMPILER_H
-#define __COMPILER_H
+#ifndef __EDIV_COMPILER_H_
+#define __EDIV_COMPILER_H_
 
 #include "main.h"
 
@@ -225,18 +225,16 @@ int case_sensitive;
 #define lnul    126 /* Comprueba que un puntero no sea NULL									*/
 
 
-struct {      // Peephole, "mirilla" para el optimizador
-  int dir;    // Dirección
-  int param;  // Indica si ese opcode tiene parámetro
-  int op;     // Opcode
-} code[16];   // En code[15] debe quedar siempre la última instrucción generada
+struct {      /* Peephole, "mirilla" para el optimizador                        */
+  int dir;    /* Dirección                                                      */
+  int param;  /* Indica si ese opcode tiene parámetro                           */
+  int op;     /* Opcode                                                         */
+} code[16];   /* En code[15] debe quedar siempre la última instrucción generada */
 
 /* Informacion para temporal de debug (posicion en mem y fuente de cada sentencia) */
 FILE * linf;	/* En este temporal guardamos la info y luego lo agregamos al exe */
 
 int inicio,final;     /* Direcciones inicial y final de mem[] de la sentencia */
-//int linea1,columna1;  /* Posicion en la que comienza la sentencia en el fuente */
-//int linea2,columna2;  /* Posicion en la que acaba la sentencia en el fuente */
 int inicio_prg,final_prg; /* Direcciones inicial y final en el PRG de la sentencia */
 int linsize;
 
@@ -284,4 +282,4 @@ void sentencia();
 void g1(int op);
 void g2(int op, int pa);
 
-#endif /* __COMPILER_H */
+#endif /* __EDIV_COMPILER_H_ */

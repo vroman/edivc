@@ -18,17 +18,18 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-/* IDs de idioma:
- * 0  - ES - Español
- * 1  - IT - Italiano (CicTec)
- * 2  - PT - Portugués (tareco)
- * 3  - EN - Inglés (de momento Er_Makina :P)
- * 4  - CA - Catalán (BenKo)
- * 5  - EU - Euskera (Jorge Urreta)
+/* 
+ * IDs de idioma:
+ *   0  - ES - Español
+ *   1  - IT - Italiano (CicTec)
+ *   2  - PT - Portugués (tareco)
+ *   3  - EN - Inglés (de momento Er_Makina :P)
+ *   4  - CA - Catalán (BenKo)
+ *   5  - EU - Euskera (Jorge Urreta)
  */
 
-#ifndef __LANGUAGE_H
-#define __LANGUAGE_H
+#ifndef __EDIV_LANGUAGE_H_
+#define __EDIV_LANGUAGE_H_
 
 #define NUM_LANGUAGES 6
 
@@ -36,18 +37,18 @@
 
 int idioma;
 
-// comunes
+/* comunes */
 int detecta_idioma();
 char* translate(int id_cadena);
 char* translate_dll_error(int num);
 
-// compilador
+/* compilador */
 char* translate_error(int num);
 char* translate_warning(int num);
 char* translate_ltlex_error(int num);
 
-// stub
+/* stub */
 char* translate_runtime_error(int num);
 char* translate_critical_error(int num);
 
-#endif // __LANGUAGE_H
+#endif /* __EDIV_LANGUAGE_H_ */

@@ -22,11 +22,11 @@
  *	Definiciones compartidas de eDiv - Usar en eDiv, encrypt y stub :)
  */
 
-#ifndef __SHARED_H
-#define __SHARED_H
+#ifndef __EDIV_SHARED_H_
+#define __EDIV_SHARED_H_
 
-#define VERSION "0.1.1 (Orion)"
-#define la_clave "Open_eDiv"
+#define VERSION "0.1.1 (Orion)" /* Version y codename */
+#define la_clave "Open_eDiv"    /* Clave de cifrado   */
 
 #define uchar char
 #define byte unsigned char
@@ -37,6 +37,6 @@
 
 #define magic "eDIV Stub\x1a\x0d\x0a\xff"
 
-#define long_header 9   //Longitud de la cabecera al inicio de los programas
+#define long_header 9 /* Longitud de la cabecera al inicio de los programas */
 
-#endif // __SHARED_H
+#endif /* __EDIV_SHARED_H_

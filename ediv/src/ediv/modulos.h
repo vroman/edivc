@@ -18,8 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef __MODULOS_H
-#define __MODULOS_H
+#ifndef __EDIV_MODULOS_H_
+#define __EDIV_MODULOS_H_
 
 #include <time.h>
 
