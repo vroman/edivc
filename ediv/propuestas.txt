@@ -273,3 +273,26 @@ Incluir Psycle (tracker musical) en el IDE: http://sourceforge.net/projects/psyc
 punteros a estructuras genericos (que no haga falta indicarle a qué tipo de estructura apuntan)
 
 poder cargar fuentes de letra directamente a partir de .map
+
+[16:34] [@CicTec] una idea guapina para el IDE x)
+[16:34] > dime :)
+[16:35] [@CicTec] pues tener un sistema tipo el VC
+[16:35] [@CicTec] por ejemplo cuando tu creas una struct
+[16:35] [@CicTec] struct point
+[16:35] [@CicTec] int x;
+[16:35] [@CicTec] int y;
+[16:35] [@CicTec] end
+[16:35] [@CicTec] y usas
+[16:35] [@CicTec] point.
+[16:36] [@CicTec] te aparece la ventanita con los miembros como con el visual :)
+[16:36] > jejej sip
+[16:37] [@CicTec] tb sabes que el IDE tiene que tener la sintax coloreada tb de las funciones y datos predefinidos sino te mato sin piedad xDD
+[16:36] > jejej sip
+[16:37] [@CicTec] tb sabes que el IDE tiene que tener la sintax coloreada tb de las funciones y datos predefinidos sino te mato sin piedad xDD
+[16:38] > xD
+[16:39] [@CicTec] ah
+[16:39] [@CicTec] tb cuando por ejemplo se usan variables tipo
+[16:39] [@CicTec] father.
+[16:39] [@CicTec] aparece la lista
+[16:40] [@CicTec] que pero identifica con un dibujo si son datos predefinidos
+[16:40] [@CicTec] o definidos por usuarios con local :)

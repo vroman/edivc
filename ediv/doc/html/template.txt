@@ -14,3 +14,5 @@
 <%code%> "<!-- POR HACER: Resaltado de sintaxis --><p><table border=\"0\" cellpadding=\"10\" "
 	"width=\"80%\" align=\"center\"><tr><td nowrap><pre>"
 <%/code%> "</pre></td></tr></table></p>"
+<%topic%> "<!-- DOKU_TOPIC --><a name=\""
+<%/topic%> "\"></a>"

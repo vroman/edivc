@@ -80,7 +80,7 @@ sdk
 +func_dll_juego
 +crear_dlls
 ++crear_dlls_linux
-++crear_dlls_vc6
+;++crear_dlls_vc6
 ++crear_dlls_vc7
 +diferencias_so
 +diferencias_compiladores

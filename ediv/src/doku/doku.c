@@ -22,30 +22,35 @@
 #include <string.h>
 #include <stdlib.h>
 
-// esta es la tabla donde se almacenan los nombres de las directivas y los textos
-// por los que deben ser sustituidas, definidos en template.txt
+/* esta es la tabla donde se almacenan los nombres de las directivas y los textos
+ * por los que deben ser sustituidas, definidos en template.txt
+ */
 struct _sust {
 	char de[20];
 	char a[1024];
 } sust[20];
 
-// esta funcion recibe un nombre de fichero (actual) y, consultando el index.dok,
-// devuelve el documento anterior, el siguiente y el superior. Evidentemente esto
-// se usa para generar los enlaces de navegacion.
+/* esta funcion recibe un nombre de fichero (actual) y, consultando el index.dok,
+ * devuelve el documento anterior, el siguiente y el superior. Evidentemente esto
+ * se usa para generar los enlaces de navegacion.
+ */
 void situame(char* actual, char* ant, char* sig, char* sup);
 
-// esta funcion abre el fichero indicado en fixero1 y busca en el el texto
-// encerrado entre las directivas <%title%> y <%/title%>, y lo devuelve en
-// el puntero "titulo"
+/* esta funcion abre el fichero indicado en fixero1 y busca en el el texto
+ * encerrado entre las directivas <%title%> y <%/title%>, y lo devuelve en
+ * el puntero "titulo"
+ */
 void lee_titulo(char* fixero1, char* titulo);
 
-// esta es llamada cuando nos encontramos con la directiva <%index%>. Parsea
-// el arbolito ese con los signos '+' y genera una unordered list mu potita.
+/* esta es llamada cuando nos encontramos con la directiva <%index%>. Parsea
+ * el arbolito ese con los signos '+' y genera una unordered list mu potita.
+ */
 void procesa_indice();
 
-// esta es llamada cuando encontramos <%subindex%>. Se le indica el fichero
-// actual y busca la entrada correspondiente en el index.dok. Entonces parsea
-// la porcion de arbol que engloba y genera un subíndice como los de SGML.
+/* esta es llamada cuando encontramos <%subindex%>. Se le indica el fichero
+ * actual y busca la entrada correspondiente en el index.dok. Entonces parsea
+ * la porcion de arbol que engloba y genera un subíndice como los de SGML.
+ */
 void procesa_subindice(char* actual);
 
 
@@ -293,6 +298,10 @@ void situame(char* actual, char* ant, char* sig, char* sup)
 		if(j==10) {
 			break;
 		}
+		if(buf[p]==';') {
+			while(buf[p]>31 && p<tam) p++;
+			continue;
+		}
 		while(buf[p]=='+') { ni++; p++; }
 		if(ni>nivel) {
 			if(ni==20) {
@@ -411,6 +420,10 @@ void procesa_indice()
 			i+=10;
 			return;
 		}
+		if(buffer[i]==';') {
+			while(buffer[i]>31 && i<tamano) i++;
+			continue;
+		}
 		while(buffer[i]=='+') { ni++; i++; }
 		if(ni>nivel) {
 			if(ni==20) {
@@ -504,6 +517,10 @@ void procesa_subindice(char* actual)
 			if(buf[p+j]!=fin[j]) break;
 		if(j==10) {
 			break;
+		}
+		if(buf[p]==';') {
+			while(buf[p]>31 && p<tam) p++;
+			continue;
 		}
 		while(buf[p]=='+') { ni++; p++; }
 		if(ni>nivel) {

@@ -117,6 +117,8 @@ int lista_quita( int num )
 {
 	int i ;
 
+	procs_s[num].tipo=0;
+
 	for ( i = procs_s[num].orden+1 ; i < num_proc_orden ; i++ )
 	{
 		procs_s[ proc_orden[ i ] ].orden-- ;
@@ -143,6 +145,7 @@ int interprete()
 			proceso( proc_orden[ proceso_actual ] ) ;
 		}
 		Call_Entrypoint(EDIV_frame);
+		
 	}else
 	{
 		stub_quit(0) ;
@@ -164,7 +167,7 @@ int proceso( int num )
 	num_proc = num ;
 	imem = procs_s[num_proc].imem ;
 	
-	//printf("num_proc: %d\n",num);
+	printf("num_proc: %d\n",num);
 
 	
 	//if(num==972) assert(0);
