@@ -1,4 +1,5 @@
 19/12/2002
 ----------
- * Creamos el CHANGE_LOG.txt para la libreria math de eDIV (Daijo)
+ * Optimizada la rutina tan (CicTec)
  * Añadidas las funciones: fixtoi8, fixtoi16, itofix8 y itofix16 (CicTec)
+ * Creamos el CHANGE_LOG.txt para la libreria math de eDIV (Daijo)

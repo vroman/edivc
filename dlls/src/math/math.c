@@ -16,7 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * $Id$
  */
+
 #include <stdio.h>
 #include <time.h>
 #include <math.h>
@@ -113,8 +116,8 @@ int eDIV_rand_seed(FUNCTION_PARAMS){
 int eDIV_sin(FUNCTION_PARAMS){
 	int a=getparm();
 	a=prepara_angulo(a);
-	if(a<=90000)  return seno[a];
-	if(a<=180000) return seno[180000-a];
+	if(a<=90000)  return  seno[a];
+	if(a<=180000) return  seno[180000-a];
 	if(a<=270000) return -seno[a-180000];
 	return -seno[360000-a];
 }
@@ -122,7 +125,7 @@ int eDIV_sin(FUNCTION_PARAMS){
 int eDIV_cos(FUNCTION_PARAMS){
 	int a=getparm();
 	a=prepara_angulo(a);
-	if(a<=90000)  return seno[90000-a];
+	if(a<=90000)  return  seno[90000-a];
 	if(a<=180000) return -seno[a-90000];
 	if(a<=270000) return -seno[270000-a];
 	return seno[a-270000];
@@ -132,31 +135,11 @@ int eDIV_tan(FUNCTION_PARAMS){
 	int b,c;
 	int a=getparm();
 	a=prepara_angulo(a);
-	if(a<=90000)
-		b=seno[a];
-	else
-		if(a<=180000)
-			b=seno[180000-a];
-		else
-			if(a<=270000)
-				b=-seno[a-180000];
-			else
-				b=-seno[360000-a];
-	if(a<=90000)
-		c=seno[90000-a];
-	else
-		if(a<=180000)
-			c=-seno[a-90000];
-		else
-			if(a<=270000)
-				c=-seno[270000-a];
-			else
-				c=seno[a-270000];
-	if(c==0)
-		return 0x7FFFFFFF;
-	else
-		return ((int)(b/c));
-	return 0 ;
+	if(a<=90000)      { b= seno[a];        c= seno[90000-a];  }
+	else if(a<=180000){	b= seno[180000-a]; c=-seno[a-90000];  }
+	else if(a<=270000){	b=-seno[a-180000]; c=-seno[270000-a]; }
+	else              { b=-seno[360000-a]; c= seno[a-270000]; }	
+	return ((c==0)?(0x7FFFFFFF):((int)(b/c)));
 }
 
 int eDIV_get_angle(FUNCTION_PARAMS){
@@ -422,7 +405,7 @@ float eDIV_fxmid(FUNCTION_PARAMS){
 
 /* Entrypoints */
 void first_load(FUNCTION_PARAMS){
-	int i ;
+	int i;
 	/* Calculamos los senos del 0 al 90000C */
 	for(i=0; i<90000; i++)
 		seno[i]=ftomil((float)sin((i/1000)*PIOVER180));
@@ -432,7 +415,7 @@ void first_load(FUNCTION_PARAMS){
 	
 /* Funciones internas de la DLL */
 int ftomil(float n){
-	return((int)(n*1000));
+	return ((int)(n*1000));
 }
 
 int prepara_angulo(int n){
@@ -440,3 +423,6 @@ int prepara_angulo(int n){
 	if(n<0) n=n+360000;
 	return n;
 }
+
+
+
