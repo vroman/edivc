@@ -319,7 +319,7 @@ void first_load(FUNCTION_PARAMS)
 	SDLtoDIV[ _plus ] =SDLK_EQUALS  ;
 	SDLtoDIV[ _backspace ] =SDLK_BACKSPACE  ;
 	SDLtoDIV[ _tab ] =SDLK_TAB  ;
-	SDLtoDIV[ _p ] =SDLK_p  ;
+	SDLtoDIV[ _q ] =SDLK_q  ;
 	SDLtoDIV[ _w ] =SDLK_w  ;
 	SDLtoDIV[ _e ] =SDLK_e  ;
 	SDLtoDIV[ _r ] =SDLK_r  ;

@@ -349,6 +349,9 @@ void frame(FUNCTION_PARAMS)
 			}
 
 
+			if(textos[i].imagen->w==0)
+				continue;
+
 			srcrect.x = 0 ;
 			srcrect.y = 0 ;
 			srcrect.w = textos[i].imagen->w ;
