@@ -9,6 +9,7 @@ begin
     write_int(1,0,0,0,&numprocs);
     loop
         if(key(_space)) cosa(); numprocs++; end
+        if(key(_w)) delete_text(all_text); end
         frame;
     end
 end
