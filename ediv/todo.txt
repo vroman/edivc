@@ -8,6 +8,7 @@ yo me lio con estos ficheros todo, asi k pongo mi propia seccion todo ( Riseven 
 
 Cosas por hacer cuanto antes:
 
+- eso de cerrar la ventanita con la X, que se pueda activar/desactivar de alguna forma
 - fade_on() y fade_off() deben devolver fading, es decir esto debe funcionar:
   while(fade_on()) frame; end
 - Añadir mnemónicos al kernel del stub (acabar los normales y añadir los de byte, word y string)
