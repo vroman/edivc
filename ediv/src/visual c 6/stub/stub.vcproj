@@ -276,6 +276,9 @@ makelib win32.rel
 				RelativePath="..\..\stub\error.c">
 			</File>
 			<File
+				RelativePath="..\..\stub\fatal.c">
+			</File>
+			<File
 				RelativePath="..\..\stub\inte.c">
 			</File>
 			<File
@@ -302,6 +305,9 @@ makelib win32.rel
 			</File>
 			<File
 				RelativePath="..\..\shared\extern.h">
+			</File>
+			<File
+				RelativePath="..\..\stub\fatal.h">
 			</File>
 			<File
 				RelativePath="..\..\stub\inte.h">

@@ -34,6 +34,7 @@
 #include "kernel.h"
 #include "inte.h"
 #include "varindex.h"
+#include "fatal.h"
 
 #define long_header 9    // Longitud de la cabecera al inicio de los programas
 
@@ -65,6 +66,8 @@ int main(int argc, char* argv[])
 #endif	
 	numdlls=0;
 	n_externs=0;
+
+	eDIV_InstallParachute();
 
 	for ( i = 0 ; i < 100 ; i++ )
 		tiempo[ i ] = 0 ;
