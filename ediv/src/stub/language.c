@@ -95,13 +95,13 @@ char* translate(int id_cadena)
 		/* 3	*/	"Error en %s: ",
 		/* 4	*/	"eDIV: Error en librería dinámica",
 
-		/* 1 - ITALIANO (FIXMI: traducir) */
+		/* 1 - ITALIANO */
 
-		/* 0	*/	"ERROR %d: ",
-		/* 1	*/	"eDIV: Error en ejecución",
-		/* 2	*/	"eDIV: Error crítico",
-		/* 3	*/	"Error en %s: ",
-		/* 4	*/	"eDIV: Error en librería dinámica",
+		/* 0	*/	"ERRORE %d: ",
+		/* 1	*/	"eDIV: Errore in esecuzione",
+		/* 2	*/	"eDIV: Errore critico",
+		/* 3	*/	"Errore in %s: ",
+		/* 4	*/	"eDIV: Errore in libreria dinamica",
 
 		/* 2 - PORTUGUÉS (FIXMI: traducir) */
 
@@ -806,9 +806,9 @@ char* translate_critical_error(int num)
 		/* 4	*/	"Non si è potuto riservare memoria per la pila",
 		/* 5	*/	"Libreria non trovata: %s",
 		/* 6	*/	"%s non è una libreria valida di eDIV",
-		/* 7	*/	"No se pudo inicializar SDL",	// TODO
-		/* 8	*/	"Demasiados procesos en ejecución", // TODO
-		/* 9	*/	"Se requiere SDL versión %d.%d.%d\nVersión detectada en el sistema: %d.%d.%d", // TODO
+		/* 7	*/	"Non è stato possibile inizializzare SDL",
+		/* 8	*/	"Troppi processi in esecuzione",
+		/* 9	*/	"E' richiesta SDL %d.%d.%d\nVersione rilevata nel sistema: %d.%d.%d",
 
 		/* 2 - PORTUGUÉS (FIXMI: traducir) */
 

@@ -90,7 +90,7 @@ typedef int (TYPEOF_EDIV_Export_Priority)(int priority);
 typedef int (TYPEOF_Call_Entrypoint)(int ep, ...);
 
 /* Dibuja */
-typedef int (TYPEOF_Dibuja)(SDL_Surface *, SDL_Rect, SDL_Rect, int, int);
+typedef int (TYPEOF_Dibuja)(SDL_Surface *, SDL_Rect, SDL_Rect, int, int, int, int);
 
 /* Errores */
 typedef void (TYPEOF_Runtime_Error)(int, ...);

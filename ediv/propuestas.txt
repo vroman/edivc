@@ -300,3 +300,5 @@ poder cargar fuentes de letra directamente a partir de .map
 map_clone, copia un grafico, incluyendo puntos de control :)
 
 joysticks... controladores.. force feedback.. (kien tiene uno de estos trastos? xD)
+
+drag&drop

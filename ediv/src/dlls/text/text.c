@@ -368,7 +368,7 @@ void frame(FUNCTION_PARAMS)
 			dstrect.w = srcrect.w ;
 			dstrect.h = srcrect.h ;
 
-			fp->Dibuja( textos[i].imagen , srcrect, dstrect , 0 , 255 ) ;
+			fp->Dibuja( textos[i].imagen , srcrect, dstrect , 0 , 255 , 0 , 0 ) ;
 		}
 
 

@@ -21,6 +21,7 @@
 #include <windows.h>
 #include <winnt.h>
 
+#include "main.h"
 #include "dll_load.h"
 byte g_bIsWinNT;
 

@@ -354,7 +354,7 @@ void* e_malloc(size_t size)
 	return ret;
 }
 
-void *e_free(void *puntero)
+void e_free(void *puntero)
 {
 	if (puntero) {
 		free(puntero);

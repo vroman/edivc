@@ -27,6 +27,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <zlib.h>
+#include "main.h"
 #include "encrypt.h"
 
 #include "shared.h" /* Contiene la clave de cifrado */

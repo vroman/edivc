@@ -327,11 +327,11 @@ int eDIV_LOAD_BMP(FUNCTION_PARAMS)
 
 /*****************************************************************/
 /*                                                               */
-/* eDIV_SET_TRANSPARENT_COLO(a);                                 */
+/* eDIV_SET_TRANSPARENT_COLOR(a);                                */
 /*                                                               */
-/* Coloca qual es el color transparente donde 'a' es el color.   */
+/* Coloca cual es el color transparente donde 'a' es el color.   */
 /*                                                               */
-/* Retorna: El antigui color transparente.                       */
+/* Retorna: El antiguo color transparente.                       */
 /*                                                               */
 /*****************************************************************/
 
@@ -364,11 +364,11 @@ int eDIV_GET_TRASPARENT_COLOR(FUNCTION_PARAMS)
 
 /*****************************************************************/
 /*                                                               */
-/* eDIV_RGB(b,g,r);                                              */
+/* eDIV_RGB(r,g,b);                                              */
 /*                                                               */
 /* Crea un color a partir de los 3 colores basicos.    .         */
 /*                                                               */
-/* b= Blue (Azul) g=Verde (Green) r=Rojo (Red)                   */
+/* r=Rojo (Red) g=Verde (Green) b=Blue (Azul)                    */
 /*                                                               */
 /* Retorna: El color generado.                                   */
 /*                                                               */
@@ -1397,7 +1397,7 @@ int Dibuja(SDL_Surface *src , SDL_Rect srcrect , SDL_Rect dstrect , int z , int 
 	
 	last_blit++ ;
 		
-	if(size==1244324)size=0; //Peta si el ZOOM es igual a 1244324 xDDDDD (Que valor maximo puede tener size?? 1000???
+	//if(size==1244324)size=0; //Peta si el ZOOM es igual a 1244324 xDDDDD (Que valor maximo puede tener size?? 1000???
 	if(size==0)size=100; //==== > Para la campatiblidad entre DLL's.
 		
 	zoom=size*0.01;
