@@ -19,14 +19,16 @@ begin
     write_int(1,80,40,0,&mouse.right);
     write_int(1,80,50,0,&mouse.wheelup);
     write_int(1,80,60,0,&mouse.wheeldown);
-    mi_mapa=load_bmp("hola.bmp");
+    write_int(1,319,199,8,&mouse.angle);
+    write_int(1,319,189,8,&mouse.size);
+    mi_mapa=load_bmp("center.bmp");
     mouse.graph=mi_mapa;
     cursor();
     loop
         if(key(_q)) mouse.angle-=1000; end
         if(key(_w)) mouse.angle+=1000; end
-        if(key(_a)) mouse.size+=5; end
-        if(key(_z)) mouse.size-=5; end
+        if(key(_a)) mouse.size+=1; end
+        if(key(_z)) mouse.size-=1; end
         if(key(_e)) mouse.angle=0; end
         if(key(_x)) mouse.size=100; end
         if(key(_s)) smooth=!smooth; end

@@ -39,7 +39,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="zlib.lib sdlmain.lib sdl.lib"
+				AdditionalDependencies="zlib.lib"
 				ShowProgress="0"
 				OutputFile="../../../bin/stub.exe"
 				LinkIncremental="2"
@@ -50,7 +50,7 @@
 				GenerateMapFile="TRUE"
 				MapExports="TRUE"
 				MapLines="TRUE"
-				SubSystem="2"
+				SubSystem="1"
 				EntryPointSymbol=""
 				TargetMachine="1"/>
 			<Tool

@@ -578,13 +578,16 @@ void first_load(FUNCTION_PARAMS)
  * y se encarga de meter un registro en la pila de bliteos, permitiendo especificar
  * ciertos parámetros describiendo cómo debe dibujarse el gráfico, incluyendo Z,
  * transparencia, etc.
- * Esta función no se encarga de discernir si el gráfico esta dentro o fuera de
- * la región o pantalla, eso se debe calcular antes y pasarle la información
- * resultante a Dibuja().
+ * La función hace "clipping" al gráfico automáticamente según la región que se le
+ * indique.
  * @param src Superficie donde se encuentra el gráfico a dibujar
- * @param srcrect Región del gráfico que queremos dibujar
- * @param dstrect Región de la pantalla en la que debe aparecer el gráfico
+ * @param x Coordenada X destino
+ * @param y Coordenada Y destino
+ * @param cx Y del centro del gráfico (relativo al mismo)
+ * @param cy X del centro del gráfico
+ * @param region Región de pantalla en la que se dibujará
  * @param z Profundidad del gráfico, permite que pueda dibujarse delante o detrás de otros gráficos
+ * @param flags Flags de espejado horizontal(1)/vertical(2) (sólo se tendrán en cuenta estos dos bits)
  * @param trans Transparencia del gráfico (0..255)
  * @param size Tamaño (en porcentaje) al que debe escalarse el gráfico, 100% es el tamaño original
  * @param angle Ángulo (en milésimas de grado) para rotar el gráfico. (0 = sin rotación)
@@ -611,7 +614,7 @@ int Dibuja(SDL_Surface *src,int x,int y,int cx,int cy,int region,int z,int flags
 		
 	zoom=size*0.01f;
 
-	angulo=angle/1000;
+	angulo=(angle%360000)/1000;
 	
 	if(flags&3) {
 		temp=SDL_CreateRGBSurface(src->flags,src->w,src->h,src->format->BitsPerPixel,0,0,0,0);
@@ -646,9 +649,9 @@ int Dibuja(SDL_Surface *src,int x,int y,int cx,int cy,int region,int z,int flags
 	if(temp!=src)
 		SDL_FreeSurface(temp);
 
-	/* 
+	/*! 
 	 * Pequeño hack para arreglar transparency
-	 * TODO: Debería limpiarse y revisarse un poco :P
+	 * \todo Debería limpiarse y revisarse un poco :P
 	 */
 	if(blits[last_blit].src->flags & SDL_SRCALPHA) {
 		for(i=0;i<blits[last_blit].src->h*blits[last_blit].src->w*blits[last_blit].src->format->BytesPerPixel;i+=blits[last_blit].src->format->BytesPerPixel) {
@@ -660,17 +663,19 @@ int Dibuja(SDL_Surface *src,int x,int y,int cx,int cy,int region,int z,int flags
 		SDL_SetAlpha(blits[last_blit].src,SDL_SRCALPHA,trans);
 	}
 
+#define redondea(x) (int)(floor(x)+(((x)-(int)(x))<.5?0:1))
+
 	if(size!=100) {
 		if(angle!=0)
-			i=j=(int)(sqrt(cx*cx+cy*cy)*zoom+1);
+			i=j=(sqrt(cx*cx+cy*cy)*zoom+1);
 		else {
-			i=cx*zoom;
-			j=cy*zoom;
+			i=(int)(cx*zoom);
+			j=(int)(cy*zoom);
 		}
 	}
 	else {
 		if(angle!=0)
-			i=j=(int)(sqrt(cx*cx+cy*cy)+1);
+			i=j=ceil(sqrt(cx*cx+cy*cy)+1);
 		else {
 			i=cx;
 			j=cy;
