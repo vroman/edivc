@@ -32,7 +32,7 @@
 
 #include "extern.h"
 #include "edivfont.h"
-#include "kernel.h"
+//#include "kernel.h"
 #include "inte.h"
 #include "main.h"
 #include "dll.h"
@@ -144,7 +144,7 @@ int interprete()
 		Call_Entrypoint(EDIV_frame);
 	}else
 	{
-		stub_quit() ;
+		stub_quit(0) ;
 	}
 	
 	
@@ -310,11 +310,12 @@ int proceso( int num )
 			mem[pila[sp--]]=pila[reserved("param_offset",procs_s[num_proc].id)++];
 			break;
 		case ltyp://32
-			procs_s[num_proc].id = mem[2] + ( num_proc * iloc_len ) ; 
-			reserved("process_id",procs_s[num_proc].id)=procs_s[num_proc].id;
-			memcpy(&mem[procs_s[num_proc].id],&mem[iloc],iloc_pub_len<<2);
 			if ( procs_s[num_proc].tipo != 0 )
 				critical_error(3); // redefinición del tipo de proceso
+			procs_s[num_proc].id = mem[2] + ( num_proc * iloc_len ) ;
+			if(procs_s[num_proc].id>imem_max-iloc_len) critical_error(8);	// demasiados procesos en ejecución
+			reserved("process_id",procs_s[num_proc].id)=procs_s[num_proc].id;
+			memcpy(&mem[procs_s[num_proc].id],&mem[iloc],iloc_pub_len<<2);
 			procs_s[num_proc].tipo = mem[ imem++ ] ;
 			reserved("process_type",procs_s[num_proc].id) = procs_s[num_proc].tipo ;
 			inicio_privadas=mem[6];

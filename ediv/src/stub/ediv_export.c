@@ -98,8 +98,8 @@ void dll_error(int error, ...)
 		printf("%s\n",mensaje);
 	#endif
 
-	/*printf("\n");
-	n_errors++;*/
+	//printf("\n");
+	//n_errors++;
 
 	exit(-1);
 }

@@ -7,6 +7,7 @@ begin
     load_bmp("hola.bmp");
     load_fnt("system.fnt");
     write_int(1,0,0,0,&numprocs);
+    define_region(1,0,10,320,190);
     loop
         if(key(_space)) cosa(); numprocs++; end
         if(key(_w)) delete_text(all_text); end
@@ -20,6 +21,8 @@ begin
 
     x=rand(0,319);
     y=rand(0,199);
+
+    region=1;
 
     loop
         frame;

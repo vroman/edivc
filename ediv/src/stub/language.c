@@ -782,7 +782,7 @@ char* translate_runtime_error(int num)
 
 char* translate_critical_error(int num)
 {
-	static char *e[NUM_LANGUAGES][7] = {
+	static char *e[NUM_LANGUAGES][9] = {
 
 		/* 0 - ESPAÑOL */
 
@@ -793,6 +793,8 @@ char* translate_critical_error(int num)
 		/* 4	*/	"No se pudo reservar memoria para la pila",
 		/* 5	*/	"Librería no encontrada: %s",
 		/* 6	*/	"%s no es una librería válida de eDIV",
+		/* 7	*/	"No se pudo inicializar SDL",
+		/* 8	*/	"Demasiados procesos en ejecución"
 
 		/* 1 - ITALIANO */
 
@@ -803,6 +805,8 @@ char* translate_critical_error(int num)
 		/* 4	*/	"Non si è potuto riservare memoria per la pila",
 		/* 5	*/	"Libreria non trovata: %s",
 		/* 6	*/	"%s non è una libreria valida di eDIV",
+		/* 7	*/	"No se pudo inicializar SDL",	// TODO
+		/* 8	*/	"Demasiados procesos en ejecución", // TODO
 
 		/* 2 - PORTUGUÉS (FIXMI: traducir) */
 
@@ -813,6 +817,8 @@ char* translate_critical_error(int num)
 		/* 4	*/	"No se pudo reservar memoria para la pila",
 		/* 5	*/	"Librería no encontrada: %s",
 		/* 6	*/	"%s no es una librería válida de eDIV",
+		/* 7	*/	"No se pudo inicializar SDL",
+		/* 8	*/	"Demasiados procesos en ejecución",
 
 		/* 3 - INGLÉS */
 
@@ -823,6 +829,8 @@ char* translate_critical_error(int num)
 		/* 4	*/	"Can't allocate stack memory",
 		/* 5	*/	"Library not found: %s",
 		/* 6	*/	"%s is not a valid eDIV library",
+		/* 7	*/	"Cannot initialize SDL",
+		/* 8	*/	"Too many processes in execution",
 
 		/* 4 - CATALÁN */
 
@@ -833,6 +841,8 @@ char* translate_critical_error(int num)
 		/* 4	*/	"No es va poder reservar memòria per a la pila",
 		/* 5	*/	"Llibreria no trobada: %s",
 		/* 6	*/	"%s no és una llibreria vàlida d' eDIV",
+		/* 7	*/	"No se pudo inicializar SDL",	// TODO
+		/* 8	*/	"Demasiados procesos en ejecución", // TODO
 
 		/* 5 - EUSKERA */
 
@@ -842,7 +852,9 @@ char* translate_critical_error(int num)
 		/* 3	*/	"Prozesu motaren berdefinizioa",
 		/* 4	*/	"Ezin izan da memoriarik erreserbatu pilarentzat",
 		/* 5	*/	"Ezin da liburutegia aurkitu: %s",
-		/* 6	*/	"%s ez da eDIV-en liburutegi zuzen bat"
+		/* 6	*/	"%s ez da eDIV-en liburutegi zuzen bat",
+		/* 7	*/	"No se pudo inicializar SDL",	// TODO
+		/* 8	*/	"Demasiados procesos en ejecución",	// TODO
 	};
 
 	return e[idioma][num];

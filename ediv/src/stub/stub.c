@@ -18,8 +18,6 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <assert.h>
-
 #include <io.h>
 #include <fcntl.h>
 #include <stdio.h>
@@ -31,7 +29,7 @@
 
 #include "extern.h"
 #include "main.h"
-#include "kernel.h"
+//#include "kernel.h"
 #include "inte.h"
 #include "varindex.h"
 #include "fatal.h"
@@ -235,19 +233,18 @@ int main(int argc, char* argv[])
 				// Nota: las DLL's se cargan en el transcurso del programa (las instrucciones
 				// que ordenan cargar las dll's necesarias se encuentran en el propio bytecode)
 
-				if (ini_kernel())
-					exit (0);
+				//if (ini_kernel())
+				//	exit (0);
 				
 
 				// AHORA TODO ESTO EN LA GRAPHICS.DLL
 
 				// SE INICIALIZA LA SDL
 				if (SDL_Init(SDL_INIT_TIMER))
-					k_error(K_ERR_SDL_INIT);
+					critical_error(7);	// no puedo inicializar SDL
 
 				
-
-				atexit(stub_quit);
+				//atexit(stub_quit);
 
 				// SE PONE EL MODO GRAFICO 320x200 MODO VENTANA
 				// Ya se hara el modo full screen
@@ -259,8 +256,9 @@ int main(int argc, char* argv[])
 				if ( screen == NULL )
 					k_error(K_ERR_SDL_SET_VIDEO_MODE);
 */				
-				if ( !ini_interprete() )
-					k_error(K_ERR_INI_INTERPRETE) ;
+				ini_interprete();
+				/*if ( !ini_interprete() )
+					k_error(K_ERR_INI_INTERPRETE) ;*/
 
 
 				while (1) {
@@ -292,13 +290,14 @@ int main(int argc, char* argv[])
 					}
 
 
-					if (!interprete())
-						k_error(K_ERR_INTERPRETE);
+					interprete();
+					/*if (!interprete())
+						k_error(K_ERR_INTERPRETE);*/
 					
 					// Control de Frames por segundo POR HACER !!!!!!
 					
-					if (!kernel())
-						k_error(K_ERR_KERNEL);
+					/*if (!kernel())
+						k_error(K_ERR_KERNEL);*/
 
 					// tiempo
 					/*
@@ -342,14 +341,18 @@ int main(int argc, char* argv[])
   return 0;
 }
 
-
-void stub_quit(void)
+#include <assert.h>
+void stub_quit(int n)
 {
 	int i;
-	for(i=0;i<num_indexed_vars;i++)
+	//assert(0);
+	for(i=0;i<num_indexed_vars;i++) {
 		free(varindex[i].nombre);
+	}
 	free(varindex);
 	SDL_Quit();
+	//atexit(SDL_Quit);
+	exit(n);
 }
 
 

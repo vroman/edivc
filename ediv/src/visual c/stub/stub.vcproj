@@ -223,9 +223,6 @@ makelib.bat win32.dbg
 				RelativePath="..\..\stub\inte.c">
 			</File>
 			<File
-				RelativePath="..\..\stub\kernel.c">
-			</File>
-			<File
 				RelativePath="..\..\stub\language.c">
 			</File>
 			<File
@@ -258,9 +255,6 @@ makelib.bat win32.dbg
 			</File>
 			<File
 				RelativePath="..\..\stub\inte.h">
-			</File>
-			<File
-				RelativePath="..\..\stub\kernel.h">
 			</File>
 			<File
 				RelativePath="..\..\stub\lower.h">
