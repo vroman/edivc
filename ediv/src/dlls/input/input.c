@@ -528,6 +528,7 @@ void frame(FUNCTION_PARAMS)
 	int numkeys ;
 	int _mouse=globalptr("mouse");
 	SDL_Rect srcrect,dstrect;
+	SDL_Surface* mapamouse;
 	
 	keys = SDL_GetKeyState(&numkeys ) ;
 
@@ -555,12 +556,19 @@ void frame(FUNCTION_PARAMS)
 	
 	/* si mouse.graph!=0 */
 	if(fp->mem[_mouse+2]!=0) {
-		srcrect.x=srcrect.y=srcrect.w=srcrect.h=dstrect.w=dstrect.h=0;
-		dstrect.x=fp->mem[_mouse];
-		dstrect.y=fp->mem[_mouse+1];
+		mapamouse=fp->files[fp->mem[_mouse+3]].mapa[fp->mem[_mouse+2]].Surface;
+		srcrect.x=0;
+		srcrect.y=0;
+		srcrect.w=mapamouse->w;
+		srcrect.h=mapamouse->h;
+		
+		dstrect.x=fp->mem[_mouse]-fp->files[fp->mem[_mouse+3]].mapa[fp->mem[_mouse+2]].cpoint[0].x;
+		dstrect.y=fp->mem[_mouse+1]-fp->files[fp->mem[_mouse+3]].mapa[fp->mem[_mouse+2]].cpoint[0].y;
+		dstrect.w=mapamouse->w;
+		dstrect.h=mapamouse->h;
 
 		// TODO: añadir chequeo de error si no existe file o mapa
-		fp->Dibuja(fp->files[fp->mem[_mouse+3]].mapa[fp->mem[_mouse+2]].Surface,srcrect,dstrect,fp->mem[_mouse+4],0);
+		fp->Dibuja(mapamouse,srcrect,dstrect,/*fp->mem[_mouse+4]*/0,255);
 	}
 
 	/* FIN DE MOUSE */

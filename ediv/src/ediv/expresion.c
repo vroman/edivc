@@ -577,8 +577,7 @@ void factor(void) {
         case tproc:
           (*_exp).tipo=econs; (*_exp++).valor=(int)o; break;
         case tsglo:
-          /* POR HACER: esto hay que cambiarlo, que compruebe que el nombre es "mouse" */
-          if ((*o).sglo.offset==long_header) { /* type mouse ð 0 */
+			if (!strcmp((*o).name,"mouse")) { /* "type mouse" = "0"  */
             (*_exp).tipo=econs; (*_exp++).valor=0; break;
           }
         default: error(0,20); /* no es un tipo de proceso */

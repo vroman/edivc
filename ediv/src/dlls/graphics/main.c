@@ -505,7 +505,7 @@ int eDIV_LOAD_BMP(FUNCTION_PARAMS)
 			files[0].mapa[i].Surface = SDL_LoadBMP( filename ) ;
 			files[0].mapa[i].existe = 1 ;
 			files[0].mapa[i].cpoint[0].x = (int)files[0].mapa[i].Surface->w / 2 ;
-			files[0].mapa[i].cpoint[1].y = (int)files[0].mapa[i].Surface->h / 2 ;
+			files[0].mapa[i].cpoint[0].y = (int)files[0].mapa[i].Surface->h / 2 ;
 			SDL_SetColorKey( files[0].mapa[i].Surface , SDL_SRCCOLORKEY | SDL_RLEACCEL , color_trasparente ) ;
 			if ( i > last_map[0] )
 				last_map[0] = i ;
@@ -1531,6 +1531,7 @@ void first_load(FUNCTION_PARAMS2)
 	define_region = 1 ;
 
 	SDL_WM_SetCaption(fp->nombre_program, NULL);
+	SDL_ShowCursor(SDL_DISABLE);
 
 	//prueba = SDL_LoadBMP("prueba.bmp" );
 

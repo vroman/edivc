@@ -5,7 +5,7 @@
 	"<a name=\"top\"></a>"
 <%end%> "<br /><br /><a href=\"#top\">Ir arriba</a><br /><hr />\n"
 	"<font size=\"-2\" color=\"#5555DD\">Esta documentaci&oacute;n ha sido escrita por el equipo de\n"
-	"Sion Ltd. y forma parte del proyecto eDIV. Las actualizaciones de esta\n"
+	"<a href=\"http://www.sionhq.com\" target=\"_blank\">Sion Ltd.</a> y forma parte del proyecto eDIV. Las actualizaciones de esta\n"
 	"documentaci&oacute;n pueden obtenerse en <a href=\"http://ediv.divsite.net\" "
 	"target=\"_blank\">http://ediv.divsite.net</a>.\nSi ve alg&uacute;n error o anomal&iacute;a "
 	"en cualquiera de los documentos que\nse incluyen en este proyecto, por favor "

@@ -151,7 +151,7 @@ int main(int argc, char* argv[])
 
 	printf("Procesando...\n");
 
-	fprintf(f,"<!-- Generado con Sion Doku - http://sion.edivcentral.com -->\n");
+	fprintf(f,"<!-- Generado con Sion Doku - http://www.sionhq.com -->\n");
 	for(i=0;i<tamano;i++) {
 		if(buffer[i]=='<' && buffer[i+1]=='%') {
 			buffer[i]=0;

@@ -1,3 +1,14 @@
+10/10/2002
+----------
+ * Corregido pequeño bug en load_bmp, que no seteaba correctamente el centro del
+   grafico (Er_Makina)
+ * Ya funciona el mouse. Faltan algunas cosas de la estructura mouse por añadir.
+   La ruedecilla del ratón no funciona, hay que leerla en SDL_PollEvents (en el
+   stub :P) (Er_Makina)
+ * Añadido "type mouse". Debe actualizarse collision() para que reconozca colisio-
+   nes con el ratón (si recibe como parámetro un 0 es que se ha usado type mouse)
+   (Er_Makina)
+
 7/10/2002
 ---------
  * Limpieza de codigo y comentarizacion en compiler.* (Daijo)

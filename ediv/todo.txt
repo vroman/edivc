@@ -8,19 +8,14 @@ yo me lio con estos ficheros todo, asi k pongo mi propia seccion todo ( Riseven 
 
 Cosas por hacer cuanto antes:
 
-- Añadir mnemónicos al kernel del stub (acabar los normales y añadir los
-  optimizados, y los de byte, word y string)
-- Al compilar con --debug, añadir el codigo fuente comprimido al exe, en
-  lugar de la ruta absoluta hacia el .prg (ya que si no el trazador daria
-  problemas si modificamos el prg despues de haber creado el exe)
+- Añadir mnemónicos al kernel del stub (acabar los normales y añadir los de byte, word y string)
 - Hacer desaparecer la tabla procs_s y sustituirla por variables indexadas
 - Revisar muchísimo el kernel del stub (compilar cosas, debugear...)
-- Entender el stub ke no me empano de na xD y limpiarlo un pokito de paso
 - Actualizar los makefiles y proyectos de KDevelop, y comprobar que rule
   bien bajo Linux
 - Hacer unos msgbox decentes para Linux, con X11 a pelo o con una libreria
   pekeñita (ver error.c del stub)
-- Adaptar la rutina de MOTD a Linux
+- Adaptar la rutina de MOTD a Linux <- ya rula?
 - Documentarlo todo, ahora tenemos el DOKU, kien no lo tenga ke se lo pida
   a Er_Makina :)
 - A la hora de implementar la funcion qsort(), hay que introducir una nueva
