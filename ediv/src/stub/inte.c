@@ -181,6 +181,7 @@ int proceso( int num, int padre )
 	int no_devuelve = 0 ;
 	int (*externa)(struct _fun_params*);
 	int temp ;
+	unsigned int utemp;
 	int cpas=0;
 	#ifdef DBG
 		int actual_lin;
@@ -566,7 +567,12 @@ int proceso( int num, int padre )
 			sp--;
 			break;
 		case lptichr:
-			pila[sp-1]=(unsigned int)memb[pila[sp-1]*4+pila[sp]]++;
+			/* o_O yo lo flipo con el visual studio! mirad la tonteria que he
+			 * tenido ke hacer! (variable utemp)
+			 * visto lo visto, hay que testear cuidadosamente TODOS los opcodes!
+			 */
+			utemp=pila[sp-1];
+			pila[sp-1]=(unsigned int)memb[utemp*4+pila[sp]]++;
 			sp--;
 			break;
 		case ldptchr:
@@ -574,7 +580,9 @@ int proceso( int num, int padre )
 			sp--;
 			break;
 		case lptdchr:
-			pila[sp-1]=(unsigned int)memb[pila[sp-1]*4+pila[sp]]--;
+			/* y aqui la misma chapuza en teoria innecesaria! */
+			utemp=pila[sp-1];
+			pila[sp-1]=(unsigned int)memb[utemp*4+pila[sp]]--;
 			sp--;
 			break;
 		case ladachr:

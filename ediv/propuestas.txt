@@ -315,3 +315,13 @@ graficos mediante beziers!! http://www.newimage.com/~rhk/roaddemo/
 [20:07] > ponemos
 [20:07] > switch(mem[ip++]) {
 [20:07] > etc
+
+equivalente al KeyHit() del blitzbasic: parecido a key() solo que solo devuelve positivo si este es el primer frame en el que se pulsa la tecla desde que la ultima vez que se llamo a la funcion (o algo asi)
+
+tabla global mtime (igual que time) per devuelve en millsecs
+
+librerías de objetos 3D (p.e. FPO, fichero para objetos)
+
+char = signed byte
+short = signed word
+dword = unsigned int

@@ -1,3 +1,10 @@
+30/3/2003
+---------
+ * Corregidos los operadores -- y ++ con las variables BYTE. eran de esos
+   opcodes que originalmente se hacian en una linea pero al pasar a VS hay
+   ke partirlos en dos (y en este caso, añadir una variable temporal) >:P
+   (Er_Makina)
+
 5/3/2003
 --------
  * Hay algún fallo cuando se elimina un proceso, tiene que ver con la
