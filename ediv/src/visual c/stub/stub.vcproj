@@ -72,7 +72,7 @@ makelib.bat win32.rel
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				OmitFramePointers="TRUE"
-				AdditionalIncludeDirectories="../shared/"
+				AdditionalIncludeDirectories="../../shared"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
@@ -85,6 +85,7 @@ makelib.bat win32.rel
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="sdlmain.lib sdl.lib zlib.lib"
 				OutputFile="$(OutDir)/stub.exe"
 				LinkIncremental="1"
 				GenerateDebugInformation="TRUE"
@@ -165,9 +166,10 @@ makelib.bat win32.dbg
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				OmitFramePointers="TRUE"
+				AdditionalIncludeDirectories="../../shared"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				StringPooling="TRUE"
-				RuntimeLibrary="4"
+				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -177,6 +179,7 @@ makelib.bat win32.dbg
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="sdlmain.lib sdl.lib zlib.lib"
 				OutputFile="$(OutDir)/stub.exe"
 				LinkIncremental="1"
 				GenerateDebugInformation="TRUE"
