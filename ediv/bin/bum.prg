@@ -25,6 +25,8 @@ begin
     y=rand(0,199);
 
     region=1;
+    flags=12;
+    transparency=200;
 
     loop
         frame;
