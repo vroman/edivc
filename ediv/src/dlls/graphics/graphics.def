@@ -1,3 +1,0 @@
-LIBRARY graphics
-EXPORTS
-	ExportaFuncs
