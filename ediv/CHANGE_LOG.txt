@@ -3,6 +3,7 @@
  * Mas comentarizacion siguiendo las normas del ANSI C (Daijo)
  * Todas las cabeceras han de definirse: #define __EDIV_CABECERA_H_ (Daijo)
  * Cambiado *edivcentral.com por ediv.divsite.net (Daijo)
+ * Eliminado todo el codigo de las DLLs de la distribucion de codigo (Daijo)
 
 13/12/2002
 ----------
