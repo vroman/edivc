@@ -6,8 +6,7 @@
 #ifndef WIN32
 #include <unistd.h>
 #endif
-//#include <zlib.h>
-//#include <assert.h>
+
 #include "export.h"
 //#include "errors.h"	// Falta añadir errors.h al CVS
 #include <SDL/SDL.h>
@@ -20,27 +19,12 @@
 
 #define Miedzy(x,a,b)	(((x) >= (a)) && ((x) <= (b)))
 
-//#include "varindex.h"
 
 
 #define FUNCTION_PARAMS2	struct _fun_params *fp
 
-struct {
-	int x,y,z,flags,angle,size,region,file,id;
-	int status;
-}PROCESS[1];
-
-#define OK 1
-#define ERROR2 -1
-
-#define ESPEJO 0x01
-#define ESPEJO_A	0x02
-#define TRANS	0x04
-#define NOCOLORKEY	0x80
-
 #define MAX_DRAWS	1024
 
-//GRAPH *fondo;
 
 struct _files files[ 0xFF ] ;
 
@@ -106,12 +90,7 @@ int last_blit ;
 
 int gamma[3] ;
 
-
-int RES_X,RES_Y;
-int total_maps= 0;
-int framex();
-int wait();
-int eDIV_PRINTF(FUNCTION_PARAMS);
+int smooth=0;	// Smooth para el ZOOM
 
 int ExportaFuncs(EXPORTAFUNCS_PARAMS)
 {
@@ -164,24 +143,8 @@ int ExportaFuncs(EXPORTAFUNCS_PARAMS)
 	GLOBAL("num_video_modes",0);
 	GLOBAL("vsync",0);
 	GLOBAL("draw_z",-255);
+	GLOBAL("smooth",smooth); //==> Atención una nueva variable que indica si se activa o no el SMOOTH al ZOOMEAR.
 
-
-
-//	printf("\nSion Entertianment 2000-2002 (c)\nGraphics.Dll 0.1 rc-1");
-/*
-	FUNCTION("wait",0,wait);
-	FUNCTION("load_map",1,eDIV_LOAD_MAP);
-	FUNCTION("setpos",5,eDIV_SETPOS);
-	FUNCTION("map_xput",8,eDIV_XPUT);
-	FUNCTION("fade",4,eDIV_fade);
-	FUNCTION("xput",6,eDIV_XPUT);
-	FUNCTION("load_fpg",1,eDIV_LOAD_FPG);
-	FUNCTION("set_mode",1,eDIV_SET_MODE);
-	FUNCTION("unload_fpg",1,eDIV_UNLOAD_FPG);
-	FUNCTION("unload_map",1,eDIV_UNLOAD_MAP);
-	FUNCTION("framex",1,framex);
-	FUNCTION("printf",1,eDIV_PRINTF);
-*/
 	FUNCTION("load_bmp",1,eDIV_LOAD_BMP) ;
 	FUNCTION("collision",1,eDIV_COLLISION) ;
 	FUNCTION("set_trasparent_color",1,eDIV_SET_TRASPARENT_COLOR) ;
@@ -296,11 +259,11 @@ int eDIV_COLLISION(FUNCTION_PARAMS)
 		{
 			id2 = fp->procs_s[ fp->proc_orden[ i ] ].id;
 			if(id2==id1) continue;
-			printf("collision: %d\n",id2);
+
 			//Si el proceso se corresponde con el type
 			if ( reserved("process_type",id2) == a )
 			{
-				printf("collision: encontrado: id %d\n",id2);
+
 				r1.x = local("x",id1) ;
 				r1.y = local("y",id1) ;
 				r1.w = files[f1].mapa[g1].Surface->w ;
@@ -317,15 +280,9 @@ int eDIV_COLLISION(FUNCTION_PARAMS)
 				//Colision barata :P
 				if(IntersectionRR(r1.x,r1.y,r1.x+r1.w-1,r1.x+r1.h-1,r2.x,r2.y,r2.x+r2.w-1,r2.y+r2.h-1)) {
 					*id_scan=i;
-					printf("COLISION: %d con %d\n",id1,id2);
+
 					return id2;
 				}
-
-				/*if (!( (r2.x > r1.x && r2.x > r1.x + r1.w) || (r2.x+r2.w < r1.x && r2.x+r2.w<r1.x+r1.w )))
-					if (!( (r2.y > r1.y && r2.y > r1.y + r1.h) || (r2.y+r2.h < r1.y && r2.y+r2.h<r1.y+r1.h ))) {
-						*id_scan=i;
-						return id2;
-					}*/
 			}
 		}
 		*type_scan=0;
@@ -334,7 +291,16 @@ int eDIV_COLLISION(FUNCTION_PARAMS)
 	return 0 ;
 }
 
-
+/*****************************************************************/
+/*                                                               */
+/* eDIV_LOAD_BMP(filename);                                      */
+/*                                                               */
+/* Carga un BMP donde 'filename' es el fichero a cargar.         */
+/*                                                               */
+/* Retorna: El numero de Mapa.                                   */
+/*          -1 : Si no se ha podido cargar el mapa.              */
+/*                                                               */
+/*****************************************************************/
 
 int eDIV_LOAD_BMP(FUNCTION_PARAMS)
 {
@@ -345,6 +311,8 @@ int eDIV_LOAD_BMP(FUNCTION_PARAMS)
 		if ( files[0].mapa[i].existe == 0 )
 		{
 			files[0].mapa[i].Surface = SDL_LoadBMP( filename ) ;
+			if(files[0].mapa[i].Surface == NULL)
+			fp->Runtime_Error(143); /* "No se pudo cargar el mapa, archivo no encontrado."*/			
 			files[0].mapa[i].existe = 1 ;
 			files[0].mapa[i].cpoint[0].x = (int)files[0].mapa[i].Surface->w / 2 ;
 			files[0].mapa[i].cpoint[0].y = (int)files[0].mapa[i].Surface->h / 2 ;
@@ -354,9 +322,18 @@ int eDIV_LOAD_BMP(FUNCTION_PARAMS)
 			return i ;
 		}
 	}
-
 	return -1 ;
 }
+
+/*****************************************************************/
+/*                                                               */
+/* eDIV_SET_TRANSPARENT_COLO(a);                                 */
+/*                                                               */
+/* Coloca qual es el color transparente donde 'a' es el color.   */
+/*                                                               */
+/* Retorna: El antigui color transparente.                       */
+/*                                                               */
+/*****************************************************************/
 
 int eDIV_SET_TRASPARENT_COLOR(FUNCTION_PARAMS)
 {
@@ -372,10 +349,30 @@ int eDIV_SET_TRASPARENT_COLOR(FUNCTION_PARAMS)
 	return b ;
 }
 
+/*****************************************************************/
+/*                                                               */
+/* eDIV_GET_TRANSPARENT_COLOR();                                 */
+/*                                                               */
+/* Retorna: El color transparente.                               */
+/*                                                               */
+/*****************************************************************/
+
 int eDIV_GET_TRASPARENT_COLOR(FUNCTION_PARAMS)
 {
 	return color_trasparente ;
 }
+
+/*****************************************************************/
+/*                                                               */
+/* eDIV_RGB(b,g,r);                                              */
+/*                                                               */
+/* Crea un color a partir de los 3 colores basicos.    .         */
+/*                                                               */
+/* b= Blue (Azul) g=Verde (Green) r=Rojo (Red)                   */
+/*                                                               */
+/* Retorna: El color generado.                                   */
+/*                                                               */
+/*****************************************************************/
 
 int eDIV_RGB(FUNCTION_PARAMS)
 {
@@ -386,6 +383,16 @@ int eDIV_RGB(FUNCTION_PARAMS)
 
 	return ( b + g*256 + r*65536 ) ;
 }
+
+/*****************************************************************/
+/*                                                               */
+/* eDIV_ADVANCE(a);                                              */
+/*                                                               */
+/* Avanza 'a' unidades segun el angulo del proceso.    .         */
+/*                                                               */
+/* Retorna: 1.                                                   */
+/*                                                               */
+/*****************************************************************/
 
 int eDIV_ADVANCE(FUNCTION_PARAMS)
 {
@@ -400,6 +407,15 @@ int eDIV_ADVANCE(FUNCTION_PARAMS)
 	return 1 ;
 }
 
+/*****************************************************************/
+/*                                                               */
+/* eDIV_XADVANCE(angle,b)                                        */
+/*                                                               */
+/* Avanza 'b' unidades segun el angulo 'angle'    .    .         */
+/*                                                               */
+/* Retorna: 1                                                    */
+/*                                                               */
+/*****************************************************************/
 
 int eDIV_XADVANCE(FUNCTION_PARAMS)
 {
@@ -446,6 +462,18 @@ int eDIV_MAP_BLOCK_COPY(FUNCTION_PARAMS)
 	return 1 ;
 
 }
+
+/*****************************************************************/
+/*                                                               */
+/* eDIV_MAP_GET_PIXEL(y,x,g,f);                                  */
+/*                                                               */
+/* Coje el color de un pixel, de un mapa. Coordenadas, x e y     */
+/*                                                               */
+/* del mapa 'g' del fichero 'f'.                                 */
+/*                                                               */
+/* Retorna: El color del pixel.                                  */
+/*                                                               */
+/*****************************************************************/
 
 int eDIV_MAP_GET_PIXEL(FUNCTION_PARAMS)
 {
@@ -596,6 +624,16 @@ int eDIV_PUT(FUNCTION_PARAMS)
 
 }
 
+/*****************************************************************/
+/*                                                               */
+/* eDIV_XPUT(f,g,x,y,angle,zoom);                                */
+/*                                                               */
+/* Coloca un MAPA 'g' del fichero 'f' en x e y con un angulo     */
+/* angle y un tamaño zoom/100;                                   */
+/*                                                               */
+/* Retorna: 1: Si se ha colocado correctamente                   */
+/*         -1: Si el mapa no existe.                             */
+/*****************************************************************/
 
 int eDIV_XPUT(FUNCTION_PARAMS)
 {
@@ -1134,7 +1172,7 @@ FILE * memo ;
 void frame(FUNCTION_PARAMS)
 {
 	static int una_vez = 1 ;
-	int i , temp , id , f , g , r , z , trans,angle,size;
+	int i ,  id , f , g , r , z , trans,angle,size;
 	SDL_Rect dstrect , srcrect ;
 
 	fichero = fopen( "draw.txt" , "w" ) ;
@@ -1157,6 +1195,7 @@ void frame(FUNCTION_PARAMS)
 
 	// Draws
 	z = global("draw_z");
+	smooth = global("smooth");
 	for ( i = 0 ; i <= last_draw ; i++ )
 	{
 		if ( draws[i].existe )
@@ -1177,7 +1216,7 @@ void frame(FUNCTION_PARAMS)
 					dstrect.w = 0 ; // Se ignora
 					dstrect.h = 0 ; // Se ignora
 					//Dibuja( files[f].mapa[g].Surface , srcrect , dstrect , z , 0 ) ; 
-					Dibuja( draws[i].Surface , srcrect , dstrect , z , draws[i].t) ; 
+					Dibuja( draws[i].Surface , srcrect , dstrect , z , draws[i].t,0,0) ; 
 				}
 			}
 		}
@@ -1216,13 +1255,14 @@ void frame(FUNCTION_PARAMS)
 				//SDL_SetAlpha(files[f].mapa[g].Surface, NULL , SDL_ALPHA_OPAQUE ) ;
 				trans = SDL_ALPHA_OPAQUE ;
 			if ( r == 0 )
-				Dibuja( files[f].mapa[g].Surface , srcrect , dstrect , z , trans ) ; 
+					Dibuja( files[f].mapa[g].Surface , srcrect , dstrect , z , trans , size , angle) ; 
 			else if ( define_region == 0 )
 			{
 				if ( dstrect.x >= fp->regions[r].x && dstrect.x + files[f].mapa[g].Surface->w <= fp->regions[r].x + fp->regions[r].w &&
 					dstrect.y >= fp->regions[r].y && dstrect.y + files[f].mapa[g].Surface->h <= fp->regions[r].y + fp->regions[r].h )
 				{
-					Dibuja( files[f].mapa[g].Surface , srcrect , dstrect , z , trans) ; 
+
+					Dibuja( files[f].mapa[g].Surface , srcrect , dstrect , z , trans , size , angle) ; 
 				}else
 				{
 					if ( dstrect.x < fp->regions[r].x + fp->regions[r].w && dstrect.x + files[f].mapa[g].Surface->w > fp->regions[r].x &&
@@ -1255,7 +1295,8 @@ void frame(FUNCTION_PARAMS)
 							srcrect.h -= dstrect.y + srcrect.h - fp->regions[r].y - fp->regions[r].h ;
 						}
 
-						Dibuja( files[f].mapa[g].Surface , srcrect , dstrect , z , trans ) ; 
+	
+						Dibuja( files[f].mapa[g].Surface , srcrect , dstrect , z , trans , size , angle) ; 
 					}
 				}
 			}
@@ -1269,7 +1310,7 @@ void frame(FUNCTION_PARAMS)
 	{
 		SDL_SetAlpha( orden[i]->src, SDL_SRCALPHA , orden[i]->trans ) ;
 		SDL_BlitSurface( orden[i]->src , &orden[i]->srcrect , screen , &orden[i]->dstrect ) ;
-	
+	    SDL_FreeSurface (orden[i]->src);
 	}
 	last_blit = -1 ;
 
@@ -1330,11 +1371,11 @@ void first_load(FUNCTION_PARAMS2)
 	define_region = 1 ;
 
 	SDL_WM_SetCaption(fp->nombre_program, NULL);
-	SDL_ShowCursor(SDL_DISABLE);
+//	SDL_ShowCursor(SDL_DISABLE);
 
 	//prueba = SDL_LoadBMP("prueba.bmp" );
 
-	//fclose(fichero ) ;
+
 
 }
 
@@ -1348,17 +1389,28 @@ void first_load(FUNCTION_PARAMS2)
 // Esta funcion no se encarga de discernir si esta dentro o fuera de la region o pantalla,
 // eso se debe calcular antes y pasarle la informacion resultante a Dibuja
 
-int Dibuja(SDL_Surface *src , SDL_Rect srcrect , SDL_Rect dstrect , int z , int trans )
+int Dibuja(SDL_Surface *src , SDL_Rect srcrect , SDL_Rect dstrect , int z , int trans,int size,int angle)
 {
-	register int i , j ;
+	float zoom;
 
+	register int i , j ;
+	
 	last_blit++ ;
+		
+	if(size==1244324)size=0; //Peta si el ZOOM es igual a 1244324 xDDDDD (Que valor maximo puede tener size?? 1000???
+	if(size==0)size=100; //==== > Para la campatiblidad entre DLL's.
+		
+	zoom=size*0.01;
+
+
+	
+	blits[last_blit].src = rotozoomSurface (src, 0, zoom,smooth);//zoomSurface (src, zoom,zoom,SMOOTHING_OFF);;
 	//blits[last_blit].src = SDL_BlitSurface(rotozoomSurface (src, angle, 2,1), NULL , fondo , &dstrect );//src ;
-	blits[last_blit].src = src;
+	//blits[last_blit].src = src;
 	blits[last_blit].srcrect.x = srcrect.x ;
 	blits[last_blit].srcrect.y = srcrect.y ;
-	blits[last_blit].srcrect.w = srcrect.w ;
-	blits[last_blit].srcrect.h = srcrect.h ;
+	blits[last_blit].srcrect.w = blits[last_blit].src->w;//srcrect.w ;
+	blits[last_blit].srcrect.h = blits[last_blit].src->h;//srcrect.h ;
 	blits[last_blit].dstrect.x = dstrect.x ;
 	blits[last_blit].dstrect.y = dstrect.y ;
 	blits[last_blit].dstrect.w = dstrect.w ;
@@ -1397,7 +1449,7 @@ SDL_Surface *tmp;
 
     tmp= zoomSurface (src, size/100, size/100,1);
 	dst=rotozoomSurface (tmp, angle, 1,1);
-	//SDL_FreeSurface (tmp);
+	SDL_FreeSurface (tmp);
 	
 	return dst;
 }
