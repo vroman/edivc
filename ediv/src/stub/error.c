@@ -35,6 +35,8 @@
 #ifdef _WIN32
 #	include <windows.h>
 #endif
+#include <stdio.h>
+
 #include "main.h"
 #include "language.h"
 
@@ -85,7 +87,7 @@ void critical_error(int num, ...)
 {
 	va_list opparam;
 	char mensaje[256];
-	
+
 	va_start(opparam,num);
 	sprintf(mensaje,translate(0), num);
 	vsprintf(mensaje,translate_critical_error(num),opparam);

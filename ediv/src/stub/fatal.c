@@ -43,7 +43,7 @@ void eDIV_UninstallParachute(void)
 #include <signal.h>
 #include <string.h>
 
-#include <SDL/SDL.h>
+//#include <SDL/SDL.h>
 
 #include "fatal.h"
 #include "main.h"
@@ -123,7 +123,7 @@ static void eDIV_Parachute(int sig)
 		fprintf(stderr,"\n");
 	}
 #endif
-	SDL_Quit();
+	//SDL_Quit();
 	exit(-sig);
 }
 

@@ -25,6 +25,7 @@
 				Optimization="0"
 				AdditionalIncludeDirectories="../../shared"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
+				GeneratePreprocessedFile="0"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="2"
@@ -32,20 +33,25 @@
 				BrowseInformation="1"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="FALSE"
-				DebugInformationFormat="4"/>
+				DebugInformationFormat="4"
+				CompileAs="1"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="sdlmain.lib sdl.lib zlib.lib"
+				AdditionalDependencies="zlib.lib sdlmain.lib sdl.lib"
+				ShowProgress="0"
 				OutputFile="../../../bin/stub.exe"
 				LinkIncremental="2"
+				IgnoreDefaultLibraryNames=""
+				ModuleDefinitionFile=""
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(OutDir)/stub.pdb"
 				GenerateMapFile="TRUE"
 				MapExports="TRUE"
 				MapLines="TRUE"
 				SubSystem="2"
+				EntryPointSymbol=""
 				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"/>
@@ -92,6 +98,7 @@ makelib.bat win32.rel
 				AdditionalDependencies="sdlmain.lib sdl.lib zlib.lib"
 				OutputFile="$(OutDir)/stub.exe"
 				LinkIncremental="1"
+				ModuleDefinitionFile="stub.def"
 				GenerateDebugInformation="TRUE"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -137,6 +144,7 @@ makelib.bat win32.rel
 				AdditionalDependencies="sdlmain.lib sdl.lib zlib.lib"
 				OutputFile="../../../bin/stub.exe"
 				LinkIncremental="2"
+				ModuleDefinitionFile="stub.def"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(OutDir)/stub.pdb"
 				SubSystem="1"
@@ -186,6 +194,7 @@ makelib.bat win32.dbg
 				AdditionalDependencies="sdlmain.lib sdl.lib zlib.lib"
 				OutputFile="$(OutDir)/stub.exe"
 				LinkIncremental="1"
+				ModuleDefinitionFile="stub.def"
 				GenerateDebugInformation="TRUE"
 				SubSystem="1"
 				OptimizeReferences="2"

@@ -47,6 +47,7 @@ PRIVATE
     espe;
 
 BEGIN
+    set_mode(320,200,8,_fullscreen);
     load_fpg("robots.fpg");
     load_fnt("system.fnt");
     write(1,0,0,0,"Pulsa F1 para obtener ayuda");

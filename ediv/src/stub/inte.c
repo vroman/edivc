@@ -28,7 +28,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <SDL/SDL.h>
+//#include <SDL/SDL.h>
 
 #include "extern.h"
 #include "edivfont.h"
@@ -40,6 +40,7 @@
 
 
 int first_loaded ;
+_graphics graphics;
 
 int ini_interprete()
 {
@@ -90,6 +91,9 @@ int ini_interprete()
 	fp.imem_max=imem_max;
 	fp.nullstring=nullstring;
 	fp.nstring=&nstring;
+	fp.graphics=&graphics;
+
+	memset(&graphics,0,sizeof(graphics));
 
 	#ifdef DBG
 		last_lin=0;

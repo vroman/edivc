@@ -47,19 +47,23 @@
  * mem, imem_max, etc)
  */
 
+/*#ifdef main
+#undef main
+#endif*/
+
 int main(int argc, char* argv[])
 {
 	//FILE *f;
 	int f , i;
 	int stub_size;
 	int mimem[10];
-	Uint32 tiempo[100] , tiempo_i ;
+	unsigned int tiempo[100] , tiempo_i ;
 	FILE *file_tiempo ;
 	byte * ptr;
 	unsigned long len,len_descomp;
 	byte* vartemp;
 	byte* p;
-	Uint8* teclas;
+	//Uint8* teclas;
 	char capturef[50];
 	//const SDL_version* sdl_version;
 
@@ -280,8 +284,8 @@ int main(int argc, char* argv[])
 				// AHORA TODO ESTO EN LA GRAPHICS.DLL
 
 				// SE INICIALIZA LA SDL
-				if (SDL_Init(SDL_INIT_TIMER))
-					critical_error(7);	// no puedo inicializar SDL
+				//if (SDL_Init(SDL_INIT_TIMER))
+				//	critical_error(7);	// no puedo inicializar SDL
 
 				
 				//atexit(stub_quit);
@@ -322,7 +326,7 @@ int main(int argc, char* argv[])
 					*/
 					//assert(0);
 
-					noevent=0;
+					/*noevent=0;
 					while ( SDL_PollEvent(&event[0] ) && !noevent )
 					{
 						switch( event[0].type )
@@ -345,7 +349,7 @@ int main(int argc, char* argv[])
 						strcpy(capturef,fp.nombre_program);
 						strcat(capturef,".bmp");
 						SDL_SaveBMP(fp.screen,capturef);
-					}
+					}*/
 					
 					interprete();
 
@@ -413,7 +417,7 @@ void stub_quit(int n)
 		free(varindex[i].nombre);
 	}
 	free(varindex);
-	SDL_Quit();
+	//SDL_Quit();
 	//atexit(SDL_Quit);
 	exit(n);
 }

@@ -3,6 +3,7 @@ private
     numprocs;
 
 begin
+    set_mode(320,200,32,_fullscreen);
     rand_seed(343);
 //    load_bmp("hola.bmp");
     load_fpg("test.fpg");

@@ -75,8 +75,13 @@ typedef int (TYPEOF_EDIV_Export_Priority)(int priority);
 /* Call_Entrypoint */
 typedef int (TYPEOF_Call_Entrypoint)(int ep, ...);
 
+typedef struct {
+	short x, y;
+	unsigned short w, h;
+} eDIV_Rect;
+
 /* Dibuja */
-typedef int (TYPEOF_Dibuja)(SDL_Surface *, SDL_Rect , SDL_Rect , int , int ) ;
+typedef int (TYPEOF_Dibuja)(byte *, eDIV_Rect , eDIV_Rect , int , int ) ;
 
 /* Errores */
 typedef void (TYPEOF_Runtime_Error)(int, ...);
@@ -205,8 +210,10 @@ struct _existe {
 
 struct _file
 {
-	SDL_Surface *Surface ;
-	int existe ;
+	byte *Surface;
+	int w,h;
+	int bpp;
+	int existe;
 	struct
 	{
 		int x , y ;
@@ -218,8 +225,17 @@ struct _files
 	int num ;
 	int existe ;
 	struct _file *mapa ;
-}  ;
+};
 
+typedef struct {
+	int ancho;
+	int alto;
+	int bpp;
+	int flags;
+	int resflags;
+	byte* buffer;
+	byte* background;
+} _graphics;
 
 struct _fun_params{
 	int *pila ;
@@ -245,7 +261,7 @@ struct _fun_params{
 	int imem_max;
 	int* nullstring;
 	int* nstring;
-    SDL_Surface *screen;
+	_graphics* graphics;
 } fp ;
 
 		

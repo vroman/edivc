@@ -21,7 +21,7 @@
 #ifndef __MAIN_H
 #define __MAIN_H
 
-#include <SDL/SDL.h>
+//#include <SDL/SDL.h>
 #include "shared.h"
 
 //#define DEBUG_DLL		// para mostrar información al cargar las DLLs
@@ -70,13 +70,12 @@ int proceso_actual ; // indice para proc_orden
 //
 // SDL (esto debe desaparecer en breve :p)
 //
-SDL_Surface * screen;
+/*SDL_Surface * screen;
 SDL_Surface * screen1;
 //SDL_Surface * imgs[255];
 SDL_Event event[0xFF];
 
-Uint8 * keys;
-
+Uint8 * keys;*/
 
 //
 // DEBUG
