@@ -1,0 +1,92 @@
+<%title%>Uso del indexado din&aacute;mico de variables desde el <i>stub</i> y las librer&iacute;as<%/title%>
+<h1>Uso del indexado din&aacute;mico de variables desde el <i>stub</i> y las librer&iacute;as</h1>
+<p> Mediante el indexado din&aacute;mico podemos acceder a cualquier variable, 
+  tabla o estructura situada en cualquier librer&iacute;a. Para este fin existe 
+  una funci&oacute;n, GetVarOffset, que devuelve el offset en <code>mem[]</code> 
+  de cualquier variable indicando su tipo (global, reserved, local) y su nombre 
+  como cadena de caracteres. Sin embargo, para simplificar la tarea, existen unas 
+  macros cuyo uso voy a explicar aqu&iacute;.</p>
+<h2>Macros de acceso directo a variables</h2>
+<p>Mediante estas macros podemos acceder a las variables de DIV como si de variables 
+  del lenguaje C se trataran. Podemos usarlas en expresiones, asignarles valores 
+  y obtener su offset con el operador &amp;.</p>
+<h3>global (&quot;<em>nombre</em>&quot;)</h3>
+<p>Accede directamente a la variable global indicada.</p>
+<p>Ejemplo:</p>
+<%code%>if ( global("dump_type") == 0 ) ...<%/code%>
+<h3>reserved (&quot;<em>nombre</em>&quot;,<em> id</em>)</h3>
+<p>Accede directamente a la variable de la estructura <code>reserved</code> del 
+  proceso indicado.</p>
+<p>Ejemplo:</p>
+<%code%>reserved("frame_percent",id) += mem[imem++];<%/code%>
+<h3>local (&quot;<em>nombre</em>&quot;, <em>id</em>)</h3>
+<p>Accede directamente a la variable local del proceso indicado.</p>
+<p>Ejemplo:</p>
+<%code%>if ( local("graph",id) != 0 ) ...<%/code%>
+<h2>Macros de offset relativo a <code>mem[]</code></h2>
+<p>El objetivo de estas macros es obtener el offset relativo a <code>mem[]</code> 
+  de la variable deseada. Generalmente no ser&aacute; necesario usarlas, excepto 
+  para <a href="#structabl">acceder a tablas y estructuras</a>.</p>
+<h3>globalptr (&quot;<em>nombre</em>&quot;)</h3>
+<p>Obtiene el offset en <code>mem[]</code> de la variable global indicada.</p>
+<p>Ejemplo:</p>
+<%code%>mem[globalptr("fps")] = my_fps;<%/code%>
+<h3>reservedptr (&quot;<em>nombre</em>&quot;)</h3>
+<p>Obtiene el offset en <code>mem[]</code> relativo a proceso (<strong>sin sumar 
+  el id</strong>) de la variable indicada de la estructura <code>reserved</code>.</p>
+<p>Ejemplo:</p>
+<%code%>mem[reservedptr("status") + id] = 4;<%/code%>
+<h3>localptr (&quot;<em>nombre</em>&quot;)</h3>
+<p>Obtiene el offset en <code>mem[]</code> relativo a proceso (<strong>sin sumar 
+  el id</strong>) de la variable local.</p>
+<p>Ejemplo:</p>
+<%code%>mem[localptr("size") + id] = 100;<%/code%>
+<a name="structabl">
+<h2>C&oacute;mo acceder a tablas y estructuras</h2>
+</a> 
+<ol type="I">
+  <li>Tablas 
+    <p>Es muy sencillo: con <code>globalptr</code> o <code>localptr</code> obtenemos 
+      el offset del comienzo de la tabla. Luego basta sumar a ese offset el n&uacute;mero 
+      de posici&oacute;n de la tabla que queremos leer o escribir.</p>
+    <p>Ejemplo: Para poner <code>timer[4]</code> a cero:</p>
+    <%code%>
+    mem[globalptr("timer") + 4] = 0; 
+    <%/code%>
+    <p>&nbsp;</p>
+  </li>
+  <li>Estructuras 
+    <p>Aqu&iacute; la cosa es parecida. Empecemos con una estructura de 1 s&oacute;lo 
+      registro, por ejemplo <code>mouse</code>. Supongamos que queremos acceder 
+      a su miembro <code>left</code>. Con <code>globalptr</code> obtenemos el 
+      offset del inicio de la estructura. Despu&eacute;s debemos sumarle la posici&oacute;n 
+      en la que se encuentra el miembro dentro de la estructura, empezando a contar 
+      por 0 (o, dicho de otro modo, el n&uacute;mero de miembros que preceden 
+      a la estructura). En este caso, a <code>left</code> le corresponde el n&uacute;mero 
+      9. As&iacute;, para poner <code>mouse.left</code> a 1:</p>
+    <%code%>
+    mem[globalptr("mouse") + 9] = 1; 
+    <%/code%>
+    <p><strong>&iexcl;OJO!</strong> Hemos dado por supuesto que todos los miembros 
+      son <code>int</code>. Si la estructura contiene alguna tabla, debemos sumar 
+      el tama&ntilde;o de la tabla en <em>int's</em>. Si contiene una <code>string</code>, 
+      debemos sumar su tama&ntilde;o en <em>int's</em>, que se calcula as&iacute;: 
+      1+(tama&ntilde;o+5)/4.</p>
+    <p>En el caso de que la estructura tenga varios registros, hay que sumar al 
+      offset, adem&aacute;s de la posici&oacute;n del miembro en cuesti&oacute;n, 
+      el tama&ntilde;o de la estructura multiplicado por el n&uacute;mero del 
+      registro. Por ejemplo, para acceder a <code>scroll[3].z</code>:</p>
+    <%code%>
+    my_z = mem[globalptr("scroll") + 4 + 10 * 3];
+    <%/code%>
+    <p>El 4 es la posici&oacute;n de <code>z</code> en la estructura, y el 10 
+      el tama&ntilde;o de la estructura <code>scroll</code>.</p>
+	  
+    <p>Naturalmente, si queremos acceder a una estructura local, en el caso de 
+      que la haya (no hace falta usar este m&eacute;todo para acceder a variables 
+      de <code>reserved</code> ya que para eso est&aacute; la macro <code>reserved</code> 
+      explicada m&aacute;s arriba), tambi&eacute;n habr&aacute; que sumar al offset 
+      el id del proceso.</p>
+  </li>
+</ol>
+<%end%>
