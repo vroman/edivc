@@ -216,211 +216,6 @@ int ExportaFuncs(EXPORTAFUNCS_PARAMS)
  * sencillez las hemos puesto en este mismo archivo, aunque puede ser
  * aconsejable ponerlas en archivos aparte.
  */
- 
-
-//************************************  FUNCIONES GRAFICAS ******************************************//
-/*
-int eDIV_PRINTF(FUNCTION_PARAMS)
-{
-char *texto=(char *)getparm();
-
-printf("%s",texto);
-}*/
-
-/*int wait(FUNCTION_PARAMS)
-{
-MessageBox(NULL,"Pulse aceptar para continuar","eDIV To0lKit <<Debug Dll>>",MB_OK);	
-return 0;
-}*/
-
-
-
-
-/*int eDIV_fade(FUNCTION_PARAMS)
-{
-        
-        int veloc=getparm();
-		int b=getparm();
-		int g=getparm();
-		int r=getparm();
-		//int dir=getparm();
-		gr_fade_init (r, g, b, veloc, 1);
-
-        return 0;
-}*/
-
-/*int eDIV_PUT_SCREEN(FUNCTION_PARAMS)
-{
-	
-	GRAPH *tmp;
-	int id=getparm();
-	int file=getparm();
-	
-	tmp = bitmap_get (file,id); //Guarda el mapa en Tmp.
-	tmp->x=(RES_X/2);
-	tmp->y=(RES_Y/2);
-	
-	//	gr_blit (background_8bits,&regions[0],tmp->x,tmp->y,tmp->flags,tmp);	
-	return OK;
-}*/
-
-
-
-
-
-
-// Funcion que coloca un mapa con caracterisitcas especiales
-/*int eDIV_XPUT(FUNCTION_PARAMS)
-{
-	GRAPH *tmp;
-
-	int file=getparm();
-	int id=getparm();
-	int x=getparm();
-	int y=getparm();
-	int angle=getparm();
-	int scale=getparm();
-	int flags=getparm();
-	int region=getparm();
-	
-	region=1;
-	
-tmp = bitmap_get (file, id); //Guarda el mapa en Tmp.
-printf("\nxput(%i,%i,%i,%i,%i,%i,%i,%i)",file,id,x,y,angle,scale,flags,region);
-gr_rotated_blit (background_8bits, &regions[region], x, y, flags, angle, scale, tmp);
-
-	return OK;
-}*/
-
-//Funcion que pone un mapa en pantalla
-/*int eDIV_PUT(FUNCTION_PARAMS)
-{
-	GRAPH *tmp;
-	
-	
-	int y=getparm();
-	int x=getparm();
-	int id=getparm();
-	int file=getparm();
-	tmp = bitmap_get (file, id); //Guarda el mapa en Tmp.
-	gr_blit (background_8bits,&regions[0],tmp->x,tmp->y,tmp->flags,tmp);	
-
-
-	return OK;
-}*/
-
-//Funcion que pone un pixel en pantalla
-/*int eDIV_PUT_PIXEL(FUNCTION_PARAMS)
-{
-	int color=getparm();
-	int y=getparm();
-	int x=getparm();
-	gr_put_pixel (background_8bits, x,  y, color);
-	return OK;
-}*/
-
-
-//********************************* FUNCIONES DE INICIALIZACION ***************************************//
-
-// Funcion que carga un grafico (BMP,JPG,GIF,PCX,PNG,MAP)
-
-/*int eDIV_LOAD_MAP(FUNCTION_PARAMS)
-{
-	int id;					//El ID del mapa
-	int type=1;
-	GRAPH * tmp;
-	const char *filename=(char*)getstrparm();    // Fichero a cargar
-	FILE *f=fopen("graph.log","a");
-	
-	//--------------------- Si el grafico es un DIV_MAP ----------------------------//
-
-	if (strstr(filename, ".map") || strstr(filename, ".MAP"))
-	{
-		fprintf(f,"Se esta cargar el map:%s\n",filename);
-		id=gr_load_map(filename);	
-		fprintf(f,"\nDEBUG: Grafico numero %i",id);
-	}
-	
-
-	
-	//----------------------------- Si el grafico es un BMP -------------------------//
-
-	if (strstr(filename, ".pcx") || strstr(filename, ".PCX"))
-
-	{
-	id=gr_load_pcx (filename);	
-	}
-
-	if (strstr(filename, ".png") || strstr(filename, ".PNG"))
-
-	{
-	id=gr_load_png (filename);	
-	}
-
-	tmp = bitmap_get (1, id); //Guarda el mapa en Tmp y lo blitea.
-	tmp->x=0;
-	tmp->y=0;
-	tmp->flags=0;	
-
-//	gr_blit (background_8bits,&regions[0],tmp->x,tmp->y,tmp->flags,tmp);	
-
-	total_maps++;
-	return id;
-}*/
-
-
-/*int eDIV_SET_MODE(FUNCTION_PARAMS)
-{
-
-	int modo=getparm();
-	if (modo < 320200 || modo > 16001400)
-		return ERROR2;
-
-	RES_X=modo/1000;
-	RES_Y=modo%1000;
-	fondo=bitmap_get (0,0);
-
-	gr_init(RES_X,RES_Y);
-
-	return OK;
-}*/
-
-
-// Carga de FPG'S
-
-/*int eDIV_UNLOAD_FPG(FUNCTION_PARAMS)
-
-{
-
-	int libid=getparm();
-
-	grlib_destroy (libid);
-	return OK;
-}*/
-
-/*int eDIV_LOAD_FPG(FUNCTION_PARAMS)
-{
-	const char * libname=(const)(char*)getparm();
-	int id;
-
-id=gr_load_fpg (libname);
-
-	return id;
-}*/
-
-
-/*int eDIV_UNLOAD_MAP(FUNCTION_PARAMS)
-{
-
-	int id=getparm();
-	grlib_unload_map (1,id);
-
-	return 0;
-}*/
-
-
-
-
 
 int eDIV_COLLISION(FUNCTION_PARAMS)
 {
@@ -1123,27 +918,21 @@ int eDIV_LOAD_FPG(FUNCTION_PARAMS2)
 	int tamano;
 	int cont=0,num,i;
 	int bpp;
-	//SDL_Surface *surface_temporal ;
 
-	//Uint8 r,g,b;
 	SDL_Color p[256];
 
 	// TODO: quitar printf's y exit's y poner fp->Runtime_Error()
 
 	archivo = getstrparm() ;
-	printf("LOAD_FPG %s\n",archivo);
 
 	f=fopen(archivo,"rb");
 	if(f==NULL) {
-		printf("Error al abrir archivo %s\n",archivo);
-		exit(1);
+		fp->Runtime_Error(105);
 	}
 	
 	fseek(f,0,SEEK_END);
 	tamano=ftell(f);
 	fseek(f,0,SEEK_SET);
-	
-	printf("Leyendo cabecera\n");
 
 	fread(&cabecera,1,sizeof(FPGHEADER),f);
 	
@@ -1153,8 +942,7 @@ int eDIV_LOAD_FPG(FUNCTION_PARAMS2)
 		if(strcmp(cabecera.header,"f16\x1A\x0D\x0A")) {
 			if(strcmp(cabecera.header,"f24\x1A\x0D\x0A")) {
 				if(strcmp(cabecera.header,"f32\x1A\x0D\x0A")) {
-					printf("El archivo no es un FPG\n");
-					exit(1);
+					fp->Runtime_Error(106);
 				}
 				else {
 					bpp=32;
@@ -1172,18 +960,12 @@ int eDIV_LOAD_FPG(FUNCTION_PARAMS2)
 		bpp=8;
 		fseek(f,0,SEEK_SET);
 		fread(&cabecera8,1,sizeof(FPGHEADER8),f);
-		for(i=0;i<256;i++) {
-			printf("paleta[%d].r = %d\n",i,cabecera8.palette[i].r);
-			printf("paleta[%d].g = %d\n",i,cabecera8.palette[i].g);
-			printf("paleta[%d].b = %d\n",i,cabecera8.palette[i].b);
-		}
 
 		for(i=0;i<256;i++) {
 			p[i].r=cabecera8.palette[i].r*4;
 			p[i].g=cabecera8.palette[i].g*4;
 			p[i].b=cabecera8.palette[i].b*4;
 		}
-			printf("Aplicando paleta global..\n");
 		SDL_SetPalette(screen,SDL_LOGPAL|SDL_PHYSPAL,p,0,256);
 	}
 
@@ -1193,59 +975,31 @@ int eDIV_LOAD_FPG(FUNCTION_PARAMS2)
 		fread(&infomapa,1,sizeof(FPGMAPINFO),f);
 		num=infomapa.code;
 		if(num>999 || num<0) {
-			printf("Código incorrecto de mapa: %d\n",num);
-			exit(1);
+			fp->Runtime_Error(111);
 		}
 		if ( files[0].mapa[num].existe == 1 )
 			return -1 ;
 		files[0].mapa[num].existe = 1 ;
 				
-		printf("Leyendo mapa de código %d\n",num);
 		if(infomapa.number_of_points==0) {
 			files[0].mapa[num].cpoint[0].x = (int) infomapa.wide/2 ;
 			files[0].mapa[num].cpoint[0].y = (int) infomapa.height/2 ;
 		} else {
-			//fpgmaps[num].mapa.points=(short*)malloc(2*infomapa.number_of_points);
-			printf("Puntos de control: %d\n",infomapa.number_of_points);
-			//fread(fpgmaps[num].mapa.points,2,2*infomapa.number_of_points,f);
 			fread(files[0].mapa[num].cpoint,2,2*infomapa.number_of_points,f) ;
 		}
-		printf("Ancho: %d\n",infomapa.wide);
-		printf("Alto: %d\n",infomapa.height);
-		//fpgmaps[num].mapa.graphic=(char*)malloc(infomapa.wide*infomapa.height*bpp/8);
-		//fread(fpgmaps[num].mapa.graphic,1,infomapa.wide*infomapa.height*bpp/8,f);
-		//fpgmaps[num].surface=SDL_CreateRGBSurfaceFrom(fpgmaps[num].mapa.graphic,infomapa.wide,infomapa.height,bpp,infomapa.wide*bpp/8,0,0,0,0);
+
 		graphic = (char*)malloc(infomapa.wide*infomapa.height*bpp/8);
 		fread(graphic,1,infomapa.wide*infomapa.height*bpp/8,f);
-		//files[0].mapa[num].Surface = SDL_CreateRGBSurfaceFrom(graphic,infomapa.wide,infomapa.height,bpp,infomapa.wide*bpp/8,screen->format->Rmask,screen->format->Gmask,screen->format->Bmask,screen->format->Amask) ;
-		printf("r: %i , g: %i , b: %i , a: %i \n" , screen->format->Rmask,screen->format->Gmask,screen->format->Bmask,screen->format->Amask ) ;
-		//if ( bpp == screen->format->BitsPerPixel )
+
 		files[0].mapa[num].Surface = SDL_CreateRGBSurfaceFrom(graphic,infomapa.wide,infomapa.height,bpp,infomapa.wide*bpp/8,0,0,0,0) ;
-		//else
-		//{
-		//	files[0].mapa[num].Surface = SDL_CreateRGBSurfaceFrom(graphic,infomapa.wide,infomapa.height,screen->format->BitsPerPixel,infomapa.wide*screen->format->BytesPerPixel,screen->format->Rmask,screen->format->Gmask,screen->format->Bmask,screen->format->Amask) ;
 
-			//surface_temporal = SDL_CreateRGBSurfaceFrom(graphic,infomapa.wide,infomapa.height,screen->format->BitsPerPixel,infomapa.wide*screen->format->BytesPerPixel,0,0,0,0) ;
-			//files[0].mapa[num].Surface = SDL_DisplayFormat(surface_temporal) ;
-			//SDL_FreeSurface( surface_temporal ) ;
-//		}
-
-
-//		fpgmaps[num].surface=SDL_LoadBMP("/root/Console/background.bmp");
 		cont++;
 		if(bpp==8) {
-			printf("Aplicando paleta a la surface..\n");
-				//set_map_color(num,i,cabecera.palette[i].r,cabecera.palette[i].g,cabecera.palette[i].b);
 			SDL_SetPalette(files[0].mapa[num].Surface,SDL_LOGPAL|SDL_PHYSPAL,p,0,256);
 		}
 		SDL_SetColorKey(files[0].mapa[num].Surface,SDL_SRCCOLORKEY|SDL_RLEACCEL,0);
 	}
-	//set_pal(&cabecera.palette[0]);
-/*   	r=fopen("colores","w");
-   	for(i=0;i<256;i++) {
-   		fprintf(r,"Color %d: R %d, G %d, B %d\n",i,(char)cabecera.palette[i*3],(char)cabecera.palette[i*3+1],(char)cabecera.palette[i*3+2]);
-   	}
-   	fclose(r);*/
+
 	fclose(f);
 	return 0;
 }
