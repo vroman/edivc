@@ -30,8 +30,9 @@
  unsigned int tiempo;
  unsigned int ultimo_tiempo;
 #else
- #error ¡adapta las rutinas de timer a Linux!
+ #error ¡adapta las rutinas de timer a Linux! (edivstd no debe usar SDL)
 #endif
+#include <limits.h>
 #include <assert.h>
 
 #include <stdio.h>
@@ -42,6 +43,7 @@
 int last_type ;
 int last_proc ;
 
+#ifdef _DEBUG
 int DEBUG_PROCESOS(FUNCTION_PARAMS)
 {
 	int i,n;
@@ -56,6 +58,7 @@ int DEBUG_PROCESOS(FUNCTION_PARAMS)
 	fclose(f);
 	return 0;
 }
+#endif
 
 int ExportaFuncs(EXPORTAFUNCS_PARAMS)
 {
@@ -93,8 +96,8 @@ int ExportaFuncs(EXPORTAFUNCS_PARAMS)
 	CONST("false",0);
 	
 	/* Rango de INT */
-	CONST("max_int",2147483647);
-	CONST("min_int",-2147483648);
+	CONST("max_int",INT_MAX);
+	CONST("min_int",INT_MIN);
 	
 	/* Señales entre procesos */
 	CONST("s_kill",0);
@@ -159,30 +162,19 @@ int ExportaFuncs(EXPORTAFUNCS_PARAMS)
 	/* Variables locales varias */
 	LOCAL("priority",0);
 	LOCAL("ctype",0);
-	LOCAL("x",0);
-	LOCAL("y",0);
-	LOCAL("z",0);
-	LOCAL("graph",0);
-	LOCAL("size",0);
-	LOCAL("angle",0);
-	LOCAL("region",0);
-	LOCAL("file",0);
-	LOCAL("xgraph",0);
 	LOCAL("height",1);
 	LOCAL("cnumber",0);
-	LOCAL("resolution",0);
-	LOCAL("flags",0);
-	LOCAL("transparency",128) ;
 
 	FUNCTION("exit",2,eDIV_Exit);
 	FUNCTION("get_id",1,eDiv_GetId) ;
-	FUNCTION("define_region",5,eDiv_DefineRegion) ;
 	FUNCTION("signal",2,eDIV_Signal);
 	FUNCTION("let_me_alone",0,eDIV_Let_Me_Alone);
 
+#ifdef _DEBUG
 	FUNCTION("debug_procesos",0,DEBUG_PROCESOS);
+#endif
 
-	ENTRYPOINT( first_load ) ;
+	ENTRYPOINT(first_load) ;
 	ENTRYPOINT(frame);
 
 	/* 
@@ -241,29 +233,6 @@ int eDiv_GetId(FUNCTION_PARAMS)
 	} 
 	*last_type = 0 ;
 	return 0 ;
-}
-
-int eDiv_DefineRegion(FUNCTION_PARAMS)
-{
-	int n , x , y , w , h ;
-	h = getparm() ;
-	w = getparm() ;
-	y = getparm() ;
-	x = getparm() ;
-	n = getparm() ;
-
-	if ( n > 31 || n < 1 ) {
-		fp->Runtime_Error(108); /* nº de región inválido */
-		return 0;
-	}
-
-	regions[n].x = x ;
-	regions[n].y = y ;
-	regions[n].w = w ;
-	regions[n].h = h ;
-
-
-	return 1 ;
 }
 
 void signal_tree(int proc, int signal, FUNCTION_PARAMS)
@@ -334,26 +303,11 @@ int eDIV_Let_Me_Alone(FUNCTION_PARAMS)
  */
 void first_load(FUNCTION_PARAMS)
 {
-	int i ;
-
 	#ifdef _WIN32
 		struct timeb tiempob;
 		ftime(&tiempob);
 		ultimo_tiempo=tiempob.time*100+tiempob.millitm/10;
 	#endif
-
-	for ( i = 0 ; i < 32 ; i++ )
-	{
-		regions[i].x = 0 ;
-		regions[i].y = 0 ;
-		regions[i].w = 0 ;
-		regions[i].h = 0 ;
-	}
-
-	
-	fp->regions = regions ;
-	fp->existe.regions = 1 ;
-	
 }
 
 void frame(FUNCTION_PARAMS)

@@ -1,8 +1,7 @@
-
 /*
- * eDiv Compiler
- * Copyleft (C) 2000-2002 Sion Entertainment
- * http://www.sion-e.com
+ * eDIV Compiler
+ * Copyleft (C) 2000-2003 Sion Ltd.
+ * http://www.sionhq.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,6 +27,13 @@
  * notifíquelo a Sion Entertainment en bugs@edivcentral.com
  */
 
+/*! \file export.h
+ * \brief Cabecera del SDK para DLL's de eDIV
+ */
+/*! \defgroup sdk SDK
+ * @{
+ */
+
 #ifndef __EDIV_EXPORT_H_
 #define __EDIV_EXPORT_H_
 
@@ -46,13 +52,18 @@ extern "C" {
 #endif
 
 /* VARINDEX */
+/*! \defgroup varindex Acceso a variables indexadas */
+/*! @{ */
+
+/*! Para usar con las funciones o macros de acceso a variables indexadas */
 typedef enum { v_global, v_reserved, v_local } tipo_t;
 
+/*! Estructura de variables indexadas */
 typedef struct {
-	unsigned char hash;
-	tipo_t tipo;
-	char* nombre;
-	int offset;
+	unsigned char hash;	/*!< Hash del nombre de la variable, para acelerar su búsqueda */
+	tipo_t tipo;		/*!< Tipo de variable (global, reservada o local) */
+	char* nombre;		/*!< Nombre de la variable */
+	int offset;			/*!< offset en mem[] (relativo al proceso si es local o reservada) */
 } varindex_t;
 
 #define global(nombre) fp->mem[fp->GetVarOffset(v_global,nombre)]
@@ -61,6 +72,8 @@ typedef struct {
 #define globalptr(nombre) fp->GetVarOffset(v_global,nombre)
 #define reservedptr(nombre) fp->GetVarOffset(v_reserved,nombre)
 #define localptr(nombre) fp->GetVarOffset(v_local,nombre)
+
+/*! @} */
 /* FIN DE VARINDEX */
 
 
@@ -89,22 +102,23 @@ typedef int (TYPEOF_Call_Entrypoint)(int ep, ...);
 typedef int (TYPEOF_Dibuja)(SDL_Surface *, SDL_Rect, SDL_Rect, int, int, int, int);
 
 /* Errores */
-typedef enum {			/* Tipos de error para custom_error() */
-	_runtime_error=1,
-	_critical_error=2
+/*! Tipos de error para custom_error() */
+typedef enum {
+	_runtime_error=1,	/*!< Error normal (se puede depurar y/o ignorar) */
+	_critical_error=2	/*!< Error crítico (interrumpe obligatoriamente el programa) */
 } tipoerror;
 
 typedef void (TYPEOF_Runtime_Error)(int, ...);
 typedef void (TYPEOF_Critical_Error)(int, ...);
 typedef void (TYPEOF_Custom_Error)(tipoerror,char*);
 
-/* Obtiene offset de variable indexada dinámicamente */
+/*! Obtiene offset de variable indexada dinámicamente */
 typedef int (TYPEOF_GetVarOffset)(tipo_t tipo,char* nombre);
 
-/* Finaliza el stub (exit) */
+/*! Finaliza el stub (exit) */
 typedef void (TYPEOF_Stub_Quit)(int n);
 
-/* EXPORTAFUNCS_PARAMS deben usarse como parámetros para ExportaFuncs */
+/*! EXPORTAFUNCS_PARAMS deben usarse como parámetros para ExportaFuncs */
 #define EXPORTAFUNCS_PARAMS \
 TYPEOF_EDIV_Export                  *EDIV_Export              ,\
 TYPEOF_EDIV_Export_Const            *EDIV_Export_Const        ,\
@@ -130,8 +144,10 @@ TYPEOF_EDIV_Export_Priority			*EDIV_Export_Priority
  * a las correspondientes rutinas de las dll's, ordenadas por prioridad)
  */
 
-// Constantes para EDIV_Export_Entrypoint
+/* Constantes para EDIV_Export_Entrypoint */
 
+/*! \defgroup entrypoints Entrypoints */
+/*! @{ */
 #define EDIV_set_video_mode			1	/* Al activar un nuevo modo de vídeo */
 #define EDIV_process_palette		2	/* Al cargar una paleta */
 #define EDIV_process_active_palette	3	/* Al modificar la paleta activa (usada en los fades) */
@@ -155,7 +171,7 @@ TYPEOF_EDIV_Export_Priority			*EDIV_Export_Priority
 #define EDIV_debug					21	/* Invocar al trazador - sentencia debug (solo en debug) */
 #define EDIV_first_load				22	/* Se ejecuta al cargar la DLL en ejecucion */
 #define EDIV_quit					23  /* Llamado por stub_quit() */
-
+/*! @} */
 
 /* #defines para que la declaración de datos sea un poco más BASIC... :p */
 #ifdef CONST
@@ -176,13 +192,13 @@ TYPEOF_EDIV_Export_Priority			*EDIV_Export_Priority
 #define ENTRYPOINT(e)	EDIV_Export_Entrypoint(EDIV_##e,e)
 #define PRIORITY		EDIV_Export_Priority
 
-
-/*
+/*!
  * FUNCTION_PARAMS deben usarse como parametros para TODAS las funciones
- * ¡ojo! debe ser igual en extern.h
+ * ¡OJO! debe ser igual en extern.h
  */
 #define FUNCTION_PARAMS	struct _fun_params * fp
 
+/*! Estructura de una entrada de la tabla de procesos */
 struct _procs_s{
 	int id ;         /* offset de los datos locales del proceso */
 	int tipo ;       /* tipo de proceso */
@@ -194,15 +210,18 @@ struct _procs_s{
 	int graph ;
 };
 
-struct _regions
-{
+/*! Estructura de una región de pantalla */
+struct _regions {
 	int x , y , w , h ;
-} ;
+};
 
+/*! Permite asegurarnos de que ciertos recursos están cargados */
 struct _existe {
 	int regions ;
 	int dibuja ;
-} ;
+};
+
+/*! Mapa dentro de un FPG */
 struct _file
 {
 	SDL_Surface *Surface;
@@ -213,15 +232,23 @@ struct _file
 	{
 		int x , y ;
 	} cpoint[ 20 ] ;
-} ;
+};
 
+/*! Vector de FPG's */
 struct _files
 {
 	int num ;
 	int existe ;
 	struct _file *mapa ;
-}  ;
+};
 
+/*! Datos de la paleta en la estructura _graphics */
+struct _palette {
+	byte r,g,b;
+	byte unused;
+};
+
+/*! Estructura graphics, permite acceder a la pantalla */
 typedef struct {
 	int ancho;
 	int alto;
@@ -230,8 +257,11 @@ typedef struct {
 	int resflags;
 	byte* buffer;
 	byte* background;
+	struct _palette* palette;
+	struct _palette* activepal;
 } _graphics;
 
+/*! Parámetros para las funciones exportadas */
 struct _fun_params{
 	int *pila ;
 	int *sp ;
@@ -265,6 +295,9 @@ struct _fun_params{
 #define GR_ACTIVE		0x01
 #define GR_CHANGED		0x02
 
+/* Valores para PRIORITY() */
+#define P_SIEMPRE			512
+#define P_NUNCA				-512
 
 /* Se usa igual que el getparm() de DIV */
 #define getparm()		fp->pila[(*fp->sp)--]
@@ -274,7 +307,12 @@ struct _fun_params{
 #define retval(a)	return (a)
 
 
-/* Prototipos de los entrypoints */
+/*
+ * Prototipos de los entrypoints
+ */
+
+/*! \addtogroup entrypoints */
+/*! @{ */
 void set_video_mode(void);
 void process_palette(void);
 void process_active_palette(void);
@@ -299,9 +337,12 @@ void trace(int imem, char* nombreprg, int* lin, void* dbg);
 void debug(int imem, char* nombreprg, int* lin, void* dbg);
 void first_load(FUNCTION_PARAMS) ;
 void quit(void);
+/*! @} */
 
 #ifdef __cplusplus
 }
 #endif
 
 #endif /* __EDIV_EXPORT_H_ */
+
+/*! @} */

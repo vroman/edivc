@@ -1,3 +1,11 @@
+/*! \file graphics.c
+ * \brief DLL principal del motor gráfico 2D de eDIV
+ *
+ * En esta DLL se encuentran las principales funciones relacionadas con el
+ * manejo de gráficos. Tiene prioridad P_SIEMPRE ya que se supone que la
+ * mayoría de los programas hechos con eDIV requerirán tratamiento de gráficos.
+ */
+
 #include <stdio.h>
 #include <ctype.h>
 #include <stdlib.h>
@@ -15,88 +23,14 @@
 #include "export.h"
 #include "graphics.h"
 #include "SDL_rotozoom.h"
-#include "default_palette.h"
-
-#define ERR_FILENOTFOUND		105
-#define ERR_INVALIDFPGHEADER	106
-#define ERR_INVALIDMAPCODE		110
-
-#define Miedzy(x,a,b)	(((x) >= (a)) && ((x) <= (b)))
-
-#define PaletteCopy(dst,src) SDL_SetPalette(dst,SDL_LOGPAL|SDL_PHYSPAL,src->format->palette->colors,0,256);
-
-#define MAX_DRAWS	1024
 
 
-struct _files files[ 0xFF ] ;
-
-SDL_Surface *Mapa[0xFFF] ;
-
-struct _file file0[0xFFF] ;
-int last_map[0xFF] ;
-int color_transparente ;
-int define_region ;
-BOOL primer_frame=TRUE;
-
-typedef struct {
-			unsigned char r,g,b;
-		} pal_t;
-
-typedef struct _FPGHEADER8{
-        char   header[8];
-		pal_t palette[256];
-        /* char   palette[768]; */
-        char   colorbars[576];
-}FPGHEADER8;
-
-typedef struct _FPGHEADER{
-        char   header[8];
-		/* pal_t palette[256];    */
-        /* char   palette[768];   */
-        /* char   colorbars[576]; */
-}FPGHEADER;
-
-typedef struct _FPGMAPINFO{
-        int    code;
-        int    lenght;
-        char   description[32];
-        char   filename[12];
-        int    wide;
-        int    height;
-        int    number_of_points;
-}FPGMAPINFO;
-
-//char   *graphic;  /* wide*height */
-
-
-struct{
-	int existe ;
-	int region ;
-	int x , y ;
-	int t , c ; /* requerido para move_draw() */
-	SDL_Surface *Surface ;
-} draws[MAX_DRAWS] ;
-
-int last_draw ;
-
-struct _blits {
-	SDL_Surface *src ;
-	SDL_Rect srcrect ;
-	SDL_Surface *dst ;
-	SDL_Rect dstrect ;
-	int z ;
-	int trans ;
-} blits[0xFFFF] , *orden[0xFFFF];
-
-int last_blit ;
-
-int gamma[3] ;
-
-int smooth=0;	/* Smooth para el ZOOM */
-
+/*! \brief Función de exportación de símbolos de la DLL
+ * @return TRUE si la DLL da su permiso para ser cargada, en caso contrario, FALSE
+ */
 int ExportaFuncs(EXPORTAFUNCS_PARAMS)
 {
-
+	/* Modos predefinidos para set_mode (sólo 8 bpp, compatibilidad DIV2) */
 	CONST("m320x200",320200);
 	CONST("m320x240",320240);
 	CONST("m320x400",320400);
@@ -116,23 +50,29 @@ int ExportaFuncs(EXPORTAFUNCS_PARAMS)
 	CONST("m1600x1200",16001200);
 	CONST("m1900x1600",19001600);
 
+	/* flags para set_mode */
 	CONST("_fullscreen",GR_FULLSCREEN);
 
+	/* valores para dump_type */
 	CONST("partial_dump",0);
 	CONST("complete_dump",1);
 
+	/* valores para restore_type */
 	CONST("no_restore",-1);
 	CONST("partial_restore",0);
 	CONST("complete_restore",1);
 
+	/* valores para graphic_info() */
 	CONST("g_wide",0);
 	CONST("g_height",1);
 	CONST("g_x_center",2);
 	CONST("g_y_center",3);
 
+	/* constante para delete_draw() */
 	CONST("all_drawing",-1);
 	
 
+	/* estructura para get_video_modes() */
 	GLOBAL_STRUCT("video_modes",31);
 		_INT("wide",0);
 		_INT("height",0);
@@ -140,6 +80,7 @@ int ExportaFuncs(EXPORTAFUNCS_PARAMS)
 		_INT("mode",0);
 	END_STRUCT;
 	
+	/* variables globales */
 	GLOBAL("dump_type",1);
 	GLOBAL("restore_type",1);
 	GLOBAL("fading",0);
@@ -149,13 +90,42 @@ int ExportaFuncs(EXPORTAFUNCS_PARAMS)
 	GLOBAL("draw_z",-255);
 	GLOBAL("smooth",smooth); /* > Atención una nueva variable que indica si se activa o no el SMOOTH al ZOOMEAR. */
 
+	/* variables locales */
+	LOCAL("x",0);
+	LOCAL("y",0);
+	LOCAL("z",0);
+	LOCAL("graph",0);
+	LOCAL("size",0);
+	LOCAL("angle",0);
+	LOCAL("region",0);
+	LOCAL("file",0);
+	LOCAL("xgraph",0);
+	LOCAL("resolution",0);
+	LOCAL("flags",0);
+	LOCAL("transparency",128);
+
+	/* FUNCIONES */
+
+	/* Carga/descarga */
 	FUNCTION("load_bmp",1,eDIV_LOAD_BMP) ;
+	FUNCTION("load_fpg",1,eDIV_LOAD_FPG) ;
+
+	/* Colisiones */
 	FUNCTION("collision",1,eDIV_COLLISION) ;
+
+	/* Paleta */
 	FUNCTION("set_transparent_color",1,eDIV_SET_TRANSPARENT_COLOR) ;
 	FUNCTION("get_transparent_color",0,eDIV_GET_TRANSPARENT_COLOR) ;
 	FUNCTION("rgb",3,eDIV_RGB) ;
+	FUNCTION("find_color",3,eDIV_FIND_COLOR);
+	FUNCTION("fade",4,eDIV_FADE) ;
+	FUNCTION("get_rgb",4,eDIV_GET_RGB);
+
+	/* Advance y xadvance */
 	FUNCTION("advance",1,eDIV_ADVANCE) ;
 	FUNCTION("xadvance",2,eDIV_XADVANCE) ;
+
+	/* Operaciones con mapas */
 	FUNCTION("map_block_copy",9,eDIV_MAP_BLOCK_COPY) ;
 	FUNCTION("map_get_pixel",4,eDIV_MAP_GET_PIXEL) ;
 	FUNCTION("map_put",5,eDIV_MAP_PUT);
@@ -167,1046 +137,49 @@ int ExportaFuncs(EXPORTAFUNCS_PARAMS)
 	FUNCTION("get_pixel",2,eDIV_GET_PIXEL);
 	FUNCTION("new_map",5,eDIV_NEW_MAP) ;
 	FUNCTION("screen_copy",7,eDIV_SCREEN_COPY) ;
-	FUNCTION("out_region",2,eDIV_OUT_REGION) ;
-	FUNCTION("draw",8,eDIV_DRAW) ;
-	FUNCTION("move_draw",7,eDIV_MOVE_DRAW) ;
-	FUNCTION("delete_draw",1,eDIV_DELETE_DRAW) ;
-	FUNCTION("load_fpg",1,eDIV_LOAD_FPG) ;
 	FUNCTION("get_point",5,eDIV_GET_POINT) ;
 	FUNCTION("get_real_point",3,eDIV_GET_REAL_POINT) ;
 	FUNCTION("graphic_info",3,eDIV_GRAPHIC_INFO) ;
-	FUNCTION("fade",4,eDIV_FADE) ;
 	FUNCTION("xput",6,eDIV_XPUT);
-	FUNCTION("get_rgb",4,eDIV_GET_RGB);
+
+	/* Regiones */
+	FUNCTION("define_region",5,eDIV_DEFINE_REGION) ;
+	FUNCTION("out_region",2,eDIV_OUT_REGION) ;
+
+	/* Draws */
+	FUNCTION("draw",8,eDIV_DRAW) ;
+	FUNCTION("move_draw",7,eDIV_MOVE_DRAW) ;
+	FUNCTION("delete_draw",1,eDIV_DELETE_DRAW) ;
+
+	/* Otras */
 	FUNCTION("set_mode",1,eDIV_SET_MODE);
 	FUNCTION("set_mode",3,eDIV_SET_MODE);
 	FUNCTION("set_mode",4,eDIV_SET_MODE);
 
+
+	/* Entrypoints */
 	ENTRYPOINT( frame ) ;
 	ENTRYPOINT( first_load ) ;
-
 
 
 	return TRUE;
 }
 
-/*
- * int IntersectionRR(int rc1left,int rc1top,int rc1right,int rc1bottom,int rc2left,int rc2top,int rc2right,int rc2bottom)
- * Comprueba si hay colisión entre dos regiones rectangulares.
- *
- * Devuelve:
- * 0 - No hay colisión
- * 1 - Hay colisión
- */
-int IntersectionRR(int rc1left,int rc1top,int rc1right,int rc1bottom,int rc2left,int rc2top,int rc2right,int rc2bottom)
-{
-	return ((Miedzy(rc1left,rc2left,rc2right) || Miedzy(rc1right,rc2left,rc2right) ||
-		Miedzy(rc2left,rc1left,rc1right) || Miedzy(rc2right,rc1left,rc1right)) &&
-		(Miedzy(rc1top,rc2top,rc2bottom) || Miedzy(rc1bottom,rc2top,rc2bottom) ||
-		Miedzy(rc2top,rc1top,rc1bottom) || Miedzy(rc2bottom,rc1top,rc1bottom)));
-}
-
-/* 
- * A continuación las funciones que queremos exportar. Para una mayor
- * sencillez las hemos puesto en este mismo archivo, aunque puede ser
- * aconsejable ponerlas en archivos aparte.
- */
-int eDIV_COLLISION(FUNCTION_PARAMS)
-{
-	int g1 , g2 ;
-	int f1 , f2 ;
-	int id1, id2 ;
-	int a, i ;
-	SDL_Rect r1 , r2 ;
-	int _status=reservedptr("status");
-	a = getparm() ;
-
-	id1 = fp->procs_s[ fp->proc_orden[ *fp->proceso_actual ] ].id ;
-
-	g1 = local("graph",id1)  ;
-	f1 = local("file",id1) ;
-	if ( files[f1].existe == 0 || files[f1].mapa[g1].existe == 0 )
-		return 0;
-
-	/* Si se le pasa un ID */
-	if (a<fp->imem_max)
-	{
-		if(a==id1 || (fp->mem[id1+_status]!=2 && fp->mem[id1+_status]!=4))
-			return 0;
-		r1.x = local("x",id1) ;
-		r1.y = local("y",id1) ;
-		r1.w = files[f1].mapa[g1].Surface->w ;
-		r1.h = files[f1].mapa[g1].Surface->h ;
-		id2 = a ;
-		g2 = local("graph",id2) ;
-		f2 = local("file",id2);
-		if ( files[f2].existe == 0 || files[f2].mapa[g2].existe == 0 )
-			return 0;
-		r2.x = local("x",id2) ;
-		r2.y = local("y",id2) ;
-		r2.w = files[f2].mapa[g2].Surface->w ;
-		r2.h = files[f2].mapa[g1].Surface->h ;
-		/* Colision barata :P */
-		if(IntersectionRR(r1.x,r1.y,r1.x+r1.w-1,r1.x+r1.h-1,r2.x,r2.y,r2.x+r2.w-1,r2.y+r2.h-1))
-			return id2;
-	}
-	else {
-		int* type_scan=&reserved("type_scan",id1);
-		int* id_scan=&reserved("id_scan",id1);
-		/* Si se le pasa un type */
-
-		if(*type_scan!=a) {
-			*id_scan=0;
-			*type_scan=a;
-		}
-
-		for ( i = *id_scan+1 ; i < *fp->num_procs ; i++ )
-		{
-			id2 = fp->procs_s[ fp->proc_orden[ i ] ].id;
-			if(id2==id1 || (fp->mem[id1+_status]!=2 && fp->mem[id1+_status]!=4))
-				continue;
-
-			/* Si el proceso se corresponde con el type */
-			if ( reserved("process_type",id2) == a )
-			{
-
-				r1.x = local("x",id1) ;
-				r1.y = local("y",id1) ;
-				r1.w = files[f1].mapa[g1].Surface->w ;
-				r1.h = files[f1].mapa[g1].Surface->h ;
-				g2 = local("graph",id2) ;
-				f2 = local("file",id2) ;
-				if ( files[f2].existe == 0 || files[f2].mapa[g2].existe == 0 )
-					continue;
-				r2.x = local("x",id2) ;
-				r2.y = local("y",id2) ;
-				r2.w = files[f2].mapa[g2].Surface->w ;
-				r2.h = files[f2].mapa[g1].Surface->h ;
-				/* Colision barata :P */
-				if(IntersectionRR(r1.x,r1.y,r1.x+r1.w-1,r1.x+r1.h-1,r2.x,r2.y,r2.x+r2.w-1,r2.y+r2.h-1)) {
-					*id_scan=i;
-
-					return id2;
-				}
-			}
-		}
-		*type_scan=0;
-	}
-
-	return 0 ;
-}
-
-/*****************************************************************/
-/*                                                               */
-/* eDIV_LOAD_BMP(filename);                                      */
-/*                                                               */
-/* Carga un BMP donde 'filename' es el fichero a cargar.         */
-/*                                                               */
-/* Retorna: El numero de Mapa.                                   */
-/*          -1 : Si no se ha podido cargar el mapa.              */
-/*                                                               */
-/*****************************************************************/
-int eDIV_LOAD_BMP(FUNCTION_PARAMS)
-{
-	int i ;
-	const char *filename=getstrparm();    /* Fichero a cargar */
-	for ( i = 1000 ; i < files[0].num ; i++ ) 
-	{
-		if ( files[0].mapa[i].existe == 0 )
-		{
-			files[0].mapa[i].Surface = SDL_LoadBMP( filename ) ;
-			if(files[0].mapa[i].Surface == NULL)
-			fp->Runtime_Error(143); /* "No se pudo cargar el mapa, archivo no encontrado." */			
-			files[0].mapa[i].existe = 1 ;
-			files[0].mapa[i].cpoint[0].x = (int)files[0].mapa[i].Surface->w / 2 ;
-			files[0].mapa[i].cpoint[0].y = (int)files[0].mapa[i].Surface->h / 2 ;
-			SDL_SetColorKey( files[0].mapa[i].Surface , SDL_SRCCOLORKEY | SDL_RLEACCEL , color_transparente ) ;
-			if ( i > last_map[0] )
-				last_map[0] = i ;
-			return i ;
-		}
-	}
-	return -1 ;
-}
-
-/*****************************************************************/
-/*                                                               */
-/* eDIV_SET_TRANSPARENT_COLOR(a);                                */
-/*                                                               */
-/* Coloca cual es el color transparente donde 'a' es el color.   */
-/*                                                               */
-/* Retorna: El antiguo color transparente.                       */
-/*                                                               */
-/*****************************************************************/
-
-int eDIV_SET_TRANSPARENT_COLOR(FUNCTION_PARAMS)
-{
-	int b , i;
-	int a = getparm() ;
-	b = color_transparente ;
-	color_transparente = a ;
-	for ( i = 1 ; i <= last_map[0] ; i++ )
-	{
-		if ( files[0].mapa[i].existe )
-			SDL_SetColorKey( files[0].mapa[i].Surface , SDL_SRCCOLORKEY | SDL_RLEACCEL  , color_transparente ) ;
-	}
-	return b ;
-}
-
-/*****************************************************************/
-/*                                                               */
-/* eDIV_GET_TRANSPARENT_COLOR();                                 */
-/*                                                               */
-/* Retorna: El color transparente.                               */
-/*                                                               */
-/*****************************************************************/
-
-int eDIV_GET_TRANSPARENT_COLOR(FUNCTION_PARAMS)
-{
-	return color_transparente ;
-}
-
-/*****************************************************************/
-/*                                                               */
-/* eDIV_RGB(r,g,b);                                              */
-/*                                                               */
-/* Crea un color a partir de los 3 colores basicos.    .         */
-/*                                                               */
-/* r=Rojo (Red) g=Verde (Green) b=Blue (Azul)                    */
-/*                                                               */
-/* Retorna: El color generado.                                   */
-/*                                                               */
-/*****************************************************************/
-
-int eDIV_RGB(FUNCTION_PARAMS)
-{
-	int r,g,b ;
-	b = getparm() ;
-	g = getparm() ;
-	r = getparm() ;
-
-	//return ( b + g*256 + r*65536 ) ;
-	return SDL_MapRGB(screen->format,r,g,b);
-}
-
-/*****************************************************************/
-/*                                                               */
-/* eDIV_GET_RGB(color, offset r, offset g, offset b);            */
-/*                                                               */
-/* Obtiene las componentes RGB de un color dado.                 */
-/*                                                               */
-/* r=Rojo (Red) g=Verde (Green) b=Blue (Azul)                    */
-/*                                                               */
-/* Retorna: 1                                                    */
-/*                                                               */
-/*****************************************************************/
-int eDIV_GET_RGB(FUNCTION_PARAMS)
-{
-	unsigned int color,roff,goff,boff;
-	unsigned char r,g,b;
-	boff=getparm();
-	goff=getparm();
-	roff=getparm();
-	color=getparm();
-	SDL_GetRGB(color,screen->format,&r,&g,&b);
-	if(roff) fp->mem[roff]=(int)r;
-	if(goff) fp->mem[goff]=(int)g;
-	if(boff) fp->mem[boff]=(int)b;
-	return 1;
-}
-
-/*****************************************************************/
-/*                                                               */
-/* eDIV_ADVANCE(a);                                              */
-/*                                                               */
-/* Avanza 'a' unidades segun el angulo del proceso.    .         */
-/*                                                               */
-/* Retorna: 1.                                                   */
-/*                                                               */
-/*****************************************************************/
-
-int eDIV_ADVANCE(FUNCTION_PARAMS)
-{
-	int a , id1 , x , y , angulo ;
-	a = getparm() ;
-	id1 = fp->procs_s[ fp->proc_orden[ *fp->proceso_actual ] ].id ;
-	angulo = local("angle",id1) ;
-	x = (int) ((double)a * cos( (angulo/1000) * PIOVER180 )) ;
-	y = (int) ((double)a * sin( (angulo/1000) * PIOVER180 )) ;
-	local("x",id1) += x;
-	local("y",id1) += y ;
-	return 1 ;
-}
-
-/*****************************************************************/
-/*                                                               */
-/* eDIV_XADVANCE(angle,b)                                        */
-/*                                                               */
-/* Avanza 'b' unidades segun el angulo 'angle'    .    .         */
-/*                                                               */
-/* Retorna: 1                                                    */
-/*                                                               */
-/*****************************************************************/
-
-int eDIV_XADVANCE(FUNCTION_PARAMS)
-{
-	int a , b , id1 , x , y , angulo ;
-	b = getparm() ;
-	a = getparm() ;
-	id1 = fp->procs_s[ fp->proc_orden[ *fp->proceso_actual ] ].id ;
-	angulo = a ;
-	x = (int) ((double)b * cos( (angulo/1000) * PIOVER180 )) ;
-	y = (int) ((double)b * sin( (angulo/1000) * PIOVER180 )) ;
-	local("x",id1) += x ;
-	local("y",id1) += y ;
-	return 1 ;
-}
-
-int eDIV_MAP_BLOCK_COPY(FUNCTION_PARAMS)
-{
-	int f , g2 , x2 , y2 , g1 , x1 , y1 , w , h ;
-	SDL_Rect srcrect , dstrect ;
-	h = getparm() ;
-	w = getparm() ;
-	y1 = getparm() ;
-	x1 = getparm() ;
-	g1 = getparm() ;
-	y2 = getparm() ;
-	x2 = getparm() ;
-	g2 = getparm() ;
-	f = getparm() ;
-
-	srcrect.x = x1 ;
-	srcrect.y = y1 ;
-	srcrect.w = w ;
-	srcrect.h = h ;
-
-	dstrect.x = x2 ;
-	dstrect.y = y2 ;
-	dstrect.w = srcrect.w ;
-	dstrect.h = srcrect.h ;
-
-	if ( !files[f].existe || !files[f].mapa[g1].existe || !files[f].mapa[g2].existe )
-		return -1 ;
-
-	SDL_BlitSurface( files[f].mapa[g1].Surface , &srcrect , files[f].mapa[g2].Surface , &dstrect ) ;
-	return 1 ;
-
-}
-
-/*****************************************************************/
-/*                                                               */
-/* eDIV_MAP_GET_PIXEL(y,x,g,f);                                  */
-/*                                                               */
-/* Coje el color de un pixel, de un mapa. Coordenadas, x e y     */
-/*                                                               */
-/* del mapa 'g' del fichero 'f'.                                 */
-/*                                                               */
-/* Retorna: El color del pixel.                                  */
-/*                                                               */
-/*****************************************************************/
-
-int eDIV_MAP_GET_PIXEL(FUNCTION_PARAMS)
-{
-	int f , g , x , y , bpp ;
-	Uint8 *p ;
-	y = getparm() ;
-	x = getparm() ;
-	g = getparm() ;
-	f = getparm() ;
-
-	if ( !files[f].existe || !files[f].mapa[g].existe )
-		return -1 ;
-
-	if ( x > files[f].mapa[g].Surface->w || y > files[f].mapa[g].Surface->h || x < 0 || y < 0 )
-		return -2 ;
-
-	bpp = files[f].mapa[g].Surface->format->BytesPerPixel;
-    p = (Uint8 *)files[f].mapa[g].Surface->pixels + y * files[f].mapa[g].Surface->pitch + x * bpp;
-
-    switch(bpp) {
-    case 1:
-		return *p;
-    case 2:
-		return *(Uint16 *)p;
-    case 3:
-        if(SDL_BYTEORDER == SDL_BIG_ENDIAN)
-		{
-			return p[0] << 16 | p[1] << 8 | p[2];
-		}else
-		{
-            return p[0] | p[1] << 8 | p[2] << 16;
-		}
-    case 4:
-		return *(Uint32 *)p;
-	}
-
-	return 0;
-}
-
-int eDIV_MAP_PUT(FUNCTION_PARAMS)
-{
-	int f , g2 , g1 , x , y ;
-	SDL_Rect dstrect ;
-	y = getparm() ;
-	x = getparm() ;
-	g1 = getparm() ;
-	g2 = getparm() ;
-	f = getparm() ;
-
-	if ( !files[f].existe || !files[f].mapa[g1].existe || !files[f].mapa[g2].existe )
-		return -1 ;
-
-	dstrect.x = x ;
-	dstrect.y = y ;
-	dstrect.w = 0 ; /* Se ignora */
-	dstrect.h = 0 ; /* Se ignora */
-
-	SDL_BlitSurface( files[f].mapa[g1].Surface , NULL , files[f].mapa[g2].Surface , &dstrect ) ;
-	return 1 ;
-
-}
-
-int eDIV_MAP_PUT_PIXEL(FUNCTION_PARAMS)
-{
-	int f , g , x , y , c , bpp ;
-	Uint8 *p ;
-
-
-	c = getparm() ;
-	y = getparm() ;
-	x = getparm() ;
-	g = getparm() ;
-	f = getparm() ;
-
-	if ( !files[f].existe || !files[0].mapa[g].existe )
-		return -1 ;
-
-	if ( x > files[f].mapa[g].Surface->w || y > files[f].mapa[g].Surface->h || x < 0 || y < 0 )
-		return -2 ;
-
-	if ( SDL_MUSTLOCK( files[f].mapa[g].Surface ) ) {
-		if ( SDL_LockSurface( files[f].mapa[g].Surface ) < 0 ) {
-            return -3;
-        }
-    }
-
-
-	bpp = files[f].mapa[g].Surface->format->BytesPerPixel ;
-	p = (Uint8 *)files[f].mapa[g].Surface->pixels + y * files[f].mapa[g].Surface->pitch + x * bpp ;
-
-    switch(bpp) {
-
-	case 1:
-        *p = c;
-        break;
-
-    case 2:
-        *(Uint16 *)p = c;
-        break;
-
-    case 3:
-        if(SDL_BYTEORDER == SDL_BIG_ENDIAN) {
-            p[0] = (c >> 16) & 0xff;
-            p[1] = (c >> 8) & 0xff;
-            p[2] = c & 0xff;
-        } else {
-            p[0] = c & 0xff;
-            p[1] = (c >> 8) & 0xff;
-            p[2] = (c >> 16) & 0xff;
-        }
-        break;
-
-    case 4:
-        *(Uint32 *)p = c;
-        break;
-    }
-
-    if ( SDL_MUSTLOCK( files[f].mapa[g].Surface ) ) {
-        SDL_UnlockSurface( files[f].mapa[g].Surface );
-    }
-
-
-	return 1 ;
-}
-
-
-int eDIV_PUT(FUNCTION_PARAMS)
-{
-	int f , g , x , y ;
-	SDL_Rect dstrect ;
-
-	y = getparm() ;
-	x = getparm() ;
-	g = getparm() ;
-	f = getparm() ;
-
-	if ( !files[f].existe || !files[f].mapa[g].existe )
-		return -1 ;
-    
-	dstrect.x = x - files[f].mapa[g].cpoint[0].x ;
-	dstrect.y = y - files[f].mapa[g].cpoint[0].y ;
-	dstrect.w = 0 ; /* Se ignora */
-	dstrect.h = 0 ; /* Se ignora */
-
-	SDL_BlitSurface( files[f].mapa[g].Surface , NULL , fondo , &dstrect ) ;
-
-	return 1 ;
-
-}
-
-/*****************************************************************/
-/*                                                               */
-/* eDIV_XPUT(f,g,x,y,angle,zoom);                                */
-/*                                                               */
-/* Coloca un MAPA 'g' del fichero 'f' en x e y con un angulo     */
-/* angle y un tamaño zoom/100;                                   */
-/*                                                               */
-/* Retorna: 1: Si se ha colocado correctamente                   */
-/*         -1: Si el mapa no existe.                             */
-/*****************************************************************/
-
-int eDIV_XPUT(FUNCTION_PARAMS)
-{
-	int f , g , x , y ;
-	double zoom,angle;
-	SDL_Surface *map;
-	SDL_Rect dstrect ;
-
-	zoom  = getparm();
-	angle = getparm();
-	y = getparm() ;
-	x = getparm() ;
-	g = getparm() ;
-	f = getparm() ;
-
-	if ( !files[f].existe || !files[f].mapa[g].existe )
-		return -1 ;
-    
-	dstrect.x = x - files[f].mapa[g].cpoint[0].x ;
-	dstrect.y = y - files[f].mapa[g].cpoint[0].y ;
-	dstrect.w = 0 ; /* Se ignora */
-	dstrect.h = 0 ; /* Se ignora */
-
-	map=xput(files[f].mapa[g].Surface,zoom,angle);
-
-	SDL_BlitSurface(map , NULL , fondo , &dstrect ) ;
-	SDL_FreeSurface (map);
-
-	return 1 ;
-
-}
-
-
-
-
-int eDIV_PUT_SCREEN(FUNCTION_PARAMS)
-{
-	int f , g ;
-
-	g = getparm() ;
-	f = getparm() ;
-
-	if ( !files[f].existe || !files[f].mapa[g].existe )
-		return -1 ;
-    
-	SDL_BlitSurface( files[f].mapa[g].Surface , NULL , fondo , NULL ) ;
-
-	return 1 ;
-
-}
-
-int eDIV_PUT_PIXEL(FUNCTION_PARAMS)
-{
-	int x , y , c , bpp ;
-	Uint8 *p ;
-
-
-	c = getparm() ;
-	y = getparm() ;
-	x = getparm() ;
-
-	if ( x > fondo->w || y > fondo->h || x < 0 || y < 0 )
-		return -1 ;
-
-    if ( SDL_MUSTLOCK(fondo) ) {
-        if ( SDL_LockSurface(fondo) < 0 ) {
-            return -2;
-        }
-    }
-
-
-	bpp = fondo->format->BytesPerPixel ;
-	p = (Uint8 *)fondo->pixels + y * fondo->pitch + x * bpp ;
-
-    switch(bpp) {
-
-	case 1:
-        *p = c;
-        break;
-
-    case 2:
-        *(Uint16 *)p = c;
-        break;
-
-    case 3:
-        if(SDL_BYTEORDER == SDL_BIG_ENDIAN) {
-            p[0] = (c >> 16) & 0xff;
-            p[1] = (c >> 8) & 0xff;
-            p[2] = c & 0xff;
-        } else {
-            p[0] = c & 0xff;
-            p[1] = (c >> 8) & 0xff;
-            p[2] = (c >> 16) & 0xff;
-        }
-        break;
-
-    case 4:
-        *(Uint32 *)p = c;
-        break;
-    }
-
-    if ( SDL_MUSTLOCK(fondo) ) {
-        SDL_UnlockSurface(fondo);
-    }
-
-
-	return 1 ;
-}
-
-
-
-int eDIV_CLEAR_SCREEN(FUNCTION_PARAMS)
-{
-	SDL_FillRect( fondo , NULL , 0 ) ;
-
-	return 1;
-}
-
-
-int eDIV_GET_PIXEL(FUNCTION_PARAMS)
-{
-	int x , y , bpp;
-	Uint8 *p ;
-	y = getparm() ;
-	x = getparm() ;
-
-	if ( x > fondo->w || y > fondo->h || x < 0 || y < 0 )
-		return -1 ;
-
-    bpp = fondo->format->BytesPerPixel;
-    p = (Uint8 *)fondo->pixels + y * fondo->pitch + x * bpp;
-
-    switch(bpp) {
-    case 1:
-		return *p;
-    case 2:
-		return *(Uint16 *)p;
-    case 3:
-        if(SDL_BYTEORDER == SDL_BIG_ENDIAN)
-		{
-			return p[0] << 16 | p[1] << 8 | p[2];
-		}else
-		{
-            return p[0] | p[1] << 8 | p[2] << 16;
-		}
-    case 4:
-		return *(Uint32 *)p;
-	}
-
-	return 0;
-}
-
-
-int eDIV_NEW_MAP(FUNCTION_PARAMS)
-{
-	int i ;
-	int w , h , cx , cy , c ;
-	c = getparm() ;
-	cy = getparm() ;
-	cx = getparm() ;
-	h = getparm() ;
-	w = getparm() ;
-
-	for ( i = 1000 ; i < files[0].num ; i++ )
-	{
-		if ( !files[0].mapa[i].existe )
-		{
-			files[0].mapa[i].Surface = SDL_CreateRGBSurface( SDL_HWSURFACE , w , h , screen->format->BitsPerPixel , 0xFF0000 , 0x00FF00 , 0x0000FF , 0x000000 ) ;
-			files[0].mapa[i].existe = 1 ;
-			files[0].mapa[i].cpoint[0].x = cx ;
-			files[0].mapa[i].cpoint[0].y = cy ;
-			SDL_FillRect( files[0].mapa[i].Surface , NULL , c ) ;
-			SDL_SetColorKey( files[0].mapa[i].Surface , SDL_SRCCOLORKEY | SDL_RLEACCEL , color_transparente ) ;
-			if ( i > last_map[0] )
-				last_map[0] = i ;
-			return i ;
-		}
-	}
-	return -1 ;
-}
-
-
-int eDIV_SCREEN_COPY(FUNCTION_PARAMS)
-{
-	SDL_Rect srcrect , dstrect ;
-	int r, f, g , x, y , w , h ;
-	h = getparm() ;
-	w = getparm() ;
-	y = getparm() ;
-	x = getparm() ;
-	g = getparm() ;
-	f = getparm() ;
-	r = getparm() ;
-
-	if ( !files[f].existe || !files[f].mapa[g].existe )
-		return -1 ;
-    
-	srcrect.x = 0 ;
-	srcrect.y = 0 ;
-	srcrect.w = w ;
-	srcrect.h = h ;
-
-	dstrect.x = x ;
-	dstrect.y = y ;
-	dstrect.w = 0 ;
-	dstrect.h = 0 ;
-
-	SDL_BlitSurface( screen, &srcrect , files[f].mapa[g].Surface , &dstrect ) ;
-	return 1 ;
-}
-
-int eDIV_OUT_REGION(FUNCTION_PARAMS)
-{
-	int id , r ;
-	int f, g , x , y ;
-	r = getparm() ;
-	id = getparm() ;
-
-	f = local("file",id) ;
-	g = local("graph",id) ;
-	
-	if ( !files[f].existe || !files[f].mapa[g].existe )
-		return -1 ;
-
-	x = local("x",id) ;
-	y = local("y",id) ;
-
-	if ( x < fp->regions[r].x + fp->regions[r].w && x + files[f].mapa[g].Surface->w > fp->regions[r].x &&
-		y < fp->regions[r].y + fp->regions[r].h && y + files[f].mapa[g].Surface->h > fp->regions[r].y )
-		return 0 ;
-	else
-		return 1 ;
-}
-
-int eDIV_DRAW(FUNCTION_PARAMS)
-{
-	int i ;
-	int t , c , o , r , x0, y0 , x1 , y1  ;
-	SDL_Rect dstrect ;
-	y1 = getparm() ;
-	x1 = getparm() ;
-	y0 = getparm() ;
-	x0 = getparm() ;
-	r = getparm() ;
-	o = getparm() ;
-	c = getparm() ;
-	t = getparm() ;
-
-	for ( i = 0 ; i < 1024 ; i++ )
-	{
-		if ( draws[i].existe == 0 )
-		{
-			draws[i].Surface = SDL_CreateRGBSurface( SDL_HWSURFACE , x1 - x0 , y1 - y0 , screen->format->BitsPerPixel , 0xFF0000 , 0x00FF00 , 0x0000FF , 0x000000 ) ;
-			switch ( t )
-			{
-			case 3:
-				dstrect.x = 0 ;
-				dstrect.y = 0 ;
-				dstrect.w = x1 - x0 ;
-				dstrect.h = y1 - y0 ;
-				SDL_FillRect( draws[i].Surface , &dstrect , c ) ;
-				break ;
-			}
-			draws[i].region = r ;
-			draws[i].x = x0 ;
-			draws[i].y = y0 ;
-			draws[i].t = t ;
-			draws[i].c = c ;
-			if ( o < 15 && o > -1 )
-				SDL_SetAlpha( draws[i].Surface , SDL_SRCALPHA | SDL_RLEACCEL , 17 * (o) ) ;
-			draws[i].existe = 1 ;
-			if ( i > last_draw )
-				last_draw = i ;
-			return i ;
-		}
-	}
-	return -1 ;
-}
-
-int eDIV_MOVE_DRAW(FUNCTION_PARAMS)
-{
-	SDL_Rect dstrect ;
-	int id , c , o , x0 , y0 , x1 , y1 ;
-	y1 = getparm() ;
-	x1 = getparm() ;
-	y0 = getparm() ;
-	x0 = getparm() ;
-	o = getparm() ;
-	c = getparm() ;
-	id = getparm() ;
-	
-	if ( !draws[id].existe )
-		return -1 ;
-
-	if ( x1 - x0 != draws[id].Surface->w || y1 - y0 != draws[id].Surface->h || c != draws[id].c )
-	{
-		if ( x1 - x0 != draws[id].Surface->w || y1 - y0 != draws[id].Surface->h )
-		{
-			SDL_FreeSurface( draws[id].Surface ) ;
-			draws[id].Surface = SDL_CreateRGBSurface( SDL_HWSURFACE , x1 - x0 , y1 - y0 , screen->format->BitsPerPixel , 0xFF0000 , 0x00FF00 , 0x0000FF , 0x000000 ) ;
-		}
-		switch ( draws[id].t )
-		{
-		case 3:
-			dstrect.x = 0 ;
-			dstrect.y = 0 ;
-			dstrect.w = x1 - x0 ;
-			dstrect.h = y1 - y0 ;
-			SDL_FillRect( draws[id].Surface , &dstrect , c ) ;
-			break ;
-		}
-	}
-
-	draws[id].x = x0 ;
-	draws[id].y = y0 ;
-	draws[id].c = c ;
-	if ( o < 15 && o > -1 )
-		SDL_SetAlpha( draws[id].Surface , SDL_SRCALPHA | SDL_RLEACCEL , 17 * (o) ) ;
-	else
-		if ( o == 15 )
-			SDL_SetAlpha( draws[id].Surface , 0 , 255 ) ;
-
-	return 1 ;
-}
-
-int eDIV_DELETE_DRAW(FUNCTION_PARAMS)
-{
-	int n ;
-	n = getparm() ;
-
-	if(n==-1) {
-		for(n=0;n<MAX_DRAWS;n++) {
-			if(draws[n].existe) {
-				SDL_FreeSurface( draws[n].Surface );
-				draws[n].existe = 0;
-			}
-		}
-		last_draw=0;
-		return 1;
-	}
-
-	if ( !draws[n].existe )
-		return -1 ;
-
-	SDL_FreeSurface( draws[n].Surface ) ;
-	draws[n].existe = 0 ;
-
-	for ( ; last_draw > 0 ; last_draw-- )
-	{
-		if ( draws[last_draw].existe )
-			break ;
-	}
-	return 1 ;
-
-
-	
-}
-
-
-int eDIV_LOAD_FPG(FUNCTION_PARAMS)
-{
-	char * archivo ;
-	FILE *f;
-	FPGHEADER8 cabecera8;
-	FPGHEADER cabecera;
-	FPGMAPINFO infomapa;
-	int tamano;
-	int cont=0,num,i;
-	int bpp;
-	char* graphic;
-
-	SDL_Color p[256];
-
-	archivo = getstrparm() ;
-
-	f=fopen(archivo,"rb");
-	if(f==NULL) {
-		fp->Runtime_Error(ERR_FILENOTFOUND);
-	}
-	
-	fseek(f,0,SEEK_END);
-	tamano=ftell(f);
-	fseek(f,0,SEEK_SET);
-
-	fread(&cabecera,1,sizeof(FPGHEADER),f);
-	
-	/*
-	 * TODO: optimizar esto ligeramente (comprobar primero los bytes comunes y luego
-	 *       leer "pg","16","24","32")
-	 */
-
-	if(strcmp(cabecera.header,"fpg\x1A\x0D\x0A")) {
-		if(strcmp(cabecera.header,"f16\x1A\x0D\x0A")) {
-			if(strcmp(cabecera.header,"f24\x1A\x0D\x0A")) {
-				if(strcmp(cabecera.header,"f32\x1A\x0D\x0A")) {
-					fp->Runtime_Error(ERR_INVALIDFPGHEADER);
-				}
-				else {
-					bpp=32;
-				}
-			}
-			else {
-				bpp=24;
-			}
-		}
-		else {
-			bpp=16;
-		}
-	}
-	else {
-		bpp=8;
-		fseek(f,0,SEEK_SET);
-		fread(&cabecera8,1,sizeof(FPGHEADER8),f);
-
-		for(i=0;i<256;i++) {
-			p[i].r=cabecera8.palette[i].r*4;
-			p[i].g=cabecera8.palette[i].g*4;
-			p[i].b=cabecera8.palette[i].b*4;
-		}
-		SDL_SetPalette(screen,SDL_LOGPAL|SDL_PHYSPAL,p,0,256);
-	}
-
-
-
-	while(ftell(f)<tamano) {
-		fread(&infomapa,1,sizeof(FPGMAPINFO),f);
-		num=infomapa.code;
-		if(num>999 || num<0) {
-			fp->Runtime_Error(ERR_INVALIDMAPCODE);
-		}
-		if ( files[0].mapa[num].existe == 1 )
-			return -1 ;
-		files[0].mapa[num].existe = 1 ;
-				
-		if(infomapa.number_of_points==0) {
-			files[0].mapa[num].cpoint[0].x = (int) infomapa.wide/2 ;
-			files[0].mapa[num].cpoint[0].y = (int) infomapa.height/2 ;
-		} else {
-			fread(files[0].mapa[num].cpoint,2,2*infomapa.number_of_points,f) ;
-		}
-
-		graphic = (char*)malloc(infomapa.wide*infomapa.height*bpp/8);
-		fread(graphic,1,infomapa.wide*infomapa.height*bpp/8,f);
-
-		files[0].mapa[num].Surface = SDL_CreateRGBSurfaceFrom(graphic,infomapa.wide,infomapa.height,bpp,infomapa.wide*bpp/8,0,0,0,0) ;
-
-		cont++;
-		if(bpp==8) {
-			SDL_SetPalette(files[0].mapa[num].Surface,SDL_LOGPAL|SDL_PHYSPAL,p,0,256);
-		}
-		SDL_SetColorKey(files[0].mapa[num].Surface,SDL_SRCCOLORKEY|SDL_RLEACCEL,0);
-	}
-
-	fclose(f);
-	return 0;
-}
-
-int eDIV_GET_POINT(FUNCTION_PARAMS)
-{
-	int f , g , n , dx , dy ;
-	dy = getparm() ;
-	dx = getparm() ;
-	n = getparm() ;
-	g = getparm() ;
-	f = getparm() ;
-
-	if ( !files[f].existe || !files[f].mapa[g].existe )
-		return -1 ;
-
-	fp->mem[ dx ] = files[f].mapa[g].cpoint[n].x ;
-	fp->mem[ dy ] = files[f].mapa[g].cpoint[n].y ;
-
-	return 0 ;
-}
-
-int eDIV_GET_REAL_POINT(FUNCTION_PARAMS)
-{
-	int f , g , n , dx , dy , x , y , id;
-	dy = getparm() ;
-	dx = getparm() ;
-	n = getparm() ;
-	id = fp->procs_s[ fp->proc_orden[ *fp->proceso_actual ] ].id;
-	f = local("file",id) ;
-	g = local("graph",id) ;
-	x = local("x",id) ;
-	y = local("y",id) ;
-
-	if ( !files[f].existe || !files[f].mapa[g].existe )
-		return -1 ;
-
-	fp->mem[ dx ] = files[f].mapa[g].cpoint[n].x - files[f].mapa[g].cpoint[0].x + x ;
-	fp->mem[ dy ] = files[f].mapa[g].cpoint[n].y - files[f].mapa[g].cpoint[0].y + y ;
-
-	return 0 ;
-}
-
-int eDIV_GRAPHIC_INFO(FUNCTION_PARAMS)
-{
-	int f , g , i ;
-	i = getparm() ;
-	g = getparm() ;
-	f = getparm() ;
-
-	if ( !files[f].existe || !files[f].mapa[g].existe )
-		return -1 ;
-
-	switch (i)
-	{
-		case 0:
-			return files[f].mapa[g].Surface->w ;
-		case 1:
-			return files[f].mapa[g].Surface->h ;
-		case 2:
-			return files[f].mapa[g].cpoint[0].x ;
-		case 3:
-			return files[f].mapa[g].cpoint[0].y ;
-	}
-	return -1;
-}
-
-	
-int eDIV_FADE(FUNCTION_PARAMS)
-{
-	int r , g , b , v ;
-	v = getparm() ;
-	b = getparm() ;
-	g = getparm() ;
-	r = getparm() ;
-
-	return SDL_SetGamma( 1.0f , 1.0f , 1.0f ) ;
-	return 1 ;
-}
-
-/*
- * Entrypoints
- */
 FILE * fichero ;
 FILE * memo ;
 
+/*! \brief Guarda una captura de la pantalla en un .bmp
+ *
+ * Esta función es llamada cuando se pulsa ALT+P. Primero busca un nombre de
+ * fichero válido del tipo nombre_programa####.bmp, donde #### es el primer
+ * número que haya disponible, para ir numerando las capturas automáticamente.
+ * Luego simplemente usa SDL_SaveBMP() para guardar el backbuffer con ese
+ * nombre.
+ * @param nombre_program Nombre del programa, obtenido de fp->nombre_program
+ */
 void guarda_pantallazo(char* nombre_program)
 {
-	char capturef[256], num[5];
+	char capturef[256];
 	int c,i;
 	FILE* f;
 
@@ -1230,8 +203,15 @@ void guarda_pantallazo(char* nombre_program)
 	SDL_SaveBMP(screen,capturef);
 }
 
-/*
- * Función para usar con qsort() para ordenar los blits por su Z
+/*! \brief Función para usar con qsort() para ordenar los blits por su Z
+ *
+ * Esta función se pasa a qsort() para que la graphics (en el entrypoint frame)
+ * ordene los blits (del tipo struct _blits) según su Z, para que se dibujen
+ * en el backbuffer en el orden correcto.
+ * @param a Primer blit a ordenar
+ * @param b Segundo blit a ordenar
+ * @return -1 si a está detrás de b, 1 si a está delante de b, 0 si tienen la misma Z
+ * @see frame(), struct _blits
  */
 int ordena_por_z(const void* a, const void* b)
 {
@@ -1239,13 +219,26 @@ int ordena_por_z(const void* a, const void* b)
 	struct _blits* bb=(struct _blits*)b;
 	return (aa->z>bb->z)?-1:((aa->z<bb->z)?1:0);
 }
+	
 
+/*
+ * Entrypoints
+ */
+
+/*! \brief Entrypoint frame
+ *
+ * Este entrypoint se ejecuta una vez todos los procesos han ejecutado su código
+ * correspondiente al frame actual. Se encarga de procesar todos los gráficos
+ * en pantalla (fondo, draws, procesos y los creados por otras DLL's mediante
+ * fp->Dibuja()), blitearlos en el backbuffer y actualizar la pantalla.
+ * @see Dibuja(), draw.c
+ */
 void frame(FUNCTION_PARAMS)
 {
 	static int una_vez = 1 ;
 	int i ,  id , f , g , r , z , trans,angle,size,resolution;
 	SDL_Rect dstrect , srcrect ;
-	Uint32 rmask , gmask , bmask , amask ;
+//	Uint32 rmask , gmask , bmask , amask ;
 	SDL_Surface* temp;
 	int noevent;
 	SDL_Event event;
@@ -1271,7 +264,7 @@ void frame(FUNCTION_PARAMS)
 		temp = SDL_SetVideoMode(fp->graphics->ancho,fp->graphics->alto,fp->graphics->bpp,SDL_HWSURFACE|SDL_DOUBLEBUF|SDL_HWACCEL|((fp->graphics->flags&GR_FULLSCREEN)?SDL_FULLSCREEN:0)|((fp->graphics->bpp==8)?SDL_HWPALETTE:0));
 		if(fp->graphics->bpp==8)
 			PaletteCopy(temp,screen);
-		
+
 		if(fp->graphics->resflags&GR_CHANGED) {
 			SDL_FreeSurface(screen);
 			SDL_FreeSurface(fondo);
@@ -1293,6 +286,12 @@ void frame(FUNCTION_PARAMS)
 		if ( screen == NULL || fondo==NULL) {
 			fp->Critical_Error(7); /* No se pudo inicializar SDL */
 			return;
+		}
+
+		if(fp->graphics->bpp==8) {
+			fp->graphics->palette=(struct _palette*)screen->format->palette->colors;
+			fp->graphics->activepal=(struct _palette*)activepal;
+			memcpy(activepal,fp->graphics->palette,256*4);
 		}
 
 		SDL_WM_SetCaption(fp->nombre_program, NULL);
@@ -1483,6 +482,12 @@ void frame(FUNCTION_PARAMS)
 
 }
 
+/*! \brief Entrypoint first_load
+ *
+ * Este entrypoint se ejecuta cuando la DLL se carga en el comienzo de la ejecución
+ * del programa. Se usa para inicializar todos los datos internos de la DLL y
+ * realizar alguna operación inicial si es preciso.
+ */
 void first_load(FUNCTION_PARAMS)
 {
 	int i ;
@@ -1492,7 +497,9 @@ void first_load(FUNCTION_PARAMS)
 	fp->files = files ;
 	fp->existe.dibuja = 1 ;
 
-	
+	adaptar_paleta=FALSE;
+	primer_frame=TRUE;
+	smooth=0;
 
 	for ( i = 0 ; i < 0xFF ; i++ )
 		last_map[i] = 0 ;
@@ -1518,6 +525,20 @@ void first_load(FUNCTION_PARAMS)
 	gamma[2] = 128 ;
 
 	define_region = 1 ;
+
+	for (i=1;i<MAX_REGIONS;i++) {
+		regions[i].x = 0 ;
+		regions[i].y = 0 ;
+		regions[i].w = 0 ;
+		regions[i].h = 0 ;
+	}
+	regions[0].x=0;
+	regions[0].y=0;
+	regions[0].w=320;
+	regions[0].h=200;
+	
+	fp->regions = regions ;
+	fp->existe.regions = 1 ;
 
 	fp->graphics->ancho=320;
 	fp->graphics->alto=200;
@@ -1549,13 +570,25 @@ void first_load(FUNCTION_PARAMS)
  * Funciones Internas de la DLL
  */
 
-/*
- * Dibuja
- * Se encarga de meter un registro en la pila de bliteos, segun su z
- * Esta funcion no se encarga de discernir si esta dentro o fuera de la region o pantalla,
- * eso se debe calcular antes y pasarle la informacion resultante a Dibuja
+/*! \brief Agrega un gráfico a la lista de blits
+ * 
+ * Esta función puede usarse desde cualquier DLL (se exporta en la estructura fp)
+ * y se encarga de meter un registro en la pila de bliteos, permitiendo especificar
+ * ciertos parámetros describiendo cómo debe dibujarse el gráfico, incluyendo Z,
+ * transparencia, etc.
+ * Esta función no se encarga de discernir si el gráfico esta dentro o fuera de
+ * la región o pantalla, eso se debe calcular antes y pasarle la información
+ * resultante a Dibuja().
+ * @param src Superficie donde se encuentra el gráfico a dibujar
+ * @param srcrect Región del gráfico que queremos dibujar
+ * @param dstrect Región de la pantalla en la que debe aparecer el gráfico
+ * @param z Profundidad del gráfico, permite que pueda dibujarse delante o detrás de otros gráficos
+ * @param trans Transparencia del gráfico (0..255)
+ * @param size Tamaño (en porcentaje) al que debe escalarse el gráfico, 100% es el tamaño original
+ * @param angle Ángulo (en milésimas de grado) para rotar el gráfico. (0 = sin rotación)
+ * @return 1
+ * @see frame(), xput(), ordena_por_z(), #blits
  */
-
 int Dibuja(SDL_Surface *src , SDL_Rect srcrect , SDL_Rect dstrect , int z , int trans,int size,int angle)
 {
 	float zoom;
@@ -1567,8 +600,8 @@ int Dibuja(SDL_Surface *src , SDL_Rect srcrect , SDL_Rect dstrect , int z , int 
 	
 	if (size==0)
 		size=100;
-	if (size>100)
-		size=100;
+/*	if (size>100)
+		size=100;*/
 		
 	zoom=size*0.01f;
 
@@ -1578,7 +611,7 @@ int Dibuja(SDL_Surface *src , SDL_Rect srcrect , SDL_Rect dstrect , int z , int 
 
 	/* 
 	 * Pequeño hack para arreglar transparency
-	 * Debería limpiarse y revisarse un poco :P
+	 * TODO: Debería limpiarse y revisarse un poco :P
 	 */
 	if(blits[last_blit].src->flags & SDL_SRCALPHA) {
 		for(i=0;i<blits[last_blit].src->h*blits[last_blit].src->w*blits[last_blit].src->format->BytesPerPixel;i+=blits[last_blit].src->format->BytesPerPixel) {
@@ -1604,70 +637,28 @@ int Dibuja(SDL_Surface *src , SDL_Rect srcrect , SDL_Rect dstrect , int z , int 
 	return 1 ;
 }
 
+/*! \brief Escala y rota un gráfico
+ *
+ * Esta función recibe una superficie y la rota y escala según los valores deseados,
+ * y devuelve una nueva superficie que contiene el gráfico transformado.
+ * @param src La superficie con el gráfico que se desea transformar
+ * @param size Tamaño al que se desea escalar el gráfico (1.0 es el tamaño original)
+ * @param angle Ángulo (en grados) al que se desea rotar el gráfico (0.0 = sin rotación)
+ * @return Una nueva superficie con el gráfico transformado
+ * @see Dibuja(), SDL_rotozoom.c
+ */
 SDL_Surface *xput(SDL_Surface *src,double size,double angle)
 {
 
 	int s;
 	SDL_Surface *dst;
 	SDL_Surface *tmp;
-
+	
     s=smooth;
-	if(size==1 && angle ==0)s=0;    
+	if(size==1 && angle ==0) s=0;
 	tmp= zoomSurface (src, size, size,s);
 	dst=rotozoomSurface (tmp, angle, 1,s);
 	SDL_FreeSurface (tmp);
 	
 	return dst;
-}
-
-int eDIV_SET_MODE(FUNCTION_PARAMS)
-{
-	int modo;
-
-	switch(fp->num_params) {
-		case 4:
-			fp->graphics->flags=getparm();
-		case 3:
-			fp->graphics->bpp=getparm();
-			fp->graphics->alto=getparm();
-			fp->graphics->ancho=getparm();
-			break;
-		case 1:
-			modo=getparm();
-			if(modo>1280960) {
-				fp->graphics->ancho=modo/10000;
-				fp->graphics->alto=modo%10000;
-			}
-			else {
-				fp->graphics->ancho=modo/1000;
-				fp->graphics->alto=modo%1000;
-			}
-			fp->graphics->bpp=8;
-			fp->graphics->flags=0;
-	}
-	
-	/* Esto avisa a las DLLs */
-	fp->graphics->resflags|=GR_CHANGED;
-
-	SDL_FreeSurface(fondo);
-	SDL_FreeSurface(screen);
-
-	screen=SDL_SetVideoMode(fp->graphics->ancho,fp->graphics->alto,fp->graphics->bpp,SDL_HWSURFACE|SDL_DOUBLEBUF|SDL_HWACCEL|((fp->graphics->flags&GR_FULLSCREEN)?SDL_FULLSCREEN:0)|((fp->graphics->bpp==8)?SDL_HWPALETTE:0));
-	fp->graphics->buffer=screen->pixels;
-
-	if(fp->graphics->bpp==8)
-		SDL_SetPalette(screen,SDL_LOGPAL|SDL_PHYSPAL,(SDL_Color*)default_palette,0,256);
-
-	if ( screen == NULL ) {
-		fp->Critical_Error(7); /* No se pudo inicializar SDL */
-		return 0;
-	}
-
-	fondo=SDL_CreateRGBSurface(SDL_HWSURFACE,fp->graphics->ancho,fp->graphics->alto,fp->graphics->bpp,0,0,0,0);
-	fp->graphics->background=fondo->pixels;
-
-	if(fp->graphics->bpp==8)
-		PaletteCopy(fondo,screen);
-
-	return 0;
 }

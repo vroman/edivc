@@ -124,7 +124,31 @@
 				RelativePath="..\SDL_rotozoom.c">
 			</File>
 			<File
+				RelativePath="..\advance.c">
+			</File>
+			<File
+				RelativePath="..\carga.c">
+			</File>
+			<File
+				RelativePath="..\collision.c">
+			</File>
+			<File
+				RelativePath="..\draw.c">
+			</File>
+			<File
 				RelativePath="..\graphics.c">
+			</File>
+			<File
+				RelativePath="..\map_ops.c">
+			</File>
+			<File
+				RelativePath="..\misc.c">
+			</File>
+			<File
+				RelativePath="..\paleta.c">
+			</File>
+			<File
+				RelativePath="..\regiones.c">
 			</File>
 		</Filter>
 		<Filter
