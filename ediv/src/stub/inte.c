@@ -152,9 +152,17 @@ int interprete()
 				proceso( proc_orden[ proceso_actual ], -1 ) ;
 		}
 		Call_Entrypoint(EDIV_frame);
+
+		for ( proceso_actual = 0 ; proceso_actual < num_proc_orden ; proceso_actual++ )
+		{
+			if(mem[procs_s[proc_orden[proceso_actual]].id+_status]==1) {
+				//mem[procs_s[num].id+_status=0;
+				lista_quita(proceso_actual);
+			}
+		}
 		
-	}else
-	{
+	}
+	else {
 		stub_quit(0) ;
 	}
 	
@@ -555,11 +563,6 @@ int proceso( int num, int padre )
 				}
 			#endif /* _DEBUG */
 		#endif /* DBG */
-	}
-
-	if(mem[procs_s[num].id+_status]==1) {
-		//mem[procs_s[num].id+_status=0;
-		lista_quita(num_proc);
 	}
 
 	if ( devolver > 0 && no_devuelve == 0 )

@@ -819,7 +819,6 @@ zoomSurface (SDL_Surface * src, double zoomx, double zoomy, int smooth)
       zoomy = VALUE_LIMIT;
     }
 
- 
   dstwidth = (int) ((double) rz_src->w * zoomx);
   dstheight = (int) ((double) rz_src->h * zoomy);
   if (dstwidth < 1)
@@ -884,7 +883,7 @@ zoomSurface (SDL_Surface * src, double zoomx, double zoomy, int smooth)
    return (rz_dst);
 }
 
-#ifdef WIN32
+#ifdef NORL_WIN32
  /* For DLL building under VC6 */
 BOOL APIENTRY
 DllMain (HANDLE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)

@@ -304,3 +304,14 @@ joysticks... controladores.. force feedback.. (kien tiene uno de estos trastos? 
 drag&drop
 
 graficos mediante beziers!! http://www.newimage.com/~rhk/roaddemo/
+
+[20:07] > en el caso de ediv
+[20:07] [Xtrai2] igual vosotros incrementais antes ip
+[20:07] > hacemos ip++ nada más leer el opcode
+[20:07] > es decir
+[20:07] [Xtrai2] ah
+[20:07] [Xtrai2] ok ok
+[20:07] > en el switch
+[20:07] > ponemos
+[20:07] > switch(mem[ip++]) {
+[20:07] > etc

@@ -67,6 +67,7 @@
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				OmitFramePointers="TRUE"
+				AdditionalIncludeDirectories="..;..\..\shared"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;MATH_EXPORTS"
 				StringPooling="TRUE"
 				RuntimeLibrary="0"
@@ -79,8 +80,9 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="$(OutDir)/math.dll"
+				OutputFile="..\..\..\bin\dll\math.dll"
 				LinkIncremental="1"
+				ModuleDefinitionFile=".\math.def"
 				GenerateDebugInformation="TRUE"
 				SubSystem="2"
 				OptimizeReferences="2"

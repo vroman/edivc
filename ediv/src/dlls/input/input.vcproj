@@ -4,10 +4,10 @@
 	Version="7.00"
 	Name="input"
 	ProjectGUID="{6994F9CD-63ED-425D-879C-678D1706F4AE}"
-	SccProjectName="&quot;$/dlls&quot;, YCAAAAAA"
+	SccProjectName=""
 	SccAuxPath=""
-	SccLocalPath="..\.."
-	SccProvider="MSSCCI:Microsoft Visual SourceSafe">
+	SccLocalPath=""
+	SccProvider="">
 	<Platforms>
 		<Platform
 			Name="Win32"/>
@@ -43,11 +43,11 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="TRUE"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="odbc32.lib odbccp32.lib"
-				OutputFile="..\..\..\bin\dll\edivstd.dll"
+				AdditionalDependencies="sdlmain.lib sdl.lib"
+				OutputFile="..\..\..\bin\dll\input.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				ModuleDefinitionFile=".\edivstd.def"
+				ModuleDefinitionFile=".\input.def"
 				ProgramDatabaseFile=".\Release/edivstd.pdb"
 				ImportLibrary=".\Release/edivstd.lib"/>
 			<Tool

@@ -1167,7 +1167,7 @@ int eDIV_FADE(FUNCTION_PARAMS2)
 	return 1 ;
 }
 	
-int eDIV_SETMODE(FUNCTION_PARAMS)
+/*int eDIV_SETMODE(FUNCTION_PARAMS)
 {
 	int x,y,bpp,full;
 	full = getparm();
@@ -1181,7 +1181,7 @@ int eDIV_SETMODE(FUNCTION_PARAMS)
 	else
 	screen = SDL_SetVideoMode(x, y, bpp, SDL_SWSURFACE   );
 return;
-}
+}*/
 
 //*********************************** Entry Points **********************************************//
 
@@ -1361,7 +1361,7 @@ void frame(FUNCTION_PARAMS)
 
 	for ( i = 0 ; i <= last_blit ; i++ )
 	{
-		SDL_SetAlpha( blits[i].src, SDL_SRCALPHA , blits[i].trans ) ;
+		//SDL_SetAlpha( blits[i].src, SDL_SRCALPHA , /*blits[i].trans*/128 ) ;
 		SDL_BlitSurface( blits[i].src , &blits[i].srcrect , screen , &blits[i].dstrect ) ;
 	    SDL_FreeSurface (blits[i].src);
 	}
@@ -1462,6 +1462,20 @@ int Dibuja(SDL_Surface *src , SDL_Rect srcrect , SDL_Rect dstrect , int z , int 
 	
 	//blits[last_blit].src = src;
 	blits[last_blit].src =xput(src, zoom,angulo);
+
+	/* PEKEÑO HACK PARA ARREGLAR TRANSPARENCY
+	 * Debería limpiarse y revisarse un poco :P
+	 */
+	if(blits[last_blit].src->flags & SDL_SRCALPHA) {
+		for(i=0;i<blits[last_blit].src->h*blits[last_blit].src->w*blits[last_blit].src->format->BytesPerPixel;i+=blits[last_blit].src->format->BytesPerPixel) {
+			if(*((int*)&((unsigned char*)blits[last_blit].src->pixels)[i])!=color_transparente)
+				((unsigned char*)blits[last_blit].src->pixels)[i+3]=trans;
+		}
+	}
+	else {
+		SDL_SetAlpha(blits[last_blit].src,SDL_SRCALPHA,trans);
+	}
+
 	blits[last_blit].srcrect.x = srcrect.x ;
 	blits[last_blit].srcrect.y = srcrect.y ;
 	blits[last_blit].srcrect.w = blits[last_blit].src->w;//srcrect.w ;
@@ -1472,7 +1486,7 @@ int Dibuja(SDL_Surface *src , SDL_Rect srcrect , SDL_Rect dstrect , int z , int 
 	blits[last_blit].dstrect.h = dstrect.h ;
 	blits[last_blit].z = z ;
 	blits[last_blit].trans = trans ;
-	
+
 
 
 	// Buscamos su posicion
@@ -1505,8 +1519,8 @@ SDL_Surface *xput(SDL_Surface *src,double size,double angle)
 	SDL_Surface *tmp;
 
     s=smooth;
-	if(size==1 && angle ==0)s=0;
-    tmp= zoomSurface (src, size, size,s);
+	if(size==1 && angle ==0)s=0;    
+	tmp= zoomSurface (src, size, size,s);
 	dst=rotozoomSurface (tmp, angle, 1,s);
 	SDL_FreeSurface (tmp);
 	

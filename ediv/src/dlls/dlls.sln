@@ -18,29 +18,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "math", "math\math.vcproj", "{5F3C5CEB-002A-4132-BCA3-65CE524A23E9}"
 EndProject
 Global
-	GlobalSection(SourceCodeControl) = preSolution
-		SccNumberOfProjects = 4
-		SccProjectUniqueName0 = dinmem\\dinmem.vcproj
-		SccProjectName0 = \u0022$/dlls\u0022,\u0020YCAAAAAA
-		SccLocalPath0 = ..
-		SccProvider0 = MSSCCI:Microsoft\u0020Visual\u0020SourceSafe
-		SccProjectFilePathRelativizedFromConnection0 = dlls\\dinmem\\
-		SccProjectUniqueName1 = file\\file.vcproj
-		SccProjectName1 = \u0022$/dlls\u0022,\u0020YCAAAAAA
-		SccLocalPath1 = ..
-		SccProvider1 = MSSCCI:Microsoft\u0020Visual\u0020SourceSafe
-		SccProjectFilePathRelativizedFromConnection1 = dlls\\file\\
-		SccProjectUniqueName2 = input\\input.vcproj
-		SccProjectName2 = \u0022$/dlls\u0022,\u0020YCAAAAAA
-		SccLocalPath2 = ..
-		SccProvider2 = MSSCCI:Microsoft\u0020Visual\u0020SourceSafe
-		SccProjectFilePathRelativizedFromConnection2 = dlls\\input\\
-		SccProjectUniqueName3 = text\\text.vcproj
-		SccProjectName3 = \u0022$/dlls\u0022,\u0020YCAAAAAA
-		SccLocalPath3 = ..
-		SccProvider3 = MSSCCI:Microsoft\u0020Visual\u0020SourceSafe
-		SccProjectFilePathRelativizedFromConnection3 = dlls\\text\\
-	EndGlobalSection
 	GlobalSection(SolutionConfiguration) = preSolution
 		ConfigName.0 = Debug
 		ConfigName.1 = Release

@@ -4,10 +4,10 @@
 	Version="7.00"
 	Name="file"
 	ProjectGUID="{6994F9CD-63ED-425D-879C-678D1706F4AE}"
-	SccProjectName="&quot;$/dlls&quot;, YCAAAAAA"
+	SccProjectName=""
 	SccAuxPath=""
-	SccLocalPath="..\.."
-	SccProvider="MSSCCI:Microsoft Visual SourceSafe">
+	SccLocalPath=""
+	SccProvider="">
 	<Platforms>
 		<Platform
 			Name="Win32"/>
@@ -44,10 +44,10 @@
 				IgnoreImportLibrary="TRUE"
 				AdditionalOptions="/MACHINE:I386"
 				AdditionalDependencies="odbc32.lib odbccp32.lib"
-				OutputFile="..\..\..\bin\dll\edivstd.dll"
+				OutputFile="..\..\..\bin\dll\file.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				ModuleDefinitionFile=".\edivstd.def"
+				ModuleDefinitionFile=".\file.def"
 				ProgramDatabaseFile=".\Release/edivstd.pdb"
 				ImportLibrary=".\Release/edivstd.lib"/>
 			<Tool

@@ -1,5 +1,7 @@
 // GRAPHICS.H
 
+#include <SDL/SDL.h>
+
 #define PIOVER180	0.017453292519943295769236907684886
 
 SDL_Surface *screen;

@@ -162,6 +162,7 @@ int ExportaFuncs(EXPORTAFUNCS_PARAMS)
 	FUNCTION("get_id",1,eDiv_GetId) ;
 	FUNCTION("define_region",5,eDiv_DefineRegion) ;
 	FUNCTION("signal",2,eDIV_Signal);
+	FUNCTION("let_me_alone",0,eDIV_Let_Me_Alone);
 
 	ENTRYPOINT( first_load ) ;
 	ENTRYPOINT(frame);
@@ -248,11 +249,11 @@ void signal_tree(int proc, int signal, FUNCTION_PARAMS)
 	int id2;
 	if(id2=local("son",proc)) {
 		signal_tree(id2,signal,fp);
-		reserved("status",proc)=signal;
+		reserved("status",id2)=signal;
 	}
-	while(local("bigbro",proc)) {
-		proc=local("bigbro",proc);
-		reserved("status",proc)=signal;
+	while(local("bigbro",id2)) {
+		proc=local("bigbro",id2);
+		reserved("status",id2)=signal;
 	}
 	/*while(local("smallbro",proc)) {
 		proc=local("smallbro",proc);
@@ -291,6 +292,20 @@ int eDIV_Signal(FUNCTION_PARAMS)
 			}
 		}
 	}
+	return 0;
+}
+
+int eDIV_Let_Me_Alone(FUNCTION_PARAMS)
+{
+	int i;
+	int _status=reservedptr("status");
+
+	for(i=0;i<*fp->num_procs;i++) {
+		if(i!=*fp->proceso_actual) {
+			fp->mem[fp->procs_s[fp->proc_orden[i]].id+_status]=1; /* s_kill */
+		}
+	}
+	return 0;
 }
 
 
