@@ -1,3 +1,9 @@
+21/10/2002
+----------
+ * delete_text() daba un runtime error si no existia el texto a eliminar. en
+   div2 no sucede esto, solo da error si el numero esta fuera de rango, asi que
+   lo he corregido. (Er_Makina)
+
 20/10/2002
 ----------
  * Ahora si no hay archivos .dll o .so solo muestra el mensaje de error, pero NO
