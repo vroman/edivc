@@ -158,7 +158,7 @@ int interprete()
 			//printf("Proceso %d - Estado: %d\n",procs_s[proc_orden[proceso_actual]].id,mem[procs_s[proc_orden[proceso_actual]].id+_status]);
 			if(mem[procs_s[proc_orden[proceso_actual]].id+_status]==1) {
 				mem[procs_s[proc_orden[proceso_actual]].id+_status]=0;
-				//assert(0);
+				assert(0);
 				lista_quita(proceso_actual);
 				proceso_actual--;
 			}
@@ -347,8 +347,9 @@ int proceso( int num, int padre )
 				sp-=cpas;
 			break;
 		case ltyp://32
-			if ( procs_s[num_proc].tipo != 0 )
+			if ( procs_s[num_proc].tipo != 0 ) {
 				critical_error(3); // redefinición del tipo de proceso
+			}
 			procs_s[num_proc].id = (mem[2] + ( num_proc * iloc_len ))|1;
 			if(procs_s[num_proc].id>imem_max-iloc_len) critical_error(8);	// demasiados procesos en ejecución
 			memcpy(&mem[procs_s[num_proc].id],&mem[iloc],iloc_pub_len<<2);

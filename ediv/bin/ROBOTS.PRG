@@ -56,8 +56,7 @@ BEGIN
     loop
 //    fade_on();
 //    prota=protag(rand(0,39)*8,rand(0,24)*8);
-    protag(rand(0,39)*8,rand(0,24)*8);
-    debug_procesos();
+    protag(rand(0,39)*8,rand(0,24)*8);    
     for(i=1;i<=num_robots;i++)
         loop
             x=rand(0,39);
@@ -88,6 +87,7 @@ BEGIN
             end
         end
     end
+    debug_procesos();
     graph=0;
     protax=prota.x;
     protay=prota.y;
@@ -190,11 +190,11 @@ BEGIN
             mueve_robots();
         end
     end
-    debug_procesos();
+//    debug_procesos();
     signal(prota,s_kill);
-    debug_procesos();
+//    debug_procesos();
     signal(type robot,s_kill);
-    debug_procesos();
+//    debug_procesos();
     muertos=0;
     cogido=0;
     ya=0;
@@ -210,6 +210,7 @@ PRIVATE
     coge_robot;
 
 BEGIN
+//    debug_procesos();
     prota=id;
     graph=imagenes[imagen];
     timer[1]=0;
@@ -281,6 +282,7 @@ PRIVATE
     esp_frame;
 
 BEGIN
+    debug_procesos();
     robots[num]=id;
     graph=imagenes[imagen];
     loop
