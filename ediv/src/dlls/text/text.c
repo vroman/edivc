@@ -270,24 +270,26 @@ int eDiv_MoveText(FUNCTION_PARAMS)
 
 int eDiv_DeleteText(FUNCTION_PARAMS)
 {
-	int i ;
+	int i,j ;
 	i = getparm() ;
-
 	if(i==0) {
 		for(i=1;i<MAX_WRITES;i++) {
-			textos[i].existe=0;
-			//SDL_FreeSurface(textos[i].imagen) ;   // <--- por ke esta comentado??
+			if(textos[i].existe) {
+				//SDL_FreeSurface(textos[i].imagen) ;   // <--- por ke esta comentado??
+				textos[i].existe=0;
+			}
 		}
 		return 1;
 	}
-
-	if ( i<1 || i>MAX_WRITES || !textos[i].existe ) {
+	else if ( i<1 || i>MAX_WRITES) {
 		fp->Runtime_Error(119);	// id de texto no válido
 		return -1 ;
 	}
 
-	textos[i].existe = 0 ;
-	//SDL_FreeSurface(textos[i].imagen) ;   // <--- por ke esta comentado??
+	//if(textos[i].existe) {
+	//	SDL_FreeSurface(textos[i].imagen) ;   // <--- por ke esta comentado??
+		textos[i].existe = 0 ;
+	//}
 
 	return 1 ;
 }
