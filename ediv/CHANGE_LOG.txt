@@ -1,3 +1,9 @@
+27/10/2002
+----------
+ * Añadidos los fp->Runtime_Error, excepto en la graphics, strings (¿hace
+   falta?) y scroll (obviamente). (Er_Makina)
+ * Añadido unit_size en file.dll. (Er_Makina)
+
 24/10/2002
 ----------
  * Ahora los id's de los procesos son siempre impares. (Er_Makina)

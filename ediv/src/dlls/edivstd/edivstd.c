@@ -165,7 +165,7 @@ int ExportaFuncs(EXPORTAFUNCS_PARAMS)
 	ENTRYPOINT( first_load ) ;
 	ENTRYPOINT(frame);
 
-	// POR HACER: funciones signal, system, ignore_error...
+	/* POR HACER: funciones signal, system, ignore_error... */
 	
 	return TRUE;
 }
@@ -176,12 +176,13 @@ int eDIV_Exit(FUNCTION_PARAMS)
 	char* mensaje=getstrparm();
 	
 	/* FIXME: ¿Qué hacemos con el mensaje? ¿Lo mostramos en un msgbox si no es ""? */
-	#ifdef _WIN32
-		MessageBox(0,mensaje,fp->nombre_program,0);
-	#else
-		printf("%s\n",mensaje);
-	#endif
-
+	if(*mensaje) {
+		#ifdef _WIN32
+			MessageBox(0,mensaje,fp->nombre_program,0);
+		#else
+			printf("%s\n",mensaje);
+		#endif
+	}
 	#ifdef _DEBUG
 		printf("dbg:\texit(): código de retorno: %d\n",codigo);
 	#endif
@@ -227,8 +228,10 @@ int eDiv_DefineRegion(FUNCTION_PARAMS)
 	x = getparm() ;
 	n = getparm() ;
 
-	if ( n > 31 || n < 1 )
-		return -1 ;
+	if ( n > 31 || n < 1 ) {
+		fp->Runtime_Error(108); /* nº de región inválido */
+		return 0;
+	}
 
 	regions[n].x = x ;
 	regions[n].y = y ;

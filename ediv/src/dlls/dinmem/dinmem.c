@@ -4,7 +4,10 @@
 #include "dinmem.h"
 
 
-
+/* POR HACER:
+ * eDIV debe controlar todas las peticiones de memoria dinámica
+ * es decir, si hacemos un free() donde no debemos, debe producirse un fp->Runtime_Error
+ */
 
 
 int ExportaFuncs(EXPORTAFUNCS_PARAMS)
@@ -23,8 +26,10 @@ int eDiv_Malloc(FUNCTION_PARAMS)
 	longitud = getparm() ;
 
 	puntero = calloc(longitud,4) ;
-	if ( puntero == NULL )
+	if ( puntero == NULL ) {
+		fp->Runtime_Error(100); /* no hay memoria suficiente */
 		return 0 ;
+	}
 	else
 		return ( puntero - fp->mem ) ;
 }

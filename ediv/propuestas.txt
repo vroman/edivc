@@ -298,3 +298,5 @@ poder cargar fuentes de letra directamente a partir de .map
 [16:40] [@CicTec] o definidos por usuarios con local :)
 
 map_clone, copia un grafico, incluyendo puntos de control :)
+
+joysticks... controladores.. force feedback.. (kien tiene uno de estos trastos? xD)

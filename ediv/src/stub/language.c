@@ -913,9 +913,9 @@ char* translate_dll_error(int num)
 		/* 3 - INGLÉS */
 
 		/* 1	*/ "Object name buffer out of bounds",
-		/* 2	*/ "Object '%s': The name isn't new",
+		/* 2	*/ "Object '%s': Name already exists",
 		/* 3	*/ "Too many objects declared",
-		/* 4	*/ "Function '%s': The name isn't new",
+		/* 4	*/ "Function '%s': Name already exists",
 		/* 5	*/ "Error declaring object '%s'",
 		/* 6	*/ "Object '%s': Illegal declaration inside a struct",
 		/* 7	*/ "Object '%s': Member declaration outside a struct",

@@ -310,6 +310,7 @@ int proceso( int num, int padre )
 		case lfrm://29
 			procs_s[num_proc].imem = imem ;
 			reserved("type_scan",procs_s[num_proc].id)=0;		/* resetea get_id() */
+			reserved("id_scan",procs_s[num_proc].id)=0;
 			if ( first_loaded )
 			{
 				Call_Entrypoint(EDIV_first_load);

@@ -25,7 +25,7 @@
     <ul>
       <li>Trazador de programas</li>
       <li>Soporte completo para gr&aacute;ficos 2D</li>
-      <li>Ejecuci&oacute;n de programas optimizados</li>
+      <li>Ejecuci&oacute;n de programas optimizados <img src="img/tick.gif" width="16" height="16" align="absmiddle"></li>
       <li>Soporte completo de datos de tipo STRING, BYTE y WORD</li>
       <li>Arreglo de bugs que existiesen en el compilador de DIV2</li>
     </ul>

@@ -55,7 +55,8 @@ BEGIN
     mouse.flags=4;
     loop
 //    fade_on();
-    prota=protag(rand(0,39)*8,rand(0,24)*8);
+//    prota=protag(rand(0,39)*8,rand(0,24)*8);
+    protag(rand(0,39)*8,rand(0,24)*8);
     for(i=1;i<=num_robots;i++)
         loop
             x=rand(0,39);
@@ -65,7 +66,8 @@ BEGIN
                 x*=8;
                 y*=8;
                 if(i==1)
-                    robots[i]=robot(x,y);
+//                    robots[i]=robot(x,y);
+                    robot(x,y,i);
                     muerto[i]=0;
                     break;
                 else
@@ -76,7 +78,8 @@ BEGIN
                         end
                     end
                     if(harf==i-1)
-                        robots[i]=robot(x,y);
+//                        robots[i]=robot(x,y);
+                        robot(x,y,i);
                         muerto[i]=0;
                         break;
                     end
@@ -203,6 +206,7 @@ PRIVATE
     coge_robot;
 
 BEGIN
+    prota=id;
     graph=imagenes[imagen];
     timer[1]=0;
     loop
@@ -210,9 +214,9 @@ BEGIN
         if(coge_robot=collision(type robot))
             cogido=1;
             if(coge_robot.graph==3)
-                write(1,160,100,4,"­­ PERO QU HACES !!");
+                write(1,160,100,4,"¡¡ PERO QUÉ HACES !!");
             else
-                write(1,160,100,4,"­­ TE HAN COGIDO !!");
+                write(1,160,100,4,"¡¡ TE HAN COGIDO !!");
             end
             write(1,160,199,7,"Pulsa una tecla");
             repeat
@@ -245,7 +249,7 @@ BEGIN
         end
         if(muertos==num_robots)
             cogido=1;
-            write(1,160,100,4,"­­ MUY BIEN !!");
+            write(1,160,100,4,"¡¡ MUY BIEN !!");
             write(1,160,199,7,"Pulsa una tecla");
             num_robots++;
             repeat
@@ -258,14 +262,14 @@ BEGIN
             delete_text(all_text);
             ya=1;
             if(num_robots>max_robots)
-                //exit("­Te has pasado el juego!",0);
+                exit("¡Te has pasado el juego!",0);
             end
             frame;
         end
     end
 END
 
-Process Robot(x,y)
+Process Robot(x,y,num)
 PRIVATE
     imagen=0;
     imagenes[3]=2,6,7,8;
@@ -273,6 +277,7 @@ PRIVATE
     esp_frame;
 
 BEGIN
+    robots[num]=id;
     graph=imagenes[imagen];
     loop
         frame;

@@ -530,6 +530,8 @@ void frame(FUNCTION_PARAMS)
 	SDL_Rect srcrect,dstrect;
 	SDL_Surface* mapamouse;
 	
+	SDL_PumpEvents();
+
 	keys = SDL_GetKeyState(&numkeys ) ;
 
 	/* MOUSE */

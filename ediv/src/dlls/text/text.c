@@ -62,10 +62,17 @@ int eDiv_LoadFnt(FUNCTION_PARAMS)
 	}
 
 	fichero = fopen("text.txt" , "w+" ) ;
-	fuente = fopen(filename, "rb" ) ;
+	if((fuente = fopen(filename, "rb" ))==NULL) {
+		fclose(fichero);
+		fp->Runtime_Error(114);	/* archivo de fuente no encontrado */
+		return 0;
+	}
 	fprintf( fichero , "Leidos %d bytes\n" , (int)fread( &fuente_control_s[i] , 1 , sizeof(fuente_control_s[i]) , fuente ) ) ;
-	if (!(pool = malloc(fuente_control_s[i].size_imagen + 1 ) ) )
-		fprintf(fichero , "Error: Memoria insuficiente" ) ;
+	if (!(pool = malloc(fuente_control_s[i].size_imagen + 1 ) ) ) {
+		//fprintf(fichero , "Error: Memoria insuficiente" ) ;
+		fp->Runtime_Error(100); /* memoria insuficiente */
+		return 0;
+	}
     pos = fuente_control_s[i].offset_imagen ;
 	fsetpos(fuente , &pos ) ;
 	fprintf(fichero , "Size of image: %d bytes\n"  , fuente_control_s[i].size_imagen ) ;
@@ -311,7 +318,7 @@ void frame(FUNCTION_PARAMS)
 			{
 				SDL_FreeSurface( textos[i].imagen ) ;
 
-				_itoa( fp->mem[ textos[i].offset_var ] , texto2 , 10 ) ;
+				itoa( fp->mem[ textos[i].offset_var ] , texto2 , 10 ) ;
 				texto = texto2 ;
 				
 				// Calculamos el ancho del fichero

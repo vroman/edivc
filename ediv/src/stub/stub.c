@@ -59,6 +59,7 @@ int main(int argc, char* argv[])
 	unsigned long len,len_descomp;
 	byte* vartemp;
 	byte* p;
+	Uint8* teclas;
 	//const SDL_version* sdl_version;
 #ifdef DBG
 	int start_lin;
@@ -316,6 +317,7 @@ int main(int argc, char* argv[])
 					}
 					*/
 					//assert(0);
+
 					noevent=0;
 					while ( SDL_PollEvent(&event[0] ) && !noevent )
 					{
@@ -331,6 +333,9 @@ int main(int argc, char* argv[])
 						}
 					}
 
+					teclas=SDL_GetKeyState(NULL);
+					if(teclas[SDLK_x] && (teclas[SDLK_RALT] || teclas[SDLK_LALT]))
+						stub_quit(0);
 
 					interprete();
 					/*if (!interprete())
