@@ -24,8 +24,7 @@
  */
 #include <stdio.h>
 #include <export.h>
-#include <math.h>
-#include <varindex.h>
+#include "math.h"
 
 #include "main.h"
 
@@ -192,10 +191,10 @@ int eDiv_GetAngle(FUNCTION_PARAMS)
 	int a = getparm() ;
 	id1 = fp->procs_s[ fp->proc_orden[ *fp->proceso_actual ] ].id ;
 	id2 = a ;
-	x1 = fp->mem[ id1 + fp->varindex[ _loc_x ] ] ;
-	y1 = fp->mem[ id1 + fp->varindex[ _loc_y ] ] ;
-	x2 = fp->mem[ id2 + fp->varindex[ _loc_x ] ] ;
-	y2 = fp->mem[ id2 + fp->varindex[ _loc_y ] ] ;
+	x1 = local("x",id1) ;
+	y1 = local("y",id1) ;
+	x2 = local("x",id2) ;
+	y2 = local("y",id2) ;
 	if ( (x2-x1) != 0 )
 	{
 		a = atan( (double)((y2-y1) / (x2-x1)) ) / PIOVER180 ;
@@ -218,10 +217,10 @@ int eDiv_GetDist(FUNCTION_PARAMS)
 	int a = getparm() ;
 	id1 = fp->procs_s[ fp->proc_orden[*fp->proceso_actual] ].id ;
 	id2 = a ;
-	x1 = fp->mem[ id1 + fp->varindex[ _loc_x ] ] ;
-	y1 = fp->mem[ id1 + fp->varindex[ _loc_y ] ] ;
-	x2 = fp->mem[ id2 + fp->varindex[ _loc_x ] ] ;
-	y2 = fp->mem[ id2 + fp->varindex[ _loc_y ] ] ;
+	x1 = local("x",id1) ;
+	y1 = local("y",id1) ;
+	x2 = local("x",id2) ;
+	y2 = local("y",id2) ;
 	a = sqrt( pow( x2-x1 , 2 ) + pow( y2-y1 , 2 ) ) ;
 	return a ;
 }

@@ -291,7 +291,7 @@ int eDiv_Key(FUNCTION_PARAMS)
 }
 //*************************** ENTRYPOINTS **********************************************
 
-void first_load()
+void first_load(FUNCTION_PARAMS)
 {
 	int i ;
 	SDL_Init( SDL_INIT_EVENTTHREAD ) ;
@@ -501,7 +501,7 @@ void first_load()
 
 }
 
-void frame(int mem[], int * varindex, struct _procs_s *procs_s)
+void frame(FUNCTION_PARAMS)
 {
 	int numkeys ;
 	

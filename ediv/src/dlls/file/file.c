@@ -1,7 +1,7 @@
 
 #include <stdio.h>
 #include <export.h>
-#include "../../shared/varindex.h"
+//#include "../../shared/varindex.h"
 #include "file.h"
 
 
@@ -93,7 +93,7 @@ int eDiv_Fread(FUNCTION_PARAMS)
 
 int eDiv_Ftell(FUNCTION_PARAMS)
 {
-	int handle ;
+	int handle=getparm();
 
 	if ( !existe[handle] )
 		return -1 ;
@@ -126,7 +126,7 @@ int eDiv_Flush(FUNCTION_PARAMS)
 
 int eDiv_Fclose(FUNCTION_PARAMS)
 {
-	int handle, num ;
+	int handle=getparm(), num ;
 
 	if ( handle == 0 )
 		if ( ( num = _fcloseall() ) == EOF )

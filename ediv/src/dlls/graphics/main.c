@@ -11,7 +11,7 @@
 #include "export.h"
 #include <SDL/SDL.h>
 #include "graphics.h"
-#include "varindex.h"
+//#include "varindex.h"
 
 
 #define FUNCTION_PARAMS2	struct _fun_params *fp
@@ -430,21 +430,21 @@ int eDIV_COLLISION(FUNCTION_PARAMS)
 	if ( a < 4000000 )
 	{
 		id1 = fp->procs_s[ fp->proc_orden[ *fp->proceso_actual ] ].id ;
-		g1 = fp->mem[ id1 + fp->varindex[_loc_graph] ]  ;
-		f1 = fp->mem[ id1 + fp->varindex[_loc_file] ] ;
+		g1 = local("graph",id1)  ;
+		f1 = local("file",id1) ;
 		if ( files[f1].existe == 0 || files[f1].mapa[g1].existe == 0 )
 			return -1 ;
-		r1.x = fp->mem[ id1 + fp->varindex[_loc_x] ] ;
-		r1.y = fp->mem[ id1 + fp->varindex[_loc_y] ] ;
+		r1.x = local("x",id1) ;
+		r1.y = local("y",id1) ;
 		r1.w = files[f1].mapa[g1].Surface->w ;
 		r1.h = files[f1].mapa[g1].Surface->h ;
 		id2 = a ;
-		g2 = fp->mem[ id2 + fp->varindex[_loc_graph] ] ;
+		g2 = local("graph",id2) ;
 		if ( files[f2].existe == 0 || files[f2].mapa[g2].existe == 0 )
 			return -1 ;
-		f2 = fp->mem[ id2 + fp->varindex[_loc_file] ] ;
-		r2.x = fp->mem[ id2 + fp->varindex[_loc_x] ] ;
-		r2.y = fp->mem[ id2 + fp->varindex[_loc_y] ] ;
+		f2 = local("file",id2) ;
+		r2.x = local("x",id2) ;
+		r2.y = local("y",id2) ;
 		r2.w = files[f2].mapa[g2].Surface->w ;
 		r2.h = files[f2].mapa[g1].Surface->h ;
 		//Colision barata :P
@@ -458,23 +458,23 @@ int eDIV_COLLISION(FUNCTION_PARAMS)
 		{
 			id1 = fp->procs_s[ fp->proc_orden[ i ] ].id ;
 			//Si el proceso se corresponde con el type
-			if ( fp->mem[ id1 + fp->varindex[ _res_process_type ] ] == a )
+			if ( reserved("process_type",id1) == a )
 			{
-				g1 = fp->mem[ id1 + fp->varindex[_loc_graph] ]  ;
-				f1 = fp->mem[ id1 + fp->varindex[_loc_file] ] ;
+				g1 = local("graph",id1)  ;
+				f1 = local("file",id1) ;
 				if ( files[f1].existe == 0 || files[f1].mapa[g1].existe == 0 )
 					return -1 ;
-				r1.x = fp->mem[ id1 + fp->varindex[_loc_x] ] ;
-				r1.y = fp->mem[ id1 + fp->varindex[_loc_y] ] ;
+				r1.x = local("x",id1) ;
+				r1.y = local("y",id1) ;
 				r1.w = files[f1].mapa[g1].Surface->w ;
 				r1.h = files[f1].mapa[g1].Surface->h ;
 				id2 = a ;
-				g2 = fp->mem[ id2 + fp->varindex[_loc_graph] ] ;
+				g2 = local("graph",id2) ;
 				if ( files[f2].existe == 0 || files[f2].mapa[g2].existe == 0 )
 					return -1 ;
-				f2 = fp->mem[ id2 + fp->varindex[_loc_file] ] ;
-				r2.x = fp->mem[ id2 + fp->varindex[_loc_x] ] ;
-				r2.y = fp->mem[ id2 + fp->varindex[_loc_y] ] ;
+				f2 = local("file",id2) ;
+				r2.x = local("x",id2) ;
+				r2.y = local("y",id2) ;
 				r2.w = files[f2].mapa[g2].Surface->w ;
 				r2.h = files[f2].mapa[g1].Surface->h ;
 				//Colision barata :P
@@ -546,11 +546,11 @@ int eDIV_ADVANCE(FUNCTION_PARAMS)
 	int a , id1 , x , y , angulo ;
 	a = getparm() ;
 	id1 = fp->procs_s[ fp->proc_orden[ *fp->proceso_actual ] ].id ;
-	angulo = fp->mem[ id1 + fp->varindex[ _loc_angle ] ] ;
+	angulo = local("angle",id1) ;
 	x = (int) ((double)a * cos( (angulo/1000) * PIOVER180 )) ;
 	y = (int) ((double)a * sin( (angulo/1000) * PIOVER180 )) ;
-	fp->mem[ id1 + fp->varindex[ _loc_x ] ] += x;
-	fp->mem[ id1 + fp->varindex[ _loc_y ] ] += y ;
+	local("x",id1) += x;
+	local("y",id1) += y ;
 	return 1 ;
 }
 
@@ -564,8 +564,8 @@ int eDIV_XADVANCE(FUNCTION_PARAMS)
 	angulo = a ;
 	x = (int) ((double)b * cos( (angulo/1000) * PIOVER180 )) ;
 	y = (int) ((double)b * sin( (angulo/1000) * PIOVER180 )) ;
-	fp->mem[ id1 + fp->varindex[ _loc_x ] ] += x ;
-	fp->mem[ id1 + fp->varindex[ _loc_y ] ] += y ;
+	local("x",id1) += x ;
+	local("y",id1) += y ;
 	return 1 ;
 }
 
@@ -933,14 +933,14 @@ int eDIV_OUT_REGION(FUNCTION_PARAMS2)
 	r = getparm() ;
 	id = getparm() ;
 
-	f = fp->mem[ id + fp->varindex[_loc_file] ] ;
-	g = fp->mem[ id + fp->varindex[_loc_graph] ] ;
+	f = local("file",id) ;
+	g = local("graph",id) ;
 	
 	if ( !files[f].existe || !files[f].mapa[g].existe )
 		return -1 ;
 
-	x = fp->mem[ id + fp->varindex[_loc_x] ] ;
-	y = fp->mem[ id + fp->varindex[_loc_y] ] ;
+	x = local("x",id) ;
+	y = local("y",id) ;
 
 	if ( x < fp->regions[r].x + fp->regions[r].w && x + files[f].mapa[g].Surface->w > fp->regions[r].x &&
 		y < fp->regions[r].y + fp->regions[r].h && y + files[f].mapa[g].Surface->h > fp->regions[r].y )
@@ -1035,7 +1035,7 @@ int eDIV_MOVE_DRAW(FUNCTION_PARAMS2)
 		SDL_SetAlpha( draws[id].Surface , SDL_SRCALPHA | SDL_RLEACCEL , 17 * (o) ) ;
 	else
 		if ( o == 15 )
-			SDL_SetAlpha( draws[id].Surface , NULL , 255 ) ;
+			SDL_SetAlpha( draws[id].Surface , 0 , 255 ) ;
 
 	return 1 ;
 }
@@ -1089,6 +1089,8 @@ int eDIV_LOAD_FPG(FUNCTION_PARAMS2)
 	//Uint8 r,g,b;
 	SDL_Color p[256];
 
+	// TODO: quitar printf's y exit's y poner fp->Runtime_Error()
+
 	archivo = getstrparm() ;
 	printf("LOAD_FPG %s\n",archivo);
 
@@ -1106,6 +1108,8 @@ int eDIV_LOAD_FPG(FUNCTION_PARAMS2)
 
 	fread(&cabecera,1,sizeof(FPGHEADER),f);
 	
+	// TODO: optimizar esto ligeramente (comprobar primero los bytes comunes y luego
+	//       leer "pg","16","24","32")
 	if(strcmp(cabecera.header,"fpg\x1A\x0D\x0A")) {
 		if(strcmp(cabecera.header,"f16\x1A\x0D\x0A")) {
 			if(strcmp(cabecera.header,"f24\x1A\x0D\x0A")) {
@@ -1230,10 +1234,11 @@ int eDIV_GET_REAL_POINT(FUNCTION_PARAMS2)
 	dy = getparm() ;
 	dx = getparm() ;
 	n = getparm() ;
-	f = fp->mem[ fp->procs_s[ fp->proc_orden[ *fp->proceso_actual ] ].id + fp->varindex[_loc_file] ] ;
-	g = fp->mem[ fp->procs_s[ fp->proc_orden[ *fp->proceso_actual ] ].id + fp->varindex[_loc_graph] ] ;
-	x = fp->mem[ fp->procs_s[ fp->proc_orden[ *fp->proceso_actual ] ].id + fp->varindex[_loc_x] ] ;
-	y = fp->mem[ fp->procs_s[ fp->proc_orden[ *fp->proceso_actual ] ].id + fp->varindex[_loc_y] ] ;
+	id = fp->procs_s[ fp->proc_orden[ *fp->proceso_actual ] ].id;
+	f = local("file",id) ;
+	g = local("graph",id) ;
+	x = local("x",id) ;
+	y = local("y",id) ;
 
 	if ( !files[f].existe || !files[f].mapa[g].existe )
 		return -1 ;
@@ -1312,7 +1317,7 @@ void frame(FUNCTION_PARAMS2 )
 	SDL_BlitSurface( fondo , NULL , screen , NULL ) ;
 
 // Draws
-	z = fp->mem[ fp->varindex[_glo_draw_z] ] ;
+	z = global("draw_z");
 	for ( i = 0 ; i <= last_draw ; i++ )
 	{
 		if ( draws[i].existe )
@@ -1341,12 +1346,12 @@ void frame(FUNCTION_PARAMS2 )
 	for ( i = 0 ; i < *fp->num_procs ; i++ )
 	{
 		id = fp->procs_s[ fp->proc_orden[i] ].id ;
-		f = fp->mem[ id + fp->varindex[_loc_file] ];
-		g = fp->mem[ id + fp->varindex[_loc_graph] ];
-		r = fp->mem[ id + fp->varindex[_loc_region] ] ;
-		z = fp->mem[ id + fp->varindex[_loc_z] ] ;
-		dstrect.x = fp->mem[ id + fp->varindex[_loc_x] ]  ;
-		dstrect.y = fp->mem[ id + fp->varindex[_loc_y] ] ;
+		f = local("file",id);
+		g = local("graph",id);
+		r = local("region",id);
+		z = local("z",id);
+		dstrect.x = local("x",id);
+		dstrect.y = local("y",id);
 		dstrect.w = 0 ;
 		dstrect.h = 0 ;
 		if ( files[f].mapa[g].existe )
@@ -1357,10 +1362,10 @@ void frame(FUNCTION_PARAMS2 )
 			srcrect.h = files[f].mapa[g].Surface->h ;
 			dstrect.x -= files[f].mapa[g].cpoint[0].x ;
 			dstrect.y -= files[f].mapa[g].cpoint[0].y ;
-			if ( fp->mem[ id + fp->varindex[_loc_flags] ] & 4 )
+			if ( local("flags",id) & 4 )
 				//SDL_SetAlpha(files[f].mapa[g].Surface, SDL_SRCALPHA , fp->mem[ id + fp->varindex[_loc_transparency] ] ) ;
-				if ( fp->mem[ id + fp->varindex[_loc_flags] ] & 8 ) {
-					trans = 255 - fp->mem[ id + fp->varindex[_loc_transparency] ] ;
+				if ( local("flags",id) & 8 ) {
+					trans = 255 - local("transparency",id);
 					if(trans<0) trans=0; else if(trans>255) trans=255;
 				}
 				else

@@ -86,6 +86,8 @@ sdk
 +diferencias_compiladores
 +estructura_dll
 +export_h
++varindex
+++varindex-howto
 explicacion_source
 +compilador_ediv
 ++ediv_c

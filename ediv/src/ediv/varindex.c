@@ -22,11 +22,14 @@
 #	include <stdio.h>
 #endif
 
+#include <stdlib.h>
 #include <string.h>
 
 #include "shared.h"
 #include "varindex.h"
+#include "main.h"
 
+/*
 struct _vars {
 	tipo_t tipo;
 	char* nombre;
@@ -84,6 +87,7 @@ struct _vars {
 
 byte hash[NUM_INDEXED_VARS];
 static int varptr[NUM_INDEXED_VARS];
+*/
 
 int res_pos=0, loc_pos=0;
 
@@ -92,10 +96,14 @@ byte index_inicializado=0;
 
 void inicializa_index()
 {
-	int i;
-	byte *c, h;
+//	int i;
+//	byte *c, h;
 
-	memset(varptr,0,NUM_INDEXED_VARS*4);
+	num_indexed_vars=0;
+	varindex=NULL;
+	index_inicializado=1;
+
+/*	memset(varptr,0,NUM_INDEXED_VARS*4);
 
 	for(i=0;i<NUM_INDEXED_VARS;i++) {
 		h=0;
@@ -108,13 +116,13 @@ void inicializa_index()
 			loc_pos=i;
 	}
 	index_inicializado=1;
-	return;
+	return;*/
 }
 
 
 void indexa_variable(tipo_t tipo, char* nombre, int ptr)
 {
-	int i;
+//	int i;
 	byte *c, h=0;
 
 	if(!index_inicializado) return;
@@ -123,9 +131,26 @@ void indexa_variable(tipo_t tipo, char* nombre, int ptr)
 		h=((byte)(h<<1)+(h>>7))^*c;
 	
 	#ifdef DEBUG_DLL
-		printf("-- Indexando %s \"%s\" (hash: %d) ptr=%d... ",
-			tipo==global?"global":tipo==reserved?"reserved":"local",
+		printf("-- Indexando %s \"%s\" (hash: %d) ptr=%d\n",
+			tipo==v_global?"global":tipo==v_reserved?"reserved":"local",
 			nombre,h,ptr);
+	#endif
+
+	if(varindex) {
+		varindex=(varindex_t*)realloc(varindex,sizeof(varindex_t)*(num_indexed_vars+1));
+	}
+	else {
+		varindex=(varindex_t*)e_malloc(sizeof(varindex_t)*(num_indexed_vars+1));
+	}
+	varindex[num_indexed_vars].hash=h;
+	varindex[num_indexed_vars].tipo=tipo;
+	varindex[num_indexed_vars].offset=ptr;
+	varindex[num_indexed_vars].nombre=strdup(nombre);
+
+	num_indexed_vars++;
+
+/*	#ifdef DEBUG_DLL
+		printf("id asignado: %d\n",num_indexed_vars);
 	#endif
 
 	i=(tipo==reserved)?res_pos:((tipo==local)?loc_pos:0);
@@ -144,13 +169,24 @@ void indexa_variable(tipo_t tipo, char* nombre, int ptr)
 		printf("id=%d encontrado!! :D\n",i);
 	#endif
 
-	varptr[i]=ptr;
+	varptr[i]=ptr;*/
 	return;
 }
 
-void get_varptr(int** ptr, int* nptr)
+int varindex_compara(const void* a, const void* b)
+{
+	const varindex_t *aa=(const varindex_t*)a, *bb=(const varindex_t*)b;
+	return aa->hash-bb->hash;
+}
+
+void ordena_varindex()
+{
+	qsort(varindex,num_indexed_vars,sizeof(varindex_t),varindex_compara);
+}
+
+/*void get_varptr(int** ptr, int* nptr)
 {
 	*ptr=varptr;
 	*nptr=NUM_INDEXED_VARS;
 }
-
+*/

@@ -2,7 +2,7 @@
 
 #include <SDL/SDL.h>
 #include <export.h>
-#include "../../shared/varindex.h"
+//#include "../../shared/varindex.h"
 #include "../../shared/edivfont.h"
 #include "text.h"
 
@@ -200,7 +200,7 @@ int eDiv_WriteInt(FUNCTION_PARAMS)
 
 
 	fichero = fopen("wrin.txt" , "w+") ;
-	fprintf( fichero , "valor: %i\n" , fp->varindex[_glo_fps] ) ;
+	fprintf( fichero , "valor: %i\n" , global("fps") ) ;
 	fclose(fichero) ;
 
 	_itoa( fp->mem[ textos[i].offset_var ] , texto2 , 10 ) ;

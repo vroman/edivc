@@ -162,6 +162,9 @@
 				RelativePath="..\..\ediv\expresion.h">
 			</File>
 			<File
+				RelativePath="..\..\shared\extern.h">
+			</File>
+			<File
 				RelativePath="..\..\ediv\listados.h">
 			</File>
 			<File
@@ -175,6 +178,9 @@
 			</File>
 			<File
 				RelativePath="..\..\ediv\parser.h">
+			</File>
+			<File
+				RelativePath="..\..\shared\varindex.h">
 			</File>
 		</Filter>
 		<Filter

@@ -21,20 +21,38 @@
 #ifndef __VARINDEX_H
 #define __VARINDEX_H
 
-typedef enum { global, reserved, local } tipo_t;
+typedef enum { v_global, v_reserved, v_local } tipo_t;
 
 /// PROTOTIPOS ///
 
 // compilador
 void inicializa_index();
 void indexa_variable(tipo_t tipo, char* nombre, int ptr);
-void get_varptr(int** ptr, int* nptr);
+//void get_varptr(int** ptr, int* nptr);
+void ordena_varindex();
 
+// stub
+int GetVarOffset(tipo_t tipo, char* nombre);
 
 int num_indexed_vars;
-int *varindex;
 
-#define var(a)		mem[varindex[a]]
+typedef struct {
+	unsigned char hash;
+	tipo_t tipo;
+	char* nombre;
+	int offset;
+} varindex_t;
+
+varindex_t* varindex;
+
+//#define var(a)		mem[varindex[a]]
+
+#define global(nombre) mem[GetVarOffset(v_global,nombre)]
+#define reserved(nombre,id) mem[(id)+GetVarOffset(v_reserved,nombre)]
+#define local(nombre,id) mem[(id)+GetVarOffset(v_local,nombre)]
+#define globalptr(nombre) GetVarOffset(v_global,nombre)
+#define reservedptr(nombre) GetVarOffset(v_reserved,nombre)
+#define localptr(nombre) GetVarOffset(v_local,nombre)
 
 /*
 //////////////////////////////
@@ -102,7 +120,7 @@ int *varindex;
 #define _glo_fps				45
 */
 
-enum {
+/*enum {
 
 //////////////////////////////
 ///        GLOBALES        ///
@@ -171,6 +189,6 @@ enum {
 
 	___last		// por si acaso
 
-};
+};*/
 
 #endif // __VARINDEX_H

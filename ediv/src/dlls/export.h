@@ -41,6 +41,28 @@ extern "C" {
 	typedef enum { FALSE, TRUE } bool;
 #endif
 
+
+///// VARINDEX /////
+
+typedef enum { v_global, v_reserved, v_local } tipo_t;
+
+typedef struct {
+	unsigned char hash;
+	tipo_t tipo;
+	char* nombre;
+	int offset;
+} varindex_t;
+
+#define global(nombre) fp->mem[fp->GetVarOffset(v_global,nombre)]
+#define reserved(nombre,id) fp->mem[(id)+fp->GetVarOffset(v_reserved,nombre)]
+#define local(nombre,id) fp->mem[(id)+fp->GetVarOffset(v_local,nombre)]
+#define globalptr(nombre) fp->GetVarOffset(v_global,nombre)
+#define reservedptr(nombre) fp->GetVarOffset(v_reserved,nombre)
+#define localptr(nombre) fp->GetVarOffset(v_local,nombre)
+
+///// FIN DE VARINDEX /////
+
+
 #include <SDL/SDL.h>
 
 // Funciones de exportación de datos
@@ -68,6 +90,9 @@ typedef int (TYPEOF_Dibuja)(SDL_Surface *, SDL_Rect, SDL_Rect, int, int);
 // Errores
 typedef void (TYPEOF_Runtime_Error)(int, ...);
 typedef void (TYPEOF_Critical_Error)(int, ...);
+
+// Obtiene offset de variable indexada dinámicamente
+typedef int (TYPEOF_GetVarOffset)(tipo_t tipo,char* nombre);
 
 // estilo BO2K, sólo para "defaultear" las funciones como NULL
 /*extern TYPEOF_EDIV_Export				*EDIV_Export;
@@ -233,6 +258,7 @@ struct _fun_params{
 	TYPEOF_Call_Entrypoint *Call_Entrypoint ;
 	TYPEOF_Runtime_Error *Runtime_Error ;
 	TYPEOF_Critical_Error *Critical_Error ;
+	TYPEOF_GetVarOffset *GetVarOffset ;
 } ;
 
 
@@ -272,75 +298,6 @@ void first_load(FUNCTION_PARAMS) ;
 
 //////////////////////////////
 
-
-//// VARIABLES INDEXADAS ////
-
-// copio y pasteo brutalmente, no pongo #include para que el export.h sea independiente
-/*
-#define var(a) mem[varindex[a]]
-
-
-//////////////////////////////
-///        GLOBALES        ///
-//////////////////////////////
-
-#define _glo_timer				0
-#define _glo_max_process_time	1
-#define _glo_argc				2
-#define _glo_argv				3
-
-
-//////////////////////////////
-///        LOCALES         ///
-//////////////////////////////
-
-// Estructura reserved
-
-#define _res_process_id			4
-#define _res_id_scan			5
-#define _res_process_type		6
-#define _res_type_scan			7
-#define _res_status				8
-#define _res_parameters			9
-#define _res_param_offset		10
-#define _res_program_index		11
-#define _res_stack_pointer		12
-#define _res_is_executed		13
-#define _res_is_painted			14
-#define _res_m8_object			15
-#define _res_old_ctype			16
-#define _res_frame_percent		17
-#define _res_box_x0				18
-#define _res_box_y0				19
-#define _res_box_x1				20
-#define _res_box_y1				21
-#define _res_f_count			22
-#define _res_caller_id			23
-
-// Jerarquía de procesos
-#define _loc_father				24
-#define _loc_son				25
-#define _loc_smallbro			26
-#define _loc_bigbro				27
-	
-// Variables locales varias
-#define _loc_priority			28
-#define _loc_ctype				29
-#define _loc_x					30
-#define _loc_y					31
-#define _loc_z					32
-#define _loc_graph				33
-#define _loc_size				34
-#define _loc_angle				35
-#define _loc_region				36
-#define _loc_file				37
-#define _loc_xgraph				38
-#define _loc_height				39
-#define _loc_cnumber			40
-#define _loc_resolution			41
-#define _loc_flags				42
-#define _loc_transparency		43
-*/
 
 #ifdef __cplusplus
 }

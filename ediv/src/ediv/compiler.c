@@ -132,7 +132,8 @@ void compila()
 	unsigned long m;
 	byte * q, * p;
 	int start_lin, start_dbg;
-	int* varptr, nvars;			// variables indexadas
+	byte* varptr;			// variables indexadas
+	FILE* fvar;
 	
 	ultima_linea=prog;
 	acceso_remoto=0; parametros=0; linea=1;
@@ -258,6 +259,8 @@ void compila()
 	//        de dlopen y demas y haciendonos una pekeña lib (esto es mas aconsejable)
 	// +32	= El exe lleva incluido el PAK
 	// +64	= Compilado en modo debug
+	// +128 = Igual que en DIV2, el programa invoca al trazador nada más ejecutarse (se
+	//        ha usado la orden "trazar programa" en el IDE)
 	// +512	= ignore_errors, igual que en DIV2
 		
 	mem[0]=0;
@@ -288,7 +291,37 @@ void compila()
 
    	// renombra temp.dj! al nombre del exe
    	rename("temp.dj!",outfilename);
-	
+
+	// ordenamos varindex
+	ordena_varindex();
+
+	// escribimos en un temporal todo el indice de variables
+	fvar=tmpfile();
+	for(n=0;n<num_indexed_vars;n++) {
+		fputc(varindex[n].hash,fvar);
+		fwrite(varindex[n].nombre,1,strlen(varindex[n].nombre)+1,fvar);
+		fwrite(&varindex[n].offset,1,4,fvar);
+		fputc(varindex[n].tipo,fvar);
+	}
+
+	// liberamos varindex
+	for(n=0;n<num_indexed_vars;n++)
+		free(varindex[n].nombre);
+	free(varindex);
+
+	// lo pasamos todo del temporal a la memoria
+	l=ftell(fvar);
+	fseek(fvar,0,SEEK_SET);
+	varptr=(byte*)e_malloc(l);
+	fread(varptr,1,l,fvar);
+	fclose(fvar);
+	#ifdef _DEBUG
+		if(fvar=fopen("varindex.out","wb")) {
+			fwrite(varptr,1,l,fvar);
+			fclose(fvar);
+		}
+	#endif
+
 	if ((f=fopen(outfilename,"ab"))!=NULL) {
 		p=(byte*)e_malloc((imem+iloc)*4);
 		m=(imem+iloc)*4+1024;
@@ -303,14 +336,16 @@ void compila()
 				fwrite(&m,1,sizeof(unsigned long),f);
 				fwrite(q,1,m,f);
 				free(q); free(p);
-				get_varptr(&varptr,&nvars);	// indice de variables
-				m=nvars*8;
+				//get_varptr(&varptr,&nvars);	// indice de variables
+				m=l*2;
 				q=(byte*)e_malloc(m);
-				if(!compress(q,&m,(byte*)varptr,nvars*4)) { // nºvariables,longitud_datos_comp,datos_comp...
-					fwrite(&nvars,1,4,f);
+				if(!compress(q,&m,varptr,l)) { // nºvariables,longitud_datos_descomp,longitud_datos_comp,datos_comp...
+					fwrite(&num_indexed_vars,1,4,f);
+					fwrite(&l,1,4,f);
 					fwrite(&m,1,sizeof(unsigned long),f);
 					fwrite(q,1,m,f);
 					free(q);
+					free(varptr);
 					if(debug) {			// formato de ejecutable de debug
 						printf(translate(32));
 						start_lin=ftell(f);
@@ -324,27 +359,31 @@ void compila()
 					fclose(f);
 				} else {
 					free(q);
+					free(varptr);
 					fclose(f);
 					errormem();
 				}
 			} else {
 				free(q); free(p);
+				free(varptr);
 				fclose(f);
 				errormem();
 			}
 		} else {
 			if (p!=NULL) free(p);
 			if (q!=NULL) free(q);
+			free(varptr);
 			fclose(f);
 			errormem();
 		}
 	}
 	else {
+		free(varptr);
 		printf(translate(33));
 		exit(1);
 	}
 	
-	#ifdef __linux__
+	#ifndef _WIN32
 		chmod(outfilename,493);		// -rwxr-xr-x
 	#endif
 

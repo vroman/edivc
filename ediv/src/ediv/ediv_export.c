@@ -190,7 +190,7 @@ int EDIV_Export_Global(char* cadena, int valor)
 		return 0;
 	}
 
-	indexa_variable(global,cadena,imem);
+	indexa_variable(v_global,cadena,imem);
 
 	(*ob).tipo=tvglo;
 	(*ob).vglo.offset=imem;
@@ -228,7 +228,7 @@ int EDIV_Export_Global_Tab(char* cadena, int numregs)
 		return 0;
 	}
 
-	indexa_variable(global,cadena,imem);
+	indexa_variable(v_global,cadena,imem);
 
 	(*ob).tipo=ttglo;
 	(*ob).tglo.offset=imem;
@@ -273,6 +273,8 @@ int EDIV_Export_Global_Struct(char* cadena, int numregs)
 		dll_error(5,cadena);
 		return 0;
 	}
+
+	indexa_variable(v_global,cadena,imem);
 
 	decl_struct=1;
 
@@ -326,7 +328,7 @@ int EDIV_Export_Member_Int(char* cadena, int valor)
 	}
 	else {							// int miembro de struct local
 		if(struct_reserved)
-			indexa_variable(reserved,cadena,iloc);
+			indexa_variable(v_reserved,cadena,iloc);
         (*ob2).tipo=tvloc;
         (*ob2).vloc.offset=len++;
         loc[iloc]=valor;
@@ -455,7 +457,7 @@ int EDIV_Export_Member_Tab(char* cadena, int numregs)
 	}
 	else {							// array miembro de struct local
 		if(struct_reserved)
-			indexa_variable(reserved,cadena,iloc);
+			indexa_variable(v_reserved,cadena,iloc);
 		(*ob2).tipo=ttloc;
 		(*ob2).tloc.offset=len;
 		(*ob2).tloc.len1=numregs;
@@ -548,7 +550,7 @@ int EDIV_Export_Local(char* cadena, int valor)
 		return 0;
 	}
 
-	indexa_variable(local,cadena,iloc);
+	indexa_variable(v_local,cadena,iloc);
 
 	(*ob).tipo=tvloc;
     (*ob).vloc.offset=iloc;
@@ -586,7 +588,7 @@ int EDIV_Export_Local_Tab(char* cadena, int numregs)
 		return 0;
 	}
 
-	indexa_variable(local,cadena,iloc);
+	indexa_variable(v_local,cadena,iloc);
 
 	(*ob).tipo=ttloc;
 	(*ob).tloc.offset=iloc;
@@ -633,8 +635,12 @@ int EDIV_Export_Local_Struct(char* cadena, int numregs)
 	}
 
 	decl_struct=1;
-	if(!strcmp(cadena,"reserved"))
+	if(!strcmp(cadena,"reserved")) {
 		struct_reserved=1;
+	}
+	else {
+		indexa_variable(v_local,cadena,iloc);
+	}
 
 	(*ob).tipo=tsloc;
 	(*ob).sloc.offset=iloc;

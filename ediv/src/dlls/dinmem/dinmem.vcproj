@@ -153,9 +153,6 @@
 			<File
 				RelativePath="..\export.h">
 			</File>
-			<File
-				RelativePath="..\..\shared\varindex.h">
-			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"

@@ -57,6 +57,7 @@ int main(int argc, char* argv[])
 	FILE *file_tiempo ;
 	byte * ptr;
 	unsigned long len,len_descomp;
+	byte* vartemp;
 #ifdef DBG
 	int start_lin;
 	int linsize;
@@ -160,27 +161,40 @@ int main(int argc, char* argv[])
 
 				//assert(0);
 				read(f,&num_indexed_vars,4);
+				read(f,&len_descomp,4);
 				read(f,&len,4);
-				len_descomp=num_indexed_vars*4;
 				ptr=(byte*)e_malloc(len);
 				read(f,ptr,len);
-				varindex=(int*)e_malloc(len_descomp);
-				if(uncompress((byte*)varindex,&len_descomp,ptr,len)) {
+				vartemp=(byte*)e_malloc(len_descomp);
+				if(uncompress(vartemp,&len_descomp,ptr,len)) {
 					free(ptr);
-					free(varindex);
+					free(vartemp);
 					close(f);
 					critical_error(1); // error leyendo el código del programa
 				}
-//				assert(0) ;
 
-				for(len=0;len<num_indexed_vars;len++)
-					fprintf(stdout, "%d: %d\n",len,varindex[len]);
+				varindex=(varindex_t*)e_malloc(num_indexed_vars*sizeof(varindex_t));
+				ptr=vartemp;
 
+				for(i=0;i<num_indexed_vars;i++) {
+					varindex[i].hash=*ptr++;
+					varindex[i].nombre=strdup(ptr);
+					while(*ptr!=0) ptr++;
+					ptr++;
+					varindex[i].offset=*(int*)ptr; ptr+=4;
+					varindex[i].tipo=*ptr++;
+					#ifdef _DEBUG
+						fprintf(stdout, "hash: %d, nombre: %s, offset: %d, tipo: %s\n",
+							varindex[i].hash,varindex[i].nombre,varindex[i].offset,
+							varindex[i].tipo==v_global?"global":varindex[i].tipo==v_reserved?"reserved":"local");
+					#endif
+				}
+				free(vartemp);
 
 
 				dimem=long_header;
 				diloc=0;
-//assert(0);
+
 				/// DEBUG ///
 #ifdef DBG
 				lseek(f,-12,SEEK_END);
@@ -205,11 +219,6 @@ int main(int argc, char* argv[])
 #endif
 
 				close(f);
-
-
-				
-
-
 
 
 				// AKI HAY KE LLAMAR A LAS RUTINAS K INICIALIZAN TODO Y LLAMAR AL INTERPRETE
@@ -238,7 +247,7 @@ int main(int argc, char* argv[])
 
 				
 
-				atexit(SDL_Quit);
+				atexit(stub_quit);
 
 				// SE PONE EL MODO GRAFICO 320x200 MODO VENTANA
 				// Ya se hara el modo full screen
@@ -304,10 +313,10 @@ int main(int argc, char* argv[])
 					tiempo[ tiempo_i ] = SDL_GetTicks() ;
 					
 					if ( tiempo_i == 99 )
-						fp.mem[ fp.varindex[_glo_fps] ] = 100000 / (tiempo[99] - tiempo[0]) ;
+						global("fps") = 100000 / (tiempo[99] - tiempo[0]) ;
 					else
 						if ( tiempo[tiempo_i] - tiempo[tiempo_i+1] != 0 )
-							fp.mem[ fp.varindex[_glo_fps] ] = 100000 / (tiempo[tiempo_i] - tiempo[tiempo_i+1] ) ;
+							global("fps") = 100000 / (tiempo[tiempo_i] - tiempo[tiempo_i+1] ) ;
 
 
 					
@@ -334,9 +343,13 @@ int main(int argc, char* argv[])
 }
 
 
-void stub_quit()
+void stub_quit(void)
 {
-	exit(0) ;
+	int i;
+	for(i=0;i<num_indexed_vars;i++)
+		free(varindex[i].nombre);
+	free(varindex);
+	SDL_Quit();
 }
 
 

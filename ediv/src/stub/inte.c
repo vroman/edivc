@@ -83,6 +83,7 @@ int ini_interprete()
 	fp.existe.dibuja = 0 ;
 	fp.Runtime_Error=error;
 	fp.Critical_Error=critical_error;
+	fp.GetVarOffset=GetVarOffset;
 
 
 	return 1 ;
@@ -301,19 +302,19 @@ int proceso( int num )
 			retcode = 1 ;
 			break ;
 		case lcbp://30
-			mem[procs_s[num_proc].id+var(_res_parameters)]=mem[imem++];
-			mem[procs_s[num_proc].id+var(_res_param_offset)]=sp-mem[procs_s[num_proc].id+var(_res_parameters)]+1;
+			reserved("parameters",procs_s[num_proc].id)=mem[imem++];
+			reserved("param_offset",procs_s[num_proc].id)=sp-reserved("parameters",procs_s[num_proc].id)+1;
 			/**/procs_s[num_proc].num_params = mem[ imem-1 ] ;
 			break;
 		case lcpa://31 POR HACER #-#
-			mem[pila[sp--]]=pila[mem[procs_s[num_proc].id+var(_res_param_offset)]++];
+			mem[pila[sp--]]=pila[reserved("param_offset",procs_s[num_proc].id)++];
 			break;
 		case ltyp://32
 			procs_s[num_proc].id = mem[2] + ( num_proc * iloc_len ) ; 
 			if ( procs_s[num_proc].tipo != 0 )
 				critical_error(3); // redefinición del tipo de proceso
 			procs_s[num_proc].tipo = mem[ imem++ ] ;
-			mem[ procs_s[num_proc].id + varindex[_res_process_type] ] = procs_s[num_proc].tipo ;
+			reserved("process_type",procs_s[num_proc].id) = procs_s[num_proc].tipo ;
 			inicio_privadas=mem[6];
 			break ;
 		case lpri://33 POR HACER

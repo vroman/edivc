@@ -1,3 +1,28 @@
+24/9/2002
+---------
+ * ¡¡Añadido indexado de variables dinámico!! (¿contento Rise?) :D
+   +------------------------------+
+   | LEER ESTO CON MUCHA ATENCIÓN |
+   +------------------------------+
+   1) Compilad la documentación (doc/html/makedokNT.bat) y leed bien el
+      varindex-howto.html. Las macros a que hace referencia se encuentran en
+      varindex.h (para el stub) y export.h (para las dll's), por si quereis
+      verlas.
+   2) NO INCLUYÁIS VARINDEX.H EN LAS DLL's, sólamente export.h
+
+   Ya tenéis acceso a cualquier variable, tabla o estructura de cualquier dll
+   desde cualquier otra dll. Falta hacer un sistema de dependencias, rara vez
+   se va a dar el caso de que una dll dependa de otra (a excepción de la
+   graphics o la edivstd), pero vendrá muy bien de todas formas y aseguraremos
+   la robustez de ediv, especialmente de cara a dll's hechas por usuarios.
+   Al compilar, ediv (compilado como Debug) guarda en varindex.out la tabla
+   de variables sin comprimir, que podeis comparar con la lista que muestra
+   el stub en stdout al arrancar, por si hay que comprobar errores. (Er_Makina)
+ * Naturalmente ha sido necesario adaptar el stub y todas las dlls. De paso he
+   aprovechado para cambiar alguna cosilla por ahí para quitar warnings (uf
+   la graphics tiene cada warnings mas peligrosos.. variables sin inicializar..
+   de to) :P (Er_Makina)   
+      
 9/9/2002
 --------
  * Le he añadido icono al stub, y también he hecho un programa (iconchanger)

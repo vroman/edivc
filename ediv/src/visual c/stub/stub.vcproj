@@ -237,6 +237,9 @@ makelib.bat win32.dbg
 			<File
 				RelativePath="..\..\stub\stub.c">
 			</File>
+			<File
+				RelativePath="..\..\stub\varindex.c">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"

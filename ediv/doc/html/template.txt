@@ -11,3 +11,6 @@
 	"en cualquiera de los documentos que\nse incluyen en este proyecto, por favor "
 	"comun&iacute;quenoslo a <a href=\"mailto:bugs@edivcentral.com\">bugs@edivcentral.com</a>. "
 	"Gracias.<br>\n&copy; Copyleft Sion Entertainment, 2000-2002</font>\n</body>\n</html>\n"
+<%code%> "<!-- POR HACER: Resaltado de sintaxis --><p><table border=\"0\" cellpadding=\"10\" "
+	"width=\"80%\" align=\"center\"><tr><td nowrap><pre>"
+<%/code%> "</pre></td></tr></table></p>"

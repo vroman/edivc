@@ -156,9 +156,6 @@
 			<File
 				RelativePath="text.h">
 			</File>
-			<File
-				RelativePath="..\..\shared\varindex.h">
-			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"

@@ -27,6 +27,7 @@
 
 #include <SDL/SDL.h>
 #include "main.h"
+#include "varindex.h"
 
 #define MAX_EXTERN_FUNCS	0xFFFF		// ¿Demasiado?
 #define MAX_EXTFUNC_PARMS	0xFF
@@ -83,6 +84,9 @@ typedef int (TYPEOF_Dibuja)(SDL_Surface *, SDL_Rect , SDL_Rect , int , int ) ;
 // Errores
 typedef void (TYPEOF_Runtime_Error)(int, ...);
 typedef void (TYPEOF_Critical_Error)(int, ...);
+
+// Obtiene offset de variable indexada dinámicamente
+typedef int (TYPEOF_GetVarOffset)(tipo_t tipo,char* nombre);
 
 /////////////
 // ENTRY-POINTS
@@ -253,6 +257,7 @@ struct _fun_params{
 	TYPEOF_Call_Entrypoint *Call_Entrypoint ;
 	TYPEOF_Runtime_Error *Runtime_Error ;
 	TYPEOF_Critical_Error *Critical_Error ;
+	TYPEOF_GetVarOffset *GetVarOffset ;
 } fp ;
 
 		

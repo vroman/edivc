@@ -24,7 +24,7 @@
  */
  
 #include <export.h>
-#include "../../shared/varindex.h"
+//#include "../../shared/varindex.h"
 
 #include "main.h"
 
@@ -168,7 +168,8 @@ int eDiv_GetId(FUNCTION_PARAMS)
 		last_proc = i ;
 		id1 = fp->procs_s[ fp->proc_orden[ i ] ].id ;
 		//Si el proceso se corresponde con el type
-		if ( fp->mem[ id1 + fp->varindex[ _res_process_type ] ] == a )
+//		if ( fp->mem[ id1 + fp->varindex[ _res_process_type ] ] == a )
+		if ( reserved("process_type",id1) == a )
 		{
 			return ( fp->procs_s[ fp->proc_orden[ i ] ].id ) ;
 		}

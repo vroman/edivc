@@ -2,7 +2,7 @@
 
 #include <SDL/SDL.h>
 #include <export.h>
-#include "../../shared/varindex.h"
+//#include "../../shared/varindex.h"
 #include "scroll.h"
 
 
