@@ -22,13 +22,14 @@
 				Optimization="0"
 				AdditionalIncludeDirectories="$(QTDIR)\include"
 				PreprocessorDefinitions="WIN32,_DEBUG,_WINDOWS,QT_DLL,QT_THREAD_SUPPORT"
-				BasicRuntimeChecks="0"
+				BasicRuntimeChecks="3"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderFile=".\Debug/ideQT.pch"
 				AssemblerListingLocation=".\Debug/"
 				ObjectFile=".\Debug/"
 				ProgramDataBaseFileName=".\Debug/"
+				BrowseInformation="1"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				DebugInformationFormat="4"
@@ -129,20 +130,158 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat;for;f90">
 			<File
+				RelativePath=".\about.cpp">
+			</File>
+			<File
 				RelativePath=".\ideqtwindow.cpp">
+			</File>
+			<File
+				RelativePath=".\kdestyle.cpp">
 			</File>
 			<File
 				RelativePath=".\main.cpp">
 			</File>
 			<File
+				RelativePath=".\moc_about.cpp">
+			</File>
+			<File
 				RelativePath=".\moc_ideqtwindow.cpp">
+			</File>
+			<File
+				RelativePath=".\moc_kdestyle.cpp">
+			</File>
+			<File
+				RelativePath=".\moc_nuevo_propiedades.cpp">
+			</File>
+			<File
+				RelativePath=".\moc_nuevoimpl.cpp">
+			</File>
+			<File
+				RelativePath=".\moc_proyecto.cpp">
+			</File>
+			<File
+				RelativePath=".\nuevo_propiedades.cpp">
+			</File>
+			<File
+				RelativePath=".\nuevoimpl.cpp">
+			</File>
+			<File
+				RelativePath=".\proyecto.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;fi;fd">
 			<File
+				RelativePath=".\about.h">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputName).h ..."
+						CommandLine="%qtdir%\bin\moc.exe $(InputDir)$(InputName).h -o $(InputDir)moc_$(InputName).cpp
+"
+						Outputs="$(InputDir)moc_$(InputName).cpp"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputName).h ..."
+						CommandLine="%qtdir%\bin\moc.exe $(InputDir)$(InputName).h -o $(InputDir)moc_$(InputName).cpp
+"
+						Outputs="$(InputDir)moc_$(InputName).cpp"/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath=".\ideqtwindow.h">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputName).h ..."
+						CommandLine="%qtdir%\bin\moc.exe $(InputDir)$(InputName).h -o $(InputDir)moc_$(InputName).cpp
+"
+						Outputs="$(InputDir)moc_$(InputName).cpp"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputName).h ..."
+						CommandLine="%qtdir%\bin\moc.exe $(InputDir)$(InputName).h -o $(InputDir)moc_$(InputName).cpp
+"
+						Outputs="$(InputDir)moc_$(InputName).cpp"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\kdestyle.h">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputName).h ..."
+						CommandLine="%qtdir%\bin\moc.exe $(InputDir)$(InputName).h -o $(InputDir)moc_$(InputName).cpp
+"
+						Outputs="$(InputDir)moc_$(InputName).cpp"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputName).h ..."
+						CommandLine="%qtdir%\bin\moc.exe $(InputDir)$(InputName).h -o $(InputDir)moc_$(InputName).cpp
+"
+						Outputs="$(InputDir)moc_$(InputName).cpp"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\main.h">
+			</File>
+			<File
+				RelativePath=".\nuevo_propiedades.h">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputName).h ..."
+						CommandLine="%qtdir%\bin\moc.exe $(InputDir)$(InputName).h -o $(InputDir)moc_$(InputName).cpp
+"
+						Outputs="$(InputDir)moc_$(InputName).cpp"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputName).h ..."
+						CommandLine="%qtdir%\bin\moc.exe $(InputDir)$(InputName).h -o $(InputDir)moc_$(InputName).cpp
+"
+						Outputs="$(InputDir)moc_$(InputName).cpp"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\nuevoimpl.h">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputName).h ..."
+						CommandLine="%qtdir%\bin\moc.exe $(InputDir)$(InputName).h -o $(InputDir)moc_$(InputName).cpp
+"
+						Outputs="$(InputDir)moc_$(InputName).cpp"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputName).h ..."
+						CommandLine="%qtdir%\bin\moc.exe $(InputDir)$(InputName).h -o $(InputDir)moc_$(InputName).cpp
+"
+						Outputs="$(InputDir)moc_$(InputName).cpp"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\proyecto.h">
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
@@ -173,9 +312,25 @@
 				RelativePath=".\res.rc">
 			</File>
 		</Filter>
-		<File
-			RelativePath=".\readme.txt">
-		</File>
+		<Filter
+			Name="kwrite"
+			Filter="">
+			<File
+				RelativePath=".\kwrite\highlight.cpp">
+			</File>
+			<File
+				RelativePath=".\kwrite\highlight.h">
+			</File>
+			<File
+				RelativePath=".\kwrite\kwdoc.cpp">
+			</File>
+			<File
+				RelativePath=".\kwrite\kwdoc.h">
+			</File>
+			<File
+				RelativePath=".\kwrite\kwview.h">
+			</File>
+		</Filter>
 	</Files>
 	<Globals>
 	</Globals>

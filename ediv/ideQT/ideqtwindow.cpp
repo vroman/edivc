@@ -7,7 +7,8 @@
 #include <qtoolbutton.h>
 #include <qpopupmenu.h>
 #include <qaction.h>
-#include <qplatinumstyle.h>
+//#include <qplatinumstyle.h>
+#include "kdestyle.h"
 #include <qmessagebox.h>
 #include <qiconset.h>
 
@@ -58,7 +59,8 @@ ideQTWindow::ideQTWindow( QWidget* parent, const char* name, WFlags f )
 	QPixmap *iconoe=pillagif(ediv_icon);
 	setIcon(*iconoe);
 
-    qApp->setStyle( new QPlatinumStyle );
+//    qApp->setStyle( new QPlatinumStyle );
+    qApp->setStyle( new KDEStyle );
 
 	mdi = new QWorkspace( this, "workspace" );
 	mdi->setBackgroundMode( PaletteDark );

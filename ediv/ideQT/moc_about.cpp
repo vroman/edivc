@@ -1,7 +1,7 @@
 /****************************************************************************
 ** About meta object code from reading C++ file 'about.h'
 **
-** Created: Mon Jul 8 15:45:30 2002
+** Created: Wed Oct 9 23:31:05 2002
 **      by: The Qt MOC ($Id$)
 **
 ** WARNING! All changes made in this file will be lost!

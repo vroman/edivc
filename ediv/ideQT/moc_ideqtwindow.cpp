@@ -1,7 +1,7 @@
 /****************************************************************************
 ** ideQTWindow meta object code from reading C++ file 'ideqtwindow.h'
 **
-** Created: Fri Jul 12 23:18:31 2002
+** Created: Wed Oct 9 23:31:05 2002
 **      by: The Qt MOC ($Id$)
 **
 ** WARNING! All changes made in this file will be lost!

@@ -101,6 +101,10 @@ SOURCE=.\ideqtwindow.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\kdestyle.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\main.cpp
 # End Source File
 # Begin Source File
@@ -110,6 +114,10 @@ SOURCE=.\moc_about.cpp
 # Begin Source File
 
 SOURCE=.\moc_ideqtwindow.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\moc_kdestyle.cpp
 # End Source File
 # Begin Source File
 
@@ -196,6 +204,39 @@ InputName=ideqtwindow
 InputDir=.
 InputPath=.\ideqtwindow.h
 InputName=ideqtwindow
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\kdestyle.h
+
+!IF  "$(CFG)" == "ideQT - Win32 Release"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.
+InputPath=.\kdestyle.h
+InputName=kdestyle
+
+"$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "ideQT - Win32 Debug"
+
+# PROP Ignore_Default_Tool 1
+# Begin Custom Build - Moc'ing $(InputName).h ...
+InputDir=.
+InputPath=.\kdestyle.h
+InputName=kdestyle
 
 "$(InputDir)\moc_$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	%qtdir%\bin\moc.exe $(InputDir)\$(InputName).h -o $(InputDir)\moc_$(InputName).cpp
@@ -345,9 +386,5 @@ SOURCE=.\kwrite\kwdoc.h
 SOURCE=.\kwrite\kwview.h
 # End Source File
 # End Group
-# Begin Source File
-
-SOURCE=.\readme.txt
-# End Source File
 # End Target
 # End Project

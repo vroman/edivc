@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Nuevo meta object code from reading C++ file 'nuevoimpl.h'
 **
-** Created: Wed Jul 10 01:54:25 2002
+** Created: Wed Oct 9 23:31:05 2002
 **      by: The Qt MOC ($Id$)
 **
 ** WARNING! All changes made in this file will be lost!

@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Nuevo_Propiedades meta object code from reading C++ file 'nuevo_propiedades.h'
 **
-** Created: Mon Sep 9 19:11:49 2002
+** Created: Wed Oct 9 23:31:05 2002
 **      by: The Qt MOC ($Id$)
 **
 ** WARNING! All changes made in this file will be lost!

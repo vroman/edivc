@@ -6,40 +6,22 @@
 --------------------Configuration: ideQT - Win32 Debug--------------------
 </h3>
 <h3>Command Lines</h3>
-Creating temporary file "C:\DOCUME~1\ADMINI~1\CONFIG~1\Temp\RSP95.bat" with contents
-[
-@echo off
-%qtdir%\bin\moc.exe .\nuevo_propiedades.h -o .\moc_nuevo_propiedades.cpp
-]
-Creating command line "C:\DOCUME~1\ADMINI~1\CONFIG~1\Temp\RSP95.bat"
-Creating command line "rc.exe /l 0xc0a /fo"Debug/res.res" /d "_DEBUG" "D:\ediv\ideQT\res.rc"" 
-Moc'ing nuevo_propiedades.h ...
-Creating temporary file "C:\DOCUME~1\ADMINI~1\CONFIG~1\Temp\RSP96.tmp" with contents
+Creating temporary file "C:\DOCUME~1\ADMINI~1\CONFIG~1\Temp\RSP17C.tmp" with contents
 [
 /nologo /MD /W3 /Gm /GX /ZI /Od /I "d:\Qt\include" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "QT_DLL" /D "QT_THREAD_SUPPORT" /FR"Debug/" /Fp"Debug/ideQT.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
-"D:\ediv\ideQT\about.cpp"
-"D:\ediv\ideQT\ideqtwindow.cpp"
-"D:\ediv\ideQT\main.cpp"
-"D:\ediv\ideQT\moc_about.cpp"
-"D:\ediv\ideQT\moc_ideqtwindow.cpp"
-"D:\ediv\ideQT\moc_nuevo_propiedades.cpp"
-"D:\ediv\ideQT\moc_nuevoimpl.cpp"
-"D:\ediv\ideQT\moc_proyecto.cpp"
-"D:\ediv\ideQT\nuevo_propiedades.cpp"
-"D:\ediv\ideQT\nuevoimpl.cpp"
-"D:\ediv\ideQT\proyecto.cpp"
-"D:\ediv\ideQT\kwrite\highlight.cpp"
-"D:\ediv\ideQT\kwrite\kwdoc.cpp"
+"D:\ediv\ideQT\kdestyle.cpp"
 ]
-Creating command line "cl.exe @C:\DOCUME~1\ADMINI~1\CONFIG~1\Temp\RSP96.tmp" 
-Creating temporary file "C:\DOCUME~1\ADMINI~1\CONFIG~1\Temp\RSP97.tmp" with contents
+Creating command line "cl.exe @C:\DOCUME~1\ADMINI~1\CONFIG~1\Temp\RSP17C.tmp" 
+Creating temporary file "C:\DOCUME~1\ADMINI~1\CONFIG~1\Temp\RSP17D.tmp" with contents
 [
 kernel32.lib user32.lib gdi32.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib imm32.lib wsock32.lib d:\Qt\lib\qt-mt230nc.lib d:\Qt\lib\qtmain.lib /nologo /subsystem:windows /incremental:yes /pdb:"Debug/edivide.pdb" /debug /machine:I386 /out:"Debug/edivide.exe" /pdbtype:sept 
 .\Debug\about.obj
 .\Debug\ideqtwindow.obj
+.\Debug\kdestyle.obj
 .\Debug\main.obj
 .\Debug\moc_about.obj
 .\Debug\moc_ideqtwindow.obj
+.\Debug\moc_kdestyle.obj
 .\Debug\moc_nuevo_propiedades.obj
 .\Debug\moc_nuevoimpl.obj
 .\Debug\moc_proyecto.obj
@@ -50,32 +32,21 @@ kernel32.lib user32.lib gdi32.lib comdlg32.lib advapi32.lib shell32.lib ole32.li
 .\Debug\kwdoc.obj
 .\Debug\res.res
 ]
-Creating command line "link.exe @C:\DOCUME~1\ADMINI~1\CONFIG~1\Temp\RSP97.tmp"
+Creating command line "link.exe @C:\DOCUME~1\ADMINI~1\CONFIG~1\Temp\RSP17D.tmp"
 <h3>Output Window</h3>
-Compiling resources...
 Compiling...
-about.cpp
-ideqtwindow.cpp
-main.cpp
-moc_about.cpp
-moc_ideqtwindow.cpp
-moc_nuevo_propiedades.cpp
-moc_nuevoimpl.cpp
-moc_proyecto.cpp
-nuevo_propiedades.cpp
-nuevoimpl.cpp
-proyecto.cpp
-highlight.cpp
-kwdoc.cpp
+kdestyle.cpp
 Linking...
-Creating temporary file "C:\DOCUME~1\ADMINI~1\CONFIG~1\Temp\RSP99.tmp" with contents
+Creating temporary file "C:\DOCUME~1\ADMINI~1\CONFIG~1\Temp\RSP17E.tmp" with contents
 [
 /nologo /o"Debug/ideQT.bsc" 
 .\Debug\about.sbr
 .\Debug\ideqtwindow.sbr
+.\Debug\kdestyle.sbr
 .\Debug\main.sbr
 .\Debug\moc_about.sbr
 .\Debug\moc_ideqtwindow.sbr
+.\Debug\moc_kdestyle.sbr
 .\Debug\moc_nuevo_propiedades.sbr
 .\Debug\moc_nuevoimpl.sbr
 .\Debug\moc_proyecto.sbr
@@ -84,7 +55,7 @@ Creating temporary file "C:\DOCUME~1\ADMINI~1\CONFIG~1\Temp\RSP99.tmp" with cont
 .\Debug\proyecto.sbr
 .\Debug\highlight.sbr
 .\Debug\kwdoc.sbr]
-Creating command line "bscmake.exe @C:\DOCUME~1\ADMINI~1\CONFIG~1\Temp\RSP99.tmp"
+Creating command line "bscmake.exe @C:\DOCUME~1\ADMINI~1\CONFIG~1\Temp\RSP17E.tmp"
 Creating browse info file...
 <h3>Output Window</h3>
 
