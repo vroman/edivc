@@ -1,3 +1,13 @@
+2/12/2002
+---------
+ * He añadido en la web una sección desde donde se puede ver este changelog.
+   El script pilla el fichero directamente del CVS, o de divsite si no está
+   disponible, y parsea el fichero y lo muestra con un aspecto muy majo :)
+   Podéis seguir escribiendo los mensajes como hasta ahora, no os olvidéis
+   de firmarlos. Para que el script funcione bien la firma tiene que ser lo
+   último que se encuentre en el mensaje, cuidado no se os escape un punto
+   después de la firma, o algo asi. (Er_Makina)
+
 30/10/2002
 ----------
  * Añadido la variable RESOLUTION, que a la hora de compilar el TUTOR2.PRG daba problemas.
@@ -892,7 +902,7 @@ de
    (Er_Makina)
 
 
-15/04/2001
+15/4/2001
 ----------
 
  * Añadido CheckWindowsVersion a Dll_Load.c. Ahora esta funcion se
