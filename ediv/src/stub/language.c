@@ -1,6 +1,6 @@
 /*
  * eDiv Compiler
- * Copyleft (C) 2000-2002 Sion Entertainment
+ * Copyleft (C) 2000-2003 Sion Entertainment
  * http://www.sion-e.com
  *
  * This program is free software; you can redistribute it and/or modify

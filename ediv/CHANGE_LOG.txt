@@ -1,3 +1,7 @@
+4/4/2003
+--------
+ * Añadido soporte para datos WORD. (Er_Makina)
+
 3/4/2003
 --------
  * ARREGLADO EL BUG DEL KILL!!! :PPP por fin!!! por supuesto, como todo

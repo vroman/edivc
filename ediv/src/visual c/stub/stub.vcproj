@@ -67,7 +67,7 @@ makelib.bat win32.rel
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="Release"
+			OutputDirectory="r:\stub"
 			IntermediateDirectory="Release"
 			ConfigurationType="1"
 			CharacterSet="2">
@@ -161,7 +161,7 @@ makelib.bat win32.dbg
 		</Configuration>
 		<Configuration
 			Name="Release con trazador|Win32"
-			OutputDirectory="Release con trazador"
+			OutputDirectory="r:\stub.rel"
 			IntermediateDirectory="Release con trazador"
 			ConfigurationType="1"
 			CharacterSet="2">

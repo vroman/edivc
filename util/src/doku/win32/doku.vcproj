@@ -54,7 +54,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="../../../bin"
+			OutputDirectory="r:\doku"
 			IntermediateDirectory="Release"
 			ConfigurationType="1"
 			CharacterSet="2">

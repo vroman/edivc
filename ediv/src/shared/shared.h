@@ -25,8 +25,8 @@
 #ifndef __EDIV_SHARED_H_
 #define __EDIV_SHARED_H_
 
-#define VERSION "0.1.1 (Orion)" /* Version y codename */
-#define la_clave "Open_eDiv"    /* Clave de cifrado   */
+#define VERSION "0.1.3 (Betelgeuse)" /* Version y codename */
+#define la_clave "81ab50e9c20d"    /* Clave de cifrado   */
 
 #define uchar char
 #define byte unsigned char
@@ -35,7 +35,7 @@
 #define ulong unsigned int
 #define dword unsigned int
 
-#define magic "eDIV Stub\x1a\x0d\x0a\xff"
+#define magic "eDIVstub0\x1a\x0d\x0a\xff"
 
 #define long_header 9 /* Longitud de la cabecera al inicio de los programas */
 

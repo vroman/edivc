@@ -652,6 +652,355 @@ int proceso( int num, int padre )
 			sp-=2;
 			mem[procs_s[num_proc].id+_param_offset]++;
 			break;
+
+		/* OPERACIONES CON DATOS DE TIPO WORD */
+
+		case lptrwor:
+			pila[sp-1]=(unsigned int)memw[pila[sp-1]*2+pila[sp]];
+			sp--;
+			break;
+		case lasiwor:
+			pila[sp-2]=(unsigned int)(memw[pila[sp-2]*2+pila[sp-1]]=(word)pila[sp]);
+			sp-=2;
+			break;
+		case liptwor:
+			pila[sp-1]=(unsigned int)++memw[pila[sp-1]*2+pila[sp]];
+			sp--;
+			break;
+		case lptiwor:
+			utemp=pila[sp-1];
+			pila[sp-1]=(unsigned int)memw[utemp*2+pila[sp]]++;
+			sp--;
+			break;
+		case ldptwor:
+			pila[sp-1]=(unsigned int)--memw[pila[sp-1]*2+pila[sp]];
+			sp--;
+			break;
+		case lptdwor:
+			utemp=pila[sp-1];
+			pila[sp-1]=(unsigned int)memw[utemp*2+pila[sp]]--;
+			sp--;
+			break;
+		case ladawor:
+			pila[sp-2]=(unsigned int)(memw[pila[sp-2]*2+pila[sp-1]]+=(word)pila[sp]);
+			sp-=2;
+			break;
+		case lsuawor:
+			pila[sp-2]=(unsigned int)(memw[pila[sp-2]*2+pila[sp-1]]-=(word)pila[sp]);
+			sp-=2;
+			break;
+		case lmuawor:
+			pila[sp-2]=(unsigned int)(memw[pila[sp-2]*2+pila[sp-1]]*=(word)pila[sp]);
+			sp-=2;
+			break;
+		case ldiawor:
+/*			#ifdef DEBUG
+				if (pila[sp]==0) {
+					memw[pila[sp-2]*2+pila[sp-1]]=0;
+					sp-=2; pila[sp]=0;
+					v_function=-2; e(145);
+					if (call_to_debug) { process_stoped=id; return; }
+					break;
+				}
+			#endif*/
+			pila[sp-2]=(unsigned int)(memw[pila[sp-2]*2+pila[sp-1]]/=(word)pila[sp]);
+			sp-=2;
+			break;
+		case lmoawor:
+/*			#ifdef DEBUG
+				if (pila[sp]==0) {
+					memw[pila[sp-2]*2+pila[sp-1]]=0;
+					sp-=2; pila[sp]=0;
+					v_function=-2; e(145);
+					if (call_to_debug) { process_stoped=id; return; }
+					break;
+				}
+			#endif*/
+			pila[sp-2]=(unsigned int)(memw[pila[sp-2]*2+pila[sp-1]]%=(word)pila[sp]);
+			sp-=2;
+			break;
+		case lanawor:
+			pila[sp-2]=(unsigned int)(memw[pila[sp-2]*2+pila[sp-1]]&=(word)pila[sp]);
+			sp-=2;
+			break;
+		case lorawor:
+			pila[sp-2]=(unsigned int)(memw[pila[sp-2]*2+pila[sp-1]]|=(word)pila[sp]);
+			sp-=2;
+			break;
+		case lxoawor:
+			pila[sp-2]=(unsigned int)(memw[pila[sp-2]*2+pila[sp-1]]^=(word)pila[sp]);
+			sp-=2;
+			break;
+		case lsrawor:
+			pila[sp-2]=(unsigned int)(memw[pila[sp-2]*2+pila[sp-1]]>>=(word)pila[sp]);
+			sp-=2;
+			break;
+		case lslawor:
+			pila[sp-2]=(unsigned int)(memw[pila[sp-2]*2+pila[sp-1]]<<=(word)pila[sp]);
+			sp-=2;
+			break;
+		case lcpawor:
+			_param_offset=reservedptr("param_offset");
+			if ((unsigned)pila[mem[procs_s[num_proc].id+_param_offset]]<256) {
+				memw[pila[sp-1]*2+pila[sp]]=(word)pila[mem[procs_s[num_proc].id+_param_offset]];
+			} else {
+				if (pila[mem[procs_s[num_proc].id+_param_offset]]<imem_max+258*4)
+					memw[pila[sp-1]*2+pila[sp]]=memw[pila[mem[procs_s[num_proc].id+_param_offset]]*2];
+				else
+					memw[pila[sp-1]*2+pila[sp]]=(word)pila[mem[procs_s[num_proc].id+_param_offset]];
+			} sp-=2; mem[procs_s[num_proc].id+_param_offset]++; break;
+
+
+		/* OPERACIONES CON DATOS DE TIPO STRING */
+		/* Nota: un puntero a cadena menor a 256 se trata siempre como "%c" */
+
+#ifdef esto_pa_la_0_1_4
+
+		case lstrcpy:
+/*			#ifdef DEBUG
+				if ((mem[pila[sp-1]-1]&0xFFF00000)!=0xDAD00000) {
+					sp--; v_function=-2; e(164);
+					if (call_to_debug) { process_stoped=id; return; }
+					break;
+				}
+				if ((unsigned)pila[sp]>255) if ((mem[pila[sp-1]-1]&0xFFFFF)+1<strlen((char*)&mem[pila[sp]])) {
+					sp--; v_function=-2; e(140);
+					if (call_to_debug) { process_stoped=id; return; }
+					break;
+				}
+			#endif*/
+			if ((unsigned)pila[sp]>255) strcpy((char*)&mem[pila[sp-1]],(char*)&mem[pila[sp]]);
+			else sprintf((char*)&mem[pila[sp-1]],"%c\0",pila[sp]);
+			sp--;
+			break;
+
+		case lstrfix:
+			if (pila[sp-1]>=(oo=strlen(&memb[pila[sp-2]*4]))) {
+				for (;oo<pila[sp-1];oo++) {
+					memb[pila[sp-2]*4+oo]=' ';
+				} memb[pila[sp-2]*4+oo+1]=0;
+			} break;
+
+		case lstrcat:
+/*			#ifdef DEBUG
+				if ((mem[pila[sp-1]-1]&0xFFF00000)!=0xDAD00000) {
+					sp--; v_function=-2; e(164);
+					if (call_to_debug) { process_stoped=id; return; }
+					break;
+				}
+				if ((unsigned)pila[sp]>255) oo=strlen((char*)&mem[pila[sp]]); else oo=1;
+				if ((mem[pila[sp-1]-1]&0xFFFFF)+1<strlen((char*)&mem[pila[sp-1]])+oo) {
+					sp--; v_function=-2; e(140);
+					if (call_to_debug) { process_stoped=id; return; }
+					break;
+				}
+			#endif*/
+			if ((unsigned)pila[sp]>255) strcat((char*)&mem[pila[sp-1]],(char*)&mem[pila[sp]]);
+			else sprintf((char*)&mem[pila[sp-1]],"%s%c\0",(char*)&mem[pila[sp-1]],pila[sp]);
+			sp--;
+			break;
+
+		case lstradd: /* Strcat "en el aire" (ojo, el aire tiene tambien 0xDAD00402) */
+/*			#ifdef DEBUG
+				if ((unsigned)pila[sp-1]>255) oo=strlen((char*)&mem[pila[sp-1]]); else oo=1;
+				if ((unsigned)pila[sp]>255) oo+=strlen((char*)&mem[pila[sp]]); else oo+=1;
+				if (oo>=1028) {
+					sp--; v_function=-2; e(140);
+					if (call_to_debug) { process_stoped=id; return; }
+					break;
+				}
+			#endif*/
+			if ((unsigned)pila[sp-1]>255) {
+				if ((unsigned)pila[sp]>255) {
+					sprintf((char*)&mem[nullstring[nstring]],"%s%s\0",(char*)&mem[pila[sp-1]],(char*)&mem[pila[sp]]);
+				} else {
+					sprintf((char*)&mem[nullstring[nstring]],"%s%c\0",(char*)&mem[pila[sp-1]],pila[sp]);
+				}
+			} else {
+				if ((unsigned)pila[sp]>255) {
+					sprintf((char*)&mem[nullstring[nstring]],"%c%s\0",pila[sp-1],(char*)&mem[pila[sp]]);
+				} else {
+					sprintf((char*)&mem[nullstring[nstring]],"%c%c\0",pila[sp-1],pila[sp]);
+				}
+			}
+			pila[--sp]=nullstring[nstring];
+			nstring=((nstring+1)&3);
+			break;
+
+		case lstrdec: /* cambio de tamaño "en el aire" (no da error, hace lo que puede) */
+			oo=strlen((char*)&mem[pila[sp-1]]);
+			if (oo<1028) {
+				strcpy((char*)&mem[nullstring[nstring]],(char*)&mem[pila[sp-1]]);
+				if (pila[sp]>0) { // Quitar caracteres
+					if (pila[sp]>=oo) memb[nullstring[nstring]*4]=0;
+					else memb[nullstring[nstring]*4+oo-pila[sp]]=0;
+				} else if (pila[sp]<0) { // A¤adir (?) caracteres (por homogeneidad)
+					pila[sp]=oo-pila[sp]; // Nueva longitud
+					if (pila[sp]>1025) pila[sp]=1025;
+					for (;oo<pila[sp];oo++) {
+						memb[nullstring[nstring]*4+oo]=' ';
+					} memb[nullstring[nstring]*4+oo]=0;
+				}
+			} else mem[nullstring[nstring]]=0;
+			pila[--sp]=nullstring[nstring];
+			nstring=((nstring+1)&3);
+			break;
+
+		case lstrsub: /* cambio de tamaño a un string */
+			oo=strlen((char*)&mem[pila[sp-1]]);
+/*			#ifdef DEBUG
+				if ((mem[pila[sp-1]-1]&0xFFF00000)!=0xDAD00000) {
+					sp--; v_function=-2; e(164);
+					if (call_to_debug) { process_stoped=id; return; }
+					break;
+				}
+				if ((mem[pila[sp-1]-1]&0xFFFFF)+1<oo-pila[sp]) {
+					sp--; v_function=-2; e(140);
+					if (call_to_debug) { process_stoped=id; return; }
+					break;
+				}
+			#endif*/
+			if (pila[sp]>0) { // Quitar caracteres
+				if (pila[sp]>=oo) memb[pila[sp-1]*4]=0;
+				else memb[pila[sp-1]*4+oo-pila[sp]]=0;
+			} else if (pila[sp]<0) { // A¤adir (?) caracteres (por homogeneidad)
+				pila[sp]=oo-pila[sp]; // Nueva longitud
+				for (;oo<pila[sp];oo++) {
+					memb[pila[sp-1]*4+oo]=' ';
+				} memb[pila[sp-1]*4+oo]=0;
+			} sp--;
+			break;
+
+		case lstrlen:
+			if ((unsigned)pila[sp]>255) pila[sp]=strlen((char*)&mem[pila[sp]]); else pila[sp]=1;
+			break;
+
+		case lstrigu:
+			if ((unsigned)pila[sp-1]>255) {
+				if ((unsigned)pila[sp]>255) {
+					if (strcmp((char*)&mem[pila[sp-1]],(char*)&mem[pila[sp]])) pila[sp-1]=0; else pila[sp-1]=1;
+				} else {
+					if (strcmp((char*)&mem[pila[sp-1]],(char*)&pila[sp])) pila[sp-1]=0; else pila[sp-1]=1;
+				}
+			} else {
+				if ((unsigned)pila[sp]>255) {
+					if (strcmp((char*)&pila[sp-1],(char*)&mem[pila[sp]])) pila[sp-1]=0; else pila[sp-1]=1;
+				} else {
+					pila[sp-1]=(pila[sp-1]==pila[sp]);
+				}
+			} sp--; break;
+
+		case lstrdis:
+			if ((unsigned)pila[sp-1]>255) {
+				if ((unsigned)pila[sp]>255) {
+					if (strcmp((char*)&mem[pila[sp-1]],(char*)&mem[pila[sp]])) pila[sp-1]=1; else pila[sp-1]=0;
+				} else {
+					if (strcmp((char*)&mem[pila[sp-1]],(char*)&pila[sp])) pila[sp-1]=1; else pila[sp-1]=0;
+				}
+			} else {
+				if ((unsigned)pila[sp]>255) {
+					if (strcmp((char*)&pila[sp-1],(char*)&mem[pila[sp]])) pila[sp-1]=1; else pila[sp-1]=0;
+				} else {
+					pila[sp-1]=(pila[sp-1]!=pila[sp]);
+				}
+			} sp--; break;
+			break;
+
+		case lstrmay:
+			if ((unsigned)pila[sp-1]>255) {
+				if ((unsigned)pila[sp]>255) {
+					if (strcmp((char*)&mem[pila[sp-1]],(char*)&mem[pila[sp]])>0) pila[sp-1]=1; else pila[sp-1]=0;
+				} else {
+					if (strcmp((char*)&mem[pila[sp-1]],(char*)&pila[sp])>0) pila[sp-1]=1; else pila[sp-1]=0;
+				}
+			} else {
+				if ((unsigned)pila[sp]>255) {
+					if (strcmp((char*)&pila[sp-1],(char*)&mem[pila[sp]])>0) pila[sp-1]=1; else pila[sp-1]=0;
+				} else {
+					pila[sp-1]=(pila[sp-1]>pila[sp]);
+				}
+			} sp--; break;
+			break;
+
+		case lstrmen:
+			if ((unsigned)pila[sp-1]>255) {
+				if ((unsigned)pila[sp]>255) {
+					if (strcmp((char*)&mem[pila[sp-1]],(char*)&mem[pila[sp]])<0) pila[sp-1]=1; else pila[sp-1]=0;
+				} else {
+					if (strcmp((char*)&mem[pila[sp-1]],(char*)&pila[sp])<0) pila[sp-1]=1; else pila[sp-1]=0;
+				}
+			} else {
+				if ((unsigned)pila[sp]>255) {
+					if (strcmp((char*)&pila[sp-1],(char*)&mem[pila[sp]])<0) pila[sp-1]=1; else pila[sp-1]=0;
+				} else {
+					pila[sp-1]=(pila[sp-1]<pila[sp]);
+				}
+			} sp--; break;
+			break;
+
+		case lstrmei:
+			if ((unsigned)pila[sp-1]>255) {
+				if ((unsigned)pila[sp]>255) {
+					if (strcmp((char*)&mem[pila[sp-1]],(char*)&mem[pila[sp]])<=0) pila[sp-1]=1; else pila[sp-1]=0;
+				} else {
+					if (strcmp((char*)&mem[pila[sp-1]],(char*)&pila[sp])<=0) pila[sp-1]=1; else pila[sp-1]=0;
+				}
+			} else {
+				if ((unsigned)pila[sp]>255) {
+					if (strcmp((char*)&pila[sp-1],(char*)&mem[pila[sp]])<=0) pila[sp-1]=1; else pila[sp-1]=0;
+				} else {
+					pila[sp-1]=(pila[sp-1]<=pila[sp]);
+				}
+			} sp--; break;
+			break;
+
+		case lstrmai:
+			if ((unsigned)pila[sp-1]>255) {
+				if ((unsigned)pila[sp]>255) {
+					if (strcmp((char*)&mem[pila[sp-1]],(char*)&mem[pila[sp]])>=0) pila[sp-1]=1; else pila[sp-1]=0;
+				} else {
+					if (strcmp((char*)&mem[pila[sp-1]],(char*)&pila[sp])>=0) pila[sp-1]=1; else pila[sp-1]=0;
+				}
+			} else {
+				if ((unsigned)pila[sp]>255) {
+					if (strcmp((char*)&pila[sp-1],(char*)&mem[pila[sp]])>=0) pila[sp-1]=1; else pila[sp-1]=0;
+				} else {
+					pila[sp-1]=(pila[sp-1]>=pila[sp]);
+				}
+			} sp--; break;
+			break;
+
+		case lcpastr:
+/*			#ifdef DEBUG
+				if ((mem[pila[sp]-1]&0xFFF00000)!=0xDAD00000) {
+					sp--; mem[id+_Param]++; v_function=-2; e(164);
+					if (call_to_debug) { process_stoped=id; return; }
+					break;
+				}
+				if ((unsigned)pila[mem[id+_Param]]>255) {
+					if ((mem[pila[sp]-1]&0xFFFFF)+1<strlen((char*)&mem[pila[mem[id+_Param]]])) {
+						sp--; mem[id+_Param]++; v_function=-2; e(140);
+						if (call_to_debug) { process_stoped=id; return; }
+						break;
+					}
+				}
+			#endif*/
+			if ((unsigned)pila[mem[id+_Param]]>255)
+				strcpy((char*)&mem[pila[sp]],(char*)&mem[pila[mem[id+_Param]]]);
+			else sprintf((char*)&mem[pila[sp]],"%c\0",pila[mem[id+_Param]]);
+			sp--; mem[id+_Param]++;
+			break;
+#endif
+
+		/* Comprobación de punteros nulos */
+		case lnul:
+/*			#ifdef DEBUG
+				if (!pila[sp]) {
+					v_function=-2; e(165);
+					if (call_to_debug) { process_stoped=id; return; }
+				}
+			#endif*/
+			break;
 		}
 
 		#ifdef DBG

@@ -56,7 +56,7 @@ int main(int argc, char* argv[])
 	int i,j;
 	int ok=0;
 
-	printf("eDIV IconChanger - Copyright (c) Sion Ltd. 2002\n\n");
+	printf("eDIV IconChanger - Copyright (c) Sion Ltd. 2002-2003\n\n");
 	if(argc!=3) {
 		printf("Modo de uso:\n\n    %s <programa.exe> <icono.ico>\n\n",argv[0]);
 		exit(2);

@@ -22,6 +22,10 @@ int ExportaFuncs(EXPORTAFUNCS_PARAMS)
 	FUNCTION("fseek",3,eDiv_Fseek) ;
 	FUNCTION("flush",0,eDiv_Flush) ;
 	FUNCTION("fclose",1,eDiv_Fclose) ;
+
+//	FUNCTION("load",2,eDIV_Load);
+//	FUNCTION("save",3,eDIV_Save);
+
 	return TRUE ;
 
 }
