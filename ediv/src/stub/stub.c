@@ -60,7 +60,9 @@ int main(int argc, char* argv[])
 	byte* vartemp;
 	byte* p;
 	Uint8* teclas;
+	char capturef[50];
 	//const SDL_version* sdl_version;
+
 #ifdef DBG
 	int start_lin;
 	int linsize;
@@ -337,7 +339,12 @@ int main(int argc, char* argv[])
 					if(teclas[SDLK_x] && (teclas[SDLK_RALT] || teclas[SDLK_LALT]))
 						stub_quit(0);
 					if(teclas[SDLK_p] && (teclas[SDLK_RALT] || teclas[SDLK_LALT]))
-						SDL_SaveBMP(fp.screen,"SC.BMP");
+					{
+					strcpy(capturef,fp.nombre_program);
+					strcat(capturef,".bmp");
+					SDL_SaveBMP(fp.screen,capturef);
+
+					}
 					
 						interprete();
 
