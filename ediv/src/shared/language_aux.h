@@ -25,17 +25,19 @@
  * LOS INCLUDES DEBEN ESTAR EN ORDEN (ver language.h)
  */
 
+{
 #include "language/es.h"
-,
+},{
 #include "language/it.h"
-,
+},{
 #include "language/pt.h"
-,
+},{
 #include "language/en.h"
-,
+},{
 #include "language/ca.h"
-,
+},{
 #include "language/eu.h"
+}
 
 #ifdef TRANSLATE
 #undef TRANSLATE

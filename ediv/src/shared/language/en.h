@@ -173,7 +173,7 @@
 
 #elif TRANSLATE == TRANSLATE_COMPILER
 
-/* 0	*/ " **** eDIV Compiler " VERSION " ****\nCopyleft (c) 2000-2003Sion, Ltd.\nhttp://ediv.divsite.net\n",
+/* 0	*/ " **** eDIV Compiler " VERSION " ****\n" COPYRIGHT "\n" WEBSITE "\n",
 /* 1	*/ "WARNING: This version of eDIV is unfinished.\nPlease report any bug to: ediv@divsite.net\n",
 /* 2	*/ "Command line help:\n\n",
 /* 3	*/ "%s [options] file.prg [executable]\n\n",

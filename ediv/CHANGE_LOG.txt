@@ -1,6 +1,8 @@
 25/1/2005
 ---------
- * Provando si rula el commit :P (|RooT|)
+ * Probando si rula el commit :P (|RooT|)
+ * Subo los archivos de idioma al CVS, que se me había olvidado ^_^u y de paso corrijo
+   algunos errores que tenían :p (Er_Makina)
 
 22/1/2005
 ---------

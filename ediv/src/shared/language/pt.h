@@ -156,7 +156,7 @@
 
 #elif TRANSLATE == TRANSLATE_COMPILER
 
-/* 0	*/ " **** Compilador eDIV " VERSION " ****\nCopyleft (c) 2000-2003 Sion, Ltd.\nhttp://ediv.divsite.net\n",
+/* 0	*/ " **** Compilador eDIV " VERSION " ****\n" COPYRIGHT "\n" WEBSITE "\n",
 /* 1    */ "ATENÇÃO: Esta versão de eDIV está inacabada.\nPor favor informe-nos de qualquer bug a: ediv@divsite.net\n",
 /* 2    */ "Ajuda de opções de comando:\n\n",
 /* 3    */ "%s [opções] arquivo.prg [executavel]\n\n",

@@ -26,6 +26,9 @@
 #define __EDIV_SHARED_H_
 
 #define VERSION "0.1.3b (Rigel)" /* Version y codename */
+#define COPYRIGHT "Copyright (C) 2000-2003 Sion Ltd. Copyright (C) 2005 eDIV Team"
+#define WEBSITE "http://ediv.divsite.net"
+
 #define la_clave "81ab50e9c20d"    /* Clave de cifrado   */
 
 #define uchar char
