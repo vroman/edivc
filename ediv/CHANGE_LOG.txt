@@ -4,6 +4,7 @@
    gran bug, la causa era una gran chorrada.. en fin.. el robots.prg ya
    es casi hasta jugable (si no fuera por las colisiones ke colisionan
    como les da la gana xD) (Er_Makina)
+ * Añadidos torus.prg y torus2.prg en el directorio bin/test (Er_Makina)
 
 30/3/2003
 ---------
