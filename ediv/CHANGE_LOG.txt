@@ -1,3 +1,11 @@
+12/12/2002
+----------
+ * Corregido fallo en la math.c... el seno de 90º no es infinito, sino 1 ¬¬
+   suspenso en mates para el k lo hizo... (Er_Makina)
+ * Incluido ejemplo torus.prg, probadlo, es precioso =) (ojo, si no se usa
+   el math.dll con el fallo del seno corregido, en vez de un toroide sale
+   una especie de comecocos) (Er_Makina)
+
 2/12/2002
 ---------
  * He añadido en la web una sección desde donde se puede ver este changelog.

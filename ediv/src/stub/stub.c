@@ -340,13 +340,12 @@ int main(int argc, char* argv[])
 						stub_quit(0);
 					if(teclas[SDLK_p] && (teclas[SDLK_RALT] || teclas[SDLK_LALT]))
 					{
-					strcpy(capturef,fp.nombre_program);
-					strcat(capturef,".bmp");
-					SDL_SaveBMP(fp.screen,capturef);
-
+						strcpy(capturef,fp.nombre_program);
+						strcat(capturef,".bmp");
+						SDL_SaveBMP(fp.screen,capturef);
 					}
 					
-						interprete();
+					interprete();
 
 					#ifdef _DEBUG
 						if(sp!=0) printf("PANIC! Quedan restos en la pila!! (sp=%d)\n",sp);

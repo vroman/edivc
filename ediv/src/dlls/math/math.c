@@ -41,6 +41,7 @@ int seno[90001] ;
 
 int ExportaFuncs(EXPORTAFUNCS_PARAMS)
 {
+	CONST("pi",180000);
 
 	FUNCTION("abs",1,eDiv_Abs);
 	FUNCTION("pow",2,eDiv_Pow);
@@ -380,7 +381,8 @@ void first_load()
 	{
 		seno[i] = ftomil( sin( (i / 1000)*PIOVER180 ) );
 	}
-	seno[90000] = 0x7FFFFFFF ;
+	//seno[90000] = 0x7FFFFFFF ;
+	seno[90000]=1000;
 	srand(time(NULL));
 }
 	

@@ -183,6 +183,7 @@ int proceso( int num, int padre )
 		int actual_lin;
 	#endif
 	int _status=reservedptr("status");
+	int _param_offset;
 
 	num_proc = num ;
 	imem = procs_s[num_proc].imem ;
@@ -281,7 +282,7 @@ int proceso( int num, int padre )
 		case lcid://21
 			pila[++sp] = procs_s[num_proc].id ;
 			break ;
-		case lrng://22
+		case lrng://22 POR HACER (debug)
 			imem++;
 			break ;
 		case ljmp://23
@@ -479,7 +480,7 @@ int proceso( int num, int padre )
 			#endif
 			break ;
 
-		// OPCODES OPTIMIZADOS
+		/* OPCODES OPTIMIZADOS */
 
 		case lcar2://60
 			pila[++sp]=mem[imem++];
@@ -545,7 +546,107 @@ int proceso( int num, int padre )
 		case lcardiv://77 no hay nunca "cardiv 0"
 			pila[sp]/=mem[imem++];
 			break;
+
+		/* OPERACIONES CON DATOS DE TIPO BYTE */
+
+		case lptrchr:
+			pila[sp-1]=(unsigned int)memb[pila[sp-1]*4+pila[sp]];
+			sp--;
+			break;
+		case lasichr:
+			pila[sp-2]=(unsigned int)(memb[pila[sp-2]*4+pila[sp-1]]=(byte)pila[sp]);
+			sp-=2;
+			break;
+		case liptchr:
+			pila[sp-1]=(unsigned int)++memb[pila[sp-1]*4+pila[sp]];
+			sp--;
+			break;
+		case lptichr:
+			pila[sp-1]=(unsigned int)memb[pila[sp-1]*4+pila[sp]]++;
+			sp--;
+			break;
+		case ldptchr:
+			pila[sp-1]=(unsigned int)--memb[pila[sp-1]*4+pila[sp]];
+			sp--;
+			break;
+		case lptdchr:
+			pila[sp-1]=(unsigned int)memb[pila[sp-1]*4+pila[sp]]--;
+			sp--;
+			break;
+		case ladachr:
+			pila[sp-2]=(unsigned int)(memb[pila[sp-2]*4+pila[sp-1]]+=(byte)pila[sp]);
+			sp-=2;
+			break;
+		case lsuachr:
+			pila[sp-2]=(unsigned int)(memb[pila[sp-2]*4+pila[sp-1]]-=(byte)pila[sp]);
+			sp-=2;
+			break;
+		case lmuachr:
+			pila[sp-2]=(unsigned int)(memb[pila[sp-2]*4+pila[sp-1]]*=(byte)pila[sp]);
+			sp-=2;
+			break;
+		case ldiachr:
+			/*#ifdef DBG
+				if (pila[sp]==0) {
+					memb[pila[sp-2]*4+pila[sp-1]]=0;
+					sp-=2; pila[sp]=0;
+					v_function=-2; e(145);
+					if (call_to_debug) { process_stoped=id; return; }
+					break;
+				}
+			#endif*/
+			pila[sp-2]=(unsigned int)(memb[pila[sp-2]*4+pila[sp-1]]/=(byte)pila[sp]);
+			sp-=2;
+			break;
+		case lmoachr:
+			/*#ifdef DBG
+				if (pila[sp]==0) {
+					memb[pila[sp-2]*4+pila[sp-1]]=0;
+					sp-=2; pila[sp]=0;
+					v_function=-2; e(145);
+					if (call_to_debug) { process_stoped=id; return; }
+					break;
+				}
+			#endif*/
+			pila[sp-2]=(unsigned int)(memb[pila[sp-2]*4+pila[sp-1]]%=(byte)pila[sp]);
+			sp-=2;
+			break;
+		case lanachr:
+			pila[sp-2]=(unsigned int)(memb[pila[sp-2]*4+pila[sp-1]]&=(byte)pila[sp]);
+			sp-=2;
+			break;
+		case lorachr:
+			pila[sp-2]=(unsigned int)(memb[pila[sp-2]*4+pila[sp-1]]|=(byte)pila[sp]);
+			sp-=2;
+			break;
+		case lxoachr:
+			pila[sp-2]=(unsigned int)(memb[pila[sp-2]*4+pila[sp-1]]^=(byte)pila[sp]);
+			sp-=2;
+			break;
+		case lsrachr:
+			pila[sp-2]=(unsigned int)(memb[pila[sp-2]*4+pila[sp-1]]>>=(byte)pila[sp]);
+			sp-=2;
+			break;
+		case lslachr:
+			pila[sp-2]=(unsigned int)(memb[pila[sp-2]*4+pila[sp-1]]<<=(byte)pila[sp]);
+			sp-=2;
+			break;
+		case lcpachr:
+			_param_offset=reservedptr("param_offset");
+			if ((unsigned int)pila[mem[procs_s[num_proc].id+_param_offset]]<256) {
+				memb[pila[sp-1]*4+pila[sp]]=(byte)pila[mem[procs_s[num_proc].id+_param_offset]];
+			}
+			else {
+				if (pila[mem[procs_s[num_proc].id+_param_offset]]<imem_max+258*4)
+					memb[pila[sp-1]*4+pila[sp]]=memb[pila[mem[procs_s[num_proc].id+_param_offset]]*4];
+				else
+					memb[pila[sp-1]*4+pila[sp]]=(byte)pila[mem[procs_s[num_proc].id+_param_offset]];
+			}
+			sp-=2;
+			mem[procs_s[num_proc].id+_param_offset]++;
+			break;
 		}
+
 		#ifdef DBG
 			Call_Entrypoint(EDIV_trace,imem,nombre_program,lin,0);
 			#ifdef _DEBUG
@@ -596,7 +697,7 @@ int localiza_lin(int ip)
 	   sentencia, aunque sea distinto opcode */
 	last=(lin_item*)(&lin[last_lin*4]);
 	if(last->inicio<=ip && last->fin>=ip) {
-		printf("(%d) last_lin\n",ip);
+		//printf("(%d) last_lin\n",ip);
 		return last_lin;
 	}
 	
