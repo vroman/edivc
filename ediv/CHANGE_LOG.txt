@@ -1,3 +1,8 @@
+6/10/2002
+---------
+ * Añadida estructura mouse en la input.dll. Lo malo es que peta al hacer
+   el blit :P supongo que no uso bien fp->Dibuja. (Er_Makina)
+
 28/9/2002
 ---------
  * El título por defecto de la ventana del juego compilado es el nombre in-

@@ -1326,7 +1326,7 @@ int eDIV_FADE(FUNCTION_PARAMS2)
 	return 1 ;
 }
 	
-
+#include <assert.h>
 //*********************************** Entry Points **********************************************//
 
 FILE * fichero ;
@@ -1465,6 +1465,7 @@ void frame(FUNCTION_PARAMS)
 	//if ( last_map >= 2 )
 	//	Mapa[2]->flags |= SDL_SRCALPHA ;
 
+	assert(0);
 	// Volcamos la pila de bliteos
 	for ( i = 0 ; i <= last_blit ; i++ )
 	{

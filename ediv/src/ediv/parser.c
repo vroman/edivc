@@ -326,7 +326,6 @@ void sintactico(void)
 	hacer_strfix=1;
 	optimizar=1;*/
 
-	printf("** CHECKPOINT 1\n");
 	if(case_sensitive) {
 		memcpy(lower+129,"üיגהאוחךכטןמלהויזזפצעûשÿצü¢£¥בםףת",35);
 		memcpy(lower+'A',"ABCDEFGHIJKLMNOPQRSTUVWXYZ",26);

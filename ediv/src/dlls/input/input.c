@@ -143,6 +143,7 @@
 
 
 Uint8 *keys ;
+Uint8 mbuttons;
 
 int SDLtoDIV[1024] ;
 
@@ -264,6 +265,27 @@ int ExportaFuncs(EXPORTAFUNCS_PARAMS)
 	_KEY(_c_del) ;
 	
 	FUNCTION("key",1,eDiv_Key) ;
+
+	GLOBAL_STRUCT("mouse",0);
+		_INT("x",0);			/* Coordenada x */
+		_INT("y",0);			/* Coordenada y */
+		_INT("graph",0);		/* Gráfico */
+		_INT("file",0);			/* FPG */
+		_INT("z",-512);			/* Profundidad (TODO) */
+		_INT("angle",0);		/* Ángulo (TODO) */
+		_INT("size",100);		/* Tamaño (TODO) */
+		_INT("flags",0);		/* Banderas (TODO) */
+		_INT("region",0);		/* Región (TODO) */
+		_INT("left",0);			/* Botón izquierdo */
+		_INT("middle",0);		/* Botón central o de ruedecilla */
+		_INT("right",0);		/* Botón derecho */
+		_INT("wheelup",0);		/* Ruedecilla arriba (NUEVO) */
+		_INT("wheeldown",0);	/* Ruedecilla abajo (NUEVO) */
+		_INT("cursor",0);		/* Emulación con teclas de cursor (TODO) */
+		_INT("speed",0);		/* Velocidad del ratón (TODO) */
+		_INT("transparency",0); /* Transparencia (NUEVO) (TODO) */
+	END_STRUCT;
+
 	ENTRYPOINT(first_load) ;
 	ENTRYPOINT(frame) ;
 
@@ -504,9 +526,38 @@ void first_load(FUNCTION_PARAMS)
 void frame(FUNCTION_PARAMS)
 {
 	int numkeys ;
+	int _mouse=globalptr("mouse");
+	SDL_Rect srcrect,dstrect;
 	
 	keys = SDL_GetKeyState(&numkeys ) ;
+
+	mbuttons = SDL_GetMouseState(&fp->mem[_mouse],&fp->mem[_mouse+1]);
 	
+	/* Ponemos los 5 botones a 0 */
+	memset(&fp->mem[_mouse+9],0,5*4);
+
+	if(mbuttons&SDL_BUTTON(1))
+		fp->mem[_mouse+9]=1;
+	
+	if(mbuttons&SDL_BUTTON(2))
+		fp->mem[_mouse+10]=1;
+	
+	if(mbuttons&SDL_BUTTON(3))
+		fp->mem[_mouse+11]=1;
+	
+	if(mbuttons&SDL_BUTTON(4))	/* podria no funcionar ¿necesario sdl_event? */
+		fp->mem[_mouse+12]=1;
+	
+	if(mbuttons&SDL_BUTTON(5))	/* podria no funcionar ¿necesario sdl_event? */
+		fp->mem[_mouse+13]=1;
+	
+	srcrect.x=srcrect.y=srcrect.w=srcrect.h=dstrect.w=dstrect.h=0;
+	dstrect.x=fp->mem[_mouse];
+	dstrect.y=fp->mem[_mouse+1];
+
+	// TODO: añadir chequeo de error si no existe file o mapa
+	fp->Dibuja(fp->files[fp->mem[_mouse+3]].mapa[fp->mem[_mouse+2]].Surface,srcrect,dstrect,fp->mem[_mouse+4],0);
+
 	//FILE* fichero ;
 	//fichero = fopen( "input.txt" , "w+" ) ;
 	//for ( i = 0 ; i < 256 ; i++ )
