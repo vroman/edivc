@@ -621,6 +621,7 @@ int Dibuja(SDL_Surface *src,int x,int y,int cx,int cy,int region,int z,int flags
 	 * perfecto antialiasing, pero vamos, esto hay ke optimizarlo bastante (habrá
 	 * que guarrear bastante en el SDL_rotozoomer.c)
 	 */
+	
 	temp=SDL_CreateRGBSurface(src->flags,src->w,src->h,src->format->BitsPerPixel,0,0,0,0);
 	SDL_SetColorKey(temp,src->flags,color_transparente);
 
@@ -654,11 +655,15 @@ int Dibuja(SDL_Surface *src,int x,int y,int cx,int cy,int region,int z,int flags
 		memcpy(temp->pixels,src->pixels,temp->h*temp->pitch);
 	}
 
+	blits[last_blit].src = xput(temp,zoom,angulo);
+
 	/*! 
 	 * Pequeño hack para arreglar transparency
 	 * \todo Debería limpiarse y revisarse un poco :P
 	 */
-	if(src->flags & SDL_SRCALPHA) {
+	
+	
+	/*if(src->flags & SDL_SRCALPHA) {
 		for(i=0;i<temp->h*temp->w*temp->format->BytesPerPixel;i+=temp->format->BytesPerPixel) {
 			if(*((int*)&((byte*)src->pixels)[i])!=color_transparente)
 				((byte*)temp->pixels)[i+3]=trans;
@@ -666,9 +671,18 @@ int Dibuja(SDL_Surface *src,int x,int y,int cx,int cy,int region,int z,int flags
 	}
 	else {
 		SDL_SetAlpha(temp,SDL_SRCALPHA,trans);
+	}*/
+
+	if(blits[last_blit].src->flags & SDL_SRCALPHA) {
+		for(i=0;i<blits[last_blit].src->h*blits[last_blit].src->w*blits[last_blit].src->format->BytesPerPixel;i+=blits[last_blit].src->format->BytesPerPixel) {
+			if(*((int*)&((unsigned char*)blits[last_blit].src->pixels)[i])!=color_transparente)
+				((unsigned char*)blits[last_blit].src->pixels)[i+3]=trans;
+		}
+	}
+	else {
+		SDL_SetAlpha(blits[last_blit].src,SDL_SRCALPHA,trans);
 	}
 
-	blits[last_blit].src = xput(temp,zoom,angulo);
 
 //	if(temp!=src)
 		SDL_FreeSurface(temp);

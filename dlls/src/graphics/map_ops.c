@@ -457,9 +457,11 @@ int eDIV_NEW_MAP(FUNCTION_PARAMS)
 	{
 		if ( !files[0].mapa[i].existe )
 		{
-			files[0].mapa[i].Surface = SDL_CreateRGBSurface( SDL_HWSURFACE , w , h , screen->format->BitsPerPixel , 0xFF0000 , 0x00FF00 , 0x0000FF , 0x000000 ) ;
+			files[0].mapa[i].Surface = SDL_CreateRGBSurface( SDL_HWSURFACE , w , h , screen->format->BitsPerPixel , screen->format->Rmask , screen->format->Gmask ,screen->format->Bmask ,screen->format->Amask ) ;
+			if(fp->graphics->bpp==8)
+		    PaletteCopy(files[0].mapa[i].Surface,screen);	
 			files[0].mapa[i].existe = 1 ;
-			files[0].mapa[i].cpoint[0].x = cx ;
+			files[0].mapa[i]. cpoint[0].x = cx ;
 			files[0].mapa[i].cpoint[0].y = cy ;
 			SDL_FillRect( files[0].mapa[i].Surface , NULL , c ) ;
 			SDL_SetColorKey( files[0].mapa[i].Surface , SDL_SRCCOLORKEY | SDL_RLEACCEL , color_transparente ) ;

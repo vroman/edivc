@@ -1,3 +1,11 @@
+30/1/2005
+---------
+ * Se ha arreglado un poco el problema que habia con los bpps de 8 y 16 bits.
+   El problema estaba en que en 8 y 16 no cargaba la paleta y no eran las mismas mas-
+   caras que en 24 y 32. Ahora toca mirar que pasa con los FPG's de 8 bits (|RooT|)
+ * Ya funcionan correctamente el COLORIDO.PRG en todos los bpp's (|RooT|)
+
+
 28/1/2005
 ---------
  * He investigado un poco el asunto de los juegos de caracteres. Se me ha ocurrido una

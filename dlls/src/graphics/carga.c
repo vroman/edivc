@@ -100,10 +100,12 @@ int eDIV_LOAD_FPG(FUNCTION_PARAMS)
 		}
 		else {
 			bpp=16;
+			printf("\n 16 bits");
 		}
 	}
 	else {
 		bpp=8;
+		printf("\n 8 bits");
 		fseek(f,0,SEEK_SET);
 		fread(&cabecera8,1,sizeof(FPGHEADER8),f);
 
