@@ -1,0 +1,3 @@
+LIBRARY dinmem
+EXPORTS
+	ExportaFuncs
