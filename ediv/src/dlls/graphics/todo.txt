@@ -1,0 +1,9 @@
+
+			Graphics.Dll
+			============
+
+POR HACER: 
+
+- La instruccion MAP_BLOCK_COPY() que no tngo ni zorra idea xDD
+- Reacer todo el FRAME ya q es un poco cutre con todo los contadores y timers esos x'D
+- Cojer las variables de los procesos del STUB. ya que ahora las variables se cambian mediente lainstruccion SETPOS():

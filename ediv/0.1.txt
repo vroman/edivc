@@ -1,0 +1,8 @@
+>> cargar FNT de div2
+
+>> hacer fuente 0
+
+>> carga de map, pcx, bmp y jpg completa y decente
+
+>> size y angle
+

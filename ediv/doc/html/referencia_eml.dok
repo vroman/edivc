@@ -1,0 +1,432 @@
+<%title%>Referencia del c&oacute;digo EML<%/title%>
+<div align="center">
+  <p align="left"><h1>Referencia del c&oacute;digo EML</h1></p>
+  <p align="left">El bytecode de los ejecutables creados con eDIV usan el sistema 
+    EML, del cual por ahora no conocemos su verdadero autor y no sabemos si tiene 
+    un origen anterior a DIV, probablemente &eacute;sta sea una variante de un 
+    c&oacute;digo anterior, y es el sistema que se utiliz&oacute; en DIV Games 
+    Studio 1 y 2. Ser&iacute;a perfectamente posible compilar un programa DIV 
+    a nivel de c&oacute;digo m&aacute;quina, pero dado su alto nivel y la complejidad 
+    que requerir&iacute;a generar un stub en tiempo de compilaci&oacute;n, vemos 
+    que es m&aacute;s viable y sencillo usar un c&oacute;digo intermedio que el 
+    stub pueda ejecutar, a modo de m&aacute;quina virtual. Esto nos permite, adem&aacute;s, 
+    la capacidad de migrar ejecutables entre DIV 2, eDIV para Linux y eDIV para 
+    Windows, ya que el c&oacute;digo EML que utilizan es el mismo, y tan s&oacute;lo 
+    habr&iacute;a que cambiarle el stub por el de la plataforma adecuada y encontrar 
+    las librer&iacute;as equivalentes.</p>
+  <p align="left">El c&oacute;digo EML utiliza una serie de mnem&oacute;nicos 
+    que son los tratados en el c&oacute;digo fuente de eDIV (v&eacute;ase <a href="compiler_h.html">compiler.h</a>), 
+    y son tambi&eacute;n los utilizados para generar el desensamblado EML desde 
+    el compilador. A continuaci&oacute;n se incluye una referencia completa (o 
+    casi) de todas las instrucciones utilizadas en el c&oacute;digo EML de eDIV.</p>
+  <p align="left">Para comprender las operaciones que realiza cada comando, hace 
+    falta conocer los siguientes t&eacute;rminos:</p>
+  <table width="70%" border="1" cellpadding="5">
+    <tr> 
+      <td><font size="-1">mem[]</font></td>
+      <td> 
+        <p><font size="-1">Memoria de la m&aacute;quina destino. Contiene el bytecode, 
+          los valores de cada variable, etc. Funciona de forma similar al buffer 
+          de memoria de un emulador. Cada posici&oacute;n en mem[] equivale a 
+          4 bytes.</font></p>
+      </td>
+    </tr>
+    <tr> 
+      <td><font size="-1">ip</font></td>
+      <td><font size="-1">Puntero de c&oacute;digo. Apunta a la posici&oacute;n 
+        actual en mem[] del c&oacute;digo que se est&aacute; ejecutando.</font></td>
+    </tr>
+    <tr> 
+      <td><font size="-1">pila[]</font></td>
+      <td><font size="-1">Pila usada para calcular expresiones y pasar par&aacute;metros 
+        a los procesos y funciones.</font></td>
+    </tr>
+    <tr> 
+      <td><font size="-1">sp</font></td>
+      <td><font size="-1">Puntero de pila. Apunta a la &uacute;ltima posici&oacute;n 
+        en la pila.</font></td>
+    </tr>
+    <tr>
+      <td>id</td>
+      <td>Identificador del proceso actual.</td>
+    </tr>
+  </table>
+  <p align="center">&nbsp;</p>
+  <p align="center">[Instrucciones b&aacute;sicas] - [Instrucciones optimizadas] 
+    - [Manejo de caracteres]<br>
+    [Manejo de cadenas] - [Manejo de Words] - [Miscel&aacute;nea]</p>
+  <p align="center">&nbsp;</p>
+  <p align="center"><font size="+1">INSTRUCCIONES B&Aacute;SICAS</font></p>
+  <table width="90%" border="1" bgcolor="#EEEEEE" cellspacing="2" bordercolor="#FFFFFF">
+    <tr> 
+      <td><font size="+1">NOP</font></td>
+    </tr>
+    <tr> 
+      <td>No operaci&oacute;n</td>
+    </tr>
+    <tr> 
+      <td bgcolor="#DDDDDD">No realiza ninguna operaci&oacute;n.</td>
+    </tr>
+  </table>
+  <br>
+  <table width="90%" border="1" bgcolor="#EEEEEE" cellspacing="2" bordercolor="#FFFFFF">
+    <tr> 
+      <td><font size="+1">CAR</font> &lt;valor&gt;</td>
+    </tr>
+    <tr> 
+      <td>Carga una constante en la pila</td>
+    </tr>
+    <tr> 
+      <td bgcolor="#DDDDDD"> 
+        <p>pila[++sp]=mem[ip++];</p>
+        </td>
+    </tr>
+  </table>
+  <br>
+  <table width="90%" border="1" bgcolor="#EEEEEE" cellspacing="2" bordercolor="#FFFFFF">
+    <tr> 
+      <td><font size="+1">ASI</font></td>
+    </tr>
+    <tr> 
+      <td>Asignaci&oacute;n<br>
+        Saca de la pila un valor y un offset, y mete el valor en el offset</td>
+    </tr>
+    <tr> 
+      <td bgcolor="#DDDDDD"> 
+        <p>pila[sp-1]=mem[pila[sp-1]]=pila[sp];<br>
+          sp--;</p>
+        </td>
+    </tr>
+  </table>
+  <br>
+  <table width="90%" border="1" bgcolor="#EEEEEE" cellspacing="2" bordercolor="#FFFFFF">
+    <tr> 
+      <td><font size="+1">ORI</font></td>
+    </tr>
+    <tr> 
+      <td>OR l&oacute;gico<br>
+        Saca un valor de la pila y realiza un OR l&oacute;gico con el actual valor 
+        en la pila</td>
+    </tr>
+    <tr> 
+      <td bgcolor="#DDDDDD"> 
+        <p>pila[sp-1]|=pila[sp];<br>
+          sp--;</p>
+        </td>
+    </tr>
+  </table>
+  <br>
+  <table width="90%" border="1" bgcolor="#EEEEEE" cellspacing="2" bordercolor="#FFFFFF">
+    <tr> 
+      <td><font size="+1">XOR</font></td>
+    </tr>
+    <tr> 
+      <td>OR exclusivo<br>
+        Saca un valor de la pila y realiza un OR exclusivo con el actual valor 
+        en la pila</td>
+    </tr>
+    <tr> 
+      <td bgcolor="#DDDDDD"> 
+        <p>pila[sp-1]^=pila[sp];<br>
+          sp--;</p>
+      </td>
+    </tr>
+  </table>
+  <br>
+  <table width="90%" border="1" bgcolor="#EEEEEE" cellspacing="2" bordercolor="#FFFFFF">
+    <tr> 
+      <td><font size="+1">AND</font></td>
+    </tr>
+    <tr> 
+      <td>AND l&oacute;gico<br>
+        Saca un valor de la pila y realiza un AND l&oacute;gico con el actual 
+        valor en la pila</td>
+    </tr>
+    <tr> 
+      <td bgcolor="#DDDDDD"> 
+        <p>pila[sp-1]&amp;=pila[sp];<br>
+          sp--;</p>
+      </td>
+    </tr>
+  </table>
+  <br>
+  <table width="90%" border="1" bgcolor="#EEEEEE" cellspacing="2" bordercolor="#FFFFFF">
+    <tr> 
+      <td><font size="+1">IGU</font></td>
+    </tr>
+    <tr> 
+      <td>Igual, operador l&oacute;gico de comparaci&oacute;n<br>
+        Saca dos valores de la pila y carga verdadero si son iguales</td>
+    </tr>
+    <tr> 
+      <td bgcolor="#DDDDDD"> 
+        <p>pila[sp-1]=pila[sp-1]==pila[sp];<br>
+          sp--;</p>
+        </td>
+    </tr>
+  </table>
+  <br>
+  <table width="90%" border="1" bgcolor="#EEEEEE" cellspacing="2" bordercolor="#FFFFFF">
+    <tr> 
+      <td><font size="+1">DIS</font></td>
+    </tr>
+    <tr> 
+      <td>Distinto<br>
+        Saca dos valores de la pila y carga verdadero si son distintos</td>
+    </tr>
+    <tr> 
+      <td bgcolor="#DDDDDD"> 
+        <p>pila[sp-1]=pila[sp-1]!=pila[sp];<br>
+          sp--;</p>
+      </td>
+    </tr>
+  </table>
+  <br>
+  <table width="90%" border="1" bgcolor="#EEEEEE" cellspacing="2" bordercolor="#FFFFFF">
+    <tr> 
+      <td><font size="+1">MAY</font></td>
+    </tr>
+    <tr> 
+      <td>Mayor, comparaci&oacute;n con signo<br>
+        Saca dos valores de la pila y carga verdadero si el primero es mayor que 
+        el segundo</td>
+    </tr>
+    <tr> 
+      <td bgcolor="#DDDDDD"> 
+        <p>pila[sp-1]=pila[sp-1]&gt;pila[sp];<br>
+          sp--;</p>
+      </td>
+    </tr>
+  </table>
+  <br>
+  <table width="90%" border="1" bgcolor="#EEEEEE" cellspacing="2" bordercolor="#FFFFFF">
+    <tr> 
+      <td><font size="+1">MEN</font></td>
+    </tr>
+    <tr>
+      <td>Menor, comparaci&oacute;n con signo<br>
+        Saca dos valores de la pila y carga verdadero si el primero es menor que
+        el segundo</td>
+    </tr>
+    <tr>
+      <td bgcolor="#DDDDDD">
+        <p>pila[sp-1]=pila[sp-1]&lt;pila[sp];<br>
+          sp--;</p>
+      </td>
+    </tr>
+  </table>
+  <br>
+  <table width="90%" border="1" bgcolor="#EEEEEE" cellspacing="2" bordercolor="#FFFFFF">
+    <tr> 
+      <td><font size="+1">MEI</font></td>
+    </tr>
+    <tr> 
+      <td>Menor o igual<br>
+        Saca dos valores de la pila y carga verdadero si el primero es menor o 
+        igual que el segundo</td>
+    </tr>
+    <tr> 
+      <td bgcolor="#DDDDDD"> 
+        <p>pila[sp-1]=pila[sp-1]&lt;=pila[sp];<br>
+          sp--;</p>
+      </td>
+    </tr>
+  </table>
+  <br>
+  <table width="90%" border="1" bgcolor="#EEEEEE" cellspacing="2" bordercolor="#FFFFFF">
+    <tr> 
+      <td><font size="+1">MAI</font></td>
+    </tr>
+    <tr> 
+      <td>Mayor o igual<br>
+        Saca dos valores de la pila y carga verdadero si el primero es mayor o 
+        igual que el segundo</td>
+    </tr>
+    <tr> 
+      <td bgcolor="#DDDDDD"> 
+        <p>pila[sp-1]=pila[sp-1]&gt;=pila[sp];<br>
+          sp--;</p>
+      </td>
+    </tr>
+  </table>
+  <br>
+  <table width="90%" border="1" bgcolor="#EEEEEE" cellspacing="2" bordercolor="#FFFFFF">
+    <tr> 
+      <td><font size="+1">ADD</font></td>
+    </tr>
+    <tr> 
+      <td>Suma dos constantes<br>
+        Saca dos valores de la pila y carga la suma</td>
+    </tr>
+    <tr> 
+      <td bgcolor="#DDDDDD"> 
+        <p>pila[sp-1]+=pila[sp];<br>
+          sp--;</p>
+      </td>
+    </tr>
+  </table>
+  <br>
+  <table width="90%" border="1" bgcolor="#EEEEEE" cellspacing="2" bordercolor="#FFFFFF">
+    <tr> 
+      <td><font size="+1">SUB</font></td>
+    </tr>
+    <tr> 
+      <td>Resta, operaci&oacute;n binaria<br>
+        Saca dos valores de la pila y carga la diferencia del primero con el segundo</td>
+    </tr>
+    <tr> 
+      <td bgcolor="#DDDDDD"> 
+        <p>pila[sp-1]-=pila[sp];<br>
+          sp--;</p>
+      </td>
+    </tr>
+  </table>
+  <br>
+  <table width="90%" border="1" bgcolor="#EEEEEE" cellspacing="2" bordercolor="#FFFFFF">
+    <tr> 
+      <td><font size="+1">MUL</font></td>
+    </tr>
+    <tr> 
+      <td>Multiplicaci&oacute;n<br>
+        Saca dos valores de la pila y carga el producto</td>
+    </tr>
+    <tr> 
+      <td bgcolor="#DDDDDD"> 
+        <p>pila[sp-1]*=pila[sp];<br>
+          sp--;</p>
+      </td>
+    </tr>
+  </table>
+  <br>
+  <table width="90%" border="1" bgcolor="#EEEEEE" cellspacing="2" bordercolor="#FFFFFF">
+    <tr> 
+      <td><font size="+1">DIV</font></td>
+    </tr>
+    <tr> 
+      <td>Divisi&oacute;n de enteros<br>
+        Saca dos valores de la pila y carga el cociente del primero con el segundo</td>
+    </tr>
+    <tr> 
+      <td bgcolor="#DDDDDD"> 
+        <p>pila[sp-1]/=pila[sp];<br>
+          sp--;</p>
+      </td>
+    </tr>
+    <tr>
+      <td bgcolor="#EEEEFF"><font color="#FF0000">Si el valor actual en la pila 
+        es 0, se producir&aacute; un error &quot;Divisi&oacute;n entre cero&quot;</font></td>
+    </tr>
+  </table>
+  <br>
+  <table width="90%" border="1" bgcolor="#EEEEEE" cellspacing="2" bordercolor="#FFFFFF">
+    <tr> 
+      <td><font size="+1">MOD</font></td>
+    </tr>
+    <tr> 
+      <td>M&oacute;dulo<br>
+        Saca dos valores de la pila y carga el resto de la divisi&oacute;n del 
+        primero con el segundo</td>
+    </tr>
+    <tr> 
+      <td bgcolor="#DDDDDD"> 
+        <p>pila[sp-1]%=pila[sp];<br>
+          sp--;</p>
+      </td>
+    </tr>
+    <tr> 
+      <td bgcolor="#EEEEFF"><font color="#FF0000">Si el valor actual en la pila 
+        es 0, se producir&aacute; un error &quot;Divisi&oacute;n entre cero&quot;</font></td>
+    </tr>
+  </table>
+  <br>
+  <table width="90%" border="1" bgcolor="#EEEEEE" cellspacing="2" bordercolor="#FFFFFF">
+    <tr> 
+      <td><font size="+1">NEG</font></td>
+    </tr>
+    <tr> 
+      <td>Negaci&oacute;n<br>
+        Cambia de signo el valor actual en la pila</td>
+    </tr>
+    <tr> 
+      <td bgcolor="#DDDDDD"> 
+        <p>pila[sp]=-pila[sp];</p>
+      </td>
+    </tr>
+  </table>
+  <br>
+  <table width="90%" border="1" bgcolor="#EEEEEE" cellspacing="2" bordercolor="#FFFFFF">
+    <tr> 
+      <td><font size="+1">PTR</font></td>
+    </tr>
+    <tr> 
+      <td>Puntero<br>
+        Saca un offset de la pila y carga el valor que hay en ese offset</td>
+    </tr>
+    <tr> 
+      <td bgcolor="#DDDDDD"> 
+        <p>pila[sp]=mem[pila[sp]];</p>
+      </td>
+    </tr>
+  </table>
+  <br>
+  <table width="90%" border="1" bgcolor="#EEEEEE" cellspacing="2" bordercolor="#FFFFFF">
+    <tr> 
+      <td><font size="+1">NOT</font></td>
+    </tr>
+    <tr> 
+      <td>Negaci&oacute;n binaria, bit a bit<br>
+        Alterna (XOR) todos los bits del valor actual en la pila</td>
+    </tr>
+    <tr> 
+      <td bgcolor="#DDDDDD"> 
+        <p>pila[sp]^=-1;</p>
+      </td>
+    </tr>
+  </table>
+  <br>
+  <table width="90%" border="1" bgcolor="#EEEEEE" cellspacing="2" bordercolor="#FFFFFF">
+    <tr> 
+      <td><font size="+1">AID</font></td>
+    </tr>
+    <tr> 
+      <td>Suma id al valor en la pila</td>
+    </tr>
+    <tr> 
+      <td bgcolor="#DDDDDD"> 
+        <p>pila[sp]+=id;</p>
+      </td>
+    </tr>
+  </table>
+  <br>
+  <table width="90%" border="1" bgcolor="#EEEEEE" cellspacing="2" bordercolor="#FFFFFF">
+    <tr> 
+      <td><font size="+1">CID</font></td>
+    </tr>
+    <tr> 
+      <td>Carga id en la pila</td>
+    </tr>
+    <tr> 
+      <td bgcolor="#DDDDDD"> 
+        <p>pila[++sp]=id;</p>
+      </td>
+    </tr>
+  </table>
+  <br>
+  <table width="90%" border="1" bgcolor="#EEEEEE" cellspacing="2" bordercolor="#FFFFFF">
+    <tr> 
+      <td><font size="+1">RNG</font> &lt;rango&gt;</td>
+    </tr>
+    <tr> 
+      <td>Comprobaci&oacute;n de rango<br>
+        S&oacute;lo efectiva en modo de depurado. </td>
+    </tr>
+    <tr> 
+      <td bgcolor="#DDDDDD"> 
+        <p>pila[++sp]=id;</p>
+      </td>
+    </tr>
+  </table>
+  <p>&nbsp;</p>
+  <p align="center">&nbsp;</p>
+</div>
+<%end%>

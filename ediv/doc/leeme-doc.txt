@@ -1,0 +1,27 @@
+La documentación de eDIV se encuentra en el directorio html en formato DOK.
+Este es un formato propio que simplifica un poco la creación y el indexado
+de los documentos (algo así como un SGML pero en pequeño).
+Nunca deben editarse los HTML directamente, sino los .dok ya que son los
+ficheros fuente de la documentación. Estos pueden editarse con cualquier
+editor de HTML que respete las directivas ASP (recomiendo Macromedia
+Dreamweaver).
+Para obtener los HTML a partir de los .dok hay que usar el programa DOKU
+aquí incluido. En vez de ir ejecutando Doku una vez para cada archivo,
+puedes usar los scripts que hay en el directorio html.
+-> Para Windows Me/NT/2000/XP: ejecuta makedokNT.bat
+-> Para Windows 95/98: ejecuta primero makebat95.vbs y luego makedok95.bat
+-> Para Linux: ejecuta makedok.sh
+
+Si usais antivirus, es posible que os avise de que hay riesgo de virus al
+ejecutar makebat95.vbs (a mi el norton me lo hace :P) podeis ignorar el
+aviso ya que os garantizo que el fichero no es un virus (encima lo he
+programao yo.. ya me direis ke clase de virus seria yo capaz de hacer en
+vbs xP)
+
+Antes de empaketar el source del ediv es aconsejable ejecutar clean.bat
+para ahorrar espacio :)
+
+Para más información acerca de la utilización de Doku y de los ficheros
+.dok, preguntadme a mi (ya haré con Doku la documentación de Doku =)
+
+Er_Makina <ermakina@ya.com>

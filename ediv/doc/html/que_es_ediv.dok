@@ -1,0 +1,29 @@
+<%title%>¿Qu&eacute; es eDIV?<%/title%>
+<p align="left"><h1>&iquest;Qu&eacute; es eDIV?</h1></p>
+<p align="justify">eDIV es una herramienta de programaci&oacute;n dise&ntilde;ada 
+para el desarrollo de videojuegos. Para ello se vale de un compilador de lenguaje 
+DIV, un entorno de desarrollo y un conjunto de librer&iacute;as din&aacute;micas 
+que contienen una gran cantidad de rutinas y funciones que pretenden cubrir 
+todos los aspectos de un videojuego: manejo de gr&aacute;ficos, sonido, dispositivos 
+de entrada, manejo de archivos, memoria, funciones matem&aacute;ticas... Todo 
+esto est&aacute; orientado a la programaci&oacute;n de videojuegos de una 
+forma sencilla y r&aacute;pida. Las rutinas m&aacute;s complejas y las funciones 
+a bajo nivel se encuentran ya hechas por lo que el programador puede centrarse 
+en el desarrollo del videojuego en s&iacute;, con lo que da la posibilidad 
+de que cualquier usuario, iniciado en la programaci&oacute;n o no, sea capaz 
+de desarrollar sus propios videojuegos. Gran parte de esta sencillez se la 
+debemos al lenguaje DIV, utilizado en esta herramienta por su magn&iacute;fica 
+relaci&oacute;n entre sencillez, potencia y facilidad de aprender.</p>
+<p align="justify">En resumen, eDIV dispone de todos los recursos necesarios para 
+realizar un videojuego completo, desde el punto de vista de la programaci&oacute;n, 
+el dise&ntilde;o de gr&aacute;ficos, m&uacute;sica, etc. eDIV es una herramienta 
+flexible que permite a cualquier usuario programar un videojuego, o si lo 
+prefiere, cualquier tipo de programas, presentaciones, demos, aplicaciones 
+multimedia... La lista de utilidades que los recursos de eDIV ofrecen al usuario 
+no tiene fin, ya que es el usuario quien crea la idea y la programa, dando 
+rienda suelta a su imaginaci&oacute;n.</p>
+<p align="left"><h2>El proyecto eDIV</h2></p>
+<p align="justify">El proyecto comenz&oacute; de las manos de la antigua <i>freelance</i> Young Corporation antes incluso de la aparici&oacute;n de DIV2 en el mercado. Al principio se llamaba FreeDIV,  ten&iacute;a como objetivo mejorar el lenguaje DIV a&ntilde;adi&eacute;ndole funciones y rebajando limitaciones por medio de DLLs. M&aacute;s tarde el proyecto se orient&oacute; a la creaci&oacute;n de un compilador nuevo de lenguaje DIV, con lo que pas&oacute; a llamarse VisualDIV (ojo, no tiene nada que ver con la librer&iacute;a <a href="http://sion.edivcentral.com/visualdiv.php" target="_blank">Sion VisualDIV</a>), pero el proyecto no tuvo mucha aceptaci&oacute;n. Hasta que ocurri&oacute; algo que supuso el verdadero impulso del desarrollo: debido a los problemas que estaba sufriendo Hammer Technologies, y a que se hab&iacute;a desvanecido toda esperanza sobre la aparici&oacute;n de una tercera versi&oacute;n oficial de DIV, Daniel Navarro (el creador del DIV original) entreg&oacute; el c&oacute;digo fuente de DIV2 a los coordinadores del proyecto VisualDIV.</p>
+<p align="justify">Aqu&iacute; comienza la etapa m&aacute;s importante y activa del desarrollo del compilador, al que se le dio el nuevo nombre de E/DIV. Al proyecto se incorporaron Echosoft, MultiGames, Yerok Studios y Sfera Soft. Al principio de esta etapa se trabaj&oacute; usando como base otros compiladores, principalmente de lenguaje BASIC. El programa tuvo que reescribirse varias veces hasta alcanzar la potencia y flexibilidad planeadas desde un principio.<p>
+<p align="justify">Al cabo de un tiempo Echosoft se separ&oacute; del grupo y comenz&oacute; a desarrollar un compilador propio, llamado <a href="" target="_blank">WxDiv</a>. Todos los grupos de programadores que participaban en el proyecto decidieron unirse, dando lugar a la actual <a href="http://sion.edivcentral.com" target="_blank">Sion Entertainment</a>. Por fin el proyecto acab&oacute; adquiriendo el nombre de eDIV, se bas&oacute; el desarrollo en el compilador original de DIV2 (que es el que, hasta ahora, ha dado mejores resultados), se le impuso la licencia GNU de c&oacute;digo abierto, y se construy&oacute; la p&aacute;gina oficial de eDIV, <a href="http://www.edivcentral.com" target="_blank">www.edivcentral.com</a>, donde se informa continuamente sobre el desarrollo del programa, y se muestran otras noticias y documentos interesantes acerca de eDIV y el mundo DIV.</p>
+<%end%>

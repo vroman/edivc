@@ -1,0 +1,101 @@
++---------------+
+|               |
+|  * Hecho      |
+|  ! Atencion   |
+| >> Por hacer  |
+|               |
++---------------+
+
+******************* FUNCIONES *************************************************************
+
+ ! collision 		graphics.dll
+	De momento solo calcula colisiones entre surfaces, falta hacer que discrimine los 		puntos trasparentes.
+ * get_angle 	 	math.dll
+ * get_dist  		math.dll
+ * get_distx  		math.dll
+ * get_disty  		math.dll
+ * get_id  		edivstd.dll
+>> let_me_alone 	edivstd.dll
+>> signal		edivstd.dll
+
+ ! advance		graphics.dll
+	De momento esta en la graphics.dll, pero debera definirse en edivstd.dll, desde 		donde llamara a la funcion requerida segun el ctype.
+ * fget_angle		math.dll
+ * fget_dist		math.dll
+ * near_angle		math.dll
+ ! xadvance		graphics.dll
+	De momento esta en la graphics.dll, pero debera definirse en edivstd.dll, desde 		donde llamara a la funcion requerida segun el ctype.
+ 
+ * abs			math.dll
+>> acos			math.dll
+>> asin			math.dll
+>> atan			math.dll
+>> atan2		math.dll 
+ * cos			math.dll
+ * pow			math.dll
+ * sin			math.dll
+ * sqrt			math.dll
+ * tan			math.dll
+ * rand			math.dll
+ * rand_seed		math.dll
+
+ * clear_screen		graphics.dll
+ * get_pixel		graphics.dll
+ * map_block_copy	graphics.dll
+ * map_get_pixel	graphics.dll
+ * map_put_pixel	graphics.dll
+>> map_xput		graphics.dll
+ * new_map		graphics.dll
+ * put			graphics.dll
+ * put_pixel		graphics.dll
+ * put_screen		graphics.dll
+ * screen_copy		graphics.dll
+>> xput			graphics.dll
+
+ ! draw			graphics.dll
+ ! move_draw		graphics.dll
+	draw y move_draw de momento solo dibujan Rectangulos rellenos
+ * delete_draw		graphics.dll
+
+ * define_region	edivstd.dll
+ ! out_region		graphics.dll
+	La he metido en la graphics porque necesita acceder a la informacion del graph, sin 	embargo esto podria meterse en la edivstd si la graphics hiciese publicos los mapas
+
+ ! get_point		graphics.dll
+ ! get_real_point	graphics.dll
+ ! graphic_info		graphics.dll
+	falta probarlas
+
+ * load_fnt		text.dll
+ * write		text.dll
+ * write_int		text.dll
+ * move_text		text.dll
+ * delete_text		text.dll
+
+ * fopen		file.dll
+ * fwrite		file.dll
+ * fread		file.dll
+>> filelength		file.dll
+	Como se hace esto con streams??? se me ocurre una forma haciendo :
+		temp = ftell() ;
+		fseek(seek_end) ;
+		length = ftell() ;
+		fseek( temp ) ;
+		return length ;
+	Pero no hay nada mas sencillo k esto???
+ * fseek		file.dll
+ * flush		file.dll
+ * fclose		file.dll
+
+ * malloc		dinmem.dll
+ * free			dinmem.dll
+
+
+	
+
+
+
+
+
+
+

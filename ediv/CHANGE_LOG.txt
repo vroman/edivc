@@ -1,0 +1,686 @@
+6/9/2002
+--------
+ * Mejorado ligeramente el sistema de indexado de variables, ya no estan
+   esos #defines tan engorrosos porke los identificadores van con enum.
+   Recordad recompilar si insertais alguna variable nueva. ¡Ojo! Tienen que
+   estar ordenadas por global, reserved y local, no vale saltearlas, de esta
+   forma se localizan mas rapidamente. (Er_Makina)
+
+27/6/2002
+---------
+ * Modificado el formato de los exes en modo debug. En lugar de la ruta
+   absoluta hacia el prg, se guarda el codigo fuente completo comprimido
+   (primero el tamaño descomprimido, luego el tamaño comprimido y luego el
+   codigo comprimido) (Er_Makina)
+
+26/6/2002
+---------
+ * El ediv_export daba error si se declaraban dos objetos con igual nombre en
+   distintos niveles de struct (problema con el "height" de la estructura
+   "video_modes" de la graphics.dll y la local "height" de edivstd.dll).
+   Creo que el problema está corregido (ver crea_objeto() en parser.c) pero
+   hace falta testearlo un poco más (Er_Makina)
+   
+16/3/2002
+---------
+ * El MOTD ya puede ser recibido correctamente en Linux, no es unicamente para
+   sistemas Windows (Daijo)
+
+22/2/2002
+---------
+ * Corregido bug al leer las Dlls. Estas si contenian caracteres en mayúsculas
+   no las encontraba, solo encontraba aquellas cuyo nombre estaba escrito en
+   minusculas. Ahora las carga perfectamente, incluso en Linux, aunque es mas
+   probable ver mIDlL.dLL en Windows, que mISo.sO en lnx :).
+   (Daijo)
+
+ * Por ahora pongo al trazador un textbox normal y corriente, sin resaltado ni
+   nada (lo del resaltado de sintaxis va a tener tela...) (Er_Makina)
+
+
+21/2/2002
+---------
+ * Quitados los archivos _ml.* y añadidos los utils.*, estos ultimos servirán
+   para albergar todas las rutinas utiles que creemos. Actualmente contiene
+   'strcasecmp' y 'strncasecmp' definidas para Win32, en los sistemas **IX ya
+   existian. (Daijo)
+
+
+19/2/2002
+---------
+
+ * Comenzada la debug.dll. Se trata de una aplicación Qt que se ejecuta con el
+   entrypoint "debug". Tiene prioridad -512, ya que nunca debe ser añadida
+   manualmente, el compilador la añade siempre automáticamente cuando se compila
+   con la opción -d. Sólo funciona con el stub que tiene el trazador activado
+   (*.dbg), recordad compilarlo antes de probar el trazador. También he añadido
+   el entrypoint "trace", útil para trazar el programa sentencia por sentencia.
+   Naturalmente, el trazador aun está en bragas x) tengo el diseño hecho aparte,
+   de momento es un calco del trazador de DIV2 pero luego le iremos añadiendo
+   cosas (quickwatches y cosas de esas molonas). (Er_Makina)
+
+ * Corregidos algunos serios bugs relacionados con la carga de DLL's (otra vez
+   :P) (Er_Makina)
+
+
+18/2/2002
+---------
+
+ * Ahora en la 2ª fase del compilador y en el stub se le añade la extensión a
+   una DLL antes de cargarla. Esto no taba problemas en Windows 2000, pero
+   podía darlos en Windows XP/9x/Me. (Er_Makina)
+
+ * Añadido Call_Entrypoint. Teneis que recompilar todas las DLL's que tengais
+   para que funcionen correctamente. (Er_Makina)
+
+
+17/2/2002
+---------
+
+ * Una nueva dll llamada prueba.dll, para hacer tonterias como escribir mensajes
+   y numeros en un archivo, y mostrar msgbox. (Er_Makina)
+
+ * He conseguido que rule el prueba.prg ;) va perfectamente, voy a ver si es
+   capaz de ejecutar correctamente programas mas complejos, usando variables
+   globales, privadas, locales, etc (Er_Makina)
+
+ * Añadido #ifndef _CABECERA_H - #define _CABECERA_H - ... - #endif para evitar
+   includes recursivos. No habia ningun problema con esto, pero es mejor
+   evitarlos desde un principio. (Daijo)
+
+
+16/2/2002
+---------
+
+ * Completadas algunas instrucciones EML del intérprete. (Er_Makina)
+
+ * Arreglado un bug por el cual no se cargaban las dlls adecuadas. (Er_Makina)
+
+
+15/2/2002
+---------
+
+ * Bug arreglado: cuando en Win32 se encontraba la primera DLL, se contabilizaba
+   aunque no fuera válida. (Er_Makina)
+
+ * Ahora el nombre de las DLL's se almacena sin extensión. (Er_Makina)
+
+ * En el ediv.cfg ahora hay una sección llamada dll_priority, donde se pueden
+   ajustar prioridades a las DLL's, las cuales se superponen a las prioridades
+   por defecto de cada DLL. (Er_Makina)
+
+ * Si una DLL tiene como prioridad 512 (P_SIEMPRE), se tomará siempre como
+   necesaria. Si tiene -512 (P_NUNCA), se ignora la DLL. (Er_Makina)
+
+ * El directorio donde se encuentran las DLL's puede configurarse en el ediv.cfg
+   (Er_Makina)
+
+ * En edivcentral.com he creado una carpeta llamada "actual" donde hay
+   documentos que cambian frecuentemente, útiles para mantenerse informado sobre
+   el desarrollo de eDIV. Allí están el TODO, el ChangeLog, el MOTD, y también
+   el language.txt. Se puede acceder a ellos en www.edivcentral.com/actual. El
+   changelog se puede ver rápidamente en changelog.edivcentral.com.
+   (Er_Makina + Daijo)
+
+ * El sistema de prioridades de las DLL's ya funciona perfectamente, la tabla de
+   DLL's se ordena en memoria segun las prioridades antes de decidir cual se usa
+   y cual no. De esta forma se escriben ya ordenadas en el bytecode. (Er_Makina)
+
+
+14/2/2002
+---------
+
+ * Bug arreglado: en WinNT el stub fallaba al cargar una DLL. He puesto
+   que use las funciones de windows (LoadLibrary y compañia), pero
+   dll_load.c sigue siendo necesaria para cargar dll's embebidas en el
+   exe. (Er_Makina)
+
+ * El stub ya carga el indice de variables. OJO: aun no esta hecho lo de
+   las prioridades de las DLL's, por lo que es posible recibir ceros al
+   intentar localizar una variable, aunque pertenezca al edivstd.
+   (Er_Makina)
+
+
+31/1/2002
+---------
+
+ * Ya rula el indexado de variables por el lado del compilador. Se guarda
+   el indice comprimido en el exe, justo despues del bytecode, asi que hay
+   que adaptar el stub en consecuencia. (Er_Makina)
+
+
+23/1/2002
+---------
+
+ * Adaptado ediv_export.c al stub. Kizas me haya saltado algo y tenga
+   algunos bugs, ya me encargare de comprobarlo con algunas "chivatas" ;)
+   (Er_Makina)
+
+
+13/1/2002
+---------
+
+ * El compilador lee un archivo de configuración (ediv.cfg) de donde
+   obtiene las opciones de compilación por defecto, el servidor para el
+   MOTD, un idioma forzado y el directorio de las dll's. Falta por incluir
+   una sección [dll_priority] donde indicar las prioridades por defecto de
+   las dll's. Éstas irán, por ahora, de -512 a 512. El valor por defecto
+   es 0. Una dll con 512 de prioridad se cargará siempre aunque no se
+   indique ninguna referencia a una función de la dll en el PRG (éste es
+   el caso de la edivstd y la graphics). Una prioridad de -512 hace que
+   la dll no se cargue nunca (útil para tener varias dll's que hagan lo
+   mismo, por ejemplo una sound que use fmod y otra que use sdl).
+   (Daijo & Er_Makina)
+
+ * He incluido errores run-time leves y graves en el stub (mirar error.c).
+   En error.c explico también el planteamiento de poner msgbox en linux
+   para los errores. Los mensajes de error leves son los mismos que en
+   div2, esto es importante para mantener la compatibilidad con
+   ignore_error(). (Er_Makina)
+
+ * He mejorado la comunicación HTTP/1.1 para obtener el MOTD. Ahora
+   detecta si la información recibida es de texto plano, y no admite fi-
+   cheros de más de 1024 bytes. (Er_Makina)
+
+ * Implementado el sistema de entrypoints en el compilador y extern.h,
+   queda meterlo en el stub. (Er_Makina)
+
+ * Carga de dll's a medio hacer en el stub (ya funciona la instrucción IMP),
+   le falta un ediv_export.c, por tanto no compila. El stub busca las dll's
+   primero en el directorio actual y luego en dll\ (so/ en el caso de Linux).
+   (Er_Makina)
+
+ * dll_load.c y dll_load.h movidos a la carpeta shared. (Er_Makina)
+
+ * Arreglado pequeño desastre con el fichero extern.h (Er_Makina)
+
+ * Varios pequeños bugs arreglados. (Er_Makina)
+
+
+1/12/2001
+---------
+
+ * Ligeramente modificado el SDK, las funciones ediv_export ya no retornan
+   un puntero C a los datos exportados, sino un puntero DIV, es decir, la
+   posición en mem[] o loc[] donde han sido colocados. Esto permitirá hacer
+   el sistema de indexado para que unas DLLs (o el stub) puedan acceder a
+   datos de otras, y para que se pueda acceder a los datos locales mediante
+   mem[id+offset]. (Er_Makina)
+
+ * También he metido algunos #defines para hacer las funciones predefinidas
+   o autoejecutables de las DLL, se declararán con una función tipo
+   EDIV_Export_Auto(id_funcion,handle). Aun no tengo muy claro como fun-
+   cionará el asunto en general, imagino que todo se desencadenará a partir
+   de EDIV_post_process y a partir de ahí todas las DLLs irán llamando a las
+   correspondientes autoejecutables de las demás. Si alguien no entiende esto,
+   que me lo pregunte y me rallaré mas xD (Er_Makina)
+
+ * Añadida capacidad para leer un MOTD situado en www.edivcentral.com/motd.txt
+   con la opción -n, --news (de momento sólo rula en Win32) (Daijo + Er_Makina)
+
+
+30/11/2001
+----------
+
+ * Añadido archivo language.txt en el directorio raiz, para que sea mas facil
+   hacer traducciones. El que haga alguna traducción nueva, que la mande
+   a ediv@divsite.net para que la implementemos en el language.c. (Er_Makina)
+
+
+29/11/2001
+----------
+
+ * Añadido soporte multi-idioma (ojo, la traduccion al portugues esta por
+   terminar, y el #ifdef de detectar_idioma lo puse mal como WIN322 o algo asi
+   pa probar como rularia en linux. Probad a trastear con la variable de
+   entorno LANG... ;) (Er_Makina)
+
+
+26/11/2001
+----------
+ * He limpiado el encrypt.c del proyecto encrypt, ahora es hasta legible xD.
+   (Daijo)
+
+ * Los incluides, workspaces y librerias de ZLIB y SDL han sido eliminadas como
+   parte del codigo de eDiv. (Daijo)
+
+ * El archivo 'ediv 2ª etapa.txt' tambien lo he quitado. (Daijo)
+
+ * He arreglado unas incompatibilidades del STUB con las cabeceras de Windows,
+en
+   concreto con WINBASE.H que tenia definiciones de lstrcpy, lstrcat y lstrlen.
+   Ahora si esta definido windows, las 'undefine' antes de ser vueltas a definir
+   en el stub :). (Daijo)
+
+ * Nuevo workspace 'modules.dsw' en 'Visual C' con las DLL. (Daijo)
+
+ * _ml.c lo voy a reescribir, por lo tanto he eliminado casi todo su codigo y el
+   codigo en ediv.c que utilizaban alguna funcion suya. (Daijo)
+
+ * Hay unos cuantos folders menos que no usabamos (limpieza rules xD). (Daijo)
+
+21/11/2001
+----------
+ * He comentado del kernel.c las lineas que servian para el programa de rebote
+de
+   la bola. No las elimineis, ya que esas lineas estan en bien. Lo que aun no se
+   es porque cuando hay mas de un proceso activo el stub peta. Cuando lo
+solucione
+   volvere a activar esas lineas. ( Riseven )
+
+20/11/2001
+----------
+ * Viendo la descripcion de las variables locales predefinidas, he visto que
+exis-
+   ten variables locales privadas del interprete que sirven para el
+funcionamien-
+   to del interprete. Estas variables cuinciden casi exactamente con las que
+   hice en procs_s[], esto debe ser buena señal no? al parecer el funcionamiento
+   interno del interprete de dani y el que estoy haciendo se parecen mas de lo
+   que hubiera imaginado en un principio. Mejor, asi es menos probable que nos
+   aparezcan errores inesperados de incompatibilidad :)
+   ( Riseven )
+
+ * He hecho que el stub cargue "bola.bmp" en imgs[0] para poder utilizar de
+grafi-
+   co 0, todos los procesos se visualizan en la posicion que indice su X e Y.
+   El stub peta si al llegar al frame hay mas de un proceso activo, aun no muy
+   bien el motivo. ( Riseven )
+
+ * He notado que la iloc_len es mas pequeña de lo que deberia ser, solo en
+   variables locales predefinidas ya hay 42, mientras que iloc_len vale 37.
+   ( Riseven )
+
+ * He medido la velocidad del eDiv para modod 320x200, con un proceso cuyo graph
+   es una imagen de 25x25 pixels y e obtenido estos resultados:
+                         CON DOUBLEBUFFERING      SIN DOUBLEBUFFERING
+   Modo ventana: 		106 fps			122 fps
+   Modo fullscreen: 		 64 fps			157 fps
+   ( Riseven )
+
+19/11/2001
+----------
+ * Ya funciona correctamente la eliminacion de procesos ( antes siempre se
+elimi-
+   naba el primer proceso ) esto era debido a que interprete() estaba mal.
+   ( Riseven )
+
+ * Tras pelearme un poco con el ADA y JPF que ambos contenian fallos e
+conseguido
+   que funcione correctamente el FROM :) No se muy bien que cosas soporta ya el
+   interprete, y que cosas utilizan mnemonicos no definidos aun.
+   ( Riseven )
+
+ * Se me olvidaba, es NECESARIO utilizar <compiler_options _no_optimization;> ya
+   que aun no he hecho ningun mnemonico optimizado. ( Riseven )
+
+ * En stdout.txt podreis ver un debugger improvisado ;) , en cada paso escribe
+   el indice de codigo ( imem ), el numero de proceso activo ( num_proc, no con-
+   fundir con Id del proceso ), el indice de pila ( sp ) y el valor actual de la
+   pila ( pila[sp] )
+   ( Riseven )
+
+ * Añadidas las variables locales al interprete, falta testearlo. Se trata de
+los
+   mnemonicos AID y CID. AID suma id a la pila, y CID carga id en la pila. Esto
+   es debido a k las variables locales funcionan sumando id+offset_variable,
+donde
+   id es el offset donde empiezan las variables locales del proceso
+correspondien-
+   te, y offset_variable es el offset relativo. Los offset_relativos son iguales
+   para distintos procesos, si el offset relativo de X para un proceso es 19,
+para
+   otra variable tb sera 19. ( Riseven )
+
+ * RNG ya esta hecho, bueno, en realidad no hace nada, pero si esta definido
+DEBUG
+   si que hacia algunas cosas que no e puesto, no se si nos seran necesarias
+para
+   nuestro debugger, si esto es asi ya sabeis donde faltan algunas rutinas :P
+   ( Riseven )
+
+ * Ya se soporta SWITCHs :), los mnemonicos asociados son CSE Y CSR, y estan sin
+   testear. ( Riseven )
+
+ * Ya estan casi todos los menmonicos basicos, solo faltan algunos complicados
+como
+   CPA, FUN o EXT, y algunos otros orientados unicamente a debug como RNG, DBG o
+CHK.
+   Tecnicamente, si no se utilizan cadenas y utilizando la no_optimization, el
+   interprete ahora deberia estar preparado para soportarlo CASI TODO :).
+   ( Riseven )
+
+18/11/2001
+----------
+ * He metido unos 30+ mnemonicos de EML, la mayoria de ellos testeados.
+   ( Riseven )
+
+16/11/2001
+----------
+ * Creada procs_s[], esta estructura guarda informacion de los procesos activos,
+   posee datos como el indice actual del proceso ( en el k se quedo al llamar
+   a FRAME ), el graph, priority, x , y, id,  y demas variables k tenga k
+   utilizar el kernel, para evitar tener k acceder a mem[] para buscar esos
+datos.
+   Tambien guarda el tipo de proceso k es. ( Riseven )
+
+ * Incluidos los mnemonicos en el inte.h , copiados de compiler.h ( Riseven )
+
+ * Se inicializan las variables de posicion de codigo, globales, locales
+publicas
+   y locales privadas. Se crea el proceso main y se mete a la lista de ejecucion
+   de procesos con lista_mete(). Creada la lista de ejecucion de procesos, se
+   llama proc_orden[], y guarda los procesos ordenados por priority, exactamente
+   lo que guarda es el indice correspondiente de procs_s[] ( Riseven )
+
+15/11/2001
+----------
+
+ * He comentado todo el code en C del eDivNoid, no borreis los comentarios, k
+   me vienen bien para programar el interprete ( Riseven )
+
+8/11/2001
+---------
+
+ * Implementada compilación cruzada: ahora es posible indicar el sistema
+   al que se quiere compilar con la opción -s, seguida del nombre del sistema
+   (deberá existir un fichero de stub con el nombre de ese sistema, ver si-
+   guiente punto) (Er_Makina)
+
+ * Implementado sistema de doble stub: uno con extensión .rel para compila-
+   ciones definitivas y otro con extensión .dbg para compilaciones de debug.
+   Para elegir si compilar el .rel o el .dbg se debe elegir "Select
+   configuration..." en el menú Build de Visual C y elegir por ejemplo
+   "Win32 Debug" para la versión .rel y "Win32 Debug con trazador" para la
+   versión .dbg. La diferencia entre los dos es que el .dbg se compila con
+   la macro DBG definida, y por tanto se activan las rutinas de depurado de
+   eDIV. (Er_Makina)
+
+ * El script makelib.bat también ha sido modificado para implementar lo de
+   los nuevos stubs y AHORA SE EJECUTA AUTOMÁTICAMENTE DESPUÉS DE COMPILAR
+   EL STUB, por lo que ya no hace falta hacerlo manualmente. Esto está
+   configurado en la pestaña "post-build step" en las opciones del proyecto
+   stub. (Er_Makina)
+
+ * Añadidas rutinas de stub y kernel de Riseven y |RooT|. (Daijo)
+
+
+7/11/2001
+---------
+
+ * Cambiado el 'magic' de la edivrun.lib de "dj!" a "eDIV Stub" (Er_Makina)
+   Nota: PROHIBIDO CAMBIARLO OTRA VEZ :PPPPPP
+
+ * El stub ahora descomprime el código y lo guarda en memoria. (Er_Makina)
+
+ * La clave de encriptación, el 'magic' de la edivrun.lib y otros datos
+   que son comunes a varios programas ahora se encuentran en el archivo
+   shared.h para poder modificar algun dato sin tener que hacerlo en varios
+   ficheros a la vez (Daijo)
+
+ * encrypt.c ordenado con sangrados de texto (Daijo)
+
+ * Nota: los programas que usan la zlib fallan al ejecutarlos en una makina
+   con micro AMD y Windows XP. No sucede cuando se compila con Visual C++ 7
+   (Framework .NET beta2) (Daijo)
+
+
+29/6/2001
+---------
+
+ * Corregidos miles de bugs de la versión para Win32. ':) Ahora se lee el
+   fichero prg en modo "rb" en vez de "r" ya que el gracioso de güindows
+   en modo "r" te sustituye los CRLF por LF a secas >:( y el programa no
+   resultaba tan grande como el tamaño del propio archivo, por lo que
+   encontraba "caracteres no reconocidos" (basura) antes de llegar al EOF
+   (el carácter de ASCII 0).
+
+ * Añadida opción -c o --check que hace que no se guarde el exe. Útil para
+   comprobar sintaxis, sacar listados, etc sin sobreescribir el exe actual
+   o simplemente sin malgastar espacio (y el trabajo de borrar el exe) xD
+
+ * Comenzada documentación... de solo mirar el indice ya da la sensación
+   de estar leyendo una tesis doctoral... xD También comencé una referencia
+   de EML pero me acabé aburriendo así que ya lo terminaré un día que esté
+   realmente aburrido y no tenga ganas de hacer otra cosa :p
+   Por cierto, la introducción me ha salido muy chunga, parece como si
+   hubiera escrito un anuncio del div3 o algo asi :( así que el que quiera
+   modificarla que lo haga por favor, o mejor dicho hacedlo, ke seguro ke
+   teneis mas inspiracion ke yo xD
+
+   (Er_Makina)
+
+
+28/6/2001
+---------
+
+ * Re-construidos proyectos para Win32, he puesto los includes de la zlib y
+   SDL en /inc, y sus libs correspondientes en /zlib. En /src/visual c está
+   el workspace con el ediv, stub y encrypt. Cada dll tiene su propio work-
+   space en el directorio de su source.
+
+ * Añadida la ruta absoluta del PRG en Win32 al compilar en modo debug.
+
+ * Ligeramente modificado el formato de los EXE, ahora se añade el tamaño de
+   los datos comprimidos después del tamaño de los datos descomprimidos. El
+   numerito tiene formato de unsigned long, que no recuerdo ahora mismo
+   cuantos bytes eran.
+
+ * Parece que hay un fallo en Win32 al reconocer qué DLLs se usan en el PRG.
+   Al compilar C.PRG, sólo reconoce que se usa edivstd.dll, cuando en reali-
+   dad debería usar también sample.dll. Esto se puede arreglar con una
+   sesión de debug pero ahora no tengo tiempo, mañana me ocuparé de eso.
+   (o esta noche si no me entra sueño xD)
+
+ * He modificado un poco el export.h para hacerlo más compatible con win32.
+   He comentarizado también el asunto del DllMain, tanto en el export.h como
+   en las DLLs, ya que aparte de darme problemas en win32, no tenía utilidad
+   en Linux.
+
+   (Er_Makina)
+
+
+27/6/2001
+---------
+
+ * Arreglado un bug por el cual se echaba a perder todo el eml. En un sitio
+   escribí mem en vez de imem y... ^_^ También he arreglado la generación de
+   la rutina de carga de DLLs, ahora recuerdo que no se puede volver de un
+   JMP con un RET xD
+
+ * Arreglado ELSEIF. No volveré a ser tan chapuzas, lo juro xD
+   Y esta vez lo he comprobado bien, repasando el desensamblado y todo :)
+
+ * Se escribe stub_size al final del ejecutable
+
+ * La opción -d (--debug) ya funciona. El formato del ejecutable de debug es
+   el siguiente: primero el stub y el EML, como en los ejecutables normales.
+   Luego, la ruta absoluta del PRG (hay que terminar la función escribe_lin
+   para hacer esto en win32). Luego la información que relaciona el bytecode
+   con el texto (lin), es decir, indica donde empieza y donde termina cada
+   sentencia tanto en el bytecode (mem[]) como en el prg. Naturalmente esto
+   es útil para el trazador. Luego viene la tabla de objetos (dbg), como en el
+   fichero .tab pero más críptico, obviamente. Primero está el volcado de la
+   tabla de objetos, sustituyendo los nombres por offsets a su nombre
+   correspondiente en el volcado de vnom (vector de nombres), que es lo que
+   viene justo después. Por último, se escriben 3 valores: el comienzo de la
+   sección "lin" en el fichero (justo donde termina el bytecode y empieza la
+   ruta del prg), el comienzo de la sección "dbg", y stub_size. Ah, el
+   ejecutable se marca como debug en el bit 6 de mem[0] (+64).
+
+   (Er_Makina)
+
+
+26/6/2001
+---------
+
+ * Opciones de línea de comando. Ahora se puede elegir generar una tabla de
+   objetos *.tab (--table) y/o el listado EML (--list). La opción --debug no
+   está disponible todavia. He metido estas nuevas opciones en listados.c
+
+ * Arreglado el estropicio que borró todos los mensajes de error a partir
+   del 55, por un despiste mio, que me puse un ediv.c que me pasó daijo y no
+   estaba actualizado
+
+ * Desactivado el sistema de "multi-error", lo he metido en #ifdefs por si
+   alguien en algun futuro quiere activarlo o por si le hace ilu.
+
+ * Arreglado horrible bug por el cual no se borraba vhash[] y las propias
+   dlls daban errores del tipo "el nombre no es nuevo" después de la
+   precompilación.
+
+ y creo ke ya ta... (Er_Makina)
+
+
+25/6/2001
+---------
+
+ * Terminado el proceso de remcompilación para ahorrar la memoria de las
+   DLLs no usadas
+
+ * Ya se crea el EXE, por ahora tiene la misma estructura que los EXE de
+   DIV2
+
+   (Er_Makina)
+
+
+24/6/2001
+---------
+
+ * Modularizadas las rutinas de carga de DLLs (Daijo)
+
+ * Terminada sección PRIVATE, código principal y PROCESOS (función
+   sintactico()). (Er_Makina)
+
+ * Terminadas todas las sentencias (función sentencia()) y añadido ELSEIF,
+   ojo que LTLEX.DEF ha sido modificado, y obviamente los #defines de p_xxxx
+   de PARSER.H tambien (Er_Makina)
+
+
+22/6/2001
+---------
+
+ * Completadas las variables y constantes predefinidas en edivstd.dll
+
+ * Terminada sección LOCAL
+
+ * He comprobado y arreglado algunos errores, el 39 y algun otro que no me
+   acuerdo
+
+ (Er_Makina)
+
+
+21/6/2001
+---------
+
+ * Terminada sección GLOBAL con todas sus declaraciones. ':)
+
+ * Corregidos algunos detalles y fallos de las expresiones constantes.
+
+ * POR HACER: Provocar y comprobar TODOS los errores :p
+
+ * Ah he hecho un icono del ediv, ediv.ico ^_^
+
+ (Er_Makina)
+
+
+20/6/2001
+---------
+
+ * EVALUADOR DE EXPRESIONES CONSTANTES TERMINADO :D
+   Bueno, en realidad casi, tan sólo falta comprobar todos los errores. Como
+   el DIV original detenía la compilación al encontrar un error y eDIV no,
+   hay que añadir código después de las llamadas a error() para hacer que el
+   parsing siga como si no hubiera pasado nada. A veces esto se arregla con
+   poner simplemente lexico(); pero la mayoría de las veces hay que hacer
+   algo más para ignorar el error.
+
+ * Tambien he incluido el generador de código y el optimizador peephole, y
+   de hecho ya sería capaz de compilar cosas, aunque sólo a la memoria (es
+   decir, al buffer mem[]). De momento solo reconoce el compiler_options.
+   Paciencia.
+ 
+ * Como podeis ver, ya hay unos cuantos mensajes de error, un problema es
+   que no sabemos cómo tenía el DIV original organizados los errores, así
+   que hay que investigar por qué se produce el error y qué mensaje le
+   viene bien. He usado mensajes originales del DIV2, fijándome en el
+   errores.html que me hice a partir de la ayuda del DIV2. Por desgracia no
+   están en orden :(
+ 
+ * En el DIV2 hay errores que tienen varios códigos para un solo mensaje,
+   esto es para que la ayuda de ese error sea más específica en el contexto
+   en que se ha producido el error. Aquí yo he puesto un solo código para
+   cada mensaje, si más tarde queremos hacer la ayuda multi-contexto ya se
+   cambiará.
+ 
+ * Aun no podemos considerar expresion.c terminado, ya que queda el código
+   para la evaluación de sentencias de asignación, expresiones variables y
+   condiciones.
+ 
+ * Se que el codigo, tal como esta ahora es ilegible, (especialmente
+   expresion.c y parser.c), pero me hubiera llevado semanas ordenarlo tal
+   como lo he hecho con plexico() por ejemplo, ya me pondré un día a hacerlo
+   y de paso destriparlo bien y poner todos los comentarios que pueda (por
+   ahora he puesto comentarios a todos los errores, para saber cuáles son)
+
+ * Ah, y he hecho una dll llamada "edivstd" se que ya la odiais de solo ver
+   el nombre, pero es necesaria una libreria "estandar" para cosas tan basicas
+   e inclasificables como las opciones de compilacion (ya implementadas, por
+   cierto :D ), la estructura local reserved, las locales father, smallbro,
+   bigbro, etc. Estas cosas pertenecen al gestor de procesos y eso es algo
+   que viene incluido en el stub.
+
+   (Er_Makina)
+ 
+ 
+18/6/2001
+---------
+
+ * La versión de Linux ya carga y registra los *.so al igual que la de win
+   hacía con las *.dll. Terminado el ediv_export.c, ya soporta datos locales
+   aunque aún hay que retocar un poco la exportación de funciones. Por
+   cierto, se me olvidó decir que eliminé el rollo del /src/gcc-linux porque
+   ahora que tenemos makefiles decentes ya no sirve para nada. (Er_Makina)
+
+
+17/6/2001
+---------
+
+ * La versión de Linux ya tiene todos sus makefiles y ya encuentra las *.so.
+   He modificado ligeramente el export.h para hacerlo compatible y he inclu-
+   ido una dll de muestra, sample. Aun no he probado a compilarla en win32.
+   (Er_Makina)
+
+
+15/6/2001
+---------
+
+ * Incluyo los ficheros necesarios para compilar bajo Linux, en src/gcc-linux
+   Hay que leer el archivo "MUY IMPORTANTE" que se encuentra en ese directorio.
+   Estos archivos solo son para desarrollo, es decir que requieren las rutas
+   relativas del CVS y por tanto NO DEBEN SER INCLUIDOS EN LOS PAQUETES DIS-
+   TRIBUIDOS. Algún día meteré ahí un directorio con un script que genere
+   automáticamente el paquete de código fuente para Linux, al estilo GNU.
+   (Er_Makina)
+
+
+14/6/2001
+---------
+
+ * Pakeo rapido, version con soporte para linux aunque aun por terminar. Ya esta
+   hecha la sustitucion de _findfirst y _findnext aunque aun queda por terminar
+de
+   implementar el soporte .so.
+   Por hacer: terminar soporte .so y hacer el SDK para los .so (quizas haga
+   falta un export.h distinto?) a ser posible que se pueda utilizar el mismo src
+   para hacer una .dll y un .so, please mejor dicho esto es OBLIGATORIO
+   (Er_Makina)
+
+
+15/04/2001
+----------
+
+ * Añadido CheckWindowsVersion a Dll_Load.c. Ahora esta funcion se
+   llama justo antes de InitialiceDllLoad para ajustar g_bIsWinNT a
+   1 o 0, dependiendo si usamos WINNT/WIN2K o Win'9x/Me. (Daijo).
+

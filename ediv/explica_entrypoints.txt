@@ -1,0 +1,60 @@
+[14:10] > veamos
+[14:10] > alguna vez has hecho una dll para div2?
+[14:10] > o has visto el source de una?
+[14:10] > (div2 o div1) :p
+[14:11] [@Daijo] varias / si
+[14:11] [@Daijo] pero el cd del div2 lo tengo jodio
+[14:11] [@Daijo] y asi poco puedo rekordar komo era xD
+[14:11] > ok
+[14:12] > a ver
+[14:12] > kizas recuerdes
+[14:12] > ke habia dlls
+[14:12] > como la hboy o la polys, por ejemplo
+[14:12] > que dibujaban cosas en la pantalla
+[14:12] > modificando el buffer
+[14:12] [@Daijo] sips
+[14:12] > en una funcion llamada post_process_buffer
+[14:12] > pues bien, esa funcion es un entrypoint
+[14:12] > que div ejecuta
+[14:13] > justo antes de actualizar el buffer en la memoria de video
+[14:13] > ese tipo de funciones
+[14:14] > se exportan a div con DIV_export("nombre_de_funcion",puntero_a_la_funcion);
+[14:14] > DIV las guarda en una tabla
+[14:14] > y cuando llega el momento de ejecutar cierta funcion
+[14:14] > por ejemplo, ha terminado de dibujar los graficos y debe llamar a post_process_buffer
+[14:14] > lo hace asi:
+[14:15] > puntero=DIV_import("post_process_buffer");
+[14:15] > puntero();
+[14:15] > sentiende hasta ahora?
+[14:16] [@Daijo] mas o menos
+[14:16] > weno
+[14:16] > pues ojo al dato porke lo ke viene ahora es un poco complicao
+[14:17] > en eDIV
+[14:17] > la implementacion seria como sigue:
+[14:17] > para que la exportacion/importacion sea mas rapida, usamos ints en lugar de cadenas
+[14:17] > esos son los #defines que puse en el mail
+[14:18] > por ejemplo EDIV_post_process_buffer es 13
+[14:18] > para que no haya errores, las funciones se prototipan en el export.h
+[14:18] > ya que deben tener unos parametros determinados
+[14:19] > entonces en la dll se mete una funcion llamada post_process_buffer()
+[14:19] > y ahi se mete el codigo ke se kiera
+[14:20] > en el exportafuncs, exportamos la funcion con EDIV_Export_Entrypoint(EDIV_post_process_buffer,post_process_buffer);
+[14:20] [@Daijo] ahá
+[14:20] > El stub recoge esa exportacion y la guarda en una tabla de entrypoints
+[14:21] > entonces, nos situamos en la graphics.dll
+[14:21] > hemos pintado el fondo y todos los procesos en el buffer
+[14:21] > y toca llamar a post_process_buffer
+[14:22] > de esta manera:
+[14:22] > Call_Entrypoint(EDIV_post_process_buffer);
+[14:23] > La funcion Call_Entrypoint recorre la tabla de entrypoints y va ejecutando uno a uno los que corresponden a EDIV_post_process_buffer (13)
+[14:24] > eso es, basicamente como funciona todo el sistema
+[14:24] > como ya comentaba en el mail
+[14:24] > podemos añadir un entrypoint llamado EDIV_frame
+[14:24] > que se llama POR EL STUB en cada frame
+[14:25] > de forma que podemos colocar todas las rutinas de dibujado en graphics.dll
+[14:25] > ya que ésta tendra en su función frame() las rutinas necesarias
+[14:25] > y a su vez llamará a otros entrypoints, como buffer_to_video, put_sprite, o post_process_buffer
+[14:26] > pillas la cosa? :)
+[14:26] [@Daijo] sips
+[14:26] [@Camvoya] xDDDDDDDDDDDDDD
+[14:26] > ea, pos eso es to

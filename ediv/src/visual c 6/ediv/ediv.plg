@@ -1,0 +1,121 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: ediv - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\DOCUME~1\ADMINI~1\CONFIG~1\Temp\RSPB5.tmp" with contents
+[
+/nologo /G5 /ML /W3 /Gm /GX /ZI /Od /I "..\..\..\inc" /I "..\..\shared" /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FR"Debug/" /Fp"Debug/ediv.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"D:\ediv\src\ediv\edivcfg\dictionary.c"
+"D:\ediv\src\ediv\edivcfg\e_error.c"
+"D:\ediv\src\ediv\edivcfg\edivcfg.c"
+"D:\ediv\src\ediv\edivcfg\mainparse.c"
+"D:\ediv\src\ediv\edivcfg\strlib.c"
+"D:\ediv\src\ediv\compiler.c"
+"D:\ediv\src\shared\dll_load.c"
+"D:\ediv\src\ediv\ediv.c"
+"D:\ediv\src\ediv\ediv_export.c"
+"D:\ediv\src\ediv\encrypt.c"
+"D:\ediv\src\ediv\expresion.c"
+"D:\ediv\src\ediv\language.c"
+"D:\ediv\src\ediv\listados.c"
+"D:\ediv\src\ediv\lower.c"
+"D:\ediv\src\ediv\ltlex.c"
+"D:\ediv\src\ediv\modulos.c"
+"D:\ediv\src\ediv\parser.c"
+"D:\ediv\src\ediv\varindex.c"
+]
+Creating command line "cl.exe @C:\DOCUME~1\ADMINI~1\CONFIG~1\Temp\RSPB5.tmp" 
+Creating temporary file "C:\DOCUME~1\ADMINI~1\CONFIG~1\Temp\RSPB6.tmp" with contents
+[
+zlib.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib sdlmain.lib sdl.lib ws2_32.lib /nologo /subsystem:console /incremental:yes /pdb:"Debug/ediv.pdb" /debug /machine:I386 /out:"..\..\..\bin\ediv.exe" /pdbtype:sept /libpath:"..\..\..\lib" 
+".\Debug\dictionary.obj"
+".\Debug\e_error.obj"
+".\Debug\edivcfg.obj"
+".\Debug\mainparse.obj"
+".\Debug\strlib.obj"
+".\Debug\compiler.obj"
+".\Debug\dll_load.obj"
+".\Debug\ediv.obj"
+".\Debug\ediv_export.obj"
+".\Debug\encrypt.obj"
+".\Debug\expresion.obj"
+".\Debug\language.obj"
+".\Debug\listados.obj"
+".\Debug\lower.obj"
+".\Debug\ltlex.obj"
+".\Debug\modulos.obj"
+".\Debug\parser.obj"
+".\Debug\varindex.obj"
+]
+Creating command line "link.exe @C:\DOCUME~1\ADMINI~1\CONFIG~1\Temp\RSPB6.tmp"
+<h3>Output Window</h3>
+Compiling...
+dictionary.c
+e_error.c
+edivcfg.c
+mainparse.c
+d:\ediv\src\ediv\edivcfg\mainparse.c(304) : warning C4018: '==' : signed/unsigned mismatch
+strlib.c
+compiler.c
+dll_load.c
+ediv.c
+d:\ediv\src\ediv\ediv.c(211) : warning C4018: '<=' : signed/unsigned mismatch
+ediv_export.c
+encrypt.c
+expresion.c
+language.c
+listados.c
+lower.c
+ltlex.c
+modulos.c
+parser.c
+varindex.c
+Linking...
+msvcrt.lib(MSVCRT.dll) : error LNK2005: _exit already defined in LIBC.lib(crt0dat.obj)
+msvcrt.lib(MSVCRT.dll) : error LNK2005: _strncpy already defined in LIBC.lib(strncpy.obj)
+msvcrt.lib(MSVCRT.dll) : error LNK2005: _strrchr already defined in LIBC.lib(strrchr.obj)
+msvcrt.lib(MSVCRT.dll) : error LNK2005: _fprintf already defined in LIBC.lib(fprintf.obj)
+msvcrt.lib(MSVCRT.dll) : error LNK2005: _remove already defined in LIBC.lib(unlink.obj)
+msvcrt.lib(MSVCRT.dll) : error LNK2005: _fgetc already defined in LIBC.lib(fgetc.obj)
+msvcrt.lib(MSVCRT.dll) : error LNK2005: _fopen already defined in LIBC.lib(fopen.obj)
+msvcrt.lib(MSVCRT.dll) : error LNK2005: _fclose already defined in LIBC.lib(fclose.obj)
+msvcrt.lib(MSVCRT.dll) : error LNK2005: __isctype already defined in LIBC.lib(isctype.obj)
+LIBC.lib(crt0init.obj) : warning LNK4098: defaultlib "msvcrt.lib" conflicts with use of other libs; use /NODEFAULTLIB:library
+..\..\..\bin\ediv.exe : fatal error LNK1169: one or more multiply defined symbols found
+Error executing link.exe.
+Creating temporary file "C:\DOCUME~1\ADMINI~1\CONFIG~1\Temp\RSPB8.tmp" with contents
+[
+/nologo /o"Debug/ediv.bsc" 
+".\Debug\dictionary.sbr"
+".\Debug\e_error.sbr"
+".\Debug\edivcfg.sbr"
+".\Debug\mainparse.sbr"
+".\Debug\strlib.sbr"
+".\Debug\compiler.sbr"
+".\Debug\dll_load.sbr"
+".\Debug\ediv.sbr"
+".\Debug\ediv_export.sbr"
+".\Debug\encrypt.sbr"
+".\Debug\expresion.sbr"
+".\Debug\language.sbr"
+".\Debug\listados.sbr"
+".\Debug\lower.sbr"
+".\Debug\ltlex.sbr"
+".\Debug\modulos.sbr"
+".\Debug\parser.sbr"
+".\Debug\varindex.sbr"]
+Creating command line "bscmake.exe @C:\DOCUME~1\ADMINI~1\CONFIG~1\Temp\RSPB8.tmp"
+Creating browse info file...
+<h3>Output Window</h3>
+
+
+
+<h3>Results</h3>
+ediv.exe - 10 error(s), 3 warning(s)
+</pre>
+</body>
+</html>

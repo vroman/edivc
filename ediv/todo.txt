@@ -1,0 +1,65 @@
+yo me lio con estos ficheros todo, asi k pongo mi propia seccion todo ( Riseven ) xDD
+- cambiar el trasparency (255-0) a (0-255)
+- valores por defecto de las variables locales
+- indexado de estructuras
+- variables privadas
+- nuevo valor de flags ( +8 -> modo 50% / Trasparency )
+
+
+Cosas por hacer cuanto antes:
+
+- Añadir mnemónicos al kernel del stub (acabar los normales y añadir los
+  optimizados, y los de byte, word y string)
+- Al compilar con --debug, añadir el codigo fuente comprimido al exe, en
+  lugar de la ruta absoluta hacia el .prg (ya que si no el trazador daria
+  problemas si modificamos el prg despues de haber creado el exe)
+- Hacer desaparecer la tabla procs_s y sustituirla por variables indexadas
+- Revisar muchísimo el kernel del stub (compilar cosas, debugear...)
+- Entender el stub ke no me empano de na xD y limpiarlo un pokito de paso
+- Actualizar los makefiles y proyectos de KDevelop, y comprobar que rule
+  bien bajo Linux
+- Hacer unos msgbox decentes para Linux, con X11 a pelo o con una libreria
+  pekeñita (ver error.c del stub)
+- Adaptar la rutina de MOTD a Linux
+- Documentarlo todo, ahora tenemos el DOKU, kien no lo tenga ke se lo pida
+  a Er_Makina :)
+- A la hora de implementar la funcion qsort(), hay que introducir una nueva
+  función a ediv_export y modificar la toma y compilación de parámetros en
+  expresion.c
+
+
+Cosas a implementar a medio plazo:
+- Compilar para otros sistemas, como MacOS X (sourceforge rlz)
+  lo dificil será encontrar gente pa testear :P
+- Trazador
+- Macroinstrucciones EML?
+  (nota: si se hacen, SE AÑADEN a los opcodes que ya hay, podriamos hacer
+  un "nivel 2 de compilacion". de lo ke paso totalmente es de sustituir los
+  opcodes actuales, lo que supondria reescribir el compilador y el stub)
+
+- Tablas de strings:
+
+  string str[3,4][20]  <-- inicializa una tabla de strings de 3x4 registros
+                           de 20 caracteres cada uno
+
+- Tipos definidos por usuario, como en Fenix <- ¿?
+
+
+Cosas ya hechas:
+
+- Archivos de configuracion, ediv.cfg (opciones de compilacion, server de
+  MOTD, etc) y priority.cfg (prioridades de DLLs)
+- Depurar bestialmente ediv_export y cosas relacionadas (y añadir funciones
+  autoejecutables estilo post_process_buffer)
+- Al final todo el asunto de los graficos lo gestionará la graphics.dll, ten-
+  drá prioridad 512 (máxima) y utilizará el sistema de entrypoints
+- Meter en el STUB las rutinas de |RooT| y Riseven
+- Rediseñar el sistema de stubs para dar cabida a versiones con y sin debugger:
+
+  Win32.dbg
+  Win32.rel
+  Linux.dbg
+  Linux.rel
+
+  Indicar al compilador a qué sistema compilar usando el parámetro -s, --system
+  (compilación cruzada), por defecto el sistema actual

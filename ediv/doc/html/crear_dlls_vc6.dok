@@ -1,0 +1,9 @@
+<%title%>Cómo hacer una nueva librería para eDIV (Visual C++ 6.0)<%/title%>
+<p align="left"><h1>C&oacute;mo hacer una nueva librería para eDIV (Visual C++ 6.0)</h1></p>
+<p align="left"><h2>Paso 1: Crear el proyecto</h2></p>
+<div align="justify"><p>Antes de nada, l&oacute;gicamente hay que crear un proyecto para nuestra DLL. Si la DLL va a ser distribuida por nosotros mismos, lo mejor es crear para ella un workspace independiente, en una carpeta separada de la de eDIV. Si va a ser una DLL est&aacute;ndar de eDIV (p.ej. si contiene funciones de DIV2), hay un workspace destinado para este tipo de DLLs, que se encuentra en <code>/ediv/src/visual c/modules.dsw</code>, por lo que tendremos que abrir este workspace para crear alli nuestro proyecto.</p>
+<p>En cualquier caso, elegiremos la opci&oacute;n <code>New...</code> del men&uacute; <code>File</code> para crear nuestro proyecto. En la ventana que aparece elegiremos la pesta&ntilde;a <code>Projects</code> y seleccionaremos un proyecto de DLL (<code>Win32 Dynamic-Link Library</code>). En el caso de que la DLL sea independiente de eDIV, elegiremos la opci&oacute;n <code>Create new workspace</code> y elegiremos el nombre y la carpeta para el proyecto que m&aacute;s nos guste. Si, en cambio, queremos que la DLL forme parte de eDIV, elegiremos <code>Add to current workspace</code> (suponiendo que ya tenemos abierto <code>modules.dsw</code>, y guardaremos el proyecto en una carpeta tipo <code>/ediv/src/dlls/nombre_dll</code>.</p>
+<p>A continuaci&oacute;n debemos ajustar algunas opciones del nuevo proyecto. Para ello hacemos click derecho con el ratón en el nombre del proyecto en la ventana de <code>FileView</code> y en el men&uacute; contextual seleccionamos <code>Settings...</code>.
+</div>
+
+<%end%>

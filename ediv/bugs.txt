@@ -1,0 +1,3 @@
+fallo de rango en Rand
+teclado -> se sale solo
+teclado -> se bloquea ( ¿todo o solo el teclado? )

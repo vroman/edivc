@@ -1,0 +1,74 @@
+Microsoft Visual Studio Solution File, Format Version 7.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "graphics", "..\..\dlls\graphics\graphics.vcproj", "{AAF7A53C-05B1-40E4-B029-ED2B0C76E125}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "prueba", "..\..\dlls\prueba\prueba.vcproj", "{5B0D1941-3294-4444-BBE4-9041FC8D8F1C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sample", "..\..\dlls\sample\sample.vcproj", "{E313700D-F9A5-494E-B02E-7B3F351A15AD}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "strings", "..\..\dlls\strings\strings.vcproj", "{F83A4960-9687-42C4-B722-14A028A9C393}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "edivstd", "..\..\dlls\edivstd\edivstd.vcproj", "{6994F9CD-63ED-425D-879C-678D1706F4AE}"
+EndProject
+Global
+	GlobalSection(SourceCodeControl) = preSolution
+		SccNumberOfProjects = 6
+		SccProjectName0 = \u0022$/dlls\u0022,\u0020YCAAAAAA
+		SccLocalPath0 = ..\\..
+		SccProvider0 = MSSCCI:Microsoft\u0020Visual\u0020SourceSafe
+		CanCheckoutShared = false
+		SccProjectFilePathRelativizedFromConnection0 = visual\u0020c\\dlls\\
+		SolutionUniqueID = {1E2B0B4F-2887-423C-BBAA-825EDCAD7A64}
+		SccProjectUniqueName1 = ..\\..\\dlls\\edivstd\\edivstd.vcproj
+		SccLocalPath1 = ..\\..
+		CanCheckoutShared = false
+		SccProjectFilePathRelativizedFromConnection1 = dlls\\edivstd\\
+		SccProjectUniqueName2 = ..\\..\\dlls\\graphics\\graphics.vcproj
+		SccLocalPath2 = ..\\..
+		CanCheckoutShared = false
+		SccProjectFilePathRelativizedFromConnection2 = dlls\\graphics\\
+		SccProjectUniqueName3 = ..\\..\\dlls\\prueba\\prueba.vcproj
+		SccLocalPath3 = ..\\..
+		CanCheckoutShared = false
+		SccProjectFilePathRelativizedFromConnection3 = dlls\\prueba\\
+		SccProjectUniqueName4 = ..\\..\\dlls\\sample\\sample.vcproj
+		SccLocalPath4 = ..\\..
+		CanCheckoutShared = false
+		SccProjectFilePathRelativizedFromConnection4 = dlls\\sample\\
+		SccProjectUniqueName5 = ..\\..\\dlls\\strings\\strings.vcproj
+		SccLocalPath5 = ..\\..
+		CanCheckoutShared = false
+		SccProjectFilePathRelativizedFromConnection5 = dlls\\strings\\
+	EndGlobalSection
+	GlobalSection(SolutionConfiguration) = preSolution
+		ConfigName.0 = Debug
+		ConfigName.1 = Release
+	EndGlobalSection
+	GlobalSection(ProjectDependencies) = postSolution
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{AAF7A53C-05B1-40E4-B029-ED2B0C76E125}.Debug.ActiveCfg = Debug|Win32
+		{AAF7A53C-05B1-40E4-B029-ED2B0C76E125}.Debug.Build.0 = Debug|Win32
+		{AAF7A53C-05B1-40E4-B029-ED2B0C76E125}.Release.ActiveCfg = Release|Win32
+		{AAF7A53C-05B1-40E4-B029-ED2B0C76E125}.Release.Build.0 = Release|Win32
+		{5B0D1941-3294-4444-BBE4-9041FC8D8F1C}.Debug.ActiveCfg = Debug|Win32
+		{5B0D1941-3294-4444-BBE4-9041FC8D8F1C}.Debug.Build.0 = Debug|Win32
+		{5B0D1941-3294-4444-BBE4-9041FC8D8F1C}.Release.ActiveCfg = Release|Win32
+		{5B0D1941-3294-4444-BBE4-9041FC8D8F1C}.Release.Build.0 = Release|Win32
+		{E313700D-F9A5-494E-B02E-7B3F351A15AD}.Debug.ActiveCfg = Debug|Win32
+		{E313700D-F9A5-494E-B02E-7B3F351A15AD}.Debug.Build.0 = Debug|Win32
+		{E313700D-F9A5-494E-B02E-7B3F351A15AD}.Release.ActiveCfg = Release|Win32
+		{E313700D-F9A5-494E-B02E-7B3F351A15AD}.Release.Build.0 = Release|Win32
+		{F83A4960-9687-42C4-B722-14A028A9C393}.Debug.ActiveCfg = Debug|Win32
+		{F83A4960-9687-42C4-B722-14A028A9C393}.Debug.Build.0 = Debug|Win32
+		{F83A4960-9687-42C4-B722-14A028A9C393}.Release.ActiveCfg = Release|Win32
+		{F83A4960-9687-42C4-B722-14A028A9C393}.Release.Build.0 = Release|Win32
+		{6994F9CD-63ED-425D-879C-678D1706F4AE}.Debug.ActiveCfg = Debug|Win32
+		{6994F9CD-63ED-425D-879C-678D1706F4AE}.Debug.Build.0 = Debug|Win32
+		{6994F9CD-63ED-425D-879C-678D1706F4AE}.Release.ActiveCfg = Release|Win32
+		{6994F9CD-63ED-425D-879C-678D1706F4AE}.Release.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

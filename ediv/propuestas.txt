@@ -1,0 +1,269 @@
+<CicTec> vic
+<CicTec> he descubierto 2 bugs de DIV2
+<CicTec> asi los pones en la lista ^^
+<Daijo> okey
+<Daijo> di :D
+<CicTec> pues
+<CicTec> 1) DIV hace declarar la region 0 con define_region (la cual no se deberia porque es la pantalla completa)
+<CicTec> ej:
+<CicTec> define_region(0,0,0,320,480);
+<CicTec> cuando en vez las regiones da declarar van desde 1 hasta 31
+<CicTec> 2) cuando se declara una regione de 0,0 DIV da error y sale, pero eso deberia ser posible (por cierto se puede en fenix, mirar: test_define_region.prg hecho por mi xD )
+<CicTec> todo aqui ^^
+
+Don't say there will never be a div3. But if there's a div3 what new statements should be in it?
+I have some:
+Refresh_screen();
+redraws the screen, handy if you use splitscreen and restore_type=no_restore. Then if you erase one of the scrollwindows you could use refresh_screen() to restore the screen only one frame
+Save_world(filename);
+saves the world made in Mode 8
+Start_tilescroll(offset structure,width,height,tilewidth,tileheight)
+start a tilemapbased scrolling. Much faster than using map_put/map_xput
+Darkmap(file,graph)
+makes a map darker
+Lightmap(file,graph)
+makes a map lighter
+Recolourmap(file,graph,%red,%green,%blue);
+makes map more red, green etc.
+save_pal(file);
+saves current pallette
+new extras for flags: 16: anti-aliase with background,32: no transparent colour, so colour 0 is just visible
+set_trans_perc(percentage)
+if flags=4 you can change how visible the object is.
+____________________
+-----------
+Even though you would Beat Me Up, I'm still a really cool player too(My gamenames are hidden in this text)
+--------
+       Dazzy
+DIV MANIAC
+
+Status: Offline
+  posted on 4/11/01 at 12:13 PM
+well if I'd like to see hardware accelerated 2D, the DLL writing process cleaned up, ie to allow use of dll's writeen in VB , delphi C/c++, probably have to be rewritten but so be it!
+theres alot of things but I don't see the point of dissusing them until at least DIV2 makes an appearence!! ____________________
+Dazzy
+      MikeH
+DIV Regular
+
+
+Status: Offline
+  posted on 4/11/01 at 10:57 PM
+I would be for a complete rewrite of the div engine. 
+Limited Support for OOP (Object Orientated Programming).
+DirectX based (of course)
+Support for mp3 \ midi files.
+Unlimited color depth
+and unlimited food
+____________________
+<> <>
+MikeH's Lore:
+Never cast finger of death when scratching your bottom
+<> <>
+Visit InnerEdge Games Homepage at http://WWW.InnerEdgeGames.com
+       Mike_S
+DIV Regular
+
+
+Status: Offline
+  posted on 6/11/01 at 09:57 AM
+I'm with that (the food part anyway)
+      Er_Makina
+DIV Junior
+
+Status: Offline
+   posted on 6/12/01 at 05:16 AM
+if you don't mind, i'm collecting these suggestions for implementing them (or some of them) in eDIV.
+byez.. 
+Er_Makina
+
+WINDOWS...
+I like the flags=(4,40%) ;
+idia
+i think you can alrady change map collor's in div one... don't know exacly how, but i'm sure if done it. ____________________
+sent me an e-mail,
+or just fissit my (old, but totally flash based) home page ;-)
+       futgiz
+DIV Senior
+
+
+Status: Offline
+  posted on 8/12/01 at 13:09
+..semi-transperency..
+ ____________________
+Behind you..
+[ MystiqGames.cjb.net ] [ Email ]
+[ Lone Wolf ] [ Rally Forever ] [ Hostile Contact ] [ RTS Tutorial ] [ Bomber Brothers 1.01 ] [ Super Space ] [ Doesnt have an name actually.. ] [ Airplane Attack 2 ]
+       Tovi
+DIV MANIAC
+
+
+Status: Offline
+  posted on 8/12/01 at 18:22
+Here's some random stupidity:
+New Commands:
+--------------------------------------------------------------------------------------------
+Compress(filename) 
+Compresses everything to one bit, for easy storage
+Hack(gamename)
+This automaticly hacks into any game from div-arena, and de-compiles it so you can use it for evil purpouses.
+Explosion(x,y,size,speed,length,red,blue,green)
+Creates a totally random explosion from nowhere, works real fast.
+Destroy_OS(name of OS)
+Destroys any type of OS worldwide, so if you would say 'destroy_os(windowsXP)' WindowsXP would stop existing
+Heal_my_game()
+Auto-debugs your game, so you don't have to deal with nasty bugs yourself.
+New globals:
+-----------------------------------------------------------------------------------------------
+[None]
+New Locals:
+-----------------------------------------------------------------------------------------------
+Blur=value (0-100) [default=0] Makes a process blurry.
+x_size=value (0-256) [default=100] stretches a graphic on the x axis 
+y_size=value (0-256) [default=100] stretches a graphic on the y axis 
+END
+____________________
+
+
+       futgiz
+DIV Senior
+
+
+Status: Offline
+  posted on 8/12/01 at 18:31
+A really cool particly explosion would be something like "AAAAAAAAAAAAAHHH". Hmm well i like explosions.  ____________________
+Behind you..
+[ MystiqGames.cjb.net ] [ Email ]
+[ Lone Wolf ] [ Rally Forever ] [ Hostile Contact ] [ RTS Tutorial ] [ Bomber Brothers 1.01 ] [ Super Space ] [ Doesnt have an name actually.. ] [ Airplane Attack 2 ]
+       Mike_S
+DIV Regular
+
+
+Status: Offline
+  posted on 10/12/01 at 15:45
+I want the following function added in:
+make_game(game genre,game coolness);
+game coolness being an integer from 1 to 100.
+      X_stream
+DIV Junior
+
+
+Status: Offline
+  posted on 10/12/01 at 21:59
+quote:
+I want the following function added in:
+make_game(game genre,game coolness);
+game coolness being an integer from 1 to 100.
+Lol, It would make the manual a hack of a lot easyer  ____________________
+sent me an e-mail,
+or just fissit my (old, but totally flash based) home page ;-)
+       antzrhere
+DIV Regular
+
+Status: Online
+  posted on 10/12/01 at 22:46
+dont_randomly_crash_on_me();
+tear_my_hair_out_for_me();
+feed_me(); ____________________
+The Future is Today...Worry about it tomorrow....
+       Mike_S
+DIV Regular
+
+
+Status: Offline
+  posted on 11/12/01 at 09:47
+Some old people actually have life support systems with those functions built in.
+
+[jeDIVe] oye yo tengo una sugerencia pal ediv
+[19:38] > pues dimela hombre :)
+[19:39] [jeDIVe] estaria bien k pudieras compilar los PRG a un bytecode con extension LIB o algo asi, y k hubiera una seccion LINKER para k se linkeara ese archivo al bytecode dle juego cuando se fuera a formar el EXE
+[19:39] [jeDIVe] de esta forma
+[19:39] [jeDIVe] se podria programar, por ejemplo, un engine 3D de bajo nivel con, por ejemplo
+[19:39] [jeDIVe] las funciones basicas de opengl
+[19:40] [jeDIVe] y k desde ediv
+[19:40] [jeDIVe] se creara un engine completo
+[19:40] [jeDIVe] despues
+[19:40] [jeDIVe] podrias distribuir con un LIB el engine
+[19:40] [jeDIVe] puediendo proteger el source asi
+
+[20:11] [CicTec] crear funciones avanzadas de write y write_int
+[20:11] [CicTec] o anadir en las normales unos parametros
+[20:12] > cuales?
+[20:12] [CicTec] los parametros son: region,flags,size
+[20:12] [CicTec] exspecialmente region
+[20:13] [CicTec] para visualizar o mover un texto en una region sin crear procesos
+[20:13] [CicTec] y utilizar write_in_map
+[20:13] [CicTec] las funciones nuevas pueden ser:
+[20:13] [CicTec] xwrite
+[20:13] [CicTec] xwrite_int
+[20:13] [CicTec] y tb
+[20:13] [CicTec] xwrite_in_map xD
+
+// bucles con procesos al estilo de los objetos de VB, Blitz, etc
+[16:49] [CicTec] for each VAR of PROCESO;
+[16:49] [CicTec] end
+
+[23:03] [CicTec] son funciones
+[23:03] [CicTec] mas que otro para comodidad
+[23:04] [CicTec] una que se puede llamar tipo qclear o qreset
+[23:04] [CicTec] que limpia uan estructura, tabla,o campo de estructura
+[23:04] [CicTec] sin necesidad de crear un loop o un elenco largo de declaraciones
+[23:04] [CicTec] funciona tipo asi:
+[23:05] [CicTec] tenemos una estructura...
+[23:05] [CicTec] struct str[99]
+[23:05] [CicTec] string txt;
+[23:05] [CicTec] int x;
+[23:05] [CicTec] int y;
+[23:05] [CicTec] byte color[255];
+[23:05] [CicTec] end
+[23:06] [CicTec] digamos que ya es inicializada a caso
+[23:06] [CicTec] y quieremos poner todo a 0 y ""
+[23:06] [CicTec] hacemos asi:
+[23:06] [CicTec] qclear(&str);
+[23:07] [CicTec] si quieremos en vez hacer solo un campo tipo del color hacemos:
+[23:07] [CicTec] qclear(&str.color);
+[23:07] [CicTec] solo de un index:
+[23:07] [CicTec] qclear(&str[9].color);
+[23:07] [CicTec] etc...
+[23:08] [CicTec] y otra funcione siempre de comodidad es:
+[23:08] [CicTec] qassign
+[23:08] [CicTec] copia una estructura,tabla o campo en otra
+[23:08] [CicTec] claro que tiene que haber la misma dimencion
+[23:08] [CicTec] un ej:
+[23:08] [CicTec] qassign(&str,&strtemp);
+[23:09] [CicTec] un campo
+[23:09] [CicTec] qassign(&str.color,&strtemp.color);
+[23:09] [CicTec] etc...etc...etc...
+
+
+[18:58] [rst] tu imaginate lo que ayudaria en un compilador
+[18:58] [rst] bueno
+[18:58] [rst] en el editor
+[18:58] [rst] cuando hacemos un for o un loop
+[18:58] [rst] cualquier bucle bamos
+[18:58] [rst] pues
+[18:58] > sip
+[18:58] [rst] que el editor nos colorease esa zona
+[18:58] [rst] comprendes pòr donde voy ?
+[18:59] [rst] facilidad de visualizacion del codigo
+[18:59] > hmm mas u menos
+[18:59] > si
+[18:59] [rst] hay editores que usan eso
+[18:59] > el visual studio 7 hace algo asi
+[18:59] [rst] por ejemplo
+[18:59] [rst] vrmlpad
+[18:59] > cuando cerramos un parentesis, o un if
+[18:59] > indica en negrita
+[18:59] > que sentencia estamos cerrando
+[18:59] [rst] ajam
+[18:59] [rst] de eso se trata
+[18:59] [rst] asi luego siempre visualizando ligeramente vemos el alcanze del bucle
+[19:00] [rst] creo ayudaria un monton
+
+[@Daijo] todos los compiladores ke aparecen empiezan a utilizar recolectores de basura ke kedan mu monos x'D
+[@Daijo] no te suena 'garbage collector'?
+[@Daijo] te suena eso de que asignas memoria y no liberas?
+( ver dmgc60a8.zip )
+http://www.cs.ukc.ac.uk/people/staff/rej/gc.html
+
+screen_color(int color)
+rellena el fondo con un color

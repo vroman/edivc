@@ -1,0 +1,21 @@
+				**********************
+				* EL STUB DEL eDiv   *
+				**********************
+
+
+9/7/2001
+---------
+
+
+He empezado el STUB, ja que soy el encargado de las DLL's y queria provar las Dll's de 
+un modo que no fuera autoejecutables (la manera que haciamos antes , añadir al DLL_MAIN
+las instrucciones) y entonces me he puesto a trabajar en el STUB, por el momento lo unico
+que he hecho ha sido cojer codigo de las dll's del eDIV y adaptarlo al STUB, seguramente se
+puede sacar mucho codigo, pero por si acaso lo dejo, ja que los encargados son ER_MAKINA y 
+RISEVEN, lo que el STUB hace ahora es busca las Dlls, las carga y bueno se pueden ejecutar
+instrucciones de la DLL mediante la funcion ejecuta(void *proceso,int numero_parametros); 
+en el Source se detalla como se puede ejecutar una funcion. Supongo que algo de aqui sera util,
+ja que se necesitaran rutinas para el uso de la DLL ;)
+
+																			|RooT|
+

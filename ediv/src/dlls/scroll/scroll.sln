@@ -1,0 +1,21 @@
+Microsoft Visual Studio Solution File, Format Version 7.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "scroll", "scroll.vcproj", "{11D7DB5D-4EC9-4181-A9F0-B03EAAE4A070}"
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		ConfigName.0 = Debug
+		ConfigName.1 = Release
+	EndGlobalSection
+	GlobalSection(ProjectDependencies) = postSolution
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{11D7DB5D-4EC9-4181-A9F0-B03EAAE4A070}.Debug.ActiveCfg = Debug|Win32
+		{11D7DB5D-4EC9-4181-A9F0-B03EAAE4A070}.Debug.Build.0 = Debug|Win32
+		{11D7DB5D-4EC9-4181-A9F0-B03EAAE4A070}.Release.ActiveCfg = Release|Win32
+		{11D7DB5D-4EC9-4181-A9F0-B03EAAE4A070}.Release.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,5 @@
+<%title%>Primera aproximaci&oacute;n a eDIV<%/title%>
+<div align="justify"><p><h1>Primera aproximaci&oacute;n a eDIV</h1></p>
+<p>Esta secci&oacute;n es muy importante para aquellos que nunca hayan tenido anteriormente ning&uacute;n contacto con eDIV (o incluso con ning&uacute;n compilador). Incluso si ya has utilizado otros compiladores de DIV, como DIV Games Studio o Fenix, puede que te resulte necesario saber estas cosas b&aacute;sicas para poder manejar eDIV (y a&uacute;n m&aacute;s si quieres modificar eDIV o programar DLLs).</p>
+<%subindex%>
+<%end%>

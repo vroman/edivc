@@ -1,0 +1,14 @@
+Aquii esta todo lo necesario para poder compilar ediv y demas
+componentes.
+
+para que ediv cree exes hay que hacer esto: (Act. no disponible)
+- compilar ediv (claro)
+- compilar encrypt
+- compilar stub
+- en el directorio /bin, ejecutar makelib.bat
+
+Esto creará el edivrun.lib, que es el stub comprimido y encriptado.
+y nada más. Hasta Luego
+
+Er_Makina
+Sion Entertainment

@@ -1,0 +1,54 @@
+ COMO CREAR UNA DLL
+====================
+
+1. Creamos un proyecto de DLL (logico)
+
+2. Metemos el export.h y el .c principal
+
+3. Añadimos el .DEF al proyecto con el siguiente contenido:
+
+   LIBRARY nombre_de_la_libreria
+   EXPORTS
+   	ExportaFuncs
+
+3. Metemos en dllmain (vacio, debe devolver TRUE)
+
+4. Creamos la función ExportaFuncs:
+
+   int ExportaFuncs(TYPEOF_EDIV_Export *pEDIV_Export)
+   {
+       EDIV_Export=pEDIV_Export;	// ojo, esto es obligatorio
+   }
+
+
+PARA AÑADIR FUNCIONES:
+
+5. Hacemos las funciones de la siguiente forma:
+
+   int nombre_funcion (FUNCTION_PARAMS)
+   {
+      param_n=getparm();
+      ...
+      param_2=getparm();
+      param_1=getparm();
+
+      // todo el código de la funcion
+
+      return valor_de_retorno;
+   }
+
+   para coger los parametros, lo hacemos del ultimo al primero con getparm()
+   para leer strings, bastara con poner param=(char*)getparm();
+
+6. Declaramos la funcion (en el .h o en el .c), lo digo porque esto suele olvidarse
+
+7. Y por último, añadimos el EDIV_Export correspondiente en la función ExportaFuncs. Se usa de esta manera:
+
+   EDIV_Export ("cadena",nparametros,nombre_funcion);
+
+   - "cadena" es la cadena a comparar en el programa (el nombre que tendrá la función en el lenguaje)
+
+   - nparametros es el número de parámetros que recibe la función
+
+   - nombre_funcion es el nombre de la función en la DLL (es decir, aquí se pasa un puntero a la función)
+

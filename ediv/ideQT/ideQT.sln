@@ -1,0 +1,27 @@
+Microsoft Visual Studio Solution File, Format Version 7.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gif2h", "gif2h\gif2h.vcproj", "{29668928-86D2-4EF1-823D-64BC139B3F24}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ideQT", "ideQT.vcproj", "{79BBCF95-8FCC-4490-846B-E39B69E2E9BD}"
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		ConfigName.0 = Debug
+		ConfigName.1 = Release
+	EndGlobalSection
+	GlobalSection(ProjectDependencies) = postSolution
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{29668928-86D2-4EF1-823D-64BC139B3F24}.Debug.ActiveCfg = Debug|Win32
+		{29668928-86D2-4EF1-823D-64BC139B3F24}.Debug.Build.0 = Debug|Win32
+		{29668928-86D2-4EF1-823D-64BC139B3F24}.Release.ActiveCfg = Release|Win32
+		{29668928-86D2-4EF1-823D-64BC139B3F24}.Release.Build.0 = Release|Win32
+		{79BBCF95-8FCC-4490-846B-E39B69E2E9BD}.Debug.ActiveCfg = Debug|Win32
+		{79BBCF95-8FCC-4490-846B-E39B69E2E9BD}.Debug.Build.0 = Debug|Win32
+		{79BBCF95-8FCC-4490-846B-E39B69E2E9BD}.Release.ActiveCfg = Release|Win32
+		{79BBCF95-8FCC-4490-846B-E39B69E2E9BD}.Release.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,5 @@
+<%title%>El compilador (ediv)<%/title%>
+<div align="justify"><p><h1>El compilador (<i>ediv</i>)</h1></p>
+<p>El compilador en s&iacute; es un ejecutable llamado <code>ediv</code>. Se encuentra en la carpeta <code>bin</code> y, naturalmente, es el programa encargado de compilar un archivo de c&oacute;digo fuente <code>.prg</code> en lenguaje DIV para crear un ejecutable independiente a partir de &eacute;l.</p>
+</div>
+<%end%>
