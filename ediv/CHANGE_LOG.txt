@@ -1,3 +1,9 @@
+30/10/2002
+----------
+
+ * Añadido la variable RESOLUTION, que a la hora de compilar el TUTOR2.PRG daba problemas.
+   Ya se puede usar RESOLUTION =) (|RooT|)
+
 29/10/2002
 ----------
  * Añadido un Capturador de Pantalla que crea screenshoots pulsando ATL+P 
