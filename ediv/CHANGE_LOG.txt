@@ -3,6 +3,8 @@
  * Eliminados archivos parser.* y compiler.* de la carpeta STUB ya que no los
    utilizabamos (Daijo)
  * Eliminados archivos de la libreria grafica de Fenix de GRAPHICS (Daijo)
+ * Añadidos los fp->RuntimeError(x) y eliminados printf\exit en el eDIV_LOAD_FPG
+   (Daijo)
 
 10/10/2002
 ----------
