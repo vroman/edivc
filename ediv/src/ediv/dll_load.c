@@ -49,19 +49,21 @@ typedef BOOL (WINAPI *DLLMAIN_T)(HMODULE hinstDLL, DWORD fdwReason, LPVOID lpvRe
 #pragma pack(pop)
 
 
-// Process-global variables
+/* Process-global variables */
 
 IMAGE_PARAMETERS *g_pImageParamHead;
 CRITICAL_SECTION g_DLLCrit;
 
-// Function implementations
+/* Function implementations */
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Detecta la version de windows                                                                           //
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-// Si es WinNT devuelve g_bIsWinNT=1
-// Si es Win'9x/Me devuelve g_bIsWinNT=0;
+/*
+ * void CheckWindowsVersion(void);
+ * Detecta la version de windows
+ *
+ * Ajusta
+ *	g_bIsWinNT a 1 si estamos en un NT
+ *  g_bIsWinNT a 0 si NO estamos en un NT
+ */
 void CheckWindowsVersion(void)
 {
 	OSVERSIONINFO osvi;
@@ -76,10 +78,9 @@ void CheckWindowsVersion(void)
 
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Initialization Routines                                                                                 //
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+/*
+ * Initialization Routines                                                                                 
+ */
 void InitializeDLLLoad(void)
 {
 	InitializeCriticalSection(&g_DLLCrit);
@@ -100,10 +101,9 @@ void KillDLLLoad(void)
 }
 
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Internal DLL list management                                                                            //
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+/*
+ * Internal DLL list management                                                                            
+ */
 // returns 0 if just ref count increment, 1 if this is a new addition, -1 on error
 static int AddDLLReference(void *pImageBase, char *svName, DWORD dwFlags)
 {

@@ -1,7 +1,7 @@
 /*
  * eDiv Compiler
- * Copyleft (C) 2000-2002 Sion Entertainment
- * http://www.sion-e.com
+ * Copyright (C) 2000-2002 Sion Entertainment
+ * http://www.sionhq.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,7 +31,6 @@
 
 #include "language.h"
 
-//int len,ret,cod;
 int len;
 struct objeto * ob;
 struct objeto * ob2;
@@ -39,12 +38,11 @@ struct objeto * ob2;
 int creaobj;
 int numparams;
 
-byte decl_struct=0;		// 1 si se está declarando un struct
-byte struct_reserved=0;	// 1 si se está declarando la estructura reserved
+byte decl_struct=0;		/* 1 si se está declarando un struct */
+byte struct_reserved=0;	/* 1 si se está declarando la estructura reserved */
 
 
-// Errores específicos en la ejecución de una DLL
-
+/* Errores específicos en la ejecución de una DLL */
 void dll_error(int error, ...)
 {
 	va_list opparam;
@@ -95,21 +93,6 @@ int EDIV_Export(char* cadena, int nparam, void* hfuncion)
     (*ob).fext.codigo=n_externs;
     (*ob).fext.num_par=nparam;
 
-/*    for(i=0;i<numdlls;i++)
-    	for(j=0;j<dlls[i].nfuncs;j++)
-			if(strcmp(cadena,dlls[i].ext_funcs[j].cadena)==0) {
-				dll_error(4,cadena);
-				return 0;
-			}*/
-
-/*#define actfunc dlls[numdlls-1].ext_funcs[dlls[numdlls-1].nfuncs]
-
-	actfunc.cadena=(char*)e_malloc(strlen(cadena)+1);
-	strcpy(actfunc.cadena,cadena);
-	actfunc.nparam = nparam;
-	actfunc.hfuncion = hfuncion;*/
-
-//	dlls[numdlls-1].nfuncs++;
 	n_externs++;
 
 	return 1;
@@ -243,7 +226,7 @@ int EDIV_Export_Global_Tab(char* cadena, int numregs)
 	(*ob).tglo.len3=-1;
 	(*ob).tglo.totalen=len+1;
 
-	// Inicializamos la tabla a 0
+	/* Inicializamos la tabla a 0 */
 	do {
 		mem[imem++]=0;
 	} while (len--);
@@ -325,14 +308,14 @@ int EDIV_Export_Member_Int(char* cadena, int valor)
 		return 0;
 	}
 
-	if((*ob).tipo==tsglo) {			// int miembro de struct global
+	if((*ob).tipo==tsglo) {			/* int miembro de struct global */
 		(*ob2).tipo=tvglo;
 		(*ob2).vglo.offset=len++;
 		mem[imem]=valor;
 		(*ob).sglo.len_item++;
 		return imem++;
 	}
-	else {							// int miembro de struct local
+	else {							/* int miembro de struct local */
 		if(struct_reserved)
 			indexa_variable(v_reserved,cadena,iloc);
         (*ob2).tipo=tvloc;
@@ -372,7 +355,7 @@ int EDIV_Export_Member_Str(char* cadena, int tamano)
 		return 0;
 	}
 
-	if((*ob).tipo==tsglo) {			// string miembro de struct global
+	if((*ob).tipo==tsglo) {			/* string miembro de struct global */
 
 		(*ob2).tipo=tcglo;
 		(*ob2).cglo.offset=len+1;
@@ -394,7 +377,7 @@ int EDIV_Export_Member_Str(char* cadena, int tamano)
 		
 		return (*ob2).cglo.offset;
 	}
-	else {							// string miembro de struct local
+	else {							/* string miembro de struct local */
 
         (*ob2).tipo=tcloc;
         (*ob2).cloc.offset=len+1;
@@ -447,7 +430,7 @@ int EDIV_Export_Member_Tab(char* cadena, int numregs)
 		return 0;
 	}
 
-	if((*ob).tipo==tsglo) {			// array miembro de struct global
+	if((*ob).tipo==tsglo) {			/* array miembro de struct global */
 		(*ob2).tipo=ttglo;
 		(*ob2).tglo.offset=len;
 		(*ob2).tglo.len1=numregs;
@@ -461,7 +444,7 @@ int EDIV_Export_Member_Tab(char* cadena, int numregs)
 		
 		return (*ob2).tglo.offset;
 	}
-	else {							// array miembro de struct local
+	else {							/* array miembro de struct local */
 		if(struct_reserved)
 			indexa_variable(v_reserved,cadena,iloc);
 		(*ob2).tipo=ttloc;
@@ -493,7 +476,7 @@ int EDIV_Export_EndStruct()
 
 	member=NULL;
 
-	if((*ob).tipo==tsglo) {			// cierra estructura global
+	if((*ob).tipo==tsglo) {			/* cierra estructura global */
 		if ((*ob).sglo.len_item==0) {
 			dll_error(10);
 			return 0;
@@ -506,7 +489,7 @@ int EDIV_Export_EndStruct()
 			} while (len--);
 		}
 	}
-	else {							// cierra estructura local
+	else {							/* cierra estructura local */
 		if ((*ob).sloc.len_item==0) {
 			dll_error(10);
 			return 0;
@@ -518,7 +501,6 @@ int EDIV_Export_EndStruct()
 				iloc++;
 			} while (len--);
 		}
-//        iloc+=(*ob).sloc.totalitems*(*ob).sloc.len_item;
 	}
 
 	decl_struct=0;
@@ -603,7 +585,7 @@ int EDIV_Export_Local_Tab(char* cadena, int numregs)
 	(*ob).tloc.len3=-1;
 	(*ob).tloc.totalen=len+1;
 
-	// Inicializamos la tabla a 0
+	/* Inicializamos la tabla a 0 */
 	do {
 		loc[iloc++]=0;
 	} while (len--);

@@ -1,7 +1,7 @@
 /*
  * eDiv Compiler
- * Copyleft (C) 2000-2002 Sion Entertainment
- * http://www.sion-e.com
+ * Copyright (C) 2000-2002 Sion Entertainment
+ * http://www.sionhq.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,9 +21,7 @@
 #ifdef _WIN32
 #	include <winsock2.h>
 #	include "dll_load.h"
-
 struct in_addr iahost;
-//struct sockaddr_in sin;
 struct hostent *htent;
 struct servent *svent;
 int status;
@@ -36,9 +34,8 @@ void muestra_motd();
 void conecta(char *servidor, char *archivo);
 
 #else
-#	include <dlfcn.h>		// ¿será igual en BeOS?
+#	include <dlfcn.h>		/* ¿será igual en BeOS? */
 #	include <dirent.h>
-//#	include <sys/stat.h>
 #endif
 
 #include <stdio.h>
@@ -58,9 +55,9 @@ void conecta(char *servidor, char *archivo);
 
 int main(int argc, char *argv[])
 {
-	FILE *fp;			// stream del PRG
+	FILE *fp;			/* stream del PRG /*
 	char *p;
-	char libmagic[14];	// cabecera "magic" de EDIVRUN.LIB
+	char libmagic[14];	/* cabecera "magic" de EDIVRUN.LIB */
 	
 	int i,j;
 	byte hayprog=0;
@@ -73,8 +70,7 @@ int main(int argc, char *argv[])
 	listados=0;
 	noexe=0;
 
-	// Sistemas
-
+	/* Sistemas */
 	#ifdef _WIN32
 		strcpy(sistema,"win32");
 	#endif
@@ -87,7 +83,7 @@ int main(int argc, char *argv[])
 
 	idioma=detecta_idioma();
 
-	// mensaje de cabecera
+	/* mensaje de cabecera */
 	printf(translate(0));
 	printf(translate(1));
 	printf("\n");
@@ -99,7 +95,7 @@ int main(int argc, char *argv[])
 
     if(strcmp(argv[1],"--help")==0 || strcmp(argv[1],"-h")==0) {
         ayuda:
-		// pantalla de ayuda
+		/* pantalla de ayuda */
         printf(translate(2));
         printf(translate(3),argv[0]);
 		printf(translate(4));
@@ -129,7 +125,7 @@ int main(int argc, char *argv[])
 					if(++i<argc) {
 						strcpy(sistema,argv[i]);
 					} else {
-						printf(translate(12)); // se debe indicar un sistema para --system
+						printf(translate(12)); /* se debe indicar un sistema para --system */
 						exit(1);
 					}
 #ifdef _WIN32
@@ -138,7 +134,7 @@ int main(int argc, char *argv[])
 				}
 #endif
                 else {
-                    printf(translate(13),argv[i]); // parámetro erróneo
+                    printf(translate(13),argv[i]); /* parámetro erróneo */
                     exit(1);
                 }
             }
@@ -169,7 +165,7 @@ int main(int argc, char *argv[])
 									j=strlen(argv[i])-1;
 								}
 								else {
-									printf(translate(14)); // se debe indicar un sistema para -s
+									printf(translate(14)); /* se debe indicar un sistema para -s */
 									exit(1);
 								}
 							}
@@ -180,7 +176,7 @@ int main(int argc, char *argv[])
 							exit(0);
 #endif
                         default:
-                            printf(translate(15),argv[i][j]); // parámetro erróneo
+                            printf(translate(15),argv[i][j]); /* parámetro erróneo */
                             exit(1);
                     }
                     j++;
@@ -197,13 +193,13 @@ int main(int argc, char *argv[])
 				hayprog=2;
 				break;
 			default:        	
-                printf(translate(13),argv[i]); // parámetro erróneo
+                printf(translate(13),argv[i]); /* parámetro erróneo */
                 exit(1);
 		}
     }
 
     if(hayprog==0) {
-        printf(translate(16)); // no se ha especificado un archivo
+        printf(translate(16)); /* no se ha especificado un archivo */
         exit(1);
     }
 	
@@ -222,30 +218,28 @@ int main(int argc, char *argv[])
 				strcpy(fichero_prg,nombreprog);
 				strcat(fichero_prg,".PRG");
 				if(!(fp = fopen(fichero_prg, "rb"))) {
-					printf(translate(17),nombreprog); // error al abrir archivo
+					printf(translate(17),nombreprog); /* error al abrir archivo */
 					exit(1);
 				}
 			}
 		}
 		else {
-			printf(translate(17),argv[1]); // error al abrir archivo
+			printf(translate(17),argv[1]); /* error al abrir archivo */
 			exit(1);
 		}
 	}
 	
-	// Componemos el nombre del ejecutable
+	/* Componemos el nombre del ejecutable */
 	if(hayprog<2) {
 		strcpy(outfilename,nombreprog);
 		if(!strcmp(sistema,"win32"))
 			strcat(outfilename,".exe");
 	}
 	
-	printf(translate(18),fichero_prg); // compilando...
+	printf(translate(18),fichero_prg); /* compilando... */
 
-	/*fichero_prg=(char*)e_malloc(strlen(argv[1])+1);
-	strcpy(fichero_prg,argv[1]);		// fichero_prg="xxxxx.prg"*/
-
-	// mete el PRG en el buffer prog
+	
+	/* mete el PRG en el buffer prog */
 	fseek(fp,0,SEEK_END);
 	progsize=ftell(fp);
 	prog = (char *)e_malloc(progsize+1);
@@ -257,7 +251,7 @@ int main(int argc, char *argv[])
 	} while(!feof(fp));
 	fclose(fp);
 
-	// Comprueba si existe la edivrun.lib
+	/* Comprueba si existe la edivrun.lib */
 	if(!noexe) {
 		strcpy(edivrun_lib,sistema);
 		if(debug)
@@ -266,13 +260,13 @@ int main(int argc, char *argv[])
 			strcat(edivrun_lib,".rel");
 
 		if((fp = fopen(edivrun_lib, "rb"))==NULL) {
-			printf(translate(19),edivrun_lib); // no se encuentra el fichero
+			printf(translate(19),edivrun_lib); /* no se encuentra el fichero */
 			exit(1);
 		}
 		else {
 			fread(libmagic,1,14,fp);
 			if(strcmp(libmagic,magic)) {
-				printf(translate(20),edivrun_lib); // formato incorrecto de edivrun.lib
+				printf(translate(20),edivrun_lib); /* formato incorrecto de edivrun.lib */
 				fclose(fp);
 				exit(1);
 			}
@@ -286,11 +280,9 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	// El stream de salida para el seudocódigo
-//	fout=tmpfile();
-
 	if(!ini) {
-		max_process=0; // Valores de las opciones por defecto
+		/* Valores de las opciones por defecto */
+		max_process=0; 
 		ignore_errors=0;
 		free_sintax=0;
 		extended_conditions=0;
@@ -322,13 +314,6 @@ int main(int argc, char *argv[])
 	prepara_compilacion();
 	dll_func();
 
-	//**************************
-
-	//###############//
-	// NO PONER NADA //
-	//loggea("prg: %s",argv[1]);
-	//@@@@@@@@@@@@@@@//
-
 	compila();
 	
 #ifdef MULTI_ERROR	
@@ -350,7 +335,13 @@ int main(int argc, char *argv[])
 }
 
 
-// idéntico a malloc, pero con errormsg utomático
+/*
+ * void *e_malloc(size_t size)
+ * Idéntico a malloc, pero con errormsg automático
+ *
+ * Retorna:
+ *	El numero de bytes de memoria alojados o sale si no se puede reservar la memoria.
+ */
 void* e_malloc(size_t size)
 {
 	void* ret;
@@ -370,14 +361,13 @@ void errormem()
 }
 
 
-//-----------------------------------------------------------------------------
-//      Gestión de errores
-//-----------------------------------------------------------------------------
-
+/*
+ *      Gestión de errores
+ */
 int _le,_t;
 byte *_ie;
 
-void save_error(word tipo) { // Guarda una posicion de error (de 0 .. 3)
+void save_error(word tipo) { /* Guarda una posicion de error (de 0 .. 3) */
   switch(tipo) {
     case 0: _le=linea; _ie=ierror; break;
     case 1: _le=old_linea; _ie=old_ierror_end; break;
@@ -386,12 +376,13 @@ void save_error(word tipo) { // Guarda una posicion de error (de 0 .. 3)
   } _t=tipo;
 }
 
-// 0 - Inicio de la pieza actual
-// 1 - Final de la pieza anterior mas un espacio (si se puede)
-// 2 - Inicio de la pieza anterior
-// 3 - Final de la pieza anterior
-// 4 - Error guardado con save_error(0..3)
-
+/*
+ * 0 - Inicio de la pieza actual
+ * 1 - Final de la pieza anterior mas un espacio (si se puede)
+ * 2 - Inicio de la pieza anterior
+ * 3 - Final de la pieza anterior
+ * 4 - Error guardado con save_error(0..3)
+ */
 void error(word tipo, word num, ...)
 {
 	int columna=0;
@@ -440,8 +431,6 @@ void error(word tipo, word num, ...)
 #ifdef MULTI_ERROR
 	}
 #endif
-	
-	//lexico();
 }
 
 void warning(int num, ...)
@@ -455,7 +444,9 @@ void warning(int num, ...)
 	n_warnings++;
 }
 
-//#define DEBUG_HTTP
+/* Descomentar la siguiente linea para activar el debug de las noticias: */
+/* #define DEBUG_HTTP */
+
 #ifdef _WIN32
 void muestra_motd()
 {
@@ -466,14 +457,14 @@ void muestra_motd()
 		motdserver=iniparser_getstr(ini,"general:motd_host");
 		motdpath=iniparser_getstr(ini,"general:motd_path");
 		if(!motdserver) {
-			printf(translate(49)); // el servidor de motd debe estar en ediv.cfg
+			printf(translate(49)); /* el servidor de motd debe estar en ediv.cfg */
 			exit(1);
 		}
 		if(!motdpath) motdpath="/ediv/actual/motd.txt";
 		conecta(motdserver,motdpath);
 		exit(0);
 	} else {
-		printf(translate(49)); // el servidor de motd debe estar en ediv.cfg
+		printf(translate(49)); /* el servidor de motd debe estar en ediv.cfg */
 		exit(1);
 	}
 }
@@ -522,7 +513,6 @@ void conecta(char *servidor, char *archivo)
 		return;
 	}
 
-	//sprintf(buffer,"GET /%s\n",archivo);
 	sprintf(buffer,"GET %s HTTP/1.1\n"
 		"User-Agent: Mozilla/4.76 (Windows 2000; U) Opera 5.12  [es]\n"
 		"Host: %s\n"
