@@ -1455,7 +1455,7 @@ int Dibuja(SDL_Surface *src , SDL_Rect srcrect , SDL_Rect dstrect , int z , int 
 		
 	zoom=size*0.01;
 
-	angulo=angle*10;
+	angulo=angle/1000;
 	
 	//blits[last_blit].src =  //rotozoomSurface (src, angle, zoom,smooth);//zoomSurface (src, zoom,zoom,SMOOTHING_OFF);;
 	//blits[last_blit].src = SDL_BlitSurface(rotozoomSurface (src, angle, 2,1), NULL , fondo , &dstrect );//src ;

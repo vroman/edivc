@@ -25,7 +25,7 @@
 #ifndef __SHARED_H
 #define __SHARED_H
 
-#define VERSION "0.1 - beta 1 (Orion)"
+#define VERSION "0.1 (Orion)"
 #define la_clave "Open_eDiv"
 
 #define uchar char
