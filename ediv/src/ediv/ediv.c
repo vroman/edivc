@@ -53,6 +53,10 @@ void conecta(char *servidor, char *archivo);
 #include "language.h"
 #include "edivcfg/iniparser.h"
 
+#ifdef main
+#undef main
+#endif
+
 int main(int argc, char *argv[])
 {
 	FILE *fp;			/* stream del PRG */

@@ -21,7 +21,7 @@
 #ifndef __EXTERN_H
 #define __EXTERN_H
 
-#include <SDL/SDL.h>
+//#include <SDL/SDL.h>
 #include "main.h"
 #include "varindex.h"
 
@@ -81,7 +81,8 @@ typedef struct {
 } eDIV_Rect;
 
 /* Dibuja */
-typedef int (TYPEOF_Dibuja)(byte *, eDIV_Rect , eDIV_Rect , int , int ) ;
+//typedef int (TYPEOF_Dibuja)(byte *, eDIV_Rect , eDIV_Rect , int , int ) ;
+typedef int (TYPEOF_Dibuja)(byte*,int x,int y,int cx,int cy,int region,int z,int trans,int size,int angle);
 
 /* Errores */
 typedef void (TYPEOF_Runtime_Error)(int, ...);

@@ -26,7 +26,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include <SDL/SDL.h>
+//#include <SDL/SDL.h>
 #include <zlib.h>
 
 #include "extern.h"
@@ -47,9 +47,9 @@
  * mem, imem_max, etc)
  */
 
-/*#ifdef main
+#ifdef main
 #undef main
-#endif*/
+#endif
 
 int main(int argc, char* argv[])
 {
