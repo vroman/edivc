@@ -158,7 +158,6 @@ int interprete()
 			//printf("Proceso %d - Estado: %d\n",procs_s[proc_orden[proceso_actual]].id,mem[procs_s[proc_orden[proceso_actual]].id+_status]);
 			if(mem[procs_s[proc_orden[proceso_actual]].id+_status]==1) {
 				mem[procs_s[proc_orden[proceso_actual]].id+_status]=0;
-				assert(0);
 				lista_quita(proceso_actual);
 				proceso_actual--;
 			}
@@ -195,8 +194,6 @@ int proceso( int num, int padre )
 	//printf("num_proc: %d\n",num);
 
 	
-	//if(num==972) assert(0);
-
 	while( retcode == 0 )
 	{
 	
@@ -303,7 +300,6 @@ int proceso( int num, int padre )
 		case lfun://25 NO USADO
 			break ;
 		case lcal://26
-			//assert(num_proc_orden<153);
 			devolver++ ;
 			v1 = busca_proc_libre() ;
 			procs_s[v1].imem = mem[imem++] ;
@@ -316,7 +312,7 @@ int proceso( int num, int padre )
 			imem = procs_s[num_proc].imem ;
 			break ;
 		case lret://27
-			lista_quita(num_proc) ;
+			lista_quita(proceso_actual);
 			//printf("Ret: %i\n" , num_proc) ;
 			retcode = 1 ;
 			break ;
@@ -471,7 +467,6 @@ int proceso( int num, int padre )
 			carga_dll((char*)&mem[mem[imem++]]);
 			break ;
 		case lext://57
-			//assert(0);
 			externa=extfuncs[mem[imem]];
 			// corresponder con FUNCTION_PARAMS
 			//temp = externa(pila,&sp,mem,varindex,&procs_s,Call_Entrypoint);

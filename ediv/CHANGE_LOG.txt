@@ -1,3 +1,10 @@
+3/4/2003
+--------
+ * ARREGLADO EL BUG DEL KILL!!! :PPP por fin!!! por supuesto, como todo
+   gran bug, la causa era una gran chorrada.. en fin.. el robots.prg ya
+   es casi hasta jugable (si no fuera por las colisiones ke colisionan
+   como les da la gana xD) (Er_Makina)
+
 30/3/2003
 ---------
  * Corregidos los operadores -- y ++ con las variables BYTE. eran de esos
