@@ -30,7 +30,7 @@
 28/10/2002
 ----------
  * Añadida la variable SIZE.
-   ''OJO!! La función Dibuja a canviado!! Ahora es int Dibuja(SDL_Surface *src , SDL_Rect srcrect ,
+   ¡¡OJO!! La función Dibuja ha cambiado!! Ahora es int Dibuja(SDL_Surface *src , SDL_Rect srcrect ,
    SDL_Rect dstrect , int z , int trans,int size,int angle); por defecto no hay size=0, ni angle=0.
    ya que size=0, es equivalente ha size=100; Esto lo hago para posibles despistes como por ejemplo
    en la TEXT, que llama a la función dibuja y ese parametro como es 0, pues si no, no se veria el 
