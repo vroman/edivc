@@ -1199,7 +1199,7 @@ int ordena_por_z(const void* a, const void* b)
 void frame(FUNCTION_PARAMS)
 {
 	static int una_vez = 1 ;
-	int i ,  id , f , g , r , z , trans,angle,size;
+	int i ,  id , f , g , r , z , trans,angle,size,resolution;
 	SDL_Rect dstrect , srcrect ;
 
 	fichero = fopen( "draw.txt" , "w" ) ;
@@ -1267,6 +1267,12 @@ void frame(FUNCTION_PARAMS)
 		angle = local("angle",id);
 		dstrect.x = local("x",id);
 		dstrect.y = local("y",id);
+		resolution = local("resolution",id);
+		if(resolution!=0)
+		{
+		dstrect.x = dstrect.x / resolution;
+		dstrect.y = dstrect.y / resolution;
+		}
 		dstrect.w = 0 ;
 		dstrect.h = 0 ;
 		if ( files[f].mapa[g].existe )
@@ -1410,7 +1416,7 @@ void first_load(FUNCTION_PARAMS2)
 	define_region = 1 ;
 
 	SDL_WM_SetCaption(fp->nombre_program, NULL);
-	SDL_ShowCursor(SDL_DISABLE);
+	SDL_ShowCursor(0);
 
 	//prueba = SDL_LoadBMP("prueba.bmp" );
 
