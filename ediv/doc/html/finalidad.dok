@@ -1,52 +1,96 @@
 <%title%>Finalidad del proyecto<%/title%>
 <p align="left"><h1>Finalidad del proyecto</h1></p>
-<p align="justify">He aqu&iacute; una lista de los objetivos que nos hemos impuesto para el desarrollo de eDIV seg&uacute;n su avance por las distintas versiones:</p>
-<p align="justify"><ul><li><h2>Versi&oacute;n 0.1</h2>
-<ul><li>Capacidad completa de compilar programas creados para DIV2 generando su correspondiente c&oacute;digo EML (excepto las funciones predefinidas)</li>
-<li>Generaci&oacute;n de archivos ejecutables a partir de un stub (*.rel o *.dbg), con informaci&oacute;n de depurado o sin ella</li>
-<li>Ejecuci&oacute;n de programas sin optimizar, gesti&oacute;n de procesos, ejecuci&oacute;n de funciones en las DLL</li>
-<li>SDK</li>
-<li>Soporte de algunas funcionalidades b&aacute;sicas (sprites y algunas funciones)</li>
-</ul><li><h2>Versi&oacute;n 0.2</h2>
-<ul><li>Trazador de programas</li>
-<li>Soporte completo para gr&aacute;ficos 2D</li>
-<li>Ejecuci&oacute;n de programas optimizados</li>
-<li>Soporte completo de datos de tipo STRING, BYTE y WORD</li>
-<li>Arreglo de bugs que existiesen en el compilador de DIV2</li>
-</ul><li><h2>Versi&oacute;n 0.3</h2>
-<ul><li>IDE que como m&iacute;nimo pueda editar programas y llamar al compilador</li>
-<li>Ejecuci&oacute;n <i>perfecta</i> de cualquier programa que no use scroll, modo-7, modo-8, b&uacute;squeda de caminos ni red</li>
-<li>Trazador completo</li>
-<li>Soporte para DLLs embebidas en el ejecutable</li>
-</ul><li><h2>Versi&oacute;n 0.4</h2>
-<ul><li>IDE que pueda administrar proyectos, programas, MAPs, FPGs, FNTs, WAVs, etc (no necesariamente poder editarlos)</li>
-<li>Soporte de scroll y b&uacute;squeda de caminos</li>
-<li>Mejoras del trazador</li>
-<li>Soporte para <i>packfiles</i></li>
-<li>Soporte de ficheros de m&uacute;sica (MOD, S3M, XM)</li>
-</ul><li><h2>Versi&oacute;n 0.5</h2>
-<ul><li>IDE que pueda editar algunos tipos de archivo (como MAP, FPG, FNT), al menos de forma sencilla, y que sea capaz de modificar el <code>ediv.cfg</code>.</li>
-<li>Soporte de modos 7 y 8</li>
-<li>Soporte de juego en red</li>
-<li>Compatibilidad al 100% con cualquier programa hecho para DIV2</li>
-</ul><li><h2>Versi&oacute;n 0.6</h2>
-<ul><li>IDE con un editor gr&aacute;fico decente</li>
-<li>Implementaci&oacute;n de mejoras en el lenguaje</li>
-<li>Implementaci&oacute;n de nuevas funciones</li>
-<li>Soporte completo de gr&aacute;ficos de 16 y 24 bits</li>
-<li>Soporte para OGG, MP3, IT</li>
-</ul><li><h2>Versi&oacute;n 0.7</h2>
-<ul><li>IDE con capacidad completa para editar MAPs, FPGs, FNTs, PALs, y con capacidad de modificación básica de WAVs y WLDs</li>
-<li>M&aacute;s funciones nuevas</li>
-<li>Soporte de canal Alpha (gr&aacute;ficos de 32 bits)</li>
-</ul><li><h2>Versi&oacute;n 0.8</h2>
-<ul><li>IDE con capacidad completa para editar WAVs y WLDs</li>
-<li>Soporte de modo-6</li>
-<li>Capacidad para renderizar los modos 7 y 8 usando OpenGL</li>
-</ul><li><h2>Versi&oacute;n 0.9</h2>
-<ul><li>IDE completo</li>
-<li>Soporte de sprites 3D (modo 6 y 9 con ctype=c_screen)</li>
-</ul><li><h2>Versi&oacute;n 1.0</h2>
-<ul><li>Soporte completo de modo-9</li>
-</ul></ul>
+<p align="justify">He aqu&iacute; una lista de los objetivos que nos hemos impuesto 
+  para el desarrollo de eDIV seg&uacute;n su avance por las distintas versiones 
+  (los marcados con un <img src="img/tick.gif" width="16" height="16" align="absmiddle"> est&aacute;n 
+  completados en la &uacute;ltima versi&oacute;n):</p>
+<p align="justify"> 
+<ul>
+  <li> 
+    <h2>Versi&oacute;n 0.1</h2>
+    <ul>
+      <li>Capacidad completa de compilar programas creados para DIV2 generando 
+        su correspondiente c&oacute;digo EML (excepto las funciones predefinidas) 
+        <img src="img/tick.gif" width="16" height="16" align="absmiddle"> </li>
+      <li>Generaci&oacute;n de archivos ejecutables a partir de un stub (*.rel 
+        o *.dbg), con informaci&oacute;n de depurado o sin ella <img src="img/tick.gif" width="16" height="16" align="absmiddle"></li>
+      <li>Ejecuci&oacute;n de programas sin optimizar, gesti&oacute;n de procesos, 
+        ejecuci&oacute;n de funciones en las DLL <img src="img/tick.gif" width="16" height="16" align="absmiddle"></li>
+      <li>SDK <img src="img/tick.gif" width="16" height="16" align="absmiddle"></li>
+      <li>Soporte de algunas funcionalidades b&aacute;sicas (sprites y algunas 
+        funciones)</li>
+    </ul>
+  <li> 
+    <h2>Versi&oacute;n 0.2</h2>
+    <ul>
+      <li>Trazador de programas</li>
+      <li>Soporte completo para gr&aacute;ficos 2D</li>
+      <li>Ejecuci&oacute;n de programas optimizados</li>
+      <li>Soporte completo de datos de tipo STRING, BYTE y WORD</li>
+      <li>Arreglo de bugs que existiesen en el compilador de DIV2</li>
+    </ul>
+  <li> 
+    <h2>Versi&oacute;n 0.3</h2>
+    <ul>
+      <li>IDE que como m&iacute;nimo pueda editar programas y llamar al compilador</li>
+      <li>Ejecuci&oacute;n <i>perfecta</i> de cualquier programa que no use scroll, 
+        modo-7, modo-8, b&uacute;squeda de caminos ni red</li>
+      <li>Trazador completo</li>
+      <li>Soporte para DLLs embebidas en el ejecutable</li>
+    </ul>
+  <li> 
+    <h2>Versi&oacute;n 0.4</h2>
+    <ul>
+      <li>IDE que pueda administrar proyectos, programas, MAPs, FPGs, FNTs, WAVs, 
+        etc (no necesariamente poder editarlos)</li>
+      <li>Soporte de scroll y b&uacute;squeda de caminos</li>
+      <li>Mejoras del trazador</li>
+      <li>Soporte para <i>packfiles</i></li>
+      <li>Soporte de ficheros de m&uacute;sica (MOD, S3M, XM)</li>
+    </ul>
+  <li> 
+    <h2>Versi&oacute;n 0.5</h2>
+    <ul>
+      <li>IDE que pueda editar algunos tipos de archivo (como MAP, FPG, FNT), 
+        al menos de forma sencilla, y que sea capaz de modificar el <code>ediv.cfg</code>.</li>
+      <li>Soporte de modos 7 y 8</li>
+      <li>Soporte de juego en red</li>
+      <li>Compatibilidad al 100% con cualquier programa hecho para DIV2</li>
+    </ul>
+  <li> 
+    <h2>Versi&oacute;n 0.6</h2>
+    <ul>
+      <li>IDE con un editor gr&aacute;fico decente</li>
+      <li>Implementaci&oacute;n de mejoras en el lenguaje</li>
+      <li>Implementaci&oacute;n de nuevas funciones</li>
+      <li>Soporte completo de gr&aacute;ficos de 16 y 24 bits</li>
+      <li>Soporte para OGG, MP3, IT</li>
+    </ul>
+  <li> 
+    <h2>Versi&oacute;n 0.7</h2>
+    <ul>
+      <li>IDE con capacidad completa para editar MAPs, FPGs, FNTs, PALs, y con 
+        capacidad de modificación básica de WAVs y WLDs</li>
+      <li>M&aacute;s funciones nuevas</li>
+      <li>Soporte de canal Alpha (gr&aacute;ficos de 32 bits)</li>
+    </ul>
+  <li> 
+    <h2>Versi&oacute;n 0.8</h2>
+    <ul>
+      <li>IDE con capacidad completa para editar WAVs y WLDs</li>
+      <li>Soporte de modo-6</li>
+      <li>Capacidad para renderizar los modos 7 y 8 usando OpenGL</li>
+    </ul>
+  <li> 
+    <h2>Versi&oacute;n 0.9</h2>
+    <ul>
+      <li>IDE completo</li>
+      <li>Soporte de sprites 3D (modo 6 y 9 con ctype=c_screen)</li>
+    </ul>
+  <li> 
+    <h2>Versi&oacute;n 1.0</h2>
+    <ul>
+      <li>Soporte completo de modo-9</li>
+    </ul>
+</ul>
 <%end%>

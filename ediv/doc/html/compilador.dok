@@ -22,67 +22,74 @@
         <tr valign="top"> 
           <td>-h</td>
           <td>--help</td>
-          <td>Muestra ayuda sobre la sintaxis del programa y las opciones disponibles. 
-            No se realiza ninguna otra operaci&oacute;n.</td>
+          <td><div align="justify">Muestra ayuda sobre la sintaxis del programa 
+              y las opciones disponibles. No se realiza ninguna otra operaci&oacute;n.</div></td>
         </tr>
         <tr valign="top"> 
           <td>-d</td>
           <td>--debug</td>
-          <td>Permite utilizar el trazador durante la ejecuci&oacute;n del programa.</td>
+          <td><div align="justify">Permite utilizar el trazador durante la ejecuci&oacute;n 
+              del programa.</div></td>
         </tr>
         <tr valign="top"> 
           <td>-l</td>
           <td>--list</td>
-          <td>Genera un archivo de texto aparte que contiene el listado del programa 
-            en c&oacute;digo intermedio (EML).</td>
+          <td><div align="justify">Genera un archivo de texto aparte que contiene 
+              el listado del programa en c&oacute;digo intermedio (EML).</div></td>
         </tr>
         <tr valign="top"> 
           <td>-t</td>
           <td>--table</td>
-          <td>Genera un archivo de texto aparte, con extensi&oacute;n .tab, que 
-            contiene informaci&oacute;n avanzada para comprobar errores de compilaci&oacute;n.</td>
+          <td><div align="justify">Genera un archivo de texto aparte, con extensi&oacute;n 
+              .tab, que contiene informaci&oacute;n avanzada para comprobar errores 
+              de compilaci&oacute;n.</div></td>
         </tr>
         <tr valign="top"> 
           <td>-c</td>
           <td>--check</td>
-          <td>No genera un ejecutable. Se utiliza cuando s&oacute;lamente se quiere 
-            comprobar si un programa est&aacute; escrito sin errores l&eacute;xicos 
-            ni de sintaxis.</td>
+          <td><div align="justify">No genera un ejecutable. Se utiliza cuando 
+              s&oacute;lamente se quiere comprobar si un programa est&aacute; 
+              escrito sin errores l&eacute;xicos ni de sintaxis.</div></td>
         </tr>
         <tr valign="top"> 
           <td>-s</td>
           <td>--system</td>
-          <td>Permite especificar el Sistema Operativo para el cual se quiere 
-            generar el ejecutable, en el caso de que se desee crear un ejecutable 
-            para un sistema distinto del actual.</td>
+          <td><div align="justify">Permite especificar el Sistema Operativo para 
+              el cual se quiere generar el ejecutable, en el caso de que se desee 
+              crear un ejecutable para un sistema distinto del actual.</div></td>
         </tr>
         <tr valign="top"> 
           <td>-n</td>
           <td>--news</td>
-          <td>Obtiene de Internet informaci&oacute;n de &uacute;ltima hora acerca 
-            de eDIV.</td>
+          <td><div align="justify">Obtiene de Internet informaci&oacute;n de &uacute;ltima 
+              hora acerca de eDIV.</div></td>
         </tr>
         <tr valign="top"> 
           <td>-v</td>
           <td>--version</td>
-          <td>No realiza ninguna operaci&oacute;n, salvo mostrar la versi&oacute;n 
-            actual del compilador.</td>
+          <td><div align="justify">No realiza ninguna operaci&oacute;n, salvo 
+              mostrar la versi&oacute;n actual del compilador.</div></td>
         </tr>
       </table>
       <br>
     </div>
   </li>
-  <li><code>archivo.prg</code>: es el archivo fuente que se compilar&aacute;.</li>
-  <li><code>ejecutable</code>: es el nombre que se quiere que tenga el ejecutable 
-    final. Si se omite, el ejecutable tendr&aacute; el mismo nombre que el archivo 
-    fuente.</li>
+  <li>
+    <div align="justify"><code>archivo.prg</code>: es el archivo fuente que se 
+      compilar&aacute;.</div>
+  </li>
+  <li>
+    <div align="justify"><code>ejecutable</code>: es el nombre que se quiere que 
+      tenga el ejecutable final. Si se omite, el ejecutable tendr&aacute; el mismo 
+      nombre que el archivo fuente.</div>
+  </li>
 </ul>
-<p>Una vez ejecutado el programa con los par&aacute;metros adecuados, el compilador 
-  nos ir&aacute; mostrando el estado del proceso, y por &uacute;ltimo nos informar&aacute; 
-  si la compilaci&oacute;n ha tenido &eacute;xito. Si ocurre alg&uacute;n error, 
-  se mostrar&aacute; un mensaje explicando el error. Si el error se encuentra 
-  en el fichero fuente, se nos indicar&aacute; el n&uacute;mero de l&iacute;nea 
-  y de car&aacute;cter donde se localiza el error. Por ejemplo:</p>
+<p align="justify">Una vez ejecutado el programa con los par&aacute;metros adecuados, 
+  el compilador nos ir&aacute; mostrando el estado del proceso, y por &uacute;ltimo 
+  nos informar&aacute; si la compilaci&oacute;n ha tenido &eacute;xito. Si ocurre 
+  alg&uacute;n error, se mostrar&aacute; un mensaje explicando el error. Si el 
+  error se encuentra en el fichero fuente, se nos indicar&aacute; el n&uacute;mero 
+  de l&iacute;nea y de car&aacute;cter donde se localiza el error. Por ejemplo:</p>
 <br>
 <table width="90%" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
@@ -152,45 +159,56 @@
       </table></td>
   </tr>
 </table>
+<p align="justify">Es posible que, una vez corregido el error, al intentar compilar 
+  de nuevo aparezca otro error. Hay que corregir todos los errores del programa 
+  fuente para que eDIV sea capaz de compilarlo. Tambi&eacute;n es posible que 
+  se muestren mensajes de advertencia; si es as&iacute;, eDIV compilar&aacute; 
+  el programa correctamente (siempre que no encuentre ning&uacute;n error), aunque 
+  es posible que desee corregir el listado para que no se muestren esos mensajes.</p>
 <p>&nbsp;</p>
 <h2>Esquema de funcionamiento del compilador</h2>
-<p>No est&aacute; de m&aacute;s tener una idea de las operaciones que hace el 
-  compilador, especialmente por si surge alg&uacute;n problema, para saber de 
-  d&oacute;nde puede venir el fallo y c&oacute;mo se puede arreglar.</p>
+<p align="justify">No est&aacute; de m&aacute;s tener una idea de las operaciones 
+  que hace el compilador, especialmente por si surge alg&uacute;n problema, para 
+  saber de d&oacute;nde puede venir el fallo y c&oacute;mo se puede arreglar.</p>
+<div align="justify">
+  <ol>
+    <li>Primero, eDIV lee la configuraci&oacute;n del archivo <code>ediv.cfg</code>. 
+      Dicho archivo es necesario, ya que contiene informaci&oacute;n acerca de 
+      los ajustes por defecto del compilador y las prioridades de las librer&iacute;as.</li>
+    <li>A continuaci&oacute;n, el programa detecta el idioma del sistema (si no 
+      se ha forzado uno en el archivo de configuraci&oacute;n).</li>
+    <li>Luego se procesan los argumentos de la l&iacute;nea de comandos.</li>
+    <li>Despu&eacute;s se carga el archivo fuente (<code>.prg</code>) en memoria 
+      y se compone el nombre del ejecutable final.</li>
+    <li>Seguidamente se comprueba que existe el <em>stub</em> correspondiente 
+      al Sistema Operativo elegido. El <em>stub</em> es un archivo con extensi&oacute;n 
+      <code>.rel</code> o <code>.dbg</code> que contiene el primer segmento del 
+      ejecutable final, al cual despu&eacute;s se agregar&aacute; el c&oacute;digo 
+      del programa compilado.</li>
+    <li>A continuaci&oacute;n se llama a una rutina de preparaci&oacute;n que 
+      pone a cero los datos internos del compilador.</li>
+    <li>Despu&eacute;s se cargan todas las librer&iacute;as que se encuentran 
+      en el directorio correspondiente.</li>
+    <li>Luego se realiza una primera compilaci&oacute;n que tiene como &uacute;nico 
+      objetivo saber qu&eacute; elementos de las librer&iacute;as se utilizan, 
+      para poder descartar las librer&iacute;as que no se usan en el programa.</li>
+    <li>Se vuelve a llamar a la rutina del paso 6, para restablecer todos los 
+      par&aacute;metros del compilador.</li>
+    <li>De nuevo se cargan las librer&iacute;as, pero esta vez s&oacute;lamente 
+      las que se utilizan.</li>
+    <li>Se compila de nuevo el programa. El resultado es un c&oacute;digo intermedio 
+      que ha reservado &uacute;nicamente la memoria que necesita para las librer&iacute;as 
+      que el programa necesita espec&iacute;ficamente. De esta forma hemos ahorrado 
+      mucha memoria y espacio en el paquete final del programa compilado (ejecutable 
+      + librer&iacute;as), ya que hemos descartado todas las librer&iacute;as 
+      innecesarias.</li>
+    <li>Se crea el archivo del ejecutable con el contenido del <em>stub</em>. 
+      Luego se agrega el c&oacute;digo intermedio comprimido del programa. Y por 
+      &uacute;ltimo, en el caso de que hayamos indicado el par&aacute;metro --debug, 
+      a&ntilde;adimos informaci&oacute;n de depurado al ejecutable para permitir 
+      que funcione el trazador. </li>
+  </ol>
+</div>
 <ol>
-  <li>Primero, eDIV lee la configuraci&oacute;n del archivo <code>ediv.cfg</code>. 
-    Dicho archivo es necesario, ya que contiene informaci&oacute;n acerca de los 
-    ajustes por defecto del compilador y las prioridades de las librer&iacute;as.</li>
-  <li>A continuaci&oacute;n, el programa detecta el idioma del sistema (si no 
-    se ha forzado uno en el archivo de configuraci&oacute;n).</li>
-  <li>Luego se procesan los argumentos de la l&iacute;nea de comandos.</li>
-  <li>Despu&eacute;s se carga el archivo fuente (<code>.prg</code>) en memoria 
-    y se compone el nombre del ejecutable final.</li>
-  <li>Seguidamente se comprueba que existe el <em>stub</em> correspondiente al 
-    Sistema Operativo elegido. El <em>stub</em> es un archivo con extensi&oacute;n 
-    <code>.rel</code> o <code>.dbg</code> que contiene el primer segmento del 
-    ejecutable final, al cual despu&eacute;s se agregar&aacute; el c&oacute;digo 
-    del programa compilado.</li>
-  <li>A continuaci&oacute;n se llama a una rutina de preparaci&oacute;n que pone 
-    a cero los datos internos del compilador.</li>
-  <li>Despu&eacute;s se cargan todas las librer&iacute;as que se encuentran en 
-    el directorio correspondiente.</li>
-  <li>Luego se realiza una primera compilaci&oacute;n que tiene como &uacute;nico 
-    objetivo saber qu&eacute; elementos de las librer&iacute;as se utilizan, para 
-    poder descartar las librer&iacute;as que no se usan en el programa.</li>
-  <li>Se vuelve a llamar a la rutina del paso 6, para restablecer todos los par&aacute;metros 
-    del compilador.</li>
-  <li>De nuevo se cargan las librer&iacute;as, pero esta vez s&oacute;lamente 
-    las que se utilizan.</li>
-  <li>Se compila de nuevo el programa. El resultado es un c&oacute;digo intermedio 
-    que ha reservado &uacute;nicamente la memoria que necesita para las librer&iacute;as 
-    que el programa necesita espec&iacute;ficamente. De esta forma hemos ahorrado 
-    mucha memoria y espacio en el paquete final del programa compilado (ejecutable 
-    + librer&iacute;as), ya que hemos descartado todas las librer&iacute;as innecesarias.</li>
-  <li>Se crea el archivo del ejecutable con el contenido del <em>stub</em>. Luego 
-    se agrega el c&oacute;digo intermedio comprimido del programa. Y por &uacute;ltimo, 
-    en el caso de que hayamos indicado el par&aacute;metro --debug, a&ntilde;adimos 
-    informaci&oacute;n de depurado al ejecutable para permitir que funcione el 
-    trazador. </li>
 </ol>
 <%end%>
