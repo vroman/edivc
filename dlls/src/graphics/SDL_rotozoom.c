@@ -628,17 +628,19 @@ rotozoomSurface (SDL_Surface * src, double angle, double zoom, int smooth)
       cy = canglezoom * y;
       sx = sanglezoom * x;
       sy = sanglezoom * y;
-      dstwidthhalf = src->w;
-	  dstheighthalf = src->h;
+      /*dstwidthhalf = src->w;
+	  dstheighthalf = src->h;*/
 	  /*dstwidthhalf =MAX ((int)
 	     ceil (MAX
 		   (MAX
 		    (MAX (fabs (cx + sy), fabs (cx - sy)), fabs (-cx + sy)),
 		    fabs (-cx - sy))), 1);
       dstheighthalf = MAX ((int) ceil (MAX (MAX (MAX (fabs (sx + cy), fabs (sx - cy)), fabs (-sx + cy)),fabs (-sx - cy))), 1);
-      */
-		dstwidth = 2 * dstwidthhalf;
-      dstheight = 2 * dstheighthalf;
+		*/
+	  /*dstwidth = 2 * dstwidthhalf;
+      dstheight = 2 * dstheighthalf;*/
+	  dstwidth=dstheight=sqrt(src->w*src->w+src->h*src->h)*zoom+2;
+	  dstwidthhalf=dstheighthalf=dstwidth/2;
 
       rz_dst = NULL;
       if (is32bit)
@@ -775,127 +777,125 @@ rotozoomSurface (SDL_Surface * src, double angle, double zoom, int smooth)
 
 #define VALUE_LIMIT	0.001
 
-SDL_Surface *
-zoomSurface (SDL_Surface * src, double zoomx, double zoomy, int smooth)
+SDL_Surface * zoomSurface (SDL_Surface * src, double zoomx, double zoomy, int smooth)
 {
-  SDL_Surface *rz_src;
-  SDL_Surface *rz_dst;
-  int dstwidth, dstheight;
-  int is32bit;
-  int i, src_converted;
-
- 
-  if (src == NULL)
-    return (NULL);
-
- 
-  
-  is32bit = (src->format->BitsPerPixel == 32);
-  
-  if ((is32bit) || (src->format->BitsPerPixel == 8))
+	SDL_Surface *rz_src;
+	SDL_Surface *rz_dst;
+	int dstwidth, dstheight;
+	int is32bit;
+	int i, src_converted;
+	
+	
+	if (src == NULL)
+		return (NULL);
+	
+	
+	is32bit = (src->format->BitsPerPixel == 32);
+	
+	if ((is32bit) || (src->format->BitsPerPixel == 8))
     {
- 
-      rz_src = src;
-      src_converted = 0;
+		
+		rz_src = src;
+		src_converted = 0;
     }
-  else
+	else
     {
- 
-      rz_src =
-	SDL_CreateRGBSurface (SDL_SWSURFACE, src->w, src->h, 32, 0x000000ff,
-			      0x0000ff00, 0x00ff0000, 0xff000000);
-      SDL_BlitSurface (src, NULL, rz_src, NULL);
-      src_converted = 1;
-      is32bit = 1;
+		
+		rz_src =
+			SDL_CreateRGBSurface (SDL_SWSURFACE, src->w, src->h, 32, 0x000000ff,
+			0x0000ff00, 0x00ff0000, 0xff000000);
+		SDL_BlitSurface (src, NULL, rz_src, NULL);
+		src_converted = 1;
+		is32bit = 1;
     }
-
- 
-  if (zoomx < VALUE_LIMIT)
+	
+	
+	if (zoomx < VALUE_LIMIT)
     {
-      zoomx = VALUE_LIMIT;
+		zoomx = VALUE_LIMIT;
     }
-  if (zoomy < VALUE_LIMIT)
+	if (zoomy < VALUE_LIMIT)
     {
-      zoomy = VALUE_LIMIT;
+		zoomy = VALUE_LIMIT;
     }
-
-  dstwidth = (int) ((double) rz_src->w * zoomx);
-  dstheight = (int) ((double) rz_src->h * zoomy);
-  if (dstwidth < 1)
+	
+	dstwidth = (int) ((double) rz_src->w * zoomx);
+	dstheight = (int) ((double) rz_src->h * zoomy);
+	if (dstwidth < 1)
     {
-      dstwidth = 1;
+		dstwidth = 1;
     }
-  if (dstheight < 1)
+	if (dstheight < 1)
     {
-      dstheight = 1;
+		dstheight = 1;
     }
-
- 
-  rz_dst = NULL;
-  if (is32bit)
+	
+	
+	rz_dst = NULL;
+	if (is32bit)
     {
- 
-      rz_dst =
-	SDL_CreateRGBSurface (SDL_SWSURFACE, dstwidth, dstheight, 32,
-			      rz_src->format->Rmask, rz_src->format->Gmask,
-			      rz_src->format->Bmask, rz_src->format->Amask);
+		
+		rz_dst =
+			SDL_CreateRGBSurface (SDL_SWSURFACE, dstwidth, dstheight, 32,
+			rz_src->format->Rmask, rz_src->format->Gmask,
+			rz_src->format->Bmask, rz_src->format->Amask);
     }
-  else
+	else
     {
- 
-      rz_dst =
-	SDL_CreateRGBSurface (SDL_SWSURFACE, dstwidth, dstheight, 8, 0, 0, 0,
-			      0);
+		
+		rz_dst =
+			SDL_CreateRGBSurface (SDL_SWSURFACE, dstwidth, dstheight, 8, 0, 0, 0,
+			0);
     }
-
- 
-  SDL_LockSurface (rz_src);
- 
-  if (is32bit)
+	
+	
+	SDL_LockSurface (rz_src);
+	
+	if (is32bit)
     {
- 
-      zoomSurfaceRGBA (rz_src, rz_dst, smooth);
-      SDL_SetAlpha (rz_dst, SDL_SRCALPHA, 255);
+		
+		zoomSurfaceRGBA (rz_src, rz_dst, smooth);
+		SDL_SetAlpha (rz_dst, SDL_SRCALPHA, 255);
     }
-  else
+	else
     {
- 
-      for (i = 0; i < rz_src->format->palette->ncolors; i++)
-	{
-	  rz_dst->format->palette->colors[i] =
-	    rz_src->format->palette->colors[i];
-	}
-      rz_dst->format->palette->ncolors = rz_src->format->palette->ncolors;
- 
-      zoomSurfaceY (rz_src, rz_dst);
-      SDL_SetColorKey (rz_dst, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		       rz_src->format->colorkey);
+		
+		for (i = 0; i < rz_src->format->palette->ncolors; i++)
+		{
+			rz_dst->format->palette->colors[i] =
+				rz_src->format->palette->colors[i];
+		}
+		rz_dst->format->palette->ncolors = rz_src->format->palette->ncolors;
+		
+		zoomSurfaceY (rz_src, rz_dst);
+		SDL_SetColorKey (rz_dst, SDL_SRCCOLORKEY | SDL_RLEACCEL,
+			rz_src->format->colorkey);
     }
- 
-  SDL_UnlockSurface (rz_src);
-
- 
-  if (src_converted)
+	
+	SDL_UnlockSurface (rz_src);
+	
+	
+	if (src_converted)
     {
-      SDL_FreeSurface (rz_src);
+		SDL_FreeSurface (rz_src);
     }
-
-   return (rz_dst);
+	
+	return (rz_dst);
 }
 
 #ifdef NORL_WIN32
- /* For DLL building under VC6 */
+/* For DLL building under VC6 */
 BOOL APIENTRY
 DllMain (HANDLE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)
 {
-  switch (ul_reason_for_call)
+	switch (ul_reason_for_call)
     {
     case DLL_PROCESS_ATTACH:
     case DLL_THREAD_ATTACH:
     case DLL_THREAD_DETACH:
     case DLL_PROCESS_DETACH:
-      break;
+		break;
     }
-  return TRUE;
+	return TRUE;
 }
 #endif

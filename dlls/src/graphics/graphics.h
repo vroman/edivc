@@ -91,6 +91,7 @@ struct _blits {
 	SDL_Rect dstrect ;
 	int z ;
 	int trans ;
+	int region;
 } blits[0xFFFF] , *orden[0xFFFF];
 
 struct _regions regions[MAX_REGIONS];	/*!< Tabla de regiones */
@@ -170,7 +171,8 @@ int eDIV_DELETE_DRAW(FUNCTION_PARAMS) ;
 int eDIV_SET_MODE(FUNCTION_PARAMS);
 
 /* Funciones internas */
-int Dibuja(SDL_Surface *src , SDL_Rect srcrect , SDL_Rect dstrect , int z , int trans,int size,int angle);
+//int Dibuja(SDL_Surface *src , SDL_Rect srcrect , SDL_Rect dstrect , int z , int trans,int size,int angle);
+int Dibuja(SDL_Surface *src,int x,int y,int cx,int cy,int region,int z,int flags,int trans,int size,int angle);
 SDL_Surface *xput(SDL_Surface *src,double size,double angle);
 
 #endif

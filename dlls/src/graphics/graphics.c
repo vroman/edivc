@@ -95,7 +95,7 @@ int ExportaFuncs(EXPORTAFUNCS_PARAMS)
 	LOCAL("y",0);
 	LOCAL("z",0);
 	LOCAL("graph",0);
-	LOCAL("size",0);
+	LOCAL("size",100);
 	LOCAL("angle",0);
 	LOCAL("region",0);
 	LOCAL("file",0);
@@ -236,7 +236,7 @@ int ordena_por_z(const void* a, const void* b)
 void frame(FUNCTION_PARAMS)
 {
 	static int una_vez = 1 ;
-	int i ,  id , f , g , r , z , trans,angle,size,resolution;
+	int i ,  id , f , g , r , z , trans,angle,size,resolution,flags;
 	SDL_Rect dstrect , srcrect ;
 //	Uint32 rmask , gmask , bmask , amask ;
 	SDL_Surface* temp;
@@ -352,7 +352,8 @@ void frame(FUNCTION_PARAMS)
 	{
 		if ( draws[i].existe )
 		{
-			if ( draws[i].x + draws[i].Surface->w >= fp->regions[0].x && draws[i].x < fp->regions[0].x + fp->regions[0].w &&
+						
+/*			if ( draws[i].x + draws[i].Surface->w >= fp->regions[0].x && draws[i].x < fp->regions[0].x + fp->regions[0].w &&
 				draws[i].y + draws[i].Surface->h >= fp->regions[0].y && draws[i].y < fp->regions[0].y + fp->regions[0].h )
 			{
 				if ( draws[i].x >= fp->regions[0].x && draws[i].x + draws[i].Surface->w < fp->regions[0].x + fp->regions[0].w &&
@@ -365,11 +366,12 @@ void frame(FUNCTION_PARAMS)
 
 					dstrect.x = draws[i].x ;
 					dstrect.y = draws[i].y ;
-					dstrect.w = 0 ; /* Se ignora */
-					dstrect.h = 0 ; /* Se ignora */
+					dstrect.w = 0 ; /* Se ignora *//*
+					dstrect.h = 0 ; /* Se ignora *//*
 					Dibuja( draws[i].Surface , srcrect , dstrect , z , draws[i].t,100,0) ; 
 				}
-			}
+			}*/
+			Dibuja(draws[i].Surface,draws[i].x,draws[i].y,0,0,draws[i].region,z,0,draws[i].t,100,0);
 		}
 	}
 
@@ -392,24 +394,24 @@ void frame(FUNCTION_PARAMS)
 		angle = local("angle",id);
 		dstrect.x = local("x",id);
 		dstrect.y = local("y",id);
+		flags=local("flags",id);
 		resolution = local("resolution",id);
-		if(resolution!=0)
-		{
-		dstrect.x = dstrect.x / resolution;
-		dstrect.y = dstrect.y / resolution;
+		if(resolution!=0) {
+			dstrect.x = dstrect.x / resolution;
+			dstrect.y = dstrect.y / resolution;
 		}
-		dstrect.w = 0 ;
-		dstrect.h = 0 ;
+		/*dstrect.w = 0 ;
+		dstrect.h = 0 ;*/
 		if ( files[f].mapa[g].existe )
 		{
-			srcrect.x = 0 ;
+			/*srcrect.x = 0 ;
 			srcrect.y = 0 ;
 			srcrect.w = files[f].mapa[g].Surface->w ;
 			srcrect.h = files[f].mapa[g].Surface->h ;
 			dstrect.x -= files[f].mapa[g].cpoint[0].x ;
-			dstrect.y -= files[f].mapa[g].cpoint[0].y ;
-			if ( local("flags",id) & 4 )
-				if ( local("flags",id) & 8 ) {
+			dstrect.y -= files[f].mapa[g].cpoint[0].y ;*/
+			if ( flags & 4 )
+				if ( flags & 8 ) {
 					trans = 255 - local("transparency",id);
 					if(trans<0) trans=0; else if(trans>255) trans=255;
 				}
@@ -417,43 +419,38 @@ void frame(FUNCTION_PARAMS)
 					trans = 128 ;
             else
 				trans = SDL_ALPHA_OPAQUE ;
-			if ( r == 0 )
-					Dibuja( files[f].mapa[g].Surface , srcrect , dstrect , z , trans , size , angle) ; 
-			else if ( define_region == 0 )
-			{
-				if ( dstrect.x >= fp->regions[r].x && dstrect.x + files[f].mapa[g].Surface->w <= fp->regions[r].x + fp->regions[r].w &&
-					dstrect.y >= fp->regions[r].y && dstrect.y + files[f].mapa[g].Surface->h <= fp->regions[r].y + fp->regions[r].h )
+			//if ( r == 0 )
+					//Dibuja( files[f].mapa[g].Surface , srcrect , dstrect , z , trans , size , angle) ; 
+					Dibuja(files[f].mapa[g].Surface,dstrect.x,dstrect.y,files[f].mapa[g].cpoint[0].x,files[f].mapa[g].cpoint[0].y,r,z,flags,trans,size,angle);
+			/*else { //if ( define_region == 0 )
+				if ( dstrect.x >= fp->regions[r].x && dstrect.x + dstrect.w <= fp->regions[r].x + fp->regions[r].w &&
+					dstrect.y >= fp->regions[r].y && dstrect.y + dstrect.h <= fp->regions[r].y + fp->regions[r].h )
 				{
-
 					Dibuja( files[f].mapa[g].Surface , srcrect , dstrect , z , trans , size , angle) ; 
-				}else
-				{
-					if ( dstrect.x < fp->regions[r].x + fp->regions[r].w && dstrect.x + files[f].mapa[g].Surface->w > fp->regions[r].x &&
-						dstrect.y < fp->regions[r].y + fp->regions[r].h && dstrect.y + files[f].mapa[g].Surface->h > fp->regions[r].y )
+				}
+				else {
+					if ( dstrect.x < fp->regions[r].x + fp->regions[r].w && dstrect.x + dstrect.w > fp->regions[r].x &&
+						dstrect.y < fp->regions[r].y + fp->regions[r].h && dstrect.y + dstrect.h > fp->regions[r].y )
 					{
 						srcrect.x = 0 ;
 						srcrect.y = 0 ;
-						srcrect.w = files[f].mapa[g].Surface->w ;
-						srcrect.h = files[f].mapa[g].Surface->h ;
+						srcrect.w = dstrect.w ;
+						srcrect.h = dstrect.h ;
 
-						if ( dstrect.x < fp->regions[r].x )
-						{
+						if ( dstrect.x < fp->regions[r].x ) {
 							srcrect.x = fp->regions[r].x - dstrect.x ;
 							srcrect.w -= fp->regions[r].x - dstrect.x ;
 							dstrect.x = fp->regions[r].x ;
 						}
-						if ( dstrect.y < fp->regions[r].y )
-						{
+						if ( dstrect.y < fp->regions[r].y ) {
 							srcrect.y = fp->regions[r].y - dstrect.y ;
 							srcrect.h -= fp->regions[r].y - dstrect.y ;
 							dstrect.y = fp->regions[r].y ;
 						}
-						if ( dstrect.x + srcrect.w > fp->regions[r].x + fp->regions[r].w )
-						{
+						if ( dstrect.x + srcrect.w > fp->regions[r].x + fp->regions[r].w ) {
 							srcrect.w -= dstrect.x + srcrect.w - fp->regions[r].x - fp->regions[r].w ;
 						}
-						if ( dstrect.y + srcrect.h > fp->regions[r].y + fp->regions[r].h )
-						{
+						if ( dstrect.y + srcrect.h > fp->regions[r].y + fp->regions[r].h ) {
 							srcrect.h -= dstrect.y + srcrect.h - fp->regions[r].y - fp->regions[r].h ;
 						}
 
@@ -461,7 +458,7 @@ void frame(FUNCTION_PARAMS)
 						Dibuja( files[f].mapa[g].Surface , srcrect , dstrect , z , trans , size , angle) ; 
 					}
 				}
-			}
+			}*/
 		}
 	}
 	/*
@@ -471,6 +468,11 @@ void frame(FUNCTION_PARAMS)
 
 	for ( i = 0 ; i <= last_blit ; i++ )
 	{
+		dstrect.x=regions[blits[i].region].x;
+		dstrect.y=regions[blits[i].region].y;
+		dstrect.w=regions[blits[i].region].w;
+		dstrect.h=regions[blits[i].region].h;
+		SDL_SetClipRect(screen,&dstrect);
 		SDL_BlitSurface( blits[i].src , &blits[i].srcrect , screen , &blits[i].dstrect ) ;
 	    SDL_FreeSurface (blits[i].src);
 	}
@@ -589,17 +591,21 @@ void first_load(FUNCTION_PARAMS)
  * @return 1
  * @see frame(), xput(), ordena_por_z(), #blits
  */
-int Dibuja(SDL_Surface *src , SDL_Rect srcrect , SDL_Rect dstrect , int z , int trans,int size,int angle)
+int Dibuja(SDL_Surface *src,int x,int y,int cx,int cy,int region,int z,int flags,int trans,int size,int angle)
 {
 	float zoom;
 	double angulo;
 	register int i , j ;
+	int u,v;
+	SDL_Surface* temp=src;
 	
+	if(size<=0)
+		return 1;
+
 	last_blit++ ;
 
-	
-	if (size==0)
-		size=100;
+/*	if (size==0)
+		size=100;*/
 /*	if (size>100)
 		size=100;*/
 		
@@ -607,7 +613,38 @@ int Dibuja(SDL_Surface *src , SDL_Rect srcrect , SDL_Rect dstrect , int z , int 
 
 	angulo=angle/1000;
 	
-	blits[last_blit].src =xput(src, zoom,angulo);
+	if(flags&3) {
+		temp=SDL_CreateRGBSurface(src->flags,src->w,src->h,src->format->BitsPerPixel,0,0,0,0);
+		/* el volteado vertical es más rápido */
+		if((flags&3)==2) {
+			for(i=0;i<src->h;i++)
+				memcpy((byte*)temp->pixels+i*temp->pitch,(byte*)src->pixels+(src->h-i-1)*src->pitch,src->pitch);
+		}
+		else {
+			for(i=0;i<src->w;i++)
+				for(j=0;j<src->h;j++) {
+					if(flags&1)
+						u=src->w-i-1;
+					else
+						u=i;
+					if(flags&2)
+						v=src->h-j-1;
+					else
+						v=j;
+					memcpy((byte*)temp->pixels+i*temp->format->BytesPerPixel+j*temp->pitch,
+						(byte*)src->pixels+(u*src->format->BytesPerPixel)+(v*src->pitch),src->format->BytesPerPixel);
+				}
+		}
+		SDL_SetColorKey(temp,src->flags,color_transparente);
+		if(flags&1)
+			cx=src->w-cx-1;
+		if(flags&2)
+			cy=src->h-cy-1;
+	}
+	blits[last_blit].src = xput(temp,zoom,angulo);
+
+	if(temp!=src)
+		SDL_FreeSurface(temp);
 
 	/* 
 	 * Pequeño hack para arreglar transparency
@@ -615,24 +652,42 @@ int Dibuja(SDL_Surface *src , SDL_Rect srcrect , SDL_Rect dstrect , int z , int 
 	 */
 	if(blits[last_blit].src->flags & SDL_SRCALPHA) {
 		for(i=0;i<blits[last_blit].src->h*blits[last_blit].src->w*blits[last_blit].src->format->BytesPerPixel;i+=blits[last_blit].src->format->BytesPerPixel) {
-			if(*((int*)&((unsigned char*)blits[last_blit].src->pixels)[i])!=color_transparente)
-				((unsigned char*)blits[last_blit].src->pixels)[i+3]=trans;
+			if(*((int*)&((byte*)blits[last_blit].src->pixels)[i])!=color_transparente)
+				((byte*)blits[last_blit].src->pixels)[i+3]=trans;
 		}
 	}
 	else {
 		SDL_SetAlpha(blits[last_blit].src,SDL_SRCALPHA,trans);
 	}
 
-	blits[last_blit].srcrect.x = srcrect.x ;
-	blits[last_blit].srcrect.y = srcrect.y ;
+	if(size!=100) {
+		if(angle!=0)
+			i=j=(int)(sqrt(cx*cx+cy*cy)*zoom+1);
+		else {
+			i=cx*zoom;
+			j=cy*zoom;
+		}
+	}
+	else {
+		if(angle!=0)
+			i=j=(int)(sqrt(cx*cx+cy*cy)+1);
+		else {
+			i=cx;
+			j=cy;
+		}
+	}
+
+	blits[last_blit].srcrect.x = 0;
+	blits[last_blit].srcrect.y = 0;
 	blits[last_blit].srcrect.w = blits[last_blit].src->w;
 	blits[last_blit].srcrect.h = blits[last_blit].src->h;
-	blits[last_blit].dstrect.x = dstrect.x ;
-	blits[last_blit].dstrect.y = dstrect.y ;
-	blits[last_blit].dstrect.w = dstrect.w ;
-	blits[last_blit].dstrect.h = dstrect.h ;
+	blits[last_blit].dstrect.x = x-i;
+	blits[last_blit].dstrect.y = y-j;
+	blits[last_blit].dstrect.w = 0;
+	blits[last_blit].dstrect.h = 0;
 	blits[last_blit].z = z ;
 	blits[last_blit].trans = trans ;
+	blits[last_blit].region=region;
 
 	return 1 ;
 }
@@ -654,11 +709,11 @@ SDL_Surface *xput(SDL_Surface *src,double size,double angle)
 	SDL_Surface *dst;
 	SDL_Surface *tmp;
 	
-    s=smooth;
+    s=smooth&1;
 	if(size==1 && angle ==0) s=0;
-	tmp= zoomSurface (src, size, size,s);
-	dst=rotozoomSurface (tmp, angle, 1,s);
-	SDL_FreeSurface (tmp);
+//	tmp= zoomSurface (src, size, size,s);
+	dst=rotozoomSurface (src, angle, size,s);
+	//SDL_FreeSurface (tmp);
 	
 	return dst;
 }

@@ -99,7 +99,8 @@ typedef int (TYPEOF_EDIV_Export_Priority)(int priority);
 typedef int (TYPEOF_Call_Entrypoint)(int ep, ...);
 
 /* Dibuja */
-typedef int (TYPEOF_Dibuja)(SDL_Surface *, SDL_Rect, SDL_Rect, int, int, int, int);
+typedef int (TYPEOF_Dibuja)(SDL_Surface *src,int x,int y,int cx,int cy,int region,int z,int flags,int trans,int size,int angle);
+//typedef int (TYPEOF_Dibuja)(SDL_Surface *, SDL_Rect, SDL_Rect, int, int, int, int);
 
 /* Errores */
 /*! Tipos de error para custom_error() */

@@ -65,10 +65,10 @@ LINK32=link.exe
 # PROP Use_Debug_Libraries 1
 # PROP Output_Dir "Debug"
 # PROP Intermediate_Dir "Debug"
-# PROP Ignore_Export_Lib 0
+# PROP Ignore_Export_Lib 1
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "GRAPHICS_EXPORTS" /YX /FD /GZ  /c
-# ADD CPP /nologo /MD /W3 /Gm /GX /ZI /Od /I "c:\temp\sdl\include" /I "..\..\..\include" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "GRAPHICS_EXPORTS" /YX /FD /GZ  /c
+# ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "GRAPHICS_EXPORTS" /YX /FD /GZ /c
+# ADD CPP /nologo /MD /W3 /Gm /GX /ZI /Od /I "..\..\..\include" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "GRAPHICS_EXPORTS" /FR /YX /FD /GZ /c
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0xc0a /d "_DEBUG"
@@ -91,11 +91,43 @@ LINK32=link.exe
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
+SOURCE=..\..\advance.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\carga.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\collision.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\draw.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\graphics.c
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\graphics.def
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\map_ops.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\misc.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\paleta.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\regiones.c
 # End Source File
 # Begin Source File
 
@@ -105,6 +137,10 @@ SOURCE=..\..\SDL_rotozoom.c
 # Begin Group "Header Files"
 
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
+# Begin Source File
+
+SOURCE=..\..\default_palette.h
+# End Source File
 # Begin Source File
 
 SOURCE=..\..\graphics.h

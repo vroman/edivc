@@ -444,15 +444,15 @@ void frame(FUNCTION_PARAMS)
 		srcrect.w=mapamouse->w;
 		srcrect.h=mapamouse->h;
 		
-		dstrect.x=fp->mem[_mouse]-fp->files[fp->mem[_mouse+3]].mapa[fp->mem[_mouse+2]].cpoint[0].x;
-		dstrect.y=fp->mem[_mouse+1]-fp->files[fp->mem[_mouse+3]].mapa[fp->mem[_mouse+2]].cpoint[0].y;
+		dstrect.x=fp->mem[_mouse]/*-fp->files[fp->mem[_mouse+3]].mapa[fp->mem[_mouse+2]].cpoint[0].x*/;
+		dstrect.y=fp->mem[_mouse+1]/*-fp->files[fp->mem[_mouse+3]].mapa[fp->mem[_mouse+2]].cpoint[0].y*/;
 		dstrect.w=mapamouse->w;
 		dstrect.h=mapamouse->h;
 
 		/*
 		 * TODO: añadir chequeo de error si no existe file o mapa
 		 */
-		fp->Dibuja(mapamouse,srcrect,dstrect,fp->mem[_mouse+4],255,0,0);
+		fp->Dibuja(mapamouse,dstrect.x,dstrect.y,fp->files[fp->mem[_mouse+3]].mapa[fp->mem[_mouse+2]].cpoint[0].x,fp->files[fp->mem[_mouse+3]].mapa[fp->mem[_mouse+2]].cpoint[0].y,fp->mem[_mouse+8],fp->mem[_mouse+4],fp->mem[_mouse+7],(fp->mem[_mouse+7]&4)?128:255,fp->mem[_mouse+6],fp->mem[_mouse+5]);
 	}
 
 	/* FIN DE MOUSE */

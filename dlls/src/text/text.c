@@ -357,12 +357,12 @@ void frame(FUNCTION_PARAMS)
 			srcrect.w = textos[i].imagen->w ;
 			srcrect.h = textos[i].imagen->h ;
 
-			dstrect.x = textos[i].x - textos[i].cx ;
-			dstrect.y = textos[i].y - textos[i].cy ;
+			dstrect.x = textos[i].x;
+			dstrect.y = textos[i].y;
 			dstrect.w = srcrect.w ;
 			dstrect.h = srcrect.h ;
 
-			fp->Dibuja( textos[i].imagen , srcrect, dstrect , 0 , 255 , 0 , 0 ) ;
+			fp->Dibuja( textos[i].imagen,dstrect.x,dstrect.y,textos[i].cx,textos[i].cy,0,0,0,255,100,0);
 		}
 
 	/*

@@ -3,7 +3,7 @@ Microsoft Developer Studio Workspace File, Format Version 6.00
 
 ###############################################################################
 
-Project: "edivstd"=..\..\EDIVSTD\WIN32\vc6\edivstd.dsp - Package Owner=<4>
+Project: "edivstd"=..\..\edivstd\win32\vc6\edivstd.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -40,6 +40,18 @@ Package=<4>
 ###############################################################################
 
 Project: "math"=..\..\MATH\WIN32\vc6\math.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "text"=..\..\text\win32\vc6\text.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
