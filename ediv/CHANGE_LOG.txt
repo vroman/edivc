@@ -8,6 +8,12 @@
  * Añadidos los opcodes optimizados al stub. He puesto no_optimization a 0 en
    el ediv.cfg. He compilado los test y parece que rulan perfectamente.
    (Er_Makina)
+ * Corregido un pequeño fallo en el opcode ljpf. (Er_Makina)
+ * Se permite sobrecarga de funciones en las DLLs. Se pueden declarar varias
+   funciones con el mismo nombre siempre que tengan distinto número de pará-
+   metros. Dentro de la función se puede saber cuántos parámetros se han re-
+   cibido con fp->num_params. Ver doc/ExportaFuncs.txt para más detalles
+   (ya lo pasaré a .dok :P) (Er_Makina)
 
 24/9/2002
 ---------

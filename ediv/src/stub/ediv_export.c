@@ -139,6 +139,7 @@ int EDIV_Export(char* cadena, int nparam, void* hfuncion)
     (*ob).fext.num_par=nparam; // es necesario?*/
 
 	extfuncs[n_externs]=hfuncion;
+	extparms[n_externs]=nparam;
 
 /*    for(i=0;i<numdlls;i++)
     	for(j=0;j<dlls[i].nfuncs;j++)

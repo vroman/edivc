@@ -70,7 +70,7 @@ int EDIV_Export(char* cadena, int nparam, void* hfuncion)
 		return 0;
 	}
 
-	creaobj=crea_objeto((byte*)cadena);
+	creaobj=crea_objeto((byte*)cadena,nparam);
 
     #ifdef DEBUG_DLL
 		printf("export_function:\t-- ID FUNCION: %d\n"
@@ -139,7 +139,7 @@ int EDIV_Export_Const(char* cadena, int valor)
 		return 0;
 	}
 
-	creaobj=crea_objeto((byte*)cadena);
+	creaobj=crea_objeto((byte*)cadena,-1);
 
 	#ifdef DEBUG_DLL
 		printf("export_const:\t-- ID OBJETO: %d\n"
@@ -175,7 +175,7 @@ int EDIV_Export_Global(char* cadena, int valor)
 		return 0;
 	}
 
-	creaobj=crea_objeto((byte*)cadena);
+	creaobj=crea_objeto((byte*)cadena,-1);
 
 	#ifdef DEBUG_DLL
 		printf("export_global:\t-- ID OBJETO: %d\n"
@@ -213,7 +213,7 @@ int EDIV_Export_Global_Tab(char* cadena, int numregs)
 		return 0;
 	}
 
-	creaobj=crea_objeto((byte*)cadena);
+	creaobj=crea_objeto((byte*)cadena,-1);
 
 	#ifdef DEBUG_DLL
 		printf("export_global_tab:\t-- ID OBJETO: %d\n"
@@ -259,7 +259,7 @@ int EDIV_Export_Global_Struct(char* cadena, int numregs)
 		return 0;
 	}
 
-	creaobj=crea_objeto((byte*)cadena);
+	creaobj=crea_objeto((byte*)cadena,-1);
 
 	#ifdef DEBUG_DLL
 		printf("export_global_struct:\t-- ID OBJETO: %d\n"
@@ -304,7 +304,7 @@ int EDIV_Export_Member_Int(char* cadena, int valor)
 		return 0;
 	}
 
-	creaobj=crea_objeto((byte*)cadena);
+	creaobj=crea_objeto((byte*)cadena,-1);
 
 	#ifdef DEBUG_DLL
 		printf("export_member_int:\t-- ID OBJETO: %d\n"
@@ -351,7 +351,7 @@ int EDIV_Export_Member_Str(char* cadena, int tamano)
 		return 0;
 	}
 
-	creaobj=crea_objeto((byte*)cadena);
+	creaobj=crea_objeto((byte*)cadena,-1);
 
 	#ifdef DEBUG_DLL
 		printf("export_member_str:\t-- ID OBJETO: %d\n"
@@ -426,7 +426,7 @@ int EDIV_Export_Member_Tab(char* cadena, int numregs)
 		return 0;
 	}
 
-	creaobj=crea_objeto((byte*)cadena);
+	creaobj=crea_objeto((byte*)cadena,-1);
 
 	#ifdef DEBUG_DLL
 		printf("export_member_tab:\t-- ID OBJETO: %d\n"
@@ -535,7 +535,7 @@ int EDIV_Export_Local(char* cadena, int valor)
 		return 0;
 	}
 
-	creaobj=crea_objeto((byte*)cadena);
+	creaobj=crea_objeto((byte*)cadena,-1);
 
 	#ifdef DEBUG_DLL
 		printf("export_local:\t-- ID OBJETO: %d\n"
@@ -573,7 +573,7 @@ int EDIV_Export_Local_Tab(char* cadena, int numregs)
 		return 0;
 	}
 
-	creaobj=crea_objeto((byte*)cadena);
+	creaobj=crea_objeto((byte*)cadena,-1);
 
 	#ifdef DEBUG_DLL
 		printf("export_local_tab:\t-- ID OBJETO: %d\n"
@@ -619,7 +619,7 @@ int EDIV_Export_Local_Struct(char* cadena, int numregs)
 		return 0;
 	}
 
-	creaobj=crea_objeto((byte*)cadena);
+	creaobj=crea_objeto((byte*)cadena,-1);
 
 	#ifdef DEBUG_DLL
 		printf("export_local_struct:\t-- ID OBJETO: %d\n"

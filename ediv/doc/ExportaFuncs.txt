@@ -49,6 +49,39 @@ nombre_interno es el nombre que tiene la función dentro del código fuente de la 
 
 Ejemplo: FUNCTION ("load_map",1,DIV_Load_Map);
 
+(020926): Se puede sobrecargar una función declarándola varias veces con distinto
+número de parámetros (da igual si se indica un puntero a una función de C distinta o
+no). A cada declaración se le asignará un id distinto, como si fueran funciones dis-
+tintas. Dentro de la función se puede saber cuántos parámetros se han recibido con
+fp->num_params.
+
+Ejemplo:
+	FUNCTION ("set_mode",1,DIV_Set_Mode);
+	FUNCTION ("set_mode",3,DIV_Set_Mode);
+	FUNCTION ("set_mode",4,DIV_Set_Mode);
+	...
+	int DIV_Set_Mode(FUNCTION_PARAMS)
+	{
+	    int modo,ancho,alto,bpp,flags;
+	    switch(fp->num_params) {
+	        case 1:
+	            modo=getparm();
+	            ...
+	        case 3:
+	            bpp=getparm();
+	            alto=getparm();
+	            ancho=getparm();
+	            ...
+	        case 4:
+	            flags=getparm();
+	            bpp=getparm();
+	            alto=getparm();
+	            ancho=getparm();
+	            ...
+	    }
+	    return 0;
+	}
+
 
  DECLARACIÓN DE CONSTANTES
 ---------------------------

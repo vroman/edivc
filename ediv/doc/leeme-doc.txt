@@ -8,8 +8,8 @@ Dreamweaver).
 Para obtener los HTML a partir de los .dok hay que usar el programa DOKU
 aquí incluido. En vez de ir ejecutando Doku una vez para cada archivo,
 puedes usar los scripts que hay en el directorio html.
--> Para Windows Me/NT/2000/XP: ejecuta makedokNT.bat
--> Para Windows 95/98: ejecuta primero makebat95.vbs y luego makedok95.bat
+-> Para Windows NT/2000/XP: ejecuta makedokNT.bat
+-> Para Windows 95/98/Me: ejecuta primero makebat95.vbs y luego makedok95.bat
 -> Para Linux: ejecuta makedok.sh
 
 Si usais antivirus, es posible que os avise de que hay riesgo de virus al

@@ -1280,7 +1280,15 @@ void factor(void) {
           	if (pieza!=p_coma) error(3,35); // se esperaba una coma
           	else { lexico(); if (pieza==p_cerrar) error(3,36); } // se esperaba otro parametro
           }
-        } if (p!=(*ob).fext.num_par) error(1,38); // numero de parametros incorrecto
+        }
+
+		while(1) {
+			if(ob==NULL) break;
+			if((*ob).tipo==tfext && (*ob).fext.num_par==p) break;
+			ob=(*ob).anterior;
+		}
+		if(ob==NULL) error(1,38); // numero de parametros incorrecto
+		//if (p!=(*ob).fext.num_par) error(1,38); // numero de parametros incorrecto
         (*_exp).tipo=efext; (*_exp++).objeto=ob; lexico(); break;
 
       default:

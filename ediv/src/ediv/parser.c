@@ -33,7 +33,7 @@
 #pragma warning(disable:4018) // Signed/Unsigned Mismatch :)
 #endif
 
-int crea_objeto(byte * nombre)
+int crea_objeto(byte * nombre, int nparam)
 {
 	struct objeto * * ptr_o;
 	byte ** ptr, * _ivnom, h;
@@ -50,16 +50,36 @@ int crea_objeto(byte * nombre)
 
 		// TODO: TESTEAR!!!
 
-		// busca si el id encontrado se encuentra en la misma struct
-		while(o!=NULL && ((*o).member!=member)) o=(*o).anterior;
-		if(o==NULL) { // ok, no hay problema
-			o=iobj++; (*o).anterior=*ptr_o; *ptr_o=o;
-			(*o).name=(byte*)(ptr_o+1);
-			(*o).member=member;
-			(*o).param=0;
-			if (num_obj++==max_obj) return 3;	// error "demasiados objetos"
-		} else {
-			return 2;		// dos nombres iguales en el mismo nivel de struct -> "el nombre no es nuevo"
+		if(nparam==-1) {
+			// busca si el id encontrado se encuentra en la misma struct
+			while(o!=NULL && ((*o).member!=member)) o=(*o).anterior;
+			if(o==NULL) { // ok, no hay problema
+				o=iobj++; (*o).anterior=*ptr_o; *ptr_o=o;
+				(*o).name=(byte*)(ptr_o+1);
+				(*o).member=member;
+				(*o).param=0;
+				if (num_obj++==max_obj) return 3;	// error "demasiados objetos"
+			} else {
+				return 2;		// dos nombres iguales en el mismo nivel de struct -> "el nombre no es nuevo"
+			}
+		}
+		else {
+			// se trata de una funcion externa. buscamos si es posible la sobrecarga
+			while(1) {
+				if(o==NULL) break;
+				if((*o).tipo==tfext && (*o).fext.num_par==nparam) break;
+				o=(*o).anterior;
+			}
+			//while(o!=NULL && (((*o).tipo==tfext) ^^ ((*o).fext.num_par!=nparam))) o=(*o).anterior;
+			if(o==NULL) { // ok, lo añadimos a la lista
+				o=iobj++; (*o).anterior=*ptr_o; *ptr_o=o;
+				(*o).name=(byte*)(ptr_o+1);
+				(*o).member=member;
+				(*o).param=0;
+				if (num_obj++==max_obj) return 3;	// error "demasiados objetos"
+			} else {
+				return 2;		// dos funciones iguales con el mismo numero de parametros -> "el nombre no es nuevo"
+			}
 		}
 
 	} else {
@@ -261,7 +281,7 @@ lex_scan:
 			
 			if (pieza==p_ultima) {
 				if (coment) error(0,1);	// llegó el final dentro de un comentario
-				else error(0,4);		// símbolo no reconocido (¡¡creo!!)
+				else error(0,4);		// símbolo no reconocido (¡¡creo!!) TODO: comprobar
 			}
 			
 			break;
@@ -385,7 +405,7 @@ void sintactico(void)
             } else {
                 if (!free_sintax) {
                     if (pieza==p_program) {
-                    	error(3,9); // se esperaba ';' (¡creo!)
+                    	error(3,9); // se esperaba ';' (¡creo!) TODO: comprobar
                     	//lexico();
                     	break;
                     }

@@ -446,7 +446,7 @@ int acceso_remoto; // Para no permitir id.private
 //  PROTOTIPOS
 //-----------------------------------------------------------------------------
 
-int crea_objeto(byte * nombre);
+int crea_objeto(byte * nombre, int nparam);
 void psintactico(void);
 void plexico(void);
 void sintactico(void);
