@@ -51,6 +51,10 @@
 
 void error(int num, ...)
 {
+	#ifdef _WIN32
+		HWND ventanuka;
+	#endif
+
 	va_list opparam;
 	char mensaje[256];
 
@@ -59,7 +63,9 @@ void error(int num, ...)
 	vsprintf(mensaje,translate_runtime_error(num-100),opparam);
 
 	#ifdef _WIN32
-		MessageBox(0,mensaje,translate(1),MB_ICONERROR);
+		ventanuka=GetActiveWindow();
+		//MessageBox(
+		MessageBox(ventanuka,mensaje,translate(1),MB_ICONERROR);
 	#else
 		printf("%s\n",mensaje);
 	#endif

@@ -302,3 +302,5 @@ map_clone, copia un grafico, incluyendo puntos de control :)
 joysticks... controladores.. force feedback.. (kien tiene uno de estos trastos? xD)
 
 drag&drop
+
+graficos mediante beziers!! http://www.newimage.com/~rhk/roaddemo/

@@ -1386,8 +1386,8 @@ void first_load(FUNCTION_PARAMS2)
 		//k_error(K_ERR_SDL_SET_VIDEO_MODE);
 
 
-	screen = SDL_SetVideoMode(320, 200, 24, SDL_HWSURFACE   );
-	    rmask = 0x00ff0000;
+	screen = SDL_SetVideoMode(320, 200, 24, SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_HWACCEL);
+		rmask = 0x00ff0000;
 		gmask = 0x0000ff00;
 		bmask = 0x000000ff;
 		amask = 0x00000000;
