@@ -1,3 +1,11 @@
+7/10/2002
+---------
+ * Limpieza de codigo y comentarizacion en compiler.* (Daijo)
+ * Actualizados proyectos para Visual Studio .NET, ahora al
+   compilar en release no da errores. (Daijo)
+ * En Windows XP el ejecutable generado con eDIV *NO* se ejecuta,
+   ¨sugerencias de porque se produce el fallo? (Daijo).
+
 6/10/2002
 ---------
  * Añadida estructura mouse en la input.dll. Lo malo es que peta al hacer
