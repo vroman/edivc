@@ -1,3 +1,19 @@
+29/10/2002
+----------
+ * Bug arreglado: el programa se bloqueaba al llegar a cierta cantidad de
+   procesos. El problema estaba en que los procesos no desechaban los parámetros
+   de la pila después de leerlos. He cuidado que funcione bien tanto con
+   optimización como sin ella :D (Er_Makina)
+ * Para evitar cosas como esta (desbordamientos de pila) he puesto un "PANIC!"
+   en modo _DEBUG cuando se termina de ejecutar un frame y quedan cosas en la
+   pila. (Er_Makina)
+ * Bug arreglado: los procesos no devolvían el id. La causa del bug era la misma
+   que el de más arriba :) (Er_Makina)
+ * Ahora se dibujan todos los blits con la Z correcta. He quitado el sistema
+   que había antes (orden[]) y lo he reemplazado por un qsort justo antes de
+   dibujarlo todo, además supongo que es más rápido que ir insertando cosas
+   cada vez que se llamaba a Dibuja(). (Er_Makina)
+
 28/10/2002
 ----------
  * Añadida la variable SIZE.

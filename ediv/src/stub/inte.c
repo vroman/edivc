@@ -169,6 +169,7 @@ int proceso( int num, int padre )
 	int no_devuelve = 0 ;
 	int (*externa)(struct _fun_params*);
 	int temp ;
+	int cpas=0;
 	#ifdef DBG
 		int actual_lin;
 	#endif
@@ -324,8 +325,12 @@ int proceso( int num, int padre )
 			reserved("param_offset",procs_s[num_proc].id)=sp-reserved("parameters",procs_s[num_proc].id)+1;
 			/**/procs_s[num_proc].num_params = mem[ imem-1 ] ;
 			break;
-		case lcpa://31 POR HACER?
-			mem[pila[sp--]]=pila[reserved("param_offset",procs_s[num_proc].id)++];
+		case lcpa://31
+			mem[pila[sp]]=pila[reserved("param_offset",procs_s[num_proc].id)++];
+			sp--;
+			cpas++;
+			if(cpas==reserved("parameters",procs_s[num_proc].id))
+				sp-=cpas;
 			break;
 		case ltyp://32
 			if ( procs_s[num_proc].tipo != 0 )
@@ -498,6 +503,7 @@ int proceso( int num, int padre )
 			break;
 		case lcaraidcpa://68
 			mem[mem[imem++]+procs_s[num_proc].id]=pila[reserved("param_offset",procs_s[num_proc].id)++];
+			sp--;
 			break;
 		case laddptr://69
 			pila[sp-1]=mem[pila[sp-1]+pila[sp]];

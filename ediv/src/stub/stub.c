@@ -291,11 +291,11 @@ int main(int argc, char* argv[])
 				
 				if ( screen == NULL )
 					k_error(K_ERR_SDL_SET_VIDEO_MODE);
-*/				
+*/
+				//assert(0);
 				ini_interprete();
 				/*if ( !ini_interprete() )
 					k_error(K_ERR_INI_INTERPRETE) ;*/
-
 
 				while (1) {
 					char noevent;
@@ -338,6 +338,10 @@ int main(int argc, char* argv[])
 						stub_quit(0);
 
 					interprete();
+
+					#ifdef _DEBUG
+						if(sp!=0) printf("PANIC! Quedan restos en la pila!! (sp=%d)\n",sp);
+					#endif
 					/*if (!interprete())
 						k_error(K_ERR_INTERPRETE);*/
 					

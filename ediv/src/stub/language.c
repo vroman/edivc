@@ -272,7 +272,7 @@ char* translate_runtime_error(int num)
 		/* 114 */ "Non è stato possibile caricare la fonte, archivio non trovato.",
 		/* 115 */ "Si è tentato di caricare un archivio di fonte non valido.",
 		/* 116 */ "Codice identificatore fonte di lettere non valido.",
-		/* 117 */ "Codice di centrato di testo non valido.",
+		/* 117 */ "Codice di allineamento testo non valido.",
 		/* 118 */ "Hai troppi testi attivi nel programma.",
 		/* 119 */ "Identificatore di testo non valido.",
 		/* 120 */ "Regione di schermo definita incorrettamente.",
