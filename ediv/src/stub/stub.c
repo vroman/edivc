@@ -128,9 +128,11 @@ int main(int argc, char* argv[])
 	iloc_len=(mimem[5]+mimem[6]);
 	if (iloc_len&1) iloc_len++;
 	
+	/* max_process */
 	if (mimem[3]>0) {
 		imem_max=mimem[8]+mimem[3]*(iloc_len)+iloc_len+2;
 	} else {
+		/* si max_process==0, calcula un límite de memoria */
 		imem_max=mimem[8]+128*(iloc_len)+iloc_len+2;
 		if (imem_max<256*1024) imem_max=256*1024;
 		if (imem_max>512*1024) imem_max=512*1024;
@@ -144,11 +146,11 @@ int main(int argc, char* argv[])
 		//filenames=(char*)&mem[imem_max+258*5]; // Buffer de 16*1025 para dirinfo[].name
 		
 		memset(mem,0,4*imem_max+1032*5);
-		// Para sumar cadenas "en el aire"
-/*		nullstring[0]=imem_max+1+258*0; mem[nullstring[0]-1]=0xDAD00402;
+		/* Para sumar cadenas "en el aire" */
+		nullstring[0]=imem_max+1+258*0; mem[nullstring[0]-1]=0xDAD00402;
 		nullstring[1]=imem_max+1+258*1; mem[nullstring[1]-1]=0xDAD00402;
 		nullstring[2]=imem_max+1+258*2; mem[nullstring[2]-1]=0xDAD00402;
-		nullstring[3]=imem_max+1+258*3; mem[nullstring[3]-1]=0xDAD00402;*/
+		nullstring[3]=imem_max+1+258*3; mem[nullstring[3]-1]=0xDAD00402;
 		memcpy(mem,mimem,40);
 		
 		if ((ptr=(byte*)malloc(len))!=NULL) {

@@ -92,6 +92,7 @@ int ini_interprete()
 		last_lin=0;
 	#endif /* DBG */
 
+	nstring=0;
 
 	return 1 ;
 }
@@ -151,6 +152,13 @@ int interprete()
 			if(procs_s[proc_orden[proceso_actual]].tipo==0 || mem[procs_s[proc_orden[proceso_actual]].id+_status]==2)
 				proceso( proc_orden[ proceso_actual ], -1 ) ;
 		}
+
+		/* El texto "en el aire" no se muestra nunca */
+		memb[nullstring[0]*4]=0;
+        memb[nullstring[1]*4]=0;
+        memb[nullstring[2]*4]=0;
+        memb[nullstring[3]*4]=0;
+
 		Call_Entrypoint(EDIV_frame);
 
 		for ( proceso_actual = 0 ; proceso_actual < num_proc_orden ; proceso_actual++ )
@@ -179,7 +187,7 @@ int proceso( int num, int padre )
 	int retcode = 0;
 	int no_devuelve = 0 ;
 	int (*externa)(struct _fun_params*);
-	int temp ;
+	int temp,oo;
 	unsigned int utemp;
 	int cpas=0;
 	#ifdef DBG
@@ -754,8 +762,6 @@ int proceso( int num, int padre )
 		/* OPERACIONES CON DATOS DE TIPO STRING */
 		/* Nota: un puntero a cadena menor a 256 se trata siempre como "%c" */
 
-#ifdef esto_pa_la_0_1_4
-
 		case lstrcpy:
 /*			#ifdef DEBUG
 				if ((mem[pila[sp-1]-1]&0xFFF00000)!=0xDAD00000) {
@@ -769,8 +775,10 @@ int proceso( int num, int padre )
 					break;
 				}
 			#endif*/
-			if ((unsigned)pila[sp]>255) strcpy((char*)&mem[pila[sp-1]],(char*)&mem[pila[sp]]);
-			else sprintf((char*)&mem[pila[sp-1]],"%c\0",pila[sp]);
+			if ((unsigned)pila[sp]>255)
+				strcpy((char*)&mem[pila[sp-1]],(char*)&mem[pila[sp]]);
+			else
+				sprintf((char*)&mem[pila[sp-1]],"%c\0",pila[sp]);
 			sp--;
 			break;
 
@@ -831,11 +839,11 @@ int proceso( int num, int padre )
 			oo=strlen((char*)&mem[pila[sp-1]]);
 			if (oo<1028) {
 				strcpy((char*)&mem[nullstring[nstring]],(char*)&mem[pila[sp-1]]);
-				if (pila[sp]>0) { // Quitar caracteres
+				if (pila[sp]>0) { /* Quitar caracteres */
 					if (pila[sp]>=oo) memb[nullstring[nstring]*4]=0;
 					else memb[nullstring[nstring]*4+oo-pila[sp]]=0;
-				} else if (pila[sp]<0) { // A¤adir (?) caracteres (por homogeneidad)
-					pila[sp]=oo-pila[sp]; // Nueva longitud
+				} else if (pila[sp]<0) { /* Añadir (?) caracteres (por homogeneidad) */
+					pila[sp]=oo-pila[sp]; /* Nueva longitud */
 					if (pila[sp]>1025) pila[sp]=1025;
 					for (;oo<pila[sp];oo++) {
 						memb[nullstring[nstring]*4+oo]=' ';
@@ -863,8 +871,8 @@ int proceso( int num, int padre )
 			if (pila[sp]>0) { // Quitar caracteres
 				if (pila[sp]>=oo) memb[pila[sp-1]*4]=0;
 				else memb[pila[sp-1]*4+oo-pila[sp]]=0;
-			} else if (pila[sp]<0) { // A¤adir (?) caracteres (por homogeneidad)
-				pila[sp]=oo-pila[sp]; // Nueva longitud
+			} else if (pila[sp]<0) { /* Añadir (?) caracteres (por homogeneidad) */
+				pila[sp]=oo-pila[sp]; /* Nueva longitud */
 				for (;oo<pila[sp];oo++) {
 					memb[pila[sp-1]*4+oo]=' ';
 				} memb[pila[sp-1]*4+oo]=0;
@@ -971,6 +979,7 @@ int proceso( int num, int padre )
 			break;
 
 		case lcpastr:
+			_param_offset=reservedptr("param_offset");
 /*			#ifdef DEBUG
 				if ((mem[pila[sp]-1]&0xFFF00000)!=0xDAD00000) {
 					sp--; mem[id+_Param]++; v_function=-2; e(164);
@@ -985,12 +994,11 @@ int proceso( int num, int padre )
 					}
 				}
 			#endif*/
-			if ((unsigned)pila[mem[id+_Param]]>255)
-				strcpy((char*)&mem[pila[sp]],(char*)&mem[pila[mem[id+_Param]]]);
-			else sprintf((char*)&mem[pila[sp]],"%c\0",pila[mem[id+_Param]]);
-			sp--; mem[id+_Param]++;
+			if ((unsigned)pila[mem[procs_s[num_proc].id+_param_offset]]>255)
+				strcpy((char*)&mem[pila[sp]],(char*)&mem[pila[mem[procs_s[num_proc].id+_param_offset]]]);
+			else sprintf((char*)&mem[pila[sp]],"%c\0",pila[mem[procs_s[num_proc].id+_param_offset]]);
+			sp--; mem[procs_s[num_proc].id+_param_offset]++;
 			break;
-#endif
 
 		/* Comprobación de punteros nulos */
 		case lnul:

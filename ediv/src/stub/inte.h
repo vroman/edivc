@@ -252,6 +252,13 @@ int num_proc_orden ;
 int devolver; // Si se espera devolucion > 0
 
 //----------------------------------------------------------------------
+// Para sumar cadenas "en el aire" (es decir, para evaluar los resultados de
+// las expresiones con cadenas, que no se almacenan necesariamente en mem[])
+
+int nullstring[4];
+int nstring;
+
+//----------------------------------------------------------------------
 
 int ini_interprete() ;
 int busca_proc_libre() ;

@@ -1,3 +1,11 @@
+25/5/2003
+---------
+ * Añadido soporte para datos STRING. Aún quedan por comprobar algunos
+   opcodes, los estoy señalando en el string.txt. Hay que averiguar el
+   origen del bug de Huevox (ver bug1.prg y bug1sol.prg). Curiosamente,
+   (o cabreantemente :P) el EML generado para los dos PRG es idéntico, 
+   pero aún así se comportan de forma distinta. (Er_Makina)
+
 4/4/2003
 --------
  * Añadido soporte para datos WORD. (Er_Makina)

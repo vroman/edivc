@@ -325,3 +325,5 @@ librerías de objetos 3D (p.e. FPO, fichero para objetos)
 char = signed byte
 short = signed word
 dword = unsigned int
+
+opcion de compilacion: _explicit_type (obliga a indicar el tipo de dato en la declaracion de las variables)

@@ -139,6 +139,8 @@ void compila()
 	
 	printf(translate(27));
 	
+	/* inicio_textos debe ser como mínimo 256 */
+	if(imem<256) imem=256;
 	itxt=inicio_textos=imem;
 	psintactico();		/* Para obtener "longitud_textos" */
 	imem+=longitud_textos;
@@ -191,6 +193,8 @@ void compila()
 		}
 	}
 
+	/* inicio_textos debe ser como mínimo 256 */
+	if(imem<256) imem=256;
 	itxt=inicio_textos=imem;
 	imem+=longitud_textos;
 	test_buffer(&mem,&imem_max,imem);

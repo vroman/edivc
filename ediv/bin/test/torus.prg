@@ -20,7 +20,6 @@ GLOBAL
     sen[360],cosen[360];
     dibupun;
     gir=1;
-    mx,my;
 
 BEGIN
     crea_tablas();
@@ -28,8 +27,6 @@ BEGIN
         clear_screen();
         gira_Donut(xdeg,ydeg,zdeg);
         pon_lineas(rgb(255,255,0));
-        mx=mouse.x;
-        my=mouse.y;
         frame;
         if(key(_p))
             dibupun++;
