@@ -11,6 +11,8 @@
 #include "export.h"
 #include <SDL/SDL.h>
 #include "graphics.h"
+#include "SDL_rotozoom.h"
+
 //#include "varindex.h"
 
 
@@ -200,6 +202,7 @@ int ExportaFuncs(EXPORTAFUNCS_PARAMS)
 	FUNCTION("get_real_point",3,eDIV_GET_REAL_POINT) ;
 	FUNCTION("graphic_info",3,eDIV_GRAPHIC_INFO) ;
 	FUNCTION("fade",4,eDIV_FADE) ;
+	FUNCTION("xput",6,eDIV_XPUT);
 
 	ENTRYPOINT( frame ) ;
 	ENTRYPOINT( first_load ) ;
@@ -751,6 +754,41 @@ int eDIV_PUT(FUNCTION_PARAMS)
 
 }
 
+
+int eDIV_XPUT(FUNCTION_PARAMS)
+{
+	int f , g , x , y ;
+	double zoom,angle;
+	SDL_Surface *map;
+	SDL_Rect dstrect ;
+
+	zoom  = getparm();
+	angle = getparm();
+	y = getparm() ;
+	x = getparm() ;
+	g = getparm() ;
+	f = getparm() ;
+
+	if ( !files[f].existe || !files[f].mapa[g].existe )
+		return -1 ;
+    
+	dstrect.x = x - files[f].mapa[g].cpoint[0].x ;
+	dstrect.y = y - files[f].mapa[g].cpoint[0].y ;
+	dstrect.w = 0 ; // Se ignora
+	dstrect.h = 0 ; // Se ignora
+
+	map=xput(files[f].mapa[g].Surface,zoom,angle);
+
+	SDL_BlitSurface(map , NULL , fondo , &dstrect ) ;
+	SDL_FreeSurface (map);
+
+	return 1 ;
+
+}
+
+
+
+
 int eDIV_PUT_SCREEN(FUNCTION_PARAMS)
 {
 	int f , g ;
@@ -1297,7 +1335,7 @@ FILE * memo ;
 void frame(FUNCTION_PARAMS)
 {
 	static int una_vez = 1 ;
-	int i , temp , id , f , g , r , z , trans;
+	int i , temp , id , f , g , r , z , trans,angle,size;
 	SDL_Rect dstrect , srcrect ;
 
 	fichero = fopen( "draw.txt" , "w" ) ;
@@ -1340,7 +1378,7 @@ void frame(FUNCTION_PARAMS)
 					dstrect.w = 0 ; // Se ignora
 					dstrect.h = 0 ; // Se ignora
 					//Dibuja( files[f].mapa[g].Surface , srcrect , dstrect , z , 0 ) ; 
-					Dibuja( draws[i].Surface , srcrect , dstrect , z , draws[i].t ) ; 
+					Dibuja( draws[i].Surface , srcrect , dstrect , z , draws[i].t) ; 
 				}
 			}
 		}
@@ -1353,6 +1391,8 @@ void frame(FUNCTION_PARAMS)
 		g = local("graph",id);
 		r = local("region",id);
 		z = local("z",id);
+		size = local("size",id);
+		angle = local("angle",id);
 		dstrect.x = local("x",id);
 		dstrect.y = local("y",id);
 		dstrect.w = 0 ;
@@ -1383,7 +1423,7 @@ void frame(FUNCTION_PARAMS)
 				if ( dstrect.x >= fp->regions[r].x && dstrect.x + files[f].mapa[g].Surface->w <= fp->regions[r].x + fp->regions[r].w &&
 					dstrect.y >= fp->regions[r].y && dstrect.y + files[f].mapa[g].Surface->h <= fp->regions[r].y + fp->regions[r].h )
 				{
-					Dibuja( files[f].mapa[g].Surface , srcrect , dstrect , z , trans ) ; 
+					Dibuja( files[f].mapa[g].Surface , srcrect , dstrect , z , trans) ; 
 				}else
 				{
 					if ( dstrect.x < fp->regions[r].x + fp->regions[r].w && dstrect.x + files[f].mapa[g].Surface->w > fp->regions[r].x &&
@@ -1430,6 +1470,7 @@ void frame(FUNCTION_PARAMS)
 	{
 		SDL_SetAlpha( orden[i]->src, SDL_SRCALPHA , orden[i]->trans ) ;
 		SDL_BlitSurface( orden[i]->src , &orden[i]->srcrect , screen , &orden[i]->dstrect ) ;
+	
 	}
 	last_blit = -1 ;
 
@@ -1489,9 +1530,9 @@ void first_load(FUNCTION_PARAMS2)
 
 	define_region = 1 ;
 
-	SDL_WM_SetCaption(fp->nombre_program, NULL);
+	SDL_WM_SetCaption("eDiv testing", NULL);
 
-	//prueba = SDL_LoadBMP("prueba.bmp" );
+	prueba = SDL_LoadBMP("prueba.bmp" );
 
 	//fclose(fichero ) ;
 
@@ -1512,7 +1553,8 @@ int Dibuja(SDL_Surface *src , SDL_Rect srcrect , SDL_Rect dstrect , int z , int 
 	register int i , j ;
 
 	last_blit++ ;
-	blits[last_blit].src = src ;
+	//blits[last_blit].src = SDL_BlitSurface(rotozoomSurface (src, angle, 2,1), NULL , fondo , &dstrect );//src ;
+	blits[last_blit].src = src;
 	blits[last_blit].srcrect.x = srcrect.x ;
 	blits[last_blit].srcrect.y = srcrect.y ;
 	blits[last_blit].srcrect.w = srcrect.w ;
@@ -1547,3 +1589,15 @@ int Dibuja(SDL_Surface *src , SDL_Rect srcrect , SDL_Rect dstrect , int z , int 
 }
 
 
+
+SDL_Surface *xput(SDL_Surface *src,double size,double angle)
+{
+SDL_Surface *dst;
+SDL_Surface *tmp;
+
+    tmp= zoomSurface (src, size/100, size/100,1);
+	dst=rotozoomSurface (tmp, angle, 1,1);
+	//SDL_FreeSurface (tmp);
+	
+	return dst;
+}

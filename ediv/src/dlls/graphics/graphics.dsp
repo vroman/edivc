@@ -79,7 +79,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 zlib.lib libpng.lib sdlmain.lib sdl.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /machine:I386 /nodefaultlib:"LIBCMTD.lib" /out:"..\..\..\bin\dll\graphics.dll" /pdbtype:sept
+# ADD LINK32 zlib.lib libpng.lib sdlmain.lib sdl.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib libc.lib /nologo /dll /machine:I386 /nodefaultlib:"LIBCMTD.lib" /nodefaultlib /out:"..\..\..\bin\dll\graphics.dll" /pdbtype:sept
 # SUBTRACT LINK32 /pdb:none
 
 !ENDIF 
@@ -93,92 +93,28 @@ LINK32=link.exe
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
-SOURCE=.\files.c
+SOURCE=..\graphics\graphics.def
 # End Source File
 # Begin Source File
 
-SOURCE=.\g_blit.c
+SOURCE=..\graphics\main.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\g_draw.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\g_flic.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\g_main.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\g_maps.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\g_pal.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\graphics.def
-# End Source File
-# Begin Source File
-
-SOURCE=.\img_pcx.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\img_png.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\main.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\xctype.c
-# End Source File
-# End Group
-# Begin Group "Header Files"
-
-# PROP Default_Filter "h;hpp;hxx;hm;inl"
-# Begin Source File
-
-SOURCE=..\export.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\files.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\flic.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\fmath.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\fxi.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\graphics.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\grlib.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\xctype.h
+SOURCE=..\graphics\SDL_rotozoom.c
 # End Source File
 # End Group
 # Begin Group "Resource Files"
 
 # PROP Default_Filter "ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
 # End Group
+# Begin Source File
+
+SOURCE=..\graphics\graphics.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\graphics\SDL_rotozoom.h
+# End Source File
 # End Target
 # End Project
