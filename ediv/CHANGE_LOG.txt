@@ -1,3 +1,7 @@
+25/1/2005
+---------
+ * Provando si rula el commit :P (|RooT|)
+
 22/1/2005
 ---------
  * Ahora, en teoría, bmp2fnt compilará correctamente en Linux. (Er_Makina)
