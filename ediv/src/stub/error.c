@@ -99,3 +99,29 @@ void critical_error(int num, ...)
 	stub_quit(num);
 }
 
+
+/* custom_error (tipo, mensaje)
+ *
+ * Permite a las DLLs generar sus propios errores, para que no dependan de los
+ * que hay definidos en el stub. El parámetro tipo permite indicar si se trata de
+ * un error crítico (que debe interrumpir la ejecución del programa) o un error
+ * runtime (que llama al trazador si estamos en modo debug). A ser posible hay
+ * que usar los que incluye el stub, ya que estos errores no pueden usarse con
+ * ignore_error (no tienen un código asociado), aunque sí se ven afectados por
+ * compiler_options _ignore_errors.
+ * NOTA: una DLL puede incluir su propio sistema de gestión de errores, por tanto
+ * puede asignar códigos a sus propios errores e incluso incluir su propia versión
+ * de ignore_error.
+ * DESVENTAJA: se pierde la capacidad multilingüe, a menos que la incluya la propia DLL.
+ */
+
+void custom_error(tipoerror tipo, char* mensaje)
+{
+	#ifdef WIN32
+		MessageBox(0,mensaje,translate(tipo),MB_ICONERROR);
+	#else
+		printf("%s\n",mensaje);
+	#endif
+
+	stub_quit(500+tipo);
+}

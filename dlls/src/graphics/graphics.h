@@ -37,6 +37,7 @@ int eDIV_GET_REAL_POINT(FUNCTION_PARAMS) ;
 int eDIV_GRAPHIC_INFO(FUNCTION_PARAMS) ;
 int eDIV_FADE(FUNCTION_PARAMS) ;
 int eDIV_XPUT(FUNCTION_PARAMS);
+int eDIV_SET_MODE(FUNCTION_PARAMS);
 
 int Dibuja(SDL_Surface *src , SDL_Rect srcrect , SDL_Rect dstrect , int z , int trans,int size,int angle);
 SDL_Surface *xput(SDL_Surface *src,double size,double angle);

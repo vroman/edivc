@@ -10,19 +10,18 @@
 
 #include <SDL/SDL.h>
 
+#include <assert.h>
+
 #include <export.h>
 #include "graphics.h"
 #include "SDL_rotozoom.h"
 
-#define ERR_CANNOTOPENFPG 105
-#define ERR_INVALIDFPGHEADER 106
-#define ERR_INVALIDMAPCODE 110
+#define ERR_FILENOTFOUND		105
+#define ERR_INVALIDFPGHEADER	106
+#define ERR_INVALIDMAPCODE		110
 
 #define Miedzy(x,a,b)	(((x) >= (a)) && ((x) <= (b)))
 
-
-
-#define FUNCTION_PARAMS2	struct _fun_params *fp
 
 #define MAX_DRAWS	1024
 
@@ -35,6 +34,7 @@ struct _file file0[0xFFF] ;
 int last_map[0xFF] ;
 int color_transparente ;
 int define_region ;
+BOOL primer_frame=TRUE;
 
 typedef struct {
 			unsigned char r,g,b;
@@ -64,6 +64,15 @@ typedef struct _FPGMAPINFO{
         int    number_of_points;
 }FPGMAPINFO;
 
+typedef struct _MODOVIDEO {
+	int ancho;
+	int alto;
+	int bpp;
+	int flags;
+	BOOL cambiado;
+} MODOVIDEO;
+
+MODOVIDEO modovideo;
 
 char   *graphic;  /* wide*height */
 
@@ -175,6 +184,9 @@ int ExportaFuncs(EXPORTAFUNCS_PARAMS)
 	FUNCTION("fade",4,eDIV_FADE) ;
 	FUNCTION("xput",6,eDIV_XPUT);
 	FUNCTION("get_rgb",4,eDIV_GET_RGB);
+	FUNCTION("set_mode",1,eDIV_SET_MODE);
+	FUNCTION("set_mode",3,eDIV_SET_MODE);
+	FUNCTION("set_mode",4,eDIV_SET_MODE);
 
 	ENTRYPOINT( frame ) ;
 	ENTRYPOINT( first_load ) ;
@@ -869,7 +881,7 @@ int eDIV_SCREEN_COPY(FUNCTION_PARAMS)
 	return 1 ;
 }
 
-int eDIV_OUT_REGION(FUNCTION_PARAMS2)
+int eDIV_OUT_REGION(FUNCTION_PARAMS)
 {
 	int id , r ;
 	int f, g , x , y ;
@@ -892,7 +904,7 @@ int eDIV_OUT_REGION(FUNCTION_PARAMS2)
 		return 1 ;
 }
 
-int eDIV_DRAW(FUNCTION_PARAMS2)
+int eDIV_DRAW(FUNCTION_PARAMS)
 {
 	int i ;
 	int t , c , o , r , x0, y0 , x1 , y1  ;
@@ -937,7 +949,7 @@ int eDIV_DRAW(FUNCTION_PARAMS2)
 	return -1 ;
 }
 
-int eDIV_MOVE_DRAW(FUNCTION_PARAMS2)
+int eDIV_MOVE_DRAW(FUNCTION_PARAMS)
 {
 	SDL_Rect dstrect ;
 	int id , c , o , x0 , y0 , x1 , y1 ;
@@ -983,7 +995,7 @@ int eDIV_MOVE_DRAW(FUNCTION_PARAMS2)
 	return 1 ;
 }
 
-int eDIV_DELETE_DRAW(FUNCTION_PARAMS2)
+int eDIV_DELETE_DRAW(FUNCTION_PARAMS)
 {
 	int n ;
 	n = getparm() ;
@@ -1017,7 +1029,7 @@ int eDIV_DELETE_DRAW(FUNCTION_PARAMS2)
 }
 
 
-int eDIV_LOAD_FPG(FUNCTION_PARAMS2)
+int eDIV_LOAD_FPG(FUNCTION_PARAMS)
 {
 	char * archivo ;
 	FILE *f;
@@ -1034,7 +1046,7 @@ int eDIV_LOAD_FPG(FUNCTION_PARAMS2)
 
 	f=fopen(archivo,"rb");
 	if(f==NULL) {
-		fp->Runtime_Error(ERR_CANNOTOPENFPG);
+		fp->Runtime_Error(ERR_FILENOTFOUND);
 	}
 	
 	fseek(f,0,SEEK_END);
@@ -1114,7 +1126,7 @@ int eDIV_LOAD_FPG(FUNCTION_PARAMS2)
 	return 0;
 }
 
-int eDIV_GET_POINT(FUNCTION_PARAMS2)
+int eDIV_GET_POINT(FUNCTION_PARAMS)
 {
 	int f , g , n , dx , dy ;
 	dy = getparm() ;
@@ -1132,7 +1144,7 @@ int eDIV_GET_POINT(FUNCTION_PARAMS2)
 	return 0 ;
 }
 
-int eDIV_GET_REAL_POINT(FUNCTION_PARAMS2)
+int eDIV_GET_REAL_POINT(FUNCTION_PARAMS)
 {
 	int f , g , n , dx , dy , x , y , id;
 	dy = getparm() ;
@@ -1153,7 +1165,7 @@ int eDIV_GET_REAL_POINT(FUNCTION_PARAMS2)
 	return 0 ;
 }
 
-int eDIV_GRAPHIC_INFO(FUNCTION_PARAMS2)
+int eDIV_GRAPHIC_INFO(FUNCTION_PARAMS)
 {
 	int f , g , i ;
 	i = getparm() ;
@@ -1178,7 +1190,7 @@ int eDIV_GRAPHIC_INFO(FUNCTION_PARAMS2)
 }
 
 	
-int eDIV_FADE(FUNCTION_PARAMS2)
+int eDIV_FADE(FUNCTION_PARAMS)
 {
 	int r , g , b , v ;
 	v = getparm() ;
@@ -1211,6 +1223,61 @@ void frame(FUNCTION_PARAMS)
 	static int una_vez = 1 ;
 	int i ,  id , f , g , r , z , trans,angle,size,resolution;
 	SDL_Rect dstrect , srcrect ;
+	Uint32 rmask , gmask , bmask , amask ;
+
+	//assert(0);
+
+	if(primer_frame) {
+		primer_frame=FALSE;
+
+		/*
+		 * TODO: Añadir comprobacion de errores en los 2 if siguientes (Daijo)
+		 */
+		if (SDL_Init(SDL_INIT_VIDEO)) {
+			fp->Critical_Error(7); /* No se pudo inicializar SDL */
+			return;
+		}
+		
+		screen = SDL_SetVideoMode(modovideo.ancho, modovideo.alto, modovideo.bpp, SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_HWACCEL);
+
+		rmask = 0x00ff0000;
+		gmask = 0x0000ff00;
+		bmask = 0x000000ff;
+		amask = 0x00000000;
+
+		if ( screen == NULL ) {
+			fp->Critical_Error(7); /* No se pudo inicializar SDL */
+			return;
+		}
+
+		fondo = SDL_CreateRGBSurface( SDL_HWSURFACE , modovideo.ancho , modovideo.alto , modovideo.bpp , rmask , gmask , bmask , amask ) ;
+
+		SDL_WM_SetCaption(fp->nombre_program, NULL);
+		SDL_ShowCursor(0);
+	}
+	else if(modovideo.cambiado) {
+	
+		/* TODO: Avisar a las DLLs */
+		
+		SDL_FreeSurface(fondo);
+		SDL_FreeSurface(screen);
+
+		screen = SDL_SetVideoMode(modovideo.ancho, modovideo.alto, modovideo.bpp, SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_HWACCEL);
+
+		rmask = 0x00ff0000;
+		gmask = 0x0000ff00;
+		bmask = 0x000000ff;
+		amask = 0x00000000;
+
+		if ( screen == NULL ) {
+			fp->Critical_Error(7); /* No se pudo inicializar SDL */
+			return;
+		}
+
+		fondo = SDL_CreateRGBSurface( SDL_HWSURFACE , modovideo.ancho , modovideo.alto , modovideo.bpp , rmask , gmask , bmask , amask ) ;
+
+		modovideo.cambiado=FALSE;
+	}
 
 	fichero = fopen( "draw.txt" , "w" ) ;
 
@@ -1368,9 +1435,8 @@ void frame(FUNCTION_PARAMS)
 
 }
 
-void first_load(FUNCTION_PARAMS2)
+void first_load(FUNCTION_PARAMS)
 {
-	Uint32 rmask , gmask , bmask , amask ;
 	int i ;
 
 	fp->Dibuja = Dibuja ;
@@ -1383,20 +1449,6 @@ void first_load(FUNCTION_PARAMS2)
 		last_map[i] = 0 ;
 	color_transparente = 0 ;
 
-	/*
-	 * TODO: Añadir comprobacion de errores en los 2 if siguientes (Daijo)
-	 */
-	if (SDL_Init(SDL_INIT_VIDEO)) ;
-		if ( screen == NULL ) ;
-
-
-	screen = SDL_SetVideoMode(320, 200, 24, SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_HWACCEL);
-		rmask = 0x00ff0000;
-		gmask = 0x0000ff00;
-		bmask = 0x000000ff;
-		amask = 0x00000000;
-	fondo = SDL_CreateRGBSurface( SDL_HWSURFACE , 320 , 200 , 24 , rmask , gmask , bmask , amask ) ;
-	
 	for ( i = 0 ; i < 0xFF ; i++ )
 	{
 		files[i].existe = 0 ;
@@ -1418,8 +1470,11 @@ void first_load(FUNCTION_PARAMS2)
 
 	define_region = 1 ;
 
-	SDL_WM_SetCaption(fp->nombre_program, NULL);
-	SDL_ShowCursor(0);
+	modovideo.ancho=320;
+	modovideo.alto=200;
+	modovideo.bpp=8;
+	modovideo.flags=0;
+	modovideo.cambiado=FALSE;
 }
 
 
@@ -1450,7 +1505,7 @@ int Dibuja(SDL_Surface *src , SDL_Rect srcrect , SDL_Rect dstrect , int z , int 
 	if (size>100)
 		size=100;
 		
-	zoom=size*0.01;
+	zoom=size*0.01f;
 
 	angulo=angle/1000;
 	
@@ -1498,4 +1553,33 @@ SDL_Surface *xput(SDL_Surface *src,double size,double angle)
 	SDL_FreeSurface (tmp);
 	
 	return dst;
+}
+
+int eDIV_SET_MODE(FUNCTION_PARAMS)
+{
+	int modo;
+
+	switch(fp->num_params) {
+		case 4:
+			modovideo.flags=getparm();
+		case 3:
+			modovideo.bpp=getparm();
+			modovideo.alto=getparm();
+			modovideo.ancho=getparm();
+			modovideo.cambiado=TRUE;
+			break;
+		case 1:
+			modo=getparm();
+			if(modo>1280960) {
+				modovideo.ancho=modo/10000;
+				modovideo.alto=modo%10000;
+			}
+			else {
+				modovideo.ancho=modo/1000;
+				modovideo.alto=modo%1000;
+			}
+			modovideo.bpp=8;
+			modovideo.cambiado=TRUE;
+	}
+	return 0;
 }

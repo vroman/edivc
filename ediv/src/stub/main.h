@@ -37,6 +37,11 @@ byte nombre_program[256];	// nombre del programa, titulo por defecto de la venta
 
 int ignore_errors;		// 1 = se ignoran los errores 'evitables'
 
+typedef enum {			/* Tipos de error para custom_error() */
+	_runtime_error=1,
+	_critical_error=2
+} tipoerror;
+
 #ifdef DBG
 int debug;				// 1 = el programa esta compilado en modo debug
 #endif
@@ -61,8 +66,9 @@ int pila_max ; //maximo indice de pila
 int sp ; // indice de la pila ;
 int proceso_actual ; // indice para proc_orden
 //struct _fun_params fp ;
+
 //
-// SDL
+// SDL (esto debe desaparecer en breve :p)
 //
 SDL_Surface * screen;
 SDL_Surface * screen1;
@@ -97,6 +103,7 @@ int linsize;
 
 void error(int num, ...);		// Mensaje de error no crítico (trazable)
 void critical_error(int num, ...);		// Mensaje de error crítico
+void custom_error(tipoerror tipo, char* mensaje); /* Errores personalizados de las DLLs */
 void stub_quit(int n);				// Salir del stub
 void* e_malloc(size_t size);	// identico a malloc pero con errormsg utomático
 

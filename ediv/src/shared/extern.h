@@ -81,6 +81,7 @@ typedef int (TYPEOF_Dibuja)(SDL_Surface *, SDL_Rect , SDL_Rect , int , int ) ;
 /* Errores */
 typedef void (TYPEOF_Runtime_Error)(int, ...);
 typedef void (TYPEOF_Critical_Error)(int, ...);
+typedef void (TYPEOF_Custom_Error)(int,char*);
 
 /* Obtiene offset de variable indexada dinámicamente */
 typedef int (TYPEOF_GetVarOffset)(tipo_t tipo,char* nombre);
@@ -238,6 +239,7 @@ struct _fun_params{
 	TYPEOF_Call_Entrypoint *Call_Entrypoint ;
 	TYPEOF_Runtime_Error *Runtime_Error ;
 	TYPEOF_Critical_Error *Critical_Error ;
+	TYPEOF_Custom_Error *Custom_Error;
 	TYPEOF_GetVarOffset *GetVarOffset ;
 	TYPEOF_Stub_Quit *Stub_Quit ;
 	int imem_max;

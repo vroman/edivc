@@ -84,6 +84,7 @@ int ini_interprete()
 	fp.existe.dibuja = 0 ;
 	fp.Runtime_Error=error;
 	fp.Critical_Error=critical_error;
+	fp.Custom_Error=custom_error;
 	fp.GetVarOffset=GetVarOffset;
 	fp.Stub_Quit=stub_quit;
 	fp.imem_max=imem_max;

@@ -183,11 +183,11 @@ SOURCE=..\..\stub\error.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\stub\inte.c
+SOURCE=..\..\stub\fatal.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\stub\kernel.c
+SOURCE=..\..\stub\inte.c
 # End Source File
 # Begin Source File
 
@@ -195,7 +195,19 @@ SOURCE=..\..\stub\language.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\stub\lower.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\stub\modulos.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\stub\stub.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\stub\varindex.c
 # End Source File
 # End Group
 # Begin Group "Header Files"
@@ -211,6 +223,10 @@ SOURCE=..\..\shared\dll_load.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\stub\dll_load.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\shared\edivfont.h
 # End Source File
 # Begin Source File
@@ -219,11 +235,11 @@ SOURCE=..\..\shared\extern.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\stub\inte.h
+SOURCE=..\..\stub\fatal.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\stub\kernel.h
+SOURCE=..\..\stub\inte.h
 # End Source File
 # Begin Source File
 
@@ -231,7 +247,15 @@ SOURCE=..\..\shared\language.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\stub\lower.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\stub\main.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\stub\modulos.h
 # End Source File
 # Begin Source File
 
