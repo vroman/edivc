@@ -241,6 +241,8 @@ struct _fun_params{
 	TYPEOF_GetVarOffset *GetVarOffset ;
 	TYPEOF_Stub_Quit *Stub_Quit ;
 	int imem_max;
+	int* nullstring;
+	int* nstring;
     SDL_Surface *screen;
 } fp ;
 

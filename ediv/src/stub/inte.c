@@ -87,6 +87,8 @@ int ini_interprete()
 	fp.GetVarOffset=GetVarOffset;
 	fp.Stub_Quit=stub_quit;
 	fp.imem_max=imem_max;
+	fp.nullstring=nullstring;
+	fp.nstring=&nstring;
 
 	#ifdef DBG
 		last_lin=0;

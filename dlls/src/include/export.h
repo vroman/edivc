@@ -176,7 +176,7 @@ TYPEOF_EDIV_Export_Priority			*EDIV_Export_Priority
  * FUNCTION_PARAMS deben usarse como parametros para TODAS las funciones
  * ¡ojo! debe ser igual en extern.h
  */
-#define FUNCTION_PARAMS	struct _fun_params *fp
+#define FUNCTION_PARAMS	struct _fun_params * fp
 
 struct _procs_s{
 	int id ;         /* offset de los datos locales del proceso */
@@ -236,8 +236,10 @@ struct _fun_params{
 	TYPEOF_GetVarOffset *GetVarOffset ;
 	TYPEOF_Stub_Quit *Stub_Quit ;
 	int imem_max;
+	int* nullstring;
+	int* nstring;
 	SDL_Surface *screen;
-} ;
+};
 
 
 /* Se usa igual que el getparm() de DIV */
