@@ -1,5 +1,196 @@
-<%title%>El compilador (ediv)<%/title%>
-<div align="justify"><p><h1>El compilador (<i>ediv</i>)</h1></p>
-<p>El compilador en s&iacute; es un ejecutable llamado <code>ediv</code>. Se encuentra en la carpeta <code>bin</code> y, naturalmente, es el programa encargado de compilar un archivo de c&oacute;digo fuente <code>.prg</code> en lenguaje DIV para crear un ejecutable independiente a partir de &eacute;l.</p>
+<%title%>El compilador (ediv) 
+<%/title%>
+<div align="justify"> 
+  <p> 
+  <h1>El compilador (<i>ediv</i>)</h1></p>
+  <p>El compilador en s&iacute; es un ejecutable llamado <code>ediv</code>. Se 
+    encuentra en la carpeta <code>bin</code>, y es el programa encargado de compilar 
+    un archivo de c&oacute;digo fuente <code>.prg</code> en lenguaje DIV para 
+    crear un ejecutable independiente a partir de &eacute;l.</p>
+  <p>Este ejecutable es un programa de consola. Para funcionar, necesita que le 
+    pasemos algunos par&aacute;metros en la l&iacute;nea de comandos. La sintaxis 
+    es la siguiente:</p>
+  <p><code>ediv [opciones] archivo.prg [ejecutable]</code></p>
+  <p>A continuaci&oacute;n se detallan cada uno de los argumentos:</p>
 </div>
+<ul>
+  <li> 
+    <div align="justify"><code>opciones</code>: es una combinaci&oacute;n de las 
+      siguientes opciones posibles:<br>
+      <br>
+      <table border="1" cellspacing="0" cellpadding="6">
+        <tr valign="top"> 
+          <td>-h</td>
+          <td>--help</td>
+          <td>Muestra ayuda sobre la sintaxis del programa y las opciones disponibles. 
+            No se realiza ninguna otra operaci&oacute;n.</td>
+        </tr>
+        <tr valign="top"> 
+          <td>-d</td>
+          <td>--debug</td>
+          <td>Permite utilizar el trazador durante la ejecuci&oacute;n del programa.</td>
+        </tr>
+        <tr valign="top"> 
+          <td>-l</td>
+          <td>--list</td>
+          <td>Genera un archivo de texto aparte que contiene el listado del programa 
+            en c&oacute;digo intermedio (EML).</td>
+        </tr>
+        <tr valign="top"> 
+          <td>-t</td>
+          <td>--table</td>
+          <td>Genera un archivo de texto aparte, con extensi&oacute;n .tab, que 
+            contiene informaci&oacute;n avanzada para comprobar errores de compilaci&oacute;n.</td>
+        </tr>
+        <tr valign="top"> 
+          <td>-c</td>
+          <td>--check</td>
+          <td>No genera un ejecutable. Se utiliza cuando s&oacute;lamente se quiere 
+            comprobar si un programa est&aacute; escrito sin errores l&eacute;xicos 
+            ni de sintaxis.</td>
+        </tr>
+        <tr valign="top"> 
+          <td>-s</td>
+          <td>--system</td>
+          <td>Permite especificar el Sistema Operativo para el cual se quiere 
+            generar el ejecutable, en el caso de que se desee crear un ejecutable 
+            para un sistema distinto del actual.</td>
+        </tr>
+        <tr valign="top"> 
+          <td>-n</td>
+          <td>--news</td>
+          <td>Obtiene de Internet informaci&oacute;n de &uacute;ltima hora acerca 
+            de eDIV.</td>
+        </tr>
+        <tr valign="top"> 
+          <td>-v</td>
+          <td>--version</td>
+          <td>No realiza ninguna operaci&oacute;n, salvo mostrar la versi&oacute;n 
+            actual del compilador.</td>
+        </tr>
+      </table>
+      <br>
+    </div>
+  </li>
+  <li><code>archivo.prg</code>: es el archivo fuente que se compilar&aacute;.</li>
+  <li><code>ejecutable</code>: es el nombre que se quiere que tenga el ejecutable 
+    final. Si se omite, el ejecutable tendr&aacute; el mismo nombre que el archivo 
+    fuente.</li>
+</ul>
+<p>Una vez ejecutado el programa con los par&aacute;metros adecuados, el compilador 
+  nos ir&aacute; mostrando el estado del proceso, y por &uacute;ltimo nos informar&aacute; 
+  si la compilaci&oacute;n ha tenido &eacute;xito. Si ocurre alg&uacute;n error, 
+  se mostrar&aacute; un mensaje explicando el error. Si el error se encuentra 
+  en el fichero fuente, se nos indicar&aacute; el n&uacute;mero de l&iacute;nea 
+  y de car&aacute;cter donde se localiza el error. Por ejemplo:</p>
+<br>
+<table width="90%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td><table width="400" border="0" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td width="110"><font size="+1"><code>malvado.prg</code></font></td>
+          <td width="10"><font size="+1"><code>:</code></font></td>
+          <td width="10"><font size="+1"><code>6</code></font></td>
+          <td width="10"><font size="+1"><code>:</code></font></td>
+          <td width="20"><font size="+1"><code>18</code></font></td>
+          <td width="20"><font size="+1"><code>: </code></font></td>
+          <td width="70"><font size="+1"><code>ERROR 9</code></font></td>
+          <td width="20"><font size="+1"><code>: </code></font></td>
+          <td width="130"><font size="+1"><code>Esperando ';'</code></font></td>
+        </tr>
+        <tr> 
+          <td><img src="img/rojo.gif" width="100%" height="1"></td>
+          <td><img src="img/transparente.gif" width="100%" height="1"></td>
+          <td><img src="img/rojo.gif" width="100%" height="1"></td>
+          <td><img src="img/transparente.gif" width="100%" height="1"></td>
+          <td><img src="img/rojo.gif" width="100%" height="1"></td>
+          <td><img src="img/transparente.gif" width="100%" height="1"></td>
+          <td><img src="img/rojo.gif" width="100%" height="1"></td>
+          <td><img src="img/transparente.gif" width="100%" height="1"></td>
+          <td><img src="img/rojo.gif" width="100%" height="1"></td>
+        </tr>
+        <tr> 
+          <td><div align="center"><img src="img/rojo.gif" width="1" height="18"></div></td>
+          <td>&nbsp;</td>
+          <td valign="top"><div align="center"><img src="img/rojo.gif" width="1" height="18"></div></td>
+          <td>&nbsp;</td>
+          <td valign="top"><div align="center"><img src="img/rojo.gif" width="1" height="18"></div></td>
+          <td>&nbsp;</td>
+          <td valign="top"><div align="center"><img src="img/rojo.gif" width="1" height="18"></div></td>
+          <td>&nbsp;</td>
+          <td valign="top"><div align="center"><img src="img/rojo.gif" width="1" height="18"></div></td>
+        </tr>
+        <tr> 
+          <td><div align="center"><font size="-2">nombre del fichero en el que 
+              se encuentra el error</font></div></td>
+          <td>&nbsp;</td>
+          <td valign="top"><div align="center"><img src="img/rojo.gif" width="1" height="36"></div></td>
+          <td>&nbsp;</td>
+          <td valign="top"><div align="center"><img src="img/rojo.gif" width="1" height="36"></div></td>
+          <td>&nbsp;</td>
+          <td valign="top"><div align="center"><font size="-2">c&oacute;digo del<br>
+              error</font></div></td>
+          <td>&nbsp;</td>
+          <td valign="top"><div align="center"><font size="-2">descripci&oacute;n 
+              del error </font></div></td>
+        </tr>
+        <tr> 
+          <td colspan="4"><div align="right"><font size="-2">n&uacute;mero de 
+              l&iacute;nea</font></div></td>
+          <td valign="top"><div align="center"><img src="img/rojo.gif" width="1" height="18"></div></td>
+          <td>&nbsp;</td>
+          <td valign="top">&nbsp;</td>
+          <td>&nbsp;</td>
+          <td valign="top">&nbsp;</td>
+        </tr>
+        <tr> 
+          <td colspan="7"><div align="center"><font size="-2">n&uacute;mero de 
+              car&aacute;cter en la l&iacute;nea</font></div></td>
+          <td>&nbsp;</td>
+          <td valign="top">&nbsp;</td>
+        </tr>
+      </table></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<h2>Esquema de funcionamiento del compilador</h2>
+<p>No est&aacute; de m&aacute;s tener una idea de las operaciones que hace el 
+  compilador, especialmente por si surge alg&uacute;n problema, para saber de 
+  d&oacute;nde puede venir el fallo y c&oacute;mo se puede arreglar.</p>
+<ol>
+  <li>Primero, eDIV lee la configuraci&oacute;n del archivo <code>ediv.cfg</code>. 
+    Dicho archivo es necesario, ya que contiene informaci&oacute;n acerca de los 
+    ajustes por defecto del compilador y las prioridades de las librer&iacute;as.</li>
+  <li>A continuaci&oacute;n, el programa detecta el idioma del sistema (si no 
+    se ha forzado uno en el archivo de configuraci&oacute;n).</li>
+  <li>Luego se procesan los argumentos de la l&iacute;nea de comandos.</li>
+  <li>Despu&eacute;s se carga el archivo fuente (<code>.prg</code>) en memoria 
+    y se compone el nombre del ejecutable final.</li>
+  <li>Seguidamente se comprueba que existe el <em>stub</em> correspondiente al 
+    Sistema Operativo elegido. El <em>stub</em> es un archivo con extensi&oacute;n 
+    <code>.rel</code> o <code>.dbg</code> que contiene el primer segmento del 
+    ejecutable final, al cual despu&eacute;s se agregar&aacute; el c&oacute;digo 
+    del programa compilado.</li>
+  <li>A continuaci&oacute;n se llama a una rutina de preparaci&oacute;n que pone 
+    a cero los datos internos del compilador.</li>
+  <li>Despu&eacute;s se cargan todas las librer&iacute;as que se encuentran en 
+    el directorio correspondiente.</li>
+  <li>Luego se realiza una primera compilaci&oacute;n que tiene como &uacute;nico 
+    objetivo saber qu&eacute; elementos de las librer&iacute;as se utilizan, para 
+    poder descartar las librer&iacute;as que no se usan en el programa.</li>
+  <li>Se vuelve a llamar a la rutina del paso 6, para restablecer todos los par&aacute;metros 
+    del compilador.</li>
+  <li>De nuevo se cargan las librer&iacute;as, pero esta vez s&oacute;lamente 
+    las que se utilizan.</li>
+  <li>Se compila de nuevo el programa. El resultado es un c&oacute;digo intermedio 
+    que ha reservado &uacute;nicamente la memoria que necesita para las librer&iacute;as 
+    que el programa necesita espec&iacute;ficamente. De esta forma hemos ahorrado 
+    mucha memoria y espacio en el paquete final del programa compilado (ejecutable 
+    + librer&iacute;as), ya que hemos descartado todas las librer&iacute;as innecesarias.</li>
+  <li>Se crea el archivo del ejecutable con el contenido del <em>stub</em>. Luego 
+    se agrega el c&oacute;digo intermedio comprimido del programa. Y por &uacute;ltimo, 
+    en el caso de que hayamos indicado el par&aacute;metro --debug, a&ntilde;adimos 
+    informaci&oacute;n de depurado al ejecutable para permitir que funcione el 
+    trazador. </li>
+</ol>
 <%end%>
