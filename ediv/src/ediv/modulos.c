@@ -38,6 +38,100 @@
 int imem_temp;
 int iloc_temp;
 
+#ifdef MODULOS2
+_listamodulos *Buscar (char *nombre)
+{
+  if (ListaModulos) {
+      _listamodulos *tmp = ListaModulos;
+      while (tmp->anterior)
+	tmp = tmp->anterior;
+	  while (tmp) {
+	  if (tmp->modulo)
+	    if (!_strcmpi(tmp->modulo->NombreModulo, nombre))
+	      return tmp;
+	  if (tmp->siguiente)
+	    tmp = tmp->siguiente;
+	  else
+	    return NULL;
+	  }
+  }
+  return NULL;
+}
+
+int Cargar (char *NombreArchivo)
+{
+  dlHandler Manejador;
+  char *NombreModulo;
+  Log.Log ("Cargando %s:", NombreArchivo);
+  Manejador = dlopen (NombreArchivo, RTLD_GLOBAL | RTLD_NOW);
+  if (!Manejador)
+    {
+      Log.Log ("%s", UltimoErrorDL = dlerror ());
+      return CMOD_ERROR_DLOPEN;
+    }
+  else if (!(NombreModulo = (char *) dlsym (Manejador, "NombreModulo")))
+    {
+      Log.Log ("No se pudo encontrar el símbolo \"NombreModulo\"");
+      UltimoErrorDL = dlerror ();
+      dlclose (Manejador);
+      return CMOD_NO_NOMBRE_MODULO;
+    }
+  else
+    Log.Log ("NombreModulo para %s es [%s]", NombreArchivo, NombreModulo);
+  if (Buscar (NombreModulo))
+    {
+      Log.Log ("El módulo %s[%s] ya está cargado", NombreArchivo,
+	       NombreModulo);
+      dlclose (Manejador);
+      return CMOD_YA_CARGADO;
+    }
+  if (ListaModulos)
+    {
+      while (ListaModulos->Siguiente)
+	ListaModulos = ListaModulos->Siguiente;
+      ListaModulos->Siguiente =
+	(_ListaModulos *) gnew (sizeof (_ListaModulos));
+      bzero (ListaModulos->Siguiente, sizeof (_ListaModulos));
+      ListaModulos->Siguiente->Anterior = ListaModulos;
+      ListaModulos = ListaModulos->Siguiente;
+    }
+  else
+    {
+      ListaModulos = (_ListaModulos *) gnew (sizeof (_ListaModulos));
+      bzero (ListaModulos, sizeof (_ListaModulos));
+    }
+
+  ListaModulos->Modulo = (c_Modulo *) gnew (sizeof (c_Modulo));
+  bzero (ListaModulos->Modulo, sizeof (c_Modulo));
+  ListaModulos->Modulo->Manejador = Manejador;
+  ListaModulos->Modulo->NombreArchivo =
+    (char *) gnew (strlen (NombreArchivo) + 1);
+  strcpy (ListaModulos->Modulo->NombreArchivo, NombreArchivo);
+  ListaModulos->Modulo->NombreModulo = NombreModulo;
+
+  ListaModulos->Modulo->Autor = (char *) dlsym (Manejador, "Autor");
+  ListaModulos->Modulo->Version = (char *) dlsym (Manejador, "Version");
+  ListaModulos->Modulo->Descripcion =
+    (char *) dlsym (Manejador, "Descripcion");
+
+  if (!(dlCast_1 ListaModulos->Modulo->Iniciar =
+	dlCast_2 dlsym (Manejador, "Iniciar")))
+    Log.Log ("No se puede resolver el símbolo Iniciar");
+
+  if (!(dlCast_1 ListaModulos->Modulo->Detener =
+	dlCast_2 dlsym (Manejador, "Detener")))
+    Log.Log ("No se puede resolver el símbolo Detener");
+
+  if (ListaModulos->Modulo->Iniciar)
+    if (ListaModulos->Modulo->Iniciar () == INICIAR_FALLADO)
+      {
+	Descargar (NombreModulo, DMOD_DESCARGAR_DEP, DMOD_IGNORAR_DETENER);
+	return CMOD_ERROR_INICIAR;
+      }
+  return CMOD_OK;
+}
+
+#endif /* MODULOS2 */
 // obtiene el nombre esencial de la libreria (sin extension ni path)
 
 void get_rawname(char* completo, char* rawname)
