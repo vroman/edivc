@@ -120,6 +120,7 @@ typedef int (TYPEOF_GetVarOffset)(tipo_t tipo,char* nombre);
 #define EDIV_trace					20	// Después de ejecutar cada instrucción de bytecode (solo en debug)
 #define EDIV_debug					21	// Invocar al trazador - sentencia debug (solo en debug)
 #define EDIV_first_load				22	// Se ejecuta al cargar la DLL en ejecucion
+#define EDIV_quit					23  // Llamado por stub_quit()
 
 
 // Call_Entrypoint

@@ -377,6 +377,7 @@ void stub_quit(int n)
 {
 	int i;
 	//assert(0);
+	Call_Entrypoint(EDIV_quit);
 	for(i=0;i<num_indexed_vars;i++) {
 		free(varindex[i].nombre);
 	}

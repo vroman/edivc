@@ -750,6 +750,7 @@ int Call_Entrypoint(int ep, ...)
 				case EDIV_ss_init:
 				case EDIV_ss_frame:
 				case EDIV_ss_end:
+				case EDIV_quit:
 					{
 						void (*funcion_ep)(void);
 						funcion_ep=entrypoints[i].hfuncion;

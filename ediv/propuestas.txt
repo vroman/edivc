@@ -296,3 +296,5 @@ poder cargar fuentes de letra directamente a partir de .map
 [16:39] [@CicTec] aparece la lista
 [16:40] [@CicTec] que pero identifica con un dibujo si son datos predefinidos
 [16:40] [@CicTec] o definidos por usuarios con local :)
+
+map_clone, copia un grafico, incluyendo puntos de control :)
