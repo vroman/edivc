@@ -1,0 +1,8 @@
+Ésta es la librería KPLIB, escrita por Ken Silverman (el ke hizo el motor del Duke3D).
+Lo he sacado de su librería Voxlap. El .h es un cacho sacado de voxlap5.h
+Puede abrir BMP,JPG,PNG,GIF,PCX,TGA,CEL y ZIP (y puede ke algún otro formato). Funciona en Windows y Linux. Está muy bien porke además es pequeña y simple (normalmente necesitaríamos varias librerías para abrir tantos formatos). Además, puede cargar cualquiera de los mencionados formatos directamente desde un archivo ZIP, lo cual permite usarlos como sistema de ficheros virtual (PAK's). Y por cierto, Silverman hizo varias mejoras al formato PNG, por lo que ésta es una de las mejores librerías que hay para cargar PNG.
+Creo que no infringimos ninguna licencia incluyendo esto en eDIV. en el .C no pone nada, pero quizás utilice la licencia BUILD, que básicamente dice que le demos crédito al autor y que no lo utilicemos con fines comerciales sin darle su parte X) no sé a vosotros, pero a mí a estas alturas me importan bastante poco las posibles (o mejor dicho, improbables) aplicaciones comerciales de eDIV.
+
++ info en la página de Silverman: http://www.advsys.net/ken
+
+Er_Makina
