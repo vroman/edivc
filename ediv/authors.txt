@@ -50,7 +50,6 @@ Webmaster
 Agradecimientos
 ---------------
 
-- Daijo
 - Daniel Navarro
 - José Luis Cebrián
 - Beorn
