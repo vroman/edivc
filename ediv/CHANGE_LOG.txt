@@ -1,3 +1,9 @@
+17/10/2002
+----------
+ * Eliminados archivos parser.* y compiler.* de la carpeta STUB ya que no los
+   utilizabamos (Daijo)
+ * Eliminados archivos de la libreria grafica de Fenix de GRAPHICS (Daijo)
+
 10/10/2002
 ----------
  * Corregido pequeño bug en load_bmp, que no seteaba correctamente el centro del
