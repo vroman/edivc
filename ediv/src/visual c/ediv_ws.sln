@@ -1,13 +1,13 @@
 Microsoft Visual Studio Solution File, Format Version 7.00
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "b2f", "..\bmp2fnt\b2f.vcproj", "{EBA9C0C6-5748-4480-A478-8F5C213BB1CE}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "doku", "doku\doku.vcproj", "{AA5E597A-79DB-4A5E-8656-9E34C815D71E}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ediv", "ediv\ediv.vcproj", "{A530BB09-EFC3-408C-B2C7-CD2ABE4D6A5F}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "encrypt", "encrypt\encrypt.vcproj", "{77065768-F682-4204-B28D-33B4C223B86A}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "stub", "stub\stub.vcproj", "{031F4A82-8932-473D-8B8E-58117559261C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "doku", "doku\doku.vcproj", "{3C2A1D98-F824-47C0-8118-9B7B6BAD0A93}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ediv", "ediv\ediv.vcproj", "{43BB24AC-97C9-42A5-996C-3C2EBE5B3FE1}"
 EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
@@ -27,22 +27,6 @@ Global
 		{EBA9C0C6-5748-4480-A478-8F5C213BB1CE}.Release.Build.0 = Release|Win32
 		{EBA9C0C6-5748-4480-A478-8F5C213BB1CE}.Release con trazador.ActiveCfg = Release|Win32
 		{EBA9C0C6-5748-4480-A478-8F5C213BB1CE}.Release con trazador.Build.0 = Release|Win32
-		{AA5E597A-79DB-4A5E-8656-9E34C815D71E}.Debug.ActiveCfg = Debug|Win32
-		{AA5E597A-79DB-4A5E-8656-9E34C815D71E}.Debug.Build.0 = Debug|Win32
-		{AA5E597A-79DB-4A5E-8656-9E34C815D71E}.Debug con trazador.ActiveCfg = Debug|Win32
-		{AA5E597A-79DB-4A5E-8656-9E34C815D71E}.Debug con trazador.Build.0 = Debug|Win32
-		{AA5E597A-79DB-4A5E-8656-9E34C815D71E}.Release.ActiveCfg = Release|Win32
-		{AA5E597A-79DB-4A5E-8656-9E34C815D71E}.Release.Build.0 = Release|Win32
-		{AA5E597A-79DB-4A5E-8656-9E34C815D71E}.Release con trazador.ActiveCfg = Release|Win32
-		{AA5E597A-79DB-4A5E-8656-9E34C815D71E}.Release con trazador.Build.0 = Release|Win32
-		{A530BB09-EFC3-408C-B2C7-CD2ABE4D6A5F}.Debug.ActiveCfg = Debug|Win32
-		{A530BB09-EFC3-408C-B2C7-CD2ABE4D6A5F}.Debug.Build.0 = Debug|Win32
-		{A530BB09-EFC3-408C-B2C7-CD2ABE4D6A5F}.Debug con trazador.ActiveCfg = Debug|Win32
-		{A530BB09-EFC3-408C-B2C7-CD2ABE4D6A5F}.Debug con trazador.Build.0 = Debug|Win32
-		{A530BB09-EFC3-408C-B2C7-CD2ABE4D6A5F}.Release.ActiveCfg = Release|Win32
-		{A530BB09-EFC3-408C-B2C7-CD2ABE4D6A5F}.Release.Build.0 = Release|Win32
-		{A530BB09-EFC3-408C-B2C7-CD2ABE4D6A5F}.Release con trazador.ActiveCfg = Release|Win32
-		{A530BB09-EFC3-408C-B2C7-CD2ABE4D6A5F}.Release con trazador.Build.0 = Release|Win32
 		{77065768-F682-4204-B28D-33B4C223B86A}.Debug.ActiveCfg = Debug|Win32
 		{77065768-F682-4204-B28D-33B4C223B86A}.Debug.Build.0 = Debug|Win32
 		{77065768-F682-4204-B28D-33B4C223B86A}.Debug con trazador.ActiveCfg = Debug|Win32
@@ -59,6 +43,22 @@ Global
 		{031F4A82-8932-473D-8B8E-58117559261C}.Release.Build.0 = Release|Win32
 		{031F4A82-8932-473D-8B8E-58117559261C}.Release con trazador.ActiveCfg = Release con trazador|Win32
 		{031F4A82-8932-473D-8B8E-58117559261C}.Release con trazador.Build.0 = Release con trazador|Win32
+		{3C2A1D98-F824-47C0-8118-9B7B6BAD0A93}.Debug.ActiveCfg = Debug|Win32
+		{3C2A1D98-F824-47C0-8118-9B7B6BAD0A93}.Debug.Build.0 = Debug|Win32
+		{3C2A1D98-F824-47C0-8118-9B7B6BAD0A93}.Debug con trazador.ActiveCfg = Debug|Win32
+		{3C2A1D98-F824-47C0-8118-9B7B6BAD0A93}.Debug con trazador.Build.0 = Debug|Win32
+		{3C2A1D98-F824-47C0-8118-9B7B6BAD0A93}.Release.ActiveCfg = Release|Win32
+		{3C2A1D98-F824-47C0-8118-9B7B6BAD0A93}.Release.Build.0 = Release|Win32
+		{3C2A1D98-F824-47C0-8118-9B7B6BAD0A93}.Release con trazador.ActiveCfg = Release|Win32
+		{3C2A1D98-F824-47C0-8118-9B7B6BAD0A93}.Release con trazador.Build.0 = Release|Win32
+		{43BB24AC-97C9-42A5-996C-3C2EBE5B3FE1}.Debug.ActiveCfg = Debug|Win32
+		{43BB24AC-97C9-42A5-996C-3C2EBE5B3FE1}.Debug.Build.0 = Debug|Win32
+		{43BB24AC-97C9-42A5-996C-3C2EBE5B3FE1}.Debug con trazador.ActiveCfg = Debug|Win32
+		{43BB24AC-97C9-42A5-996C-3C2EBE5B3FE1}.Debug con trazador.Build.0 = Debug|Win32
+		{43BB24AC-97C9-42A5-996C-3C2EBE5B3FE1}.Release.ActiveCfg = Release|Win32
+		{43BB24AC-97C9-42A5-996C-3C2EBE5B3FE1}.Release.Build.0 = Release|Win32
+		{43BB24AC-97C9-42A5-996C-3C2EBE5B3FE1}.Release con trazador.ActiveCfg = Release|Win32
+		{43BB24AC-97C9-42A5-996C-3C2EBE5B3FE1}.Release con trazador.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection
