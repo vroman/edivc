@@ -62,7 +62,7 @@ int main(int argc, char* argv[])
 	}
 
 	if((f=fopen(argv[2],"rb"))==NULL) {
-		printf("ERROR: No puedo abrir %s\n\n");
+		printf("ERROR: No puedo abrir %s\n\n",argv[2]);
 		exit(3);
 	}
 
@@ -84,7 +84,7 @@ int main(int argc, char* argv[])
 	fclose(f);
 
 	if((f=fopen(argv[1],"rb"))==NULL) {
-		printf("ERROR: No puedo abrir %s\n\n");
+		printf("ERROR: No puedo abrir %s\n\n",argv[1]);
 		exit(5);
 	}
 
