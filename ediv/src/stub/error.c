@@ -42,14 +42,14 @@
  *
  * Genera un error en tiempo de ejecución, no crítico (en debug se llama al trazador)
  * ATENCIÓN: Ahora mismo está en forma de RELEASE, para la versión DEBUG del stub se deberá
- * invocar al trazador (aún hay que decidir si el trazador estará metido en el propio stub o
- * si estará integrado en el entorno Delphi. En este último caso será necesaria una DLL
- * especial para poder enlazar los datos de un programa y otro).
+ * invocar al trazador (llamando a la función adecuada, que aún no está hecha, en debug.dll)
  * Otra nota: he puesto exactamente los mismos errores de DIV2, ya que tenemos que mantener
  * la compatibilidad con el ignore_error... 100% compatible, recordad.. :P
  */
 
-void error(word num, ...)
+// POR HACER: ignore_errors, ignore_error()
+
+void error(int num, ...)
 {
 	va_list opparam;
 	char mensaje[256];
@@ -75,7 +75,7 @@ void error(word num, ...)
  * en que se produce un error de este tipo.
  */
 
-void critical_error(word num, ...)
+void critical_error(int num, ...)
 {
 	va_list opparam;
 	char mensaje[256];

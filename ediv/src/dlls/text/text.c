@@ -7,8 +7,11 @@
 #include "text.h"
 
 
-struct _fuente_control_s fuente_control_s[0xFF];
-int existe[0xFF] ;
+#define MAX_FONTS	0xFF
+#define MAX_WRITES	0xFFF
+
+struct _fuente_control_s fuente_control_s[MAX_FONTS];
+int existe[MAX_FONTS] ;
 
 struct
 {
@@ -20,11 +23,12 @@ struct
 	int x , y ;
 	int cx , cy ;
 	SDL_Surface *imagen ;
-}textos[0xFFF] ;
+}textos[MAX_WRITES] ;
 
 
 int ExportaFuncs(EXPORTAFUNCS_PARAMS)
 {
+	CONST("all_text",0);
 
 	FUNCTION("load_fnt",1,eDiv_LoadFnt) ;
 	FUNCTION("write",5,eDiv_Write) ;
@@ -47,13 +51,15 @@ int eDiv_LoadFnt(FUNCTION_PARAMS)
 	fpos_t pos ;
 	const char *filename=getstrparm();    // Fichero a cargar
 
-	for ( i = 1 ; i < 256 ; i++ )
+	for ( i = 1 ; i <= MAX_FONTS ; i++ )
 	{
 		if ( existe[i] == 0 )
 			break ;
 	}
-	if ( i == 256 )
+	if ( i == MAX_FONTS ) {
+		fp->Runtime_Error(113);	// demasiadas fuentes
 		return -1 ;
+	}
 
 	fichero = fopen("text.txt" , "w+" ) ;
 	fuente = fopen(filename, "rb" ) ;
@@ -88,13 +94,20 @@ int eDiv_Write(FUNCTION_PARAMS)
 	x = getparm() ;
 	fuente = getparm() ;
 
-	for ( i = 1 ; i < 0xFFF ; i++ )
+	if(fuente<0 || fuente>MAX_FONTS || !existe[fuente]) {
+		fp->Runtime_Error(116);	// id de fuente no válido
+		return -1;
+	}
+
+	for ( i = 1 ; i < MAX_WRITES ; i++ )
 	{
 		if ( textos[i].existe == 0 )
 			break ;
 	}
-	if ( i == 0xFFF )
+	if ( i == MAX_WRITES ) {
+		fp->Runtime_Error(118);	// demasiados textos
 		return -1 ;
+	}
 
 
 	textos[i].x = x ;
@@ -163,14 +176,20 @@ int eDiv_WriteInt(FUNCTION_PARAMS)
 	x = getparm() ;
 	fuente = getparm() ;
 
-	for ( i = 1 ; i < 0xFFF ; i++ )
+	if(fuente<0 || fuente>MAX_FONTS || !existe[fuente]) {
+		fp->Runtime_Error(116);	// id de fuente no válido
+		return -1;
+	}
+
+	for ( i = 1 ; i < MAX_WRITES ; i++ )
 	{
 		if ( textos[i].existe == 0 )
 			break ;
 	}
-	if ( i == 1024 )
+	if ( i == MAX_WRITES ) {
+		fp->Runtime_Error(118);	// demasiados textos
 		return -1 ;
-
+	}
 
 	textos[i].x = x ;
 	textos[i].y = y ;
@@ -256,11 +275,22 @@ int eDiv_DeleteText(FUNCTION_PARAMS)
 	int i ;
 	i = getparm() ;
 
-	if ( !textos[i].existe ) 
+
+	if ( i<0 || i>MAX_WRITES || !textos[i].existe ) {
+		fp->Runtime_Error(119);	// id de texto no válido
 		return -1 ;
+	}
+
+	if(i==0) {
+		for(i=1;i<MAX_WRITES;i++) {
+			textos[i].existe=0;
+			//SDL_FreeSurface(textos[i].imagen) ;   // <--- por ke esta comentado??
+		}
+		return 1;
+	}
 
 	textos[i].existe = 0 ;
-	//SDL_FreeSurface(textos[i].imagen) ;
+	//SDL_FreeSurface(textos[i].imagen) ;   // <--- por ke esta comentado??
 
 	return 1 ;
 }

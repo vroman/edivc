@@ -29,6 +29,8 @@ struct {
 #define TRANS	0x04
 #define NOCOLORKEY	0x80
 
+#define MAX_DRAWS	1024
+
 //GRAPH *fondo;
 
 struct _files files[ 0xFF ] ;
@@ -78,7 +80,7 @@ struct{
 	int x , y ;
 	int t , c ; // requerido para move_draw()
 	SDL_Surface *Surface ;
-} draws[1024] ;
+} draws[MAX_DRAWS] ;
 
 int last_draw ;
 
@@ -136,6 +138,7 @@ int ExportaFuncs(EXPORTAFUNCS_PARAMS)
 	CONST("g_x_center",2);
 	CONST("g_y_center",3);
 
+	CONST("all_drawing",-1);
 	
 
 	GLOBAL_STRUCT("video_modes",31);
@@ -1041,6 +1044,18 @@ int eDIV_DELETE_DRAW(FUNCTION_PARAMS2)
 {
 	int n ;
 	n = getparm() ;
+
+	if(n==-1) {
+		for(n=0;n<MAX_DRAWS;n++) {
+			if(draws[n].existe) {
+				SDL_FreeSurface( draws[n].Surface );
+				draws[n].existe = 0;
+			}
+		}
+		last_draw=0;
+		return 1;
+	}
+
 	if ( !draws[n].existe )
 		return -1 ;
 
@@ -1344,8 +1359,10 @@ void frame(FUNCTION_PARAMS2 )
 			dstrect.y -= files[f].mapa[g].cpoint[0].y ;
 			if ( fp->mem[ id + fp->varindex[_loc_flags] ] & 4 )
 				//SDL_SetAlpha(files[f].mapa[g].Surface, SDL_SRCALPHA , fp->mem[ id + fp->varindex[_loc_transparency] ] ) ;
-				if ( fp->mem[ id + fp->varindex[_loc_flags] ] & 8 )
+				if ( fp->mem[ id + fp->varindex[_loc_flags] ] & 8 ) {
 					trans = 255 - fp->mem[ id + fp->varindex[_loc_transparency] ] ;
+					if(trans<0) trans=0; else if(trans>255) trans=255;
+				}
 				else
 					trans = 128 ;
             else

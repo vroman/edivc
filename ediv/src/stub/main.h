@@ -83,8 +83,8 @@ int* lin;
 // PROTOTIPOS
 ///
 
-void error(word num, ...);		// Mensaje de error no crítico (trazable)
-void critical_error(word num, ...);		// Mensaje de error crítico
+void error(int num, ...);		// Mensaje de error no crítico (trazable)
+void critical_error(int num, ...);		// Mensaje de error crítico
 void stub_quit();				// Salir del stub
 void* e_malloc(size_t size);	// identico a malloc pero con errormsg utomático
 

@@ -4,6 +4,13 @@
    para cambiárselo después de haber compilado un programa con ediv. mola
    eh? :) incluyo también un icono de pacman de ejemplo ke me kedó mu majo.
    (Er_Makina)
+ * Agregados all_drawing y all_text a sus correspondientes dll's. (Er_Makina)
+ * He incluido en la estructura fp funciones para errores (Runtime_Error y
+   Critical_Error). ¡¡Empezad a usarlas YA!! Tenéis una lista completa de los
+   errores en el language.c del stub. Podéis añadir nuevos errores aprovechando
+   los huecos, pero no añadáis a menos que estéis seguros de que ese error no
+   existe ya (si la descripción no es como os gusta, pos la cambiáis un poco,
+   hala). (Er_Makina)
 
 6/9/2002
 --------

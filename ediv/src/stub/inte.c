@@ -81,6 +81,8 @@ int ini_interprete()
 	fp.proceso_actual = &proceso_actual ;
 	fp.existe.regions = 0 ;
 	fp.existe.dibuja = 0 ;
+	fp.Runtime_Error=error;
+	fp.Critical_Error=critical_error;
 
 
 	return 1 ;

@@ -65,6 +65,10 @@ typedef int (TYPEOF_Call_Entrypoint)(int ep, ...);
 // Dibuja
 typedef int (TYPEOF_Dibuja)(SDL_Surface *, SDL_Rect, SDL_Rect, int, int);
 
+// Errores
+typedef void (TYPEOF_Runtime_Error)(int, ...);
+typedef void (TYPEOF_Critical_Error)(int, ...);
+
 // estilo BO2K, sólo para "defaultear" las funciones como NULL
 /*extern TYPEOF_EDIV_Export				*EDIV_Export;
 extern TYPEOF_EDIV_Export_Const			*EDIV_Export_Const;
@@ -227,6 +231,8 @@ struct _fun_params{
 	struct _files *files ;
 	TYPEOF_Dibuja *Dibuja ; // <- Tienes una funcion identica a esta variable (Daijo) <<- Y que? , la funcion no esta dentro de esta estructura :P (Riseven)	
 	TYPEOF_Call_Entrypoint *Call_Entrypoint ;
+	TYPEOF_Runtime_Error *Runtime_Error ;
+	TYPEOF_Critical_Error *Critical_Error ;
 } ;
 
 
