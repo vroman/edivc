@@ -124,8 +124,8 @@
  * Actualizados proyectos para Visual Studio .NET, ahora al
    compilar en release no da errores. (Daijo)
  * En Windows XP el ejecutable generado con eDIV *NO* se ejecuta,
-   ¨sugerencias de porque se produce el fallo? (Daijo).
-   Esto último ya está arreglado (Er_Makina)
+   ¿sugerencias de por qué se produce el fallo? (Daijo)
+ * Esto último ya está arreglado (Er_Makina)
 
 6/10/2002
 ---------
@@ -896,6 +896,6 @@ de
 ----------
 
  * Añadido CheckWindowsVersion a Dll_Load.c. Ahora esta funcion se
-   llama justo antes de InitialiceDllLoad para ajustar g_bIsWinNT a
-   1 o 0, dependiendo si usamos WINNT/WIN2K o Win'9x/Me. (Daijo).
+   llama justo antes de InitializeDllLoad para ajustar g_bIsWinNT a
+   1 o 0, dependiendo si usamos WINNT/WIN2K o Win'9x/Me. (Daijo)
 
