@@ -58,6 +58,7 @@ _listamodulos *Buscar (char *nombre)
   return NULL;
 }
 
+/*
 int Cargar (char *NombreArchivo)
 {
   dlHandler Manejador;
@@ -130,7 +131,7 @@ int Cargar (char *NombreArchivo)
       }
   return CMOD_OK;
 }
-
+*/
 #endif /* MODULOS2 */
 // obtiene el nombre esencial de la libreria (sin extension ni path)
 

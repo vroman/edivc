@@ -267,6 +267,13 @@ int itelseif;
 /*
  *  PROTOTIPOS
  */
+
+void gen(int param, int op, int pa);
+void remove_code(int i);
+void delete_code(void);
+void add_code(int dir, int param, int op);
+int optimizado;
+
 void prepara_compilacion();
 void compila();
 void test_buffer(int * * ,int * ,int);

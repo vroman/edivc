@@ -792,13 +792,6 @@ void g2(int op, int pa) {
  *  Optimización peephole de código intermedio EML
  */
 
-void gen(int param, int op, int pa);
-void remove_code(int i);
-void delete_code(void);
-void add_code(int dir, int param, int op);
-
-int optimizado;
-
 void gen(int param, int op, int pa) 
 {
   optimizado=0;
