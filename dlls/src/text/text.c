@@ -31,6 +31,12 @@ int ExportaFuncs(EXPORTAFUNCS_PARAMS)
 {
 	CONST("all_text",0);
 
+	/* ver juegos de caracteres.txt (son los MIBenum) */
+	CONST("charset_latin1",4);
+	CONST("charset_msdos",2011);
+
+	GLOBAL("charset",2011);
+
 	FUNCTION("load_fnt",1,eDiv_LoadFnt) ;
 	FUNCTION("write",5,eDiv_Write) ;
 	FUNCTION("write_int",5,eDiv_WriteInt) ;
@@ -38,7 +44,7 @@ int ExportaFuncs(EXPORTAFUNCS_PARAMS)
 	FUNCTION("delete_text",1,eDiv_DeleteText) ;
 	ENTRYPOINT( frame ) ;
 	ENTRYPOINT(first_load) ;
-	
+
 	return TRUE ;
 }
 
@@ -87,7 +93,7 @@ int eDiv_LoadFnt(FUNCTION_PARAMS)
 		fuente_control_s[i].imagen=temp;
 	}
 
-	fclose(fuente) ; 
+	fclose(fuente) ;
 	fclose(fichero) ;
 
 	existe[i] = 1 ;
@@ -219,7 +225,7 @@ int eDiv_WriteInt(FUNCTION_PARAMS)
 	itoa( fp->mem[ textos[i].offset_var ] , texto2 , 10 ) ;
 	texto = texto2 ;
 
-	
+
 	/* Calculamos el ancho del fichero */
 	w = 0 ;
 	for ( j = 0 ; (unsigned)j < strlen(texto) ; j++ )
@@ -321,7 +327,7 @@ void frame(FUNCTION_PARAMS)
 
 				itoa( fp->mem[ textos[i].offset_var ] , texto2 , 10 ) ;
 				texto = texto2 ;
-				
+
 				/* Calculamos el ancho del fichero */
 				w = 0 ;
 				for ( j = 0 ; (unsigned)j < strlen(texto) ; j++ )
@@ -380,7 +386,7 @@ void frame(FUNCTION_PARAMS)
 	 * falta hacer los scrolls :P
 	 */
 	/*
-	if ( fp->existe.dibuja )	
+	if ( fp->existe.dibuja )
 	{
 		if ( fp->files[0].existe )
 		{
@@ -394,7 +400,7 @@ void frame(FUNCTION_PARAMS)
 			}
 		}
 	}
-	*/			
+	*/
 }
 
 

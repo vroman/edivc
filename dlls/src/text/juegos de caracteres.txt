@@ -1,0 +1,12 @@
+ JUEGOS DE CARACTERES SOPORTADOS POR TEXT.DLL
+----------------------------------------------
+
+referencia: http://www.iana.org/assignments/character-sets
+
+FIXME: hacer latin1 el verdadero latin1! (y quizás un fichero nuevo para windows-1252)
+
+MIBenum Nombre          Fichero         Notas
+------- ------          -------         -----
+4       ISO-8859-1      latin1          En realidad es 2252/windows-1252!!
+                                        (aka WinLatin1, parcialmente compatible con latin1)
+2011    IBM437          msdos           Juego de caracteres de DIV (IBM codepage 437)
