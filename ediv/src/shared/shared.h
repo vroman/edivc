@@ -25,7 +25,7 @@
 #ifndef __EDIV_SHARED_H_
 #define __EDIV_SHARED_H_
 
-#define VERSION "0.1.3 (Betelgeuse)" /* Version y codename */
+#define VERSION "0.1.3b (Rigel)" /* Version y codename */
 #define la_clave "81ab50e9c20d"    /* Clave de cifrado   */
 
 #define uchar char

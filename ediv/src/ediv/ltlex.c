@@ -120,9 +120,13 @@ void analiza_ltlex(void){
 					lex_case[*buf]=(struct lex_ele*)l_lit;		
 				} else {                          /* Analiza un nuevo símbolo */
 					if ((e=lex_case[*buf])==0) {
-						if (num_nodos++==max_nodos) ltlex_error(3);
-						e=lex_case[*buf]=ilex_simb++; (*e).caracter=*buf++;			
-					} else buf++;
+						if (num_nodos++==max_nodos)
+							ltlex_error(3);
+						e=lex_case[*buf]=ilex_simb++;
+						(*e).caracter=*buf++;			
+					} 
+					else
+						buf++;
 					while (*buf!=' ' && *buf!=tab && *buf!=cr) {
 						if (lower[*buf]) ltlex_error(4);
 						if ((*e).siguiente==0)
@@ -136,8 +140,10 @@ void analiza_ltlex(void){
 								if (num_nodos++==max_nodos) ltlex_error(3);
 								else e=(*e).alternativa=ilex_simb++;
 							}
-						} (*e).caracter=*buf++;
-					} (*e).token=t;
+						}
+						(*e).caracter=*buf++;
+					}
+					(*e).token=t;
 				} break;
 		}} while (cont);
 

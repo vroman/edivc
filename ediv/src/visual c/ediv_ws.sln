@@ -1,18 +1,23 @@
-Microsoft Visual Studio Solution File, Format Version 7.00
+Microsoft Visual Studio Solution File, Format Version 8.00
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "encrypt", "encrypt\encrypt.vcproj", "{77065768-F682-4204-B28D-33B4C223B86A}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "stub", "stub\stub.vcproj", "{031F4A82-8932-473D-8B8E-58117559261C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{77065768-F682-4204-B28D-33B4C223B86A} = {77065768-F682-4204-B28D-33B4C223B86A}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ediv", "ediv\ediv.vcproj", "{43BB24AC-97C9-42A5-996C-3C2EBE5B3FE1}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
-		ConfigName.0 = Debug
-		ConfigName.1 = Debug con trazador
-		ConfigName.2 = Release
-		ConfigName.3 = Release con trazador
-	EndGlobalSection
-	GlobalSection(ProjectDependencies) = postSolution
+		Debug = Debug
+		Debug con trazador = Debug con trazador
+		Release = Release
+		Release con trazador = Release con trazador
 	EndGlobalSection
 	GlobalSection(ProjectConfiguration) = postSolution
 		{77065768-F682-4204-B28D-33B4C223B86A}.Debug.ActiveCfg = Debug|Win32

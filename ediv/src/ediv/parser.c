@@ -451,7 +451,7 @@ void sintactico(void)
 	final_sentencia();
 
 	//
-	// Import (DESFASADO), se ignora
+	// Import (OBSOLETO), se ignora
 	//
 	// {p_import p_lit {;}}
 	//

@@ -363,7 +363,8 @@ int proceso( int num, int padre )
 				critical_error(3); // redefinición del tipo de proceso
 			}
 			procs_s[num_proc].id = (mem[2] + ( num_proc * iloc_len ))|1;
-			if(procs_s[num_proc].id>imem_max-iloc_len) critical_error(8);	// demasiados procesos en ejecución
+			if(procs_s[num_proc].id>imem_max-iloc_len)
+				critical_error(8);	// demasiados procesos en ejecución
 			memcpy(&mem[procs_s[num_proc].id],&mem[iloc],iloc_pub_len<<2);
 			reserved("process_id",procs_s[num_proc].id)=procs_s[num_proc].id;
 			if(padre!=-1) {

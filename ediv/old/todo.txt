@@ -1,19 +1,17 @@
+yo me lio con estos ficheros todo, asi k pongo mi propia seccion todo ( Riseven ) xDD
+- cambiar el trasparency (255-0) a (0-255) <-- hecho
+- valores por defecto de las variables locales <-- hecho
+- indexado de estructuras <-- hecho
+- variables privadas <-- ¿? hecho, no?
+- nuevo valor de flags ( +8 -> modo 50% / Trasparency ) <-- hecho
+
+
 Cosas por hacer cuanto antes:
 
 - eso de cerrar la ventanita con la X, que se pueda activar/desactivar de alguna forma
-- A la hora de implementar la funcion qsort(), hay que introducir una nueva
-  función a ediv_export y modificar la toma y compilación de parámetros en
-  expresion.c
-- Revisar la text.dll
-- Meter fuente nº 0 (text.dll)
-- Añadir una función al SDK para que la graphics llame a una determinada función cuando
-  toque dibujar una determinada z. Algo así como fp->Dibuja(), pero en vez de pasarle el
-  sprite, que llame a la función de la dll y la deje dibujar a ella en el buffer. Podrá
-  sustituir a fp->Dibuja() en muchos sitios, con lo que se ahorraría velocidad y memoria.
-- Convertir los scripts (los que se pueda) a Lua, para que sean compatibles entre todas
-  las plataformas.
---------
-
+- fade_on() y fade_off() deben devolver fading, es decir esto debe funcionar:
+  while(fade_on()) frame; end
+- Añadir mnemónicos al kernel del stub (acabar los normales y añadir los de byte, word y string)
 - Hacer desaparecer la tabla procs_s y sustituirla por variables indexadas
 - Revisar muchísimo el kernel del stub (compilar cosas, debugear...)
 - Actualizar los makefiles y proyectos de KDevelop, y comprobar que rule
@@ -23,6 +21,9 @@ Cosas por hacer cuanto antes:
 - Adaptar la rutina de MOTD a Linux <- ya rula?
 - Documentarlo todo, ahora tenemos el DOKU, kien no lo tenga ke se lo pida
   a Er_Makina :)
+- A la hora de implementar la funcion qsort(), hay que introducir una nueva
+  función a ediv_export y modificar la toma y compilación de parámetros en
+  expresion.c
 
 
 Cosas a implementar a medio plazo:
