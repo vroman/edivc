@@ -55,7 +55,7 @@ void conecta(char *servidor, char *archivo);
 
 int main(int argc, char *argv[])
 {
-	FILE *fp;			/* stream del PRG /*
+	FILE *fp;			/* stream del PRG */
 	char *p;
 	char libmagic[14];	/* cabecera "magic" de EDIVRUN.LIB */
 	

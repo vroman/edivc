@@ -531,6 +531,8 @@ void frame(FUNCTION_PARAMS)
 	
 	keys = SDL_GetKeyState(&numkeys ) ;
 
+	/* MOUSE */
+
 	mbuttons = SDL_GetMouseState(&fp->mem[_mouse],&fp->mem[_mouse+1]);
 	
 	/* Ponemos los 5 botones a 0 */
@@ -551,12 +553,17 @@ void frame(FUNCTION_PARAMS)
 	if(mbuttons&SDL_BUTTON(5))	/* podria no funcionar ¿necesario sdl_event? */
 		fp->mem[_mouse+13]=1;
 	
-	srcrect.x=srcrect.y=srcrect.w=srcrect.h=dstrect.w=dstrect.h=0;
-	dstrect.x=fp->mem[_mouse];
-	dstrect.y=fp->mem[_mouse+1];
+	/* si mouse.graph!=0 */
+	if(fp->mem[_mouse+2]!=0) {
+		srcrect.x=srcrect.y=srcrect.w=srcrect.h=dstrect.w=dstrect.h=0;
+		dstrect.x=fp->mem[_mouse];
+		dstrect.y=fp->mem[_mouse+1];
 
-	// TODO: añadir chequeo de error si no existe file o mapa
-	fp->Dibuja(fp->files[fp->mem[_mouse+3]].mapa[fp->mem[_mouse+2]].Surface,srcrect,dstrect,fp->mem[_mouse+4],0);
+		// TODO: añadir chequeo de error si no existe file o mapa
+		fp->Dibuja(fp->files[fp->mem[_mouse+3]].mapa[fp->mem[_mouse+2]].Surface,srcrect,dstrect,fp->mem[_mouse+4],0);
+	}
+
+	/* FIN DE MOUSE */
 
 	//FILE* fichero ;
 	//fichero = fopen( "input.txt" , "w+" ) ;
