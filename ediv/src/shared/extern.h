@@ -227,6 +227,11 @@ struct _files
 	struct _file *mapa ;
 };
 
+struct _palette {
+	byte r,g,b;
+	byte unused;
+};
+
 typedef struct {
 	int ancho;
 	int alto;
@@ -235,6 +240,8 @@ typedef struct {
 	int resflags;
 	byte* buffer;
 	byte* background;
+	struct _palette* palette;
+	struct _palette* activepal;
 } _graphics;
 
 struct _fun_params{
