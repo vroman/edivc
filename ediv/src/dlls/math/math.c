@@ -24,8 +24,9 @@
  */
 #include <stdio.h>
 #include <export.h>
-#include "math.h"
+#include <time.h>
 
+#include "math.h"
 #include "main.h"
 
 int seno[90001] ;
@@ -103,7 +104,7 @@ int eDiv_Sqrt(FUNCTION_PARAMS)
 
 int eDiv_Rand(FUNCTION_PARAMS)
 {
-	int a,b,n,i ;
+	int a,b,n ;
 	b = getparm() ;
 	a = getparm() ;
 	n = (int)(rand()%(b-a+1))+a ;

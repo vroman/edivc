@@ -83,11 +83,14 @@ int eDiv_StartScroll(FUNCTION_PARAMS)
 
 void frame(FUNCTION_PARAMS)
 {
+	/* 
+	 * de momento solo hay esta demostracion de que fp->Dibuja funciona xDD
+	 * falta hacer los scrolls :P
+	 */
+/*
 	SDL_Rect srcrect, dstrect ;
 
-	// de momento solo hay esta demostracion de que fp->Dibuja funciona xDD
-	// falta hacer los scrolls :P
-/*
+
 	if ( fp->existe.dibuja )	
 	{
 		if ( fp->files[0].existe )

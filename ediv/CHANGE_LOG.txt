@@ -1,3 +1,12 @@
+19/10/2002
+----------
+ * Añado la rutina e_free() en ediv.c. Se encarga de comprobar si hay un puntero
+   en uso, y si es cierto lo libera primero y luego le asigna NULL. (Daijo)
+ * Añado el archivo errors.h a la carpeta shared con el motivo de que sea mas
+   claro identificar errores mediante un nombre en lugar de un numero. (Daijo)
+ * Limpio el archivo extern.h y comentarizo segun las normas de ANSI C99. (Daijo)
+ * Elimino varias variables no utilizadas en las dll's. (Daijo)
+
 17/10/2002
 ----------
  * Eliminados archivos parser.* y compiler.* de la carpeta STUB ya que no los

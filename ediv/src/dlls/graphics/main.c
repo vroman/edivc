@@ -9,6 +9,7 @@
 //#include <zlib.h>
 //#include <assert.h>
 #include "export.h"
+#include "errors.h"
 #include <SDL/SDL.h>
 #include "graphics.h"
 #include "SDL_rotozoom.h"
@@ -921,13 +922,11 @@ int eDIV_LOAD_FPG(FUNCTION_PARAMS2)
 
 	SDL_Color p[256];
 
-	// TODO: quitar printf's y exit's y poner fp->Runtime_Error()
-
 	archivo = getstrparm() ;
 
 	f=fopen(archivo,"rb");
 	if(f==NULL) {
-		fp->Runtime_Error(105);
+		fp->Runtime_Error(ERR_CANNOTOPENFPG);
 	}
 	
 	fseek(f,0,SEEK_END);
@@ -942,7 +941,7 @@ int eDIV_LOAD_FPG(FUNCTION_PARAMS2)
 		if(strcmp(cabecera.header,"f16\x1A\x0D\x0A")) {
 			if(strcmp(cabecera.header,"f24\x1A\x0D\x0A")) {
 				if(strcmp(cabecera.header,"f32\x1A\x0D\x0A")) {
-					fp->Runtime_Error(106);
+					fp->Runtime_Error(ERR_INVALIDFPGHEADER);
 				}
 				else {
 					bpp=32;
@@ -975,7 +974,7 @@ int eDIV_LOAD_FPG(FUNCTION_PARAMS2)
 		fread(&infomapa,1,sizeof(FPGMAPINFO),f);
 		num=infomapa.code;
 		if(num>999 || num<0) {
-			fp->Runtime_Error(111);
+			fp->Runtime_Error(ERR_INVALIDMAPCODE);
 		}
 		if ( files[0].mapa[num].existe == 1 )
 			return -1 ;

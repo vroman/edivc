@@ -168,8 +168,6 @@ int eDiv_WriteInt(FUNCTION_PARAMS)
 	int fuente , x , y , centrado , offset_var ;
 	char *texto ;
 	char texto2[30] ;
-	char *texp ;
-	int temp ;
 	offset_var = getparm() ;
 	centrado = getparm() ;
 	y = getparm() ;

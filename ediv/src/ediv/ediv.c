@@ -354,6 +354,14 @@ void* e_malloc(size_t size)
 	return ret;
 }
 
+void *e_free(void *puntero)
+{
+	if (puntero) {
+		free(puntero);
+		puntero=NULL;
+	}
+}
+
 void errormem()
 {
 	printf(translate(24));
@@ -362,7 +370,7 @@ void errormem()
 
 
 /*
- *      Gestión de errores
+ *  Gestión de errores
  */
 int _le,_t;
 byte *_ie;
