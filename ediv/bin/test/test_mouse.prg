@@ -3,6 +3,7 @@ private
     mi_mapa;
 
 begin
+    set_mode(320,200,24,_fullscreen);
     load_fnt("system.fnt");
     write(1,0,0,0,"X:");
     write(1,0,10,0,"Y:");
@@ -20,7 +21,29 @@ begin
     write_int(1,80,60,0,&mouse.wheeldown);
     mi_mapa=load_bmp("hola.bmp");
     mouse.graph=mi_mapa;
+    cursor();
     loop
+        if(key(_q)) mouse.angle-=1000; end
+        if(key(_w)) mouse.angle+=1000; end
+        if(key(_a)) mouse.size+=5; end
+        if(key(_z)) mouse.size-=5; end
+        if(key(_e)) mouse.angle=0; end
+        if(key(_x)) mouse.size=100; end
+        if(key(_s)) smooth=!smooth; end
+        if(key(_1)) mouse.flags^=1; end
+        if(key(_2)) mouse.flags^=2; end
         frame;
     end
 end
+
+process cursor()
+begin
+    graph=load_bmp("cursor.bmp");
+    z=-600;
+    loop
+        x=mouse.x;
+        y=mouse.y;
+        frame;
+    end
+end
+
