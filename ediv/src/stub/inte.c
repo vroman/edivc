@@ -141,14 +141,15 @@ int lista_quita( int num )
 int interprete()
 {
 	
-	int i ;
-
+	int _status=reservedptr("status");
+	
 	// PROVISIONAL. Se tendra que cambiar para k soporte frame(int) y prioritys
 	if ( num_proc_orden > 0 )
 	{
 		for ( proceso_actual = 0 ; proceso_actual < num_proc_orden ; proceso_actual++ )
 		{
-			proceso( proc_orden[ proceso_actual ], -1 ) ;
+			if(procs_s[proc_orden[proceso_actual]].tipo==0 || mem[procs_s[proc_orden[proceso_actual]].id+_status]==2)
+				proceso( proc_orden[ proceso_actual ], -1 ) ;
 		}
 		Call_Entrypoint(EDIV_frame);
 		
@@ -173,6 +174,7 @@ int proceso( int num, int padre )
 	#ifdef DBG
 		int actual_lin;
 	#endif
+	int _status=reservedptr("status");
 
 	num_proc = num ;
 	imem = procs_s[num_proc].imem ;
@@ -353,6 +355,7 @@ int proceso( int num, int padre )
 			}
 			procs_s[num_proc].tipo = mem[ imem++ ] ;
 			reserved("process_type",procs_s[num_proc].id) = procs_s[num_proc].tipo ;
+			mem[procs_s[num_proc].id+_status] = 2;
 			inicio_privadas=mem[6];
 			break ;
 		case lpri://33 POR HACER?
@@ -552,6 +555,11 @@ int proceso( int num, int padre )
 				}
 			#endif /* _DEBUG */
 		#endif /* DBG */
+	}
+
+	if(mem[procs_s[num].id+_status]==1) {
+		//mem[procs_s[num].id+_status=0;
+		lista_quita(num_proc);
 	}
 
 	if ( devolver > 0 && no_devuelve == 0 )

@@ -1,8 +1,10 @@
 30/10/2002
 ----------
-
  * Añadido la variable RESOLUTION, que a la hora de compilar el TUTOR2.PRG daba problemas.
    Ya se puede usar RESOLUTION =) (|RooT|)
+ * Corregido en la graphics donde ponia "trasparente" por "traNsparente".
+   (Er_Makina)
+ * ¡Funciona Signal! =) Solo falta testearlo... (Er_Makina)
 
 29/10/2002
 ----------

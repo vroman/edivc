@@ -367,7 +367,8 @@ int main(int argc, char* argv[])
                     */
 
 					// PETA EN AMD???? <-- y esto? a mi no me peta.. (Er_Makina)
-					tiempo_i ++ ;
+					// me peta a veces por "division entre cero"
+/*					tiempo_i ++ ;
 					if ( tiempo_i > 99 ) tiempo_i = 0 ;
 					tiempo[ tiempo_i ] = SDL_GetTicks() ;
 					
@@ -376,7 +377,7 @@ int main(int argc, char* argv[])
 					else
 						if ( tiempo[tiempo_i] - tiempo[tiempo_i+1] != 0 )
 							global("fps") = 100000 / (tiempo[tiempo_i] - tiempo[tiempo_i+1] ) ;
-
+*/
 
 					
 					//SDL_BlitSurface( imagen1 , NULL , screen , NULL ) ;

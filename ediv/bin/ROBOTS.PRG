@@ -189,8 +189,8 @@ BEGIN
             mueve_robots();
         end
     end
-    //signal(prota,s_kill);
-    //signal(type robot,s_kill);
+    signal(prota,s_kill);
+    signal(type robot,s_kill);
     muertos=0;
     cogido=0;
     ya=0;

@@ -161,6 +161,7 @@ int ExportaFuncs(EXPORTAFUNCS_PARAMS)
 	FUNCTION("exit",2,eDIV_Exit);
 	FUNCTION("get_id",1,eDiv_GetId) ;
 	FUNCTION("define_region",5,eDiv_DefineRegion) ;
+	FUNCTION("signal",2,eDIV_Signal);
 
 	ENTRYPOINT( first_load ) ;
 	ENTRYPOINT(frame);
@@ -242,9 +243,54 @@ int eDiv_DefineRegion(FUNCTION_PARAMS)
 	return 1 ;
 }
 
+void signal_tree(int proc, int signal, FUNCTION_PARAMS)
+{
+	int id2;
+	if(id2=local("son",proc)) {
+		signal_tree(id2,signal,fp);
+		reserved("status",proc)=signal;
+	}
+	while(local("bigbro",proc)) {
+		proc=local("bigbro",proc);
+		reserved("status",proc)=signal;
+	}
+	/*while(local("smallbro",proc)) {
+		proc=local("smallbro",proc);
+		reserved("status",proc)=signal;
+	}*/
+}
+
 int eDIV_Signal(FUNCTION_PARAMS)
 {
+	int signal=getparm();
+	int proc=getparm();
+	char tree=FALSE;
 
+	if(signal>=100) {
+		signal-=100;
+		tree=TRUE;
+	}
+
+	signal++;
+
+	/* Si se le pasa un ID */
+	if(proc<fp->imem_max)
+	{
+		reserved("status",proc)=signal;
+		if(tree && (proc=reserved("son",proc)))
+			signal_tree(proc,signal,fp);
+	}
+	/* Si se le pasa un type */
+	else {
+		int i,p;
+		for(i=0;i<*fp->num_procs;i++) {
+			if(fp->procs_s[fp->proc_orden[i]].tipo==proc) {
+				reserved("status",fp->procs_s[fp->proc_orden[i]].id)=signal;
+				if(tree && (p=reserved("son",fp->procs_s[fp->proc_orden[i]].id)))
+					signal_tree(fp->procs_s[fp->proc_orden[i]].id,signal,fp);
+			}
+		}
+	}
 }
 
 

@@ -32,7 +32,7 @@ SDL_Surface *Mapa[0xFFF] ;
 SDL_Surface *fondo ;
 struct _file file0[0xFFF] ;
 int last_map[0xFF] ;
-int color_trasparente ;
+int color_transparente ;
 int define_region ;
 
 typedef struct {
@@ -147,8 +147,8 @@ int ExportaFuncs(EXPORTAFUNCS_PARAMS)
 
 	FUNCTION("load_bmp",1,eDIV_LOAD_BMP) ;
 	FUNCTION("collision",1,eDIV_COLLISION) ;
-	FUNCTION("set_trasparent_color",1,eDIV_SET_TRASPARENT_COLOR) ;
-	FUNCTION("get_trasparent_color",0,eDIV_GET_TRASPARENT_COLOR) ;
+	FUNCTION("set_transparent_color",1,eDIV_SET_TRANSPARENT_COLOR) ;
+	FUNCTION("get_transparent_color",0,eDIV_GET_TRANSPARENT_COLOR) ;
 	FUNCTION("rgb",3,eDIV_RGB) ;
 	FUNCTION("advance",1,eDIV_ADVANCE) ;
 	FUNCTION("xadvance",2,eDIV_XADVANCE) ;
@@ -173,7 +173,7 @@ int ExportaFuncs(EXPORTAFUNCS_PARAMS)
 	FUNCTION("graphic_info",3,eDIV_GRAPHIC_INFO) ;
 	FUNCTION("fade",4,eDIV_FADE) ;
 	FUNCTION("xput",6,eDIV_XPUT);
-	FUNCTION("setmode",4,eDIV_SETMODE);
+//	FUNCTION("setmode",4,eDIV_SETMODE);
 
 	ENTRYPOINT( frame ) ;
 	ENTRYPOINT( first_load ) ;
@@ -211,6 +211,7 @@ int eDIV_COLLISION(FUNCTION_PARAMS)
 	int id1, id2 ;
 	int a, i ;
 	SDL_Rect r1 , r2 ;
+	int _status=reservedptr("status");
 	a = getparm() ;
 
 	id1 = fp->procs_s[ fp->proc_orden[ *fp->proceso_actual ] ].id ;
@@ -224,7 +225,8 @@ int eDIV_COLLISION(FUNCTION_PARAMS)
 	//if ( a < 4000000 )
 	if(a<fp->imem_max)
 	{
-		if(a==id1) return 0;
+		if(a==id1 || (fp->mem[id1+_status]!=2 && fp->mem[id1+_status]!=4))
+			return 0;
 		r1.x = local("x",id1) ;
 		r1.y = local("y",id1) ;
 		r1.w = files[f1].mapa[g1].Surface->w ;
@@ -259,7 +261,8 @@ int eDIV_COLLISION(FUNCTION_PARAMS)
 		for ( i = *id_scan+1 ; i < *fp->num_procs ; i++ )
 		{
 			id2 = fp->procs_s[ fp->proc_orden[ i ] ].id;
-			if(id2==id1) continue;
+			if(id2==id1 || (fp->mem[id1+_status]!=2 && fp->mem[id1+_status]!=4))
+				continue;
 
 			//Si el proceso se corresponde con el type
 			if ( reserved("process_type",id2) == a )
@@ -317,7 +320,7 @@ int eDIV_LOAD_BMP(FUNCTION_PARAMS)
 			files[0].mapa[i].existe = 1 ;
 			files[0].mapa[i].cpoint[0].x = (int)files[0].mapa[i].Surface->w / 2 ;
 			files[0].mapa[i].cpoint[0].y = (int)files[0].mapa[i].Surface->h / 2 ;
-			SDL_SetColorKey( files[0].mapa[i].Surface , SDL_SRCCOLORKEY | SDL_RLEACCEL , color_trasparente ) ;
+			SDL_SetColorKey( files[0].mapa[i].Surface , SDL_SRCCOLORKEY | SDL_RLEACCEL , color_transparente ) ;
 			if ( i > last_map[0] )
 				last_map[0] = i ;
 			return i ;
@@ -336,16 +339,16 @@ int eDIV_LOAD_BMP(FUNCTION_PARAMS)
 /*                                                               */
 /*****************************************************************/
 
-int eDIV_SET_TRASPARENT_COLOR(FUNCTION_PARAMS)
+int eDIV_SET_TRANSPARENT_COLOR(FUNCTION_PARAMS)
 {
 	int b , i;
 	int a = getparm() ;
-	b = color_trasparente ;
-	color_trasparente = a ;
+	b = color_transparente ;
+	color_transparente = a ;
 	for ( i = 1 ; i <= last_map[0] ; i++ )
 	{
 		if ( files[0].mapa[i].existe )
-			SDL_SetColorKey( files[0].mapa[i].Surface , SDL_SRCCOLORKEY | SDL_RLEACCEL  , color_trasparente ) ;
+			SDL_SetColorKey( files[0].mapa[i].Surface , SDL_SRCCOLORKEY | SDL_RLEACCEL  , color_transparente ) ;
 	}
 	return b ;
 }
@@ -358,9 +361,9 @@ int eDIV_SET_TRASPARENT_COLOR(FUNCTION_PARAMS)
 /*                                                               */
 /*****************************************************************/
 
-int eDIV_GET_TRASPARENT_COLOR(FUNCTION_PARAMS)
+int eDIV_GET_TRANSPARENT_COLOR(FUNCTION_PARAMS)
 {
-	return color_trasparente ;
+	return color_transparente ;
 }
 
 /*****************************************************************/
@@ -807,7 +810,7 @@ int eDIV_NEW_MAP(FUNCTION_PARAMS)
 			files[0].mapa[i].cpoint[0].x = cx ;
 			files[0].mapa[i].cpoint[0].y = cy ;
 			SDL_FillRect( files[0].mapa[i].Surface , NULL , c ) ;
-			SDL_SetColorKey( files[0].mapa[i].Surface , SDL_SRCCOLORKEY | SDL_RLEACCEL , color_trasparente ) ;
+			SDL_SetColorKey( files[0].mapa[i].Surface , SDL_SRCCOLORKEY | SDL_RLEACCEL , color_transparente ) ;
 			if ( i > last_map[0] )
 				last_map[0] = i ;
 			return i ;
@@ -1258,7 +1261,12 @@ void frame(FUNCTION_PARAMS)
 
 	for ( i = 0 ; i < *fp->num_procs ; i++ )
 	{
+		int _status=reservedptr("status");
 		id = fp->procs_s[ fp->proc_orden[i] ].id ;
+
+		if(fp->mem[id+_status]!=2 && fp->mem[id+_status]!=4)
+			continue;
+
 		f = local("file",id);
 		g = local("graph",id);
 		r = local("region",id);
@@ -1378,7 +1386,7 @@ void first_load(FUNCTION_PARAMS2)
 
 	for ( i = 0 ; i < 0xFF ; i++ )
 		last_map[i] = 0 ;
-	color_trasparente = 0 ;
+	color_transparente = 0 ;
 	if (SDL_Init(SDL_INIT_VIDEO)) ;
 		//k_error(K_ERR_SDL_INIT);
 
