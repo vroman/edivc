@@ -782,7 +782,7 @@ char* translate_runtime_error(int num)
 
 char* translate_critical_error(int num)
 {
-	static char *e[NUM_LANGUAGES][9] = {
+	static char *e[NUM_LANGUAGES][10] = {
 
 		/* 0 - ESPAÑOL */
 
@@ -794,7 +794,8 @@ char* translate_critical_error(int num)
 		/* 5	*/	"Librería no encontrada: %s",
 		/* 6	*/	"%s no es una librería válida de eDIV",
 		/* 7	*/	"No se pudo inicializar SDL",
-		/* 8	*/	"Demasiados procesos en ejecución"
+		/* 8	*/	"Demasiados procesos en ejecución",
+		/* 9	*/	"Se requiere SDL versión %d.%d.%d\nVersión detectada en el sistema: %d.%d.%d",
 
 		/* 1 - ITALIANO */
 
@@ -807,6 +808,7 @@ char* translate_critical_error(int num)
 		/* 6	*/	"%s non è una libreria valida di eDIV",
 		/* 7	*/	"No se pudo inicializar SDL",	// TODO
 		/* 8	*/	"Demasiados procesos en ejecución", // TODO
+		/* 9	*/	"Se requiere SDL versión %d.%d.%d\nVersión detectada en el sistema: %d.%d.%d", // TODO
 
 		/* 2 - PORTUGUÉS (FIXMI: traducir) */
 
@@ -819,6 +821,7 @@ char* translate_critical_error(int num)
 		/* 6	*/	"%s no es una librería válida de eDIV",
 		/* 7	*/	"No se pudo inicializar SDL",
 		/* 8	*/	"Demasiados procesos en ejecución",
+		/* 9	*/	"Se requiere SDL versión %d.%d.%d\nVersión detectada en el sistema: %d.%d.%d", // TODO
 
 		/* 3 - INGLÉS */
 
@@ -831,6 +834,7 @@ char* translate_critical_error(int num)
 		/* 6	*/	"%s is not a valid eDIV library",
 		/* 7	*/	"Cannot initialize SDL",
 		/* 8	*/	"Too many processes in execution",
+		/* 9	*/	"This program requires SDL version %d.%d.%d\nSDL version detected in this system: %d.%d.%d",
 
 		/* 4 - CATALÁN */
 
@@ -843,6 +847,7 @@ char* translate_critical_error(int num)
 		/* 6	*/	"%s no és una llibreria vàlida d' eDIV",
 		/* 7	*/	"No se pudo inicializar SDL",	// TODO
 		/* 8	*/	"Demasiados procesos en ejecución", // TODO
+		/* 9	*/	"Se requiere SDL versión %d.%d.%d\nVersión detectada en el sistema: %d.%d.%d", // TODO
 
 		/* 5 - EUSKERA */
 
@@ -855,6 +860,7 @@ char* translate_critical_error(int num)
 		/* 6	*/	"%s ez da eDIV-en liburutegi zuzen bat",
 		/* 7	*/	"No se pudo inicializar SDL",	// TODO
 		/* 8	*/	"Demasiados procesos en ejecución",	// TODO
+		/* 9	*/	"Se requiere SDL versión %d.%d.%d\nVersión detectada en el sistema: %d.%d.%d" // TODO
 	};
 
 	return e[idioma][num];

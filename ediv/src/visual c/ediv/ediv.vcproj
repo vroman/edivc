@@ -180,6 +180,9 @@
 				RelativePath="..\..\ediv\parser.h">
 			</File>
 			<File
+				RelativePath="..\..\shared\shared.h">
+			</File>
+			<File
 				RelativePath="..\..\shared\varindex.h">
 			</File>
 		</Filter>

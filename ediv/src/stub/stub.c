@@ -56,6 +56,7 @@ int main(int argc, char* argv[])
 	byte * ptr;
 	unsigned long len,len_descomp;
 	byte* vartemp;
+	const SDL_version* sdl_version;
 #ifdef DBG
 	int start_lin;
 	int linsize;
@@ -67,6 +68,21 @@ int main(int argc, char* argv[])
 	n_externs=0;
 
 	eDIV_InstallParachute();
+
+	sdl_version=SDL_Linked_Version();
+	#ifdef _DEBUG
+		printf("Versión SDL del exe: %d.%d.%d\n",SDL_MAJOR_VERSION,SDL_MINOR_VERSION,SDL_PATCHLEVEL);
+		printf("Versión de SDL instalada: %d.%d.%d\n",sdl_version->major,sdl_version->minor,sdl_version->patch);
+	#endif
+	if(sdl_version->major<SDL_MAJOR_VERSION 
+		|| (sdl_version->major==SDL_MAJOR_VERSION &&
+		    sdl_version->minor<SDL_MINOR_VERSION)
+			 || (sdl_version->major==SDL_MAJOR_VERSION &&
+			     sdl_version->minor==SDL_MINOR_VERSION &&
+				 sdl_version->patch<SDL_PATCHLEVEL)) {
+					critical_error(9,SDL_MAJOR_VERSION,SDL_MINOR_VERSION,SDL_PATCHLEVEL,
+						sdl_version->major,sdl_version->minor,sdl_version->patch);
+				 }
 
 	for ( i = 0 ; i < 100 ; i++ )
 		tiempo[ i ] = 0 ;

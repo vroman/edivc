@@ -2,7 +2,8 @@
 
 >> hacer fuente 0
 
->> carga de map, pcx, bmp y jpg completa y decente
+>> carga de map, pcx, bmp (y jpg?) completa y decente
 
 >> size y angle
 
+>> cargar muchos fpg's

@@ -306,7 +306,7 @@ int proceso( int num )
 			reserved("param_offset",procs_s[num_proc].id)=sp-reserved("parameters",procs_s[num_proc].id)+1;
 			/**/procs_s[num_proc].num_params = mem[ imem-1 ] ;
 			break;
-		case lcpa://31 POR HACER #-#
+		case lcpa://31 POR HACER?
 			mem[pila[sp--]]=pila[reserved("param_offset",procs_s[num_proc].id)++];
 			break;
 		case ltyp://32
@@ -320,7 +320,7 @@ int proceso( int num )
 			reserved("process_type",procs_s[num_proc].id) = procs_s[num_proc].tipo ;
 			inicio_privadas=mem[6];
 			break ;
-		case lpri://33 POR HACER
+		case lpri://33 POR HACER?
 			memcpy(&mem[procs_s[num_proc].id+inicio_privadas],&mem[imem+1],(mem[imem]-imem-1)<<2);
 			inicio_privadas+=(mem[imem]-imem-1); imem=mem[imem];
 			break ;
@@ -400,7 +400,7 @@ int proceso( int num )
 			pila[ sp-1 ] = mem[ pila[ sp-1 ] ] <<= pila[sp] ;
 			sp--;
 			break;
-		case lpar://52 POR HACER
+		case lpar://52 POR HACER?
 			//imem++;
 			inicio_privadas+=mem[imem++];
 			break;
@@ -428,12 +428,78 @@ int proceso( int num )
 			break ;
 		case ldbg://58
 			#ifdef DBG
-				//Call_Entrypoint(EDIV_debug,imem,nombreprg,lin,0);
+				Call_Entrypoint(EDIV_debug,imem,nombreprg,lin,0);
 			#endif
 			break ;
+
+		// OPCODES OPTIMIZADOS
+
+		case lcar2://60
+			pila[++sp]=mem[imem++];
+			pila[++sp]=mem[imem++];
+			break;
+		case lcar3://61
+			pila[++sp]=mem[imem++];
+			pila[++sp]=mem[imem++];
+			pila[++sp]=mem[imem++];
+			break;
+		case lcar4://62
+			pila[++sp]=mem[imem++];
+			pila[++sp]=mem[imem++];
+			pila[++sp]=mem[imem++];
+			pila[++sp]=mem[imem++];
+			break;
+		case lasiasp://63
+			mem[pila[sp-1]]=pila[sp];
+			sp-=2;
+			break;
+		case lcaraid://64
+			pila[++sp]=mem[imem++]+procs_s[num_proc].id;
+			break;
+		case lcarptr://65
+			pila[++sp]=mem[mem[imem++]];
+			break;
+		case laidptr://66
+			pila[sp]=mem[pila[sp]+procs_s[num_proc].id];
+			break;
+		case lcaraidptr://67
+			pila[++sp]=mem[mem[imem++]+procs_s[num_proc].id];
+			break;
+		case lcaraidcpa://68
+			mem[mem[imem++]+procs_s[num_proc].id]=pila[reserved("param_offset",procs_s[num_proc].id)++];
+			break;
+		case laddptr://69
+			pila[sp-1]=mem[pila[sp-1]+pila[sp]];
+			sp--;
+			break;
+		case lfunasp://70 NO USADO
+			break;
+		case lcaradd://71
+			pila[sp]+=mem[imem++];
+			break;
+		case lcaraddptr://72
+			pila[sp]=mem[pila[sp]+mem[imem++]];
+			break;
+		case lcarmul://73
+			pila[sp]*=mem[imem++];
+			break;
+		case lcarmuladd://74
+			pila[sp-1]+=pila[sp]*mem[imem++];
+			sp--;
+			break;
+		case lcarasiasp://75
+			mem[pila[sp]]=mem[imem++];
+			sp--;
+			break;
+		case lcarsub://76
+			pila[sp]-=mem[imem++];
+			break;
+		case lcardiv://77 no hay nunca "cardiv 0"
+			pila[sp]/=mem[imem++];
+			break;
 		}
 		#ifdef DBG
-			//Call_Entrypoint(EDIV_trace,imem,nombreprg,lin,0);
+			Call_Entrypoint(EDIV_trace,imem,nombreprg,lin,0);
 		#endif
 	}
 

@@ -1,3 +1,14 @@
+25/9/2002
+---------
+ * Añadido un control para evitar que haya más de "max_process" procesos. Si
+   ocurre, se produce un critical_error. A veces permite un pequeño margen,
+   en función de la memoria disponible. (Er_Makina)
+ * Aconsejo usar en cualquier momento stub_quit() en lugar de exit(), ya que
+   ahí se libera varindex y se ejecuta SDL_Quit. (Er_Makina)
+ * Añadidos los opcodes optimizados al stub. He puesto no_optimization a 0 en
+   el ediv.cfg. He compilado los test y parece que rulan perfectamente.
+   (Er_Makina)
+
 24/9/2002
 ---------
  * ¡¡Añadido indexado de variables dinámico!! (¿contento Rise?) :D

@@ -267,6 +267,7 @@ struct _fun_params{
 //int sp;
 
 void* extfuncs[MAX_EXTERN_FUNCS]; // tabla de punteros a las funciones de las DLLs (stub)
+int extparms[MAX_EXTERN_FUNCS];   // nº de parámetros de cada función externa (necesario para la sobrecarga)
 
 struct _entrypoints {
 	int tipo;			// Ver #defines de entrypoints más arriba

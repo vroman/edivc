@@ -37,6 +37,7 @@ struct objeto * ob;
 struct objeto * ob2;
 
 int creaobj;
+int numparams;
 
 byte decl_struct=0;		// 1 si se está declarando un struct
 byte struct_reserved=0;	// 1 si se está declarando la estructura reserved
@@ -61,6 +62,11 @@ int EDIV_Export(char* cadena, int nparam, void* hfuncion)
 {
 	if(decl_struct) {
 		dll_error(6,cadena);
+		return 0;
+	}
+
+	if(nparam<0) {
+		dll_error(5,cadena);
 		return 0;
 	}
 
