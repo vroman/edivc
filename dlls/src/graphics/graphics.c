@@ -12,9 +12,10 @@
 
 #include <assert.h>
 
-#include <export.h>
+#include "export.h"
 #include "graphics.h"
 #include "SDL_rotozoom.h"
+#include "default_palette.h"
 
 #define ERR_FILENOTFOUND		105
 #define ERR_INVALIDFPGHEADER	106
@@ -22,6 +23,7 @@
 
 #define Miedzy(x,a,b)	(((x) >= (a)) && ((x) <= (b)))
 
+#define PaletteCopy(dst,src) SDL_SetPalette(dst,SDL_LOGPAL|SDL_PHYSPAL,src->format->palette->colors,0,256);
 
 #define MAX_DRAWS	1024
 
@@ -29,7 +31,7 @@
 struct _files files[ 0xFF ] ;
 
 SDL_Surface *Mapa[0xFFF] ;
-SDL_Surface *fondo ;
+
 struct _file file0[0xFFF] ;
 int last_map[0xFF] ;
 int color_transparente ;
@@ -64,17 +66,7 @@ typedef struct _FPGMAPINFO{
         int    number_of_points;
 }FPGMAPINFO;
 
-typedef struct _MODOVIDEO {
-	int ancho;
-	int alto;
-	int bpp;
-	int flags;
-	BOOL cambiado;
-} MODOVIDEO;
-
-MODOVIDEO modovideo;
-
-char   *graphic;  /* wide*height */
+//char   *graphic;  /* wide*height */
 
 
 struct{
@@ -123,6 +115,8 @@ int ExportaFuncs(EXPORTAFUNCS_PARAMS)
 	CONST("m1280x1024",12801024);
 	CONST("m1600x1200",16001200);
 	CONST("m1900x1600",19001600);
+
+	CONST("_fullscreen",GR_FULLSCREEN);
 
 	CONST("partial_dump",0);
 	CONST("complete_dump",1);
@@ -391,7 +385,8 @@ int eDIV_RGB(FUNCTION_PARAMS)
 	g = getparm() ;
 	r = getparm() ;
 
-	return ( b + g*256 + r*65536 ) ;
+	//return ( b + g*256 + r*65536 ) ;
+	return SDL_MapRGB(screen->format,r,g,b);
 }
 
 /*****************************************************************/
@@ -413,7 +408,7 @@ int eDIV_GET_RGB(FUNCTION_PARAMS)
 	goff=getparm();
 	roff=getparm();
 	color=getparm();
-	SDL_GetRGB(color,fp->screen->format,&r,&g,&b);
+	SDL_GetRGB(color,screen->format,&r,&g,&b);
 	if(roff) fp->mem[roff]=(int)r;
 	if(goff) fp->mem[goff]=(int)g;
 	if(boff) fp->mem[boff]=(int)b;
@@ -1039,6 +1034,7 @@ int eDIV_LOAD_FPG(FUNCTION_PARAMS)
 	int tamano;
 	int cont=0,num,i;
 	int bpp;
+	char* graphic;
 
 	SDL_Color p[256];
 
@@ -1208,6 +1204,32 @@ int eDIV_FADE(FUNCTION_PARAMS)
 FILE * fichero ;
 FILE * memo ;
 
+void guarda_pantallazo(char* nombre_program)
+{
+	char capturef[256], num[5];
+	int c,i;
+	FILE* f;
+
+	strcpy(capturef,nombre_program);
+	i=strlen(capturef)+3;
+	strcat(capturef,"0000");
+	strcat(capturef,".bmp");
+	while(f=fopen(capturef,"rb")) {
+		fclose(f);
+		c=i;
+		while(1) {
+			capturef[c]++;
+			if(capturef[c]>'9') {
+				capturef[c]='0';
+				c--;
+				if(c<i-3) break;
+			}
+			else break;
+		}
+	}
+	SDL_SaveBMP(screen,capturef);
+}
+
 /*
  * Función para usar con qsort() para ordenar los blits por su Z
  */
@@ -1224,8 +1246,16 @@ void frame(FUNCTION_PARAMS)
 	int i ,  id , f , g , r , z , trans,angle,size,resolution;
 	SDL_Rect dstrect , srcrect ;
 	Uint32 rmask , gmask , bmask , amask ;
+	SDL_Surface* temp;
+	int noevent;
+	SDL_Event event;
+	byte* teclas;
 
-	//assert(0);
+/*		rmask = 0x00ff0000;
+		gmask = 0x0000ff00;
+		bmask = 0x000000ff;
+		amask = 0x00000000;
+*/
 
 	if(primer_frame) {
 		primer_frame=FALSE;
@@ -1238,46 +1268,63 @@ void frame(FUNCTION_PARAMS)
 			return;
 		}
 		
-		screen = SDL_SetVideoMode(modovideo.ancho, modovideo.alto, modovideo.bpp, SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_HWACCEL);
+		temp = SDL_SetVideoMode(fp->graphics->ancho,fp->graphics->alto,fp->graphics->bpp,SDL_HWSURFACE|SDL_DOUBLEBUF|SDL_HWACCEL|((fp->graphics->flags&GR_FULLSCREEN)?SDL_FULLSCREEN:0)|((fp->graphics->bpp==8)?SDL_HWPALETTE:0));
+		if(fp->graphics->bpp==8)
+			PaletteCopy(temp,screen);
+		
+		if(fp->graphics->resflags&GR_CHANGED) {
+			SDL_FreeSurface(screen);
+			SDL_FreeSurface(fondo);
+			screen=temp;
+			fp->graphics->buffer=screen->pixels;
+			fondo=SDL_CreateRGBSurface(SDL_HWSURFACE,fp->graphics->ancho,fp->graphics->alto,fp->graphics->bpp,0,0,0,0);
+			if(fp->graphics->bpp==8)
+				PaletteCopy(fondo,screen);
+			fp->graphics->background=fondo->pixels;
+			fp->graphics->resflags^=GR_CHANGED;
+		}
+		else {
+			SDL_BlitSurface(screen,NULL,temp,NULL);
+			SDL_FreeSurface(screen);
+			screen=temp;
+			fp->graphics->buffer=screen->pixels;
+		}
 
-		rmask = 0x00ff0000;
-		gmask = 0x0000ff00;
-		bmask = 0x000000ff;
-		amask = 0x00000000;
-
-		if ( screen == NULL ) {
+		if ( screen == NULL || fondo==NULL) {
 			fp->Critical_Error(7); /* No se pudo inicializar SDL */
 			return;
 		}
-
-		fondo = SDL_CreateRGBSurface( SDL_HWSURFACE , modovideo.ancho , modovideo.alto , modovideo.bpp , rmask , gmask , bmask , amask ) ;
 
 		SDL_WM_SetCaption(fp->nombre_program, NULL);
 		SDL_ShowCursor(0);
 	}
-	else if(modovideo.cambiado) {
-	
-		/* TODO: Avisar a las DLLs */
-		
-		SDL_FreeSurface(fondo);
-		SDL_FreeSurface(screen);
-
-		screen = SDL_SetVideoMode(modovideo.ancho, modovideo.alto, modovideo.bpp, SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_HWACCEL);
-
-		rmask = 0x00ff0000;
-		gmask = 0x0000ff00;
-		bmask = 0x000000ff;
-		amask = 0x00000000;
-
-		if ( screen == NULL ) {
-			fp->Critical_Error(7); /* No se pudo inicializar SDL */
-			return;
-		}
-
-		fondo = SDL_CreateRGBSurface( SDL_HWSURFACE , modovideo.ancho , modovideo.alto , modovideo.bpp , rmask , gmask , bmask , amask ) ;
-
-		modovideo.cambiado=FALSE;
+	else {
+		if(fp->graphics->resflags&GR_CHANGED)
+			fp->graphics->resflags^=GR_CHANGED;
 	}
+
+	/* si no gestionamos un poco los eventos la cosa se cuelga :p */
+
+	noevent=0;
+	while ( SDL_PollEvent(&event) && !noevent )
+	{
+		switch( event.type )
+		{
+		case SDL_QUIT:
+			//assert(0);
+			fp->Stub_Quit(0);
+			break ;
+		case SDL_NOEVENT:
+			noevent=1;
+			break;
+		}
+	}
+
+	teclas=SDL_GetKeyState(NULL);
+	if(teclas[SDLK_x] && (teclas[SDLK_RALT] || teclas[SDLK_LALT]))
+		fp->Stub_Quit(0);
+	if(teclas[SDLK_p] && (teclas[SDLK_RALT] || teclas[SDLK_LALT]))
+		guarda_pantallazo(fp->nombre_program);
 
 	fichero = fopen( "draw.txt" , "w" ) ;
 
@@ -1299,6 +1346,7 @@ void frame(FUNCTION_PARAMS)
 	/*
 	 * Draws
 	 */
+
 	z = global("draw_z");
 	smooth = global("smooth");
 	for ( i = 0 ; i <= last_draw ; i++ )
@@ -1430,7 +1478,7 @@ void frame(FUNCTION_PARAMS)
 	last_blit = -1 ;
 
 	SDL_Flip(screen) ;
-	fp->screen=screen;
+	fp->graphics->buffer=screen->pixels;
 	fclose(fichero);
 
 }
@@ -1438,6 +1486,7 @@ void frame(FUNCTION_PARAMS)
 void first_load(FUNCTION_PARAMS)
 {
 	int i ;
+	Uint32 rmask , gmask , bmask , amask ;
 
 	fp->Dibuja = Dibuja ;
 	fp->files = files ;
@@ -1470,11 +1519,27 @@ void first_load(FUNCTION_PARAMS)
 
 	define_region = 1 ;
 
-	modovideo.ancho=320;
-	modovideo.alto=200;
-	modovideo.bpp=8;
-	modovideo.flags=0;
-	modovideo.cambiado=FALSE;
+	fp->graphics->ancho=320;
+	fp->graphics->alto=200;
+	fp->graphics->bpp=8;
+	fp->graphics->flags=0;
+	fp->graphics->resflags=GR_ACTIVE;
+
+	rmask = 0;
+	gmask = 0;
+	bmask = 0;
+	amask = 0;
+
+	screen=SDL_CreateRGBSurface(SDL_HWSURFACE,fp->graphics->ancho,fp->graphics->alto,fp->graphics->bpp,rmask,gmask,bmask,amask);
+	if(screen==NULL)
+		fp->Custom_Error(_critical_error,"graphics: Error al crear buffer");
+
+	fondo=SDL_CreateRGBSurface(SDL_HWSURFACE,fp->graphics->ancho,fp->graphics->alto,fp->graphics->bpp,rmask,gmask,bmask,amask);
+	if(fondo==NULL)
+		fp->Custom_Error(_critical_error,"graphics: Error al crear buffer");
+
+	fp->graphics->buffer=screen->pixels;
+	fp->graphics->background=fondo->pixels;
 }
 
 
@@ -1561,25 +1626,48 @@ int eDIV_SET_MODE(FUNCTION_PARAMS)
 
 	switch(fp->num_params) {
 		case 4:
-			modovideo.flags=getparm();
+			fp->graphics->flags=getparm();
 		case 3:
-			modovideo.bpp=getparm();
-			modovideo.alto=getparm();
-			modovideo.ancho=getparm();
-			modovideo.cambiado=TRUE;
+			fp->graphics->bpp=getparm();
+			fp->graphics->alto=getparm();
+			fp->graphics->ancho=getparm();
 			break;
 		case 1:
 			modo=getparm();
 			if(modo>1280960) {
-				modovideo.ancho=modo/10000;
-				modovideo.alto=modo%10000;
+				fp->graphics->ancho=modo/10000;
+				fp->graphics->alto=modo%10000;
 			}
 			else {
-				modovideo.ancho=modo/1000;
-				modovideo.alto=modo%1000;
+				fp->graphics->ancho=modo/1000;
+				fp->graphics->alto=modo%1000;
 			}
-			modovideo.bpp=8;
-			modovideo.cambiado=TRUE;
+			fp->graphics->bpp=8;
+			fp->graphics->flags=0;
 	}
+	
+	/* Esto avisa a las DLLs */
+	fp->graphics->resflags|=GR_CHANGED;
+
+	SDL_FreeSurface(fondo);
+	SDL_FreeSurface(screen);
+
+	screen=SDL_SetVideoMode(fp->graphics->ancho,fp->graphics->alto,fp->graphics->bpp,SDL_HWSURFACE|SDL_DOUBLEBUF|SDL_HWACCEL|((fp->graphics->flags&GR_FULLSCREEN)?SDL_FULLSCREEN:0)|((fp->graphics->bpp==8)?SDL_HWPALETTE:0));
+	fp->graphics->buffer=screen->pixels;
+
+	if(fp->graphics->bpp==8)
+		SDL_SetPalette(screen,SDL_LOGPAL|SDL_PHYSPAL,(SDL_Color*)default_palette,0,256);
+
+	if ( screen == NULL ) {
+		fp->Critical_Error(7); /* No se pudo inicializar SDL */
+		return 0;
+	}
+
+	fondo=SDL_CreateRGBSurface(SDL_HWSURFACE,fp->graphics->ancho,fp->graphics->alto,fp->graphics->bpp,0,0,0,0);
+	fp->graphics->background=fondo->pixels;
+
+	if(fp->graphics->bpp==8)
+		PaletteCopy(fondo,screen);
+
 	return 0;
 }

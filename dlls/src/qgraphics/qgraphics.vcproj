@@ -113,6 +113,9 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm">
 			<File
+				RelativePath="win32\dib.c">
+			</File>
+			<File
 				RelativePath="qgraphics.c">
 			</File>
 			<File
@@ -129,6 +132,9 @@
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc">
+			<File
+				RelativePath="win32\dib.h">
+			</File>
 			<File
 				RelativePath="win32\gr_win32.h">
 			</File>

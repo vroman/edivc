@@ -11,6 +11,7 @@
 #include "export.h"
 
 #define	WINDOW_STYLE	(WS_OVERLAPPED|WS_BORDER|WS_CAPTION|WS_VISIBLE)
+#define WINDOW_CLASS_NAME "qgraphics"
 
 extern	HINSTANCE	global_hInstance;
 
@@ -51,13 +52,6 @@ typedef struct
 } swwstate_t;
 
 extern swwstate_t sww_state;
-
-/*
-** DIB
-*/
-bool DIB_Init( unsigned char **ppbuffer, int *ppitch );
-void DIB_Shutdown( void );
-void DIB_SetPalette( const unsigned char *palette );
 
 /*
 ** DirectDraw

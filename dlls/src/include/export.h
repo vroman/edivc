@@ -45,7 +45,6 @@ extern "C" {
 	#endif
 #endif
 
-
 /* VARINDEX */
 typedef enum { v_global, v_reserved, v_local } tipo_t;
 
@@ -206,7 +205,9 @@ struct _existe {
 } ;
 struct _file
 {
-	SDL_Surface *Surface ;
+	SDL_Surface *Surface;
+	int w,h;
+	int bpp;
 	int existe ;
 	struct
 	{
@@ -220,6 +221,16 @@ struct _files
 	int existe ;
 	struct _file *mapa ;
 }  ;
+
+typedef struct {
+	int ancho;
+	int alto;
+	int bpp;
+	int flags;
+	int resflags;
+	byte* buffer;
+	byte* background;
+} _graphics;
 
 struct _fun_params{
 	int *pila ;
@@ -245,8 +256,14 @@ struct _fun_params{
 	int imem_max;
 	int* nullstring;
 	int* nstring;
-	SDL_Surface *screen;
+	_graphics* graphics;
 };
+
+/* Flags para graphics */
+#define GR_FULLSCREEN	0x01
+/* Flags reservados */
+#define GR_ACTIVE		0x01
+#define GR_CHANGED		0x02
 
 
 /* Se usa igual que el getparm() de DIV */
