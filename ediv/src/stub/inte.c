@@ -100,7 +100,7 @@ int busca_proc_libre()
 
 int lista_mete( int num ) 
 {
-	// Esto esta mal, habra que buscar su posicion segun priority	
+	// Esto esta mal, habra que buscar su posicion segun priority
 	procs_s[num].orden = num_proc_orden ;
 	proc_orden[ num_proc_orden++ ] = num ;
 	
@@ -268,6 +268,7 @@ int proceso( int num )
 		case lfun://25 NO USADO
 			break ;
 		case lcal://26
+			assert(num_proc_orden<153);
 			devolver++ ;
 			v1 = busca_proc_libre() ;
 			procs_s[v1].imem = mem[imem++] ;

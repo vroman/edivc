@@ -103,23 +103,23 @@ static void eDIV_Parachute(int sig)
 	}
 	print_msg(" (eDIV Parachute Deployed)\n");
 #ifndef DISABLE_STDIO
-	printf("dbg: ignore_errors:%d",ignore_errors);
+	fprintf(stderr,"dbg: ignore_errors:%d",ignore_errors);
 #ifdef DBG
-	printf(", debug:%d",debug);
+	fprintf(stderr,", debug:%d",debug);
 #endif
-	printf("\ndbg: num_procesos:%d, proceso actual:%d\n",num_proc_orden,proceso_actual);
-	printf("dbg: imem:%d, imem_max:%d, mem:0x%X\n",imem,imem_max,mem);
-	printf("dbg: sp:%d, pila:0x%X, pila_max:%d\n",sp,pila,pila_max);
+	fprintf(stderr,"\ndbg: num_procesos:%d, proceso actual:%d\n",num_proc_orden,proceso_actual);
+	fprintf(stderr,"dbg: imem:%d, imem_max:%d, mem:0x%X\n",imem,imem_max,mem);
+	fprintf(stderr,"dbg: sp:%d, pila:0x%X, pila_max:%d\n",sp,pila,pila_max);
 	if(pila) {
 		int s,e,i;
 		s=sp-10; if(s<0) s=0;
 		e=sp+10; if(e>pila_max) e=pila_max;
-		printf("dbg: Volcado de pila (%d-%d):\ndbg: ",s,e);
+		fprintf(stderr,"dbg: Volcado de pila (%d-%d):\ndbg: ",s,e);
 		for(i=s;i<=e;i++) {
-			printf("%d",pila[i]);
-			if(i!=e) printf(", ");
+			fprintf(stderr,"%d",pila[i]);
+			if(i!=e) fprintf(stderr,", ");
 		}
-		printf("\n");
+		fprintf(stderr,"\n");
 	}
 #endif
 	SDL_Quit();

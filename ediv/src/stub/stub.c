@@ -76,7 +76,6 @@ int main(int argc, char* argv[])
 	file_tiempo = fopen( "time.txt" , "w+" ) ;
 
 
-
 	#ifdef _WIN32
 		f=strlen(argv[0]);
 		if(argv[0][f-4]!='.' || (argv[0][f-3]!='e' && argv[0][f-3]!='E')
