@@ -1,3 +1,10 @@
+9/9/2002
+--------
+ * Le he añadido icono al stub, y también he hecho un programa (iconchanger)
+   para cambiárselo después de haber compilado un programa con ediv. mola
+   eh? :) incluyo también un icono de pacman de ejemplo ke me kedó mu majo.
+   (Er_Makina)
+
 6/9/2002
 --------
  * Mejorado ligeramente el sistema de indexado de variables, ya no estan

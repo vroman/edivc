@@ -267,3 +267,5 @@ http://www.cs.ukc.ac.uk/people/staff/rej/gc.html
 
 screen_color(int color)
 rellena el fondo con un color
+
+Incluir Psycle (tracker musical) en el IDE: http://sourceforge.net/projects/psycle/

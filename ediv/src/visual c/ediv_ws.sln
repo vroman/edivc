@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "doku", "doku\doku.vcproj", 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ediv", "ediv\ediv.vcproj", "{43BB24AC-97C9-42A5-996C-3C2EBE5B3FE1}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "iconchanger", "iconchanger\iconchanger.vcproj", "{510122F8-EE04-4E05-95C3-BCF6BBF7B991}"
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		ConfigName.0 = Debug
@@ -59,6 +61,14 @@ Global
 		{43BB24AC-97C9-42A5-996C-3C2EBE5B3FE1}.Release.Build.0 = Release|Win32
 		{43BB24AC-97C9-42A5-996C-3C2EBE5B3FE1}.Release con trazador.ActiveCfg = Release|Win32
 		{43BB24AC-97C9-42A5-996C-3C2EBE5B3FE1}.Release con trazador.Build.0 = Release|Win32
+		{510122F8-EE04-4E05-95C3-BCF6BBF7B991}.Debug.ActiveCfg = Debug|Win32
+		{510122F8-EE04-4E05-95C3-BCF6BBF7B991}.Debug.Build.0 = Debug|Win32
+		{510122F8-EE04-4E05-95C3-BCF6BBF7B991}.Debug con trazador.ActiveCfg = Debug|Win32
+		{510122F8-EE04-4E05-95C3-BCF6BBF7B991}.Debug con trazador.Build.0 = Debug|Win32
+		{510122F8-EE04-4E05-95C3-BCF6BBF7B991}.Release.ActiveCfg = Release|Win32
+		{510122F8-EE04-4E05-95C3-BCF6BBF7B991}.Release.Build.0 = Release|Win32
+		{510122F8-EE04-4E05-95C3-BCF6BBF7B991}.Release con trazador.ActiveCfg = Release|Win32
+		{510122F8-EE04-4E05-95C3-BCF6BBF7B991}.Release con trazador.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection
