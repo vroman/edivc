@@ -1,3 +1,20 @@
+28/1/2005
+---------
+ * He investigado un poco el asunto de los juegos de caracteres. Se me ha ocurrido una
+   forma de estar preparados para el Unicode por si un día lo llegamos a implementar.
+   De momento, he obtenido datos técnicos sobre los bmp's que subí, los he anotado en
+   "juegos de caracteres.txt", en el directorio de la text.dll. Así he podido asignar
+   un id con sentido a cada uno. (Er_Makina)
+ * He añadido una global a la text.dll llamada charset. Por defecto vale charset_msdos.
+   Para utilizar el latin1, hay que poner charset=charset_latin1; al inicio del pro-
+   grama (de momento no tiene ningún efecto). (Er_Makina)
+ * He creado una carpeta en el módulo utils llamada "cosas útiles" (valga la redundan-
+   cia :P), para meter código fuente suelto, textos, y otras cosas que puedan ser de
+   utilidad para hacer ciertas cosas. He metido la kplib de Ken Silverman y una
+   librería para SDL que resulta que es de donde salió el rotozoomer. Tiene un contro-
+   lador de FPS, que deberíamos ir metiendo en el stub. (para más información, mirad
+   los archivos de texto que hay en las respectivas carpetas). (Er_Makina)
+
 25/1/2005
 ---------
  * Probando si rula el commit :P (|RooT|)
