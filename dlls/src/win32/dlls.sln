@@ -1,26 +1,40 @@
-Microsoft Visual Studio Solution File, Format Version 7.00
+Microsoft Visual Studio Solution File, Format Version 8.00
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dinmem", "..\dinmem\win32\dinmem.vcproj", "{2FD59E33-AB54-47EC-A3E5-3619A3921ABF}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "edivstd", "..\edivstd\win32\edivstd.vcproj", "{92B930FB-7B7F-4DD6-A50C-8DE8E34461C2}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "file", "..\file\win32\file.vcproj", "{EA869297-5AC6-4603-BB86-9962207DB25F}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "input", "..\input\win32\input.vcproj", "{92E50294-4312-49E4-848B-5C9FF43AB27D}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "math", "..\math\win32\math.vcproj", "{56A4746D-5A73-4CA5-BD0C-959F14B503E7}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "strings", "..\strings\win32\strings.vcproj", "{8983E45F-30DD-486C-AF5D-723E86BF5149}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "text", "..\text\win32\text.vcproj", "{71D05C32-B49A-4690-AA4D-1385D4257CDF}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "graphics", "..\graphics\win32\graphics.vcproj", "{20CF9907-2F82-4A8C-A5FB-074F5F1BCB32}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
-		ConfigName.0 = Debug
-		ConfigName.1 = Release
-	EndGlobalSection
-	GlobalSection(ProjectDependencies) = postSolution
+		Debug = Debug
+		Release = Release
 	EndGlobalSection
 	GlobalSection(ProjectConfiguration) = postSolution
 		{2FD59E33-AB54-47EC-A3E5-3619A3921ABF}.Debug.ActiveCfg = Debug|Win32

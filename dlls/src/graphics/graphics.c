@@ -23,6 +23,7 @@
 #include "export.h"
 #include "graphics.h"
 #include "SDL_rotozoom.h"
+#include "default_palette.h"
 
 
 /*! \brief Función de exportación de símbolos de la DLL
@@ -180,25 +181,16 @@ FILE * memo ;
 void guarda_pantallazo(char* nombre_program)
 {
 	char capturef[256];
-	int c,i;
+	int c=0;
 	FILE* f;
 
-	strcpy(capturef,nombre_program);
-	i=strlen(capturef)+3;
-	strcat(capturef,"0000");
-	strcat(capturef,".bmp");
+	sprintf(capturef,"%s%04d.bmp",nombre_program,c);
 	while(f=fopen(capturef,"rb")) {
 		fclose(f);
-		c=i;
-		while(1) {
-			capturef[c]++;
-			if(capturef[c]>'9') {
-				capturef[c]='0';
-				c--;
-				if(c<i-3) break;
-			}
-			else break;
-		}
+		c++;
+		sprintf(capturef,"%s%04d.bmp",nombre_program,c);
+		if(c==0)
+			break;
 	}
 	SDL_SaveBMP(screen,capturef);
 }
@@ -263,7 +255,8 @@ void frame(FUNCTION_PARAMS)
 		
 		temp = SDL_SetVideoMode(fp->graphics->ancho,fp->graphics->alto,fp->graphics->bpp,SDL_HWSURFACE|SDL_DOUBLEBUF|SDL_HWACCEL|((fp->graphics->flags&GR_FULLSCREEN)?SDL_FULLSCREEN:0)|((fp->graphics->bpp==8)?SDL_HWPALETTE:0));
 		if(fp->graphics->bpp==8)
-			PaletteCopy(temp,screen);
+			//PaletteCopy(temp,screen);
+			SDL_SetPalette(screen,SDL_LOGPAL|SDL_PHYSPAL,(SDL_Color*)default_palette,0,256);
 
 		if(fp->graphics->resflags&GR_CHANGED) {
 			SDL_FreeSurface(screen);

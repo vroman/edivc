@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding = "Windows-1252"?>
+<?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="7.00"
+	Version="7.10"
 	Name="graphics"
 	ProjectGUID="{20CF9907-2F82-4A8C-A5FB-074F5F1BCB32}"
 	Keyword="Win32Proj">
@@ -62,7 +62,13 @@
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
 				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
@@ -113,16 +119,21 @@
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
 				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
 		</Configuration>
 	</Configurations>
+	<References>
+	</References>
 	<Files>
 		<Filter
 			Name="codigo"
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm">
-			<File
-				RelativePath="..\SDL_rotozoom.c">
-			</File>
 			<File
 				RelativePath="..\advance.c">
 			</File>
@@ -150,18 +161,21 @@
 			<File
 				RelativePath="..\regiones.c">
 			</File>
+			<File
+				RelativePath="..\SDL_rotozoom.c">
+			</File>
 		</Filter>
 		<Filter
 			Name="cabeceras"
 			Filter="h;hpp;hxx;hm;inl;inc">
 			<File
-				RelativePath="..\SDL_rotozoom.h">
-			</File>
-			<File
 				RelativePath="..\default_palette.h">
 			</File>
 			<File
 				RelativePath="..\graphics.h">
+			</File>
+			<File
+				RelativePath="..\SDL_rotozoom.h">
 			</File>
 		</Filter>
 		<Filter

@@ -4,7 +4,9 @@
 
 #include "edivfont.h"
 #include "text.h"
+#include "sys06x08_latin1.h"
 
+#define sys06x08 sys06x08_latin1
 
 #define MAX_FONTS	0xFF
 #define MAX_WRITES	0xFFF
@@ -49,6 +51,7 @@ int eDiv_LoadFnt(FUNCTION_PARAMS)
 	int i ;
 	fpos_t pos ;
 	const char *filename=getstrparm(); /* Fichero a cargar */
+	SDL_Surface* temp;
 
 	for ( i = 1 ; i <= MAX_FONTS ; i++ )
 	{
@@ -76,6 +79,13 @@ int eDiv_LoadFnt(FUNCTION_PARAMS)
 	fprintf(fichero , "Size of image: %d bytes\n"  , fuente_control_s[i].size_imagen ) ;
 	fprintf(fichero , "Leidos %d bytes\n" , (int)fread( pool , 1 , fuente_control_s[i].size_imagen , fuente ) ) ;
 	fuente_control_s[i].imagen = SDL_CreateRGBSurfaceFrom( pool , fuente_control_s[i].w , fuente_control_s[i].h , fuente_control_s[i].bytespp * 8 , fuente_control_s[i].w * fuente_control_s[i].bytespp , 0 , 0 , 0, 0 ) ;
+
+	/* Convierte la fuente al formato actual de la pantalla */
+	temp=SDL_DisplayFormat(fuente_control_s[i].imagen);
+	if(temp) {
+		SDL_FreeSurface(fuente_control_s[i].imagen);
+		fuente_control_s[i].imagen=temp;
+	}
 
 	fclose(fuente) ; 
 	fclose(fichero) ;

@@ -6,7 +6,6 @@
 
 #include "export.h"
 #include "graphics.h"
-#include "default_palette.h"
 
 /*! \brief Cambia el modo de la pantalla
  * \todo ¿más flags?
@@ -59,9 +58,6 @@ int eDIV_SET_MODE(FUNCTION_PARAMS)
 
 	screen=SDL_SetVideoMode(fp->graphics->ancho,fp->graphics->alto,fp->graphics->bpp,SDL_HWSURFACE|SDL_DOUBLEBUF|SDL_HWACCEL|((fp->graphics->flags&GR_FULLSCREEN)?SDL_FULLSCREEN:0)|((fp->graphics->bpp==8)?SDL_HWPALETTE:0));
 	fp->graphics->buffer=screen->pixels;
-
-	if(fp->graphics->bpp==8)
-		SDL_SetPalette(screen,SDL_LOGPAL|SDL_PHYSPAL,(SDL_Color*)default_palette,0,256);
 
 	if ( screen == NULL ) {
 		fp->Critical_Error(7); /* No se pudo inicializar SDL */

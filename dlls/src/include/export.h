@@ -250,7 +250,7 @@ struct _palette {
 };
 
 /*! Estructura graphics, permite acceder a la pantalla */
-typedef struct {
+struct _graphics {
 	int ancho;
 	int alto;
 	int bpp;
@@ -260,7 +260,7 @@ typedef struct {
 	byte* background;
 	struct _palette* palette;
 	struct _palette* activepal;
-} _graphics;
+};
 
 /*! Parámetros para las funciones exportadas */
 struct _fun_params{
@@ -287,7 +287,7 @@ struct _fun_params{
 	int imem_max;
 	int* nullstring;
 	int* nstring;
-	_graphics* graphics;
+	struct _graphics* graphics;
 };
 
 /* Flags para graphics */
