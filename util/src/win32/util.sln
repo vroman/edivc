@@ -1,16 +1,24 @@
-Microsoft Visual Studio Solution File, Format Version 7.00
+Microsoft Visual Studio Solution File, Format Version 8.00
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bmp2fnt", "..\bmp2fnt\win32\bmp2fnt.vcproj", "{CDA8C3EC-7C1F-4427-B7B2-DDAE02F18D52}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "doku", "..\doku\win32\doku.vcproj", "{729B5997-F7D8-446A-AE12-6E4E801B323D}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "iconchanger", "..\iconchanger\win32\iconchanger.vcproj", "{97770962-E34D-47AB-AD97-F1BECDD66601}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "builtinfont", "..\builtinfont\builtinfont.vcproj", "{9D6375EE-E50C-4C9D-81EE-B92E51D7C2AD}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
-		ConfigName.0 = Debug
-		ConfigName.1 = Release
-	EndGlobalSection
-	GlobalSection(ProjectDependencies) = postSolution
+		Debug = Debug
+		Release = Release
 	EndGlobalSection
 	GlobalSection(ProjectConfiguration) = postSolution
 		{CDA8C3EC-7C1F-4427-B7B2-DDAE02F18D52}.Debug.ActiveCfg = Debug|Win32
@@ -25,6 +33,10 @@ Global
 		{97770962-E34D-47AB-AD97-F1BECDD66601}.Debug.Build.0 = Debug|Win32
 		{97770962-E34D-47AB-AD97-F1BECDD66601}.Release.ActiveCfg = Release|Win32
 		{97770962-E34D-47AB-AD97-F1BECDD66601}.Release.Build.0 = Release|Win32
+		{9D6375EE-E50C-4C9D-81EE-B92E51D7C2AD}.Debug.ActiveCfg = Debug|Win32
+		{9D6375EE-E50C-4C9D-81EE-B92E51D7C2AD}.Debug.Build.0 = Debug|Win32
+		{9D6375EE-E50C-4C9D-81EE-B92E51D7C2AD}.Release.ActiveCfg = Release|Win32
+		{9D6375EE-E50C-4C9D-81EE-B92E51D7C2AD}.Release.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection

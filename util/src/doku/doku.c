@@ -284,7 +284,7 @@ void situame(char* actual, char* ant, char* sig, char* sup)
 	}
 
 	if(!sw) {
-		printf("Error: no se encuentra directiva <%index%> en index.dok\n");
+		printf("Error: no se encuentra directiva <%%index%%> en index.dok\n");
 		exit(16);
 	}
 
@@ -508,7 +508,7 @@ void procesa_subindice(char* actual)
 	}
 
 	if(!sw) {
-		printf("Error: no se encuentra directiva <%index%> en index.dok\n");
+		printf("Error: no se encuentra directiva <%%index%%> en index.dok\n");
 		exit(22);
 	}
 

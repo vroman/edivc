@@ -1,7 +1,8 @@
 /* 
  * eDiv Compiler
- * Copyleft (C) 2000-2002 Sion Entertainment
- * http://www.sion-e.com
+ * Copyleft (C) 2000-2003 Sion Ltd.
+ * Copyleft (C) 2005 eDIV Team
+ * http://ediv.divsite.net
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,14 +19,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef _WIN32
-#error Este archivo aun NO ha sido portado a otras plataformas.
-#endif
 
-#include <windows.h>
 #include <stdio.h>
-#include <io.h>
-#include <fcntl.h>
 #include <stdlib.h>
 
 #include <SDL/SDL.h>
@@ -62,7 +57,7 @@ int main(int argc, char* argv[])
 	none[1] = *(px + 1);
 	none[2] = *(px + 2);
 
-	// Colo trasparente ( Fila 1, Columna1, corresponde al caracter 0 )
+	// Color transparente ( Fila 1, Columna1, corresponde al caracter 0 )
 	tras[0] = *(px + imagen->pitch + 3 + 0);
 	tras[1] = *(px + imagen->pitch + 3 + 1);
 	tras[2] = *(px + imagen->pitch + 3 + 2);
