@@ -63,7 +63,7 @@
 #define lrng 22 // rango        Realiza una comparación de rango
 #define ljmp 23 // offset       Salta a una dirección de mem[]
 #define ljpf 24 // offset       Salta si un valor es falso a una dirección
-#define lfun 25 // código       Llamada a un proceso interno, ej. signal()
+#define lfun 25 /* código       Llamada a un proceso interno, ej. signal() (obsoleto, ver lext)	*/
 #define lcal 26 // offset       Crea un nuevo proceso en el programa
 #define lret 27 //              Auto-eliminación del proceso
 #define lasp 28 //              Desecha un valor apilado
@@ -101,24 +101,24 @@
 
 // Instrucciones añadidas para la optimización (DIV 2.0)
 
-#define lcar2 60
-#define lcar3 61
-#define lcar4 62
-#define lasiasp 63
-#define lcaraid 64
-#define lcarptr 65
-#define laidptr 66
-#define lcaraidptr 67
-#define lcaraidcpa 68
-#define laddptr 69
-#define lfunasp 70
-#define lcaradd 71
-#define lcaraddptr 72
-#define lcarmul 73
-#define lcarmuladd 74
-#define lcarasiasp 75
-#define lcarsub 76
-#define lcardiv 77
+#define lcar2 60		/* car + car */
+#define lcar3 61		/* car + car + car */
+#define lcar4 62		/* car + car + car + car */
+#define lasiasp 63		/* asi + asp */
+#define lcaraid 64		/* car + aid */
+#define lcarptr 65		/* car + ptr */
+#define laidptr 66		/* aid + ptr */
+#define lcaraidptr 67	/* car + aid + ptr */
+#define lcaraidcpa 68	/* car + aid + cpa */
+#define laddptr 69		/* add + ptr */
+#define lfunasp 70		/* fun + asp (obsoleto, ver lextasp) */
+#define lcaradd 71		/* car + add */
+#define lcaraddptr 72	/* car + add + ptr */
+#define lcarmul 73		/* car + mul */
+#define lcarmuladd 74	/* car + mul + add */
+#define lcarasiasp 75	/* car + asi + asp */
+#define lcarsub 76		/* car + sub */
+#define lcardiv 77		/* car + div */
 
 // Instrucciones añadidas para el manejo de caracteres
 
@@ -177,10 +177,11 @@
 #define lslawor 124 // Shl-asignación
 #define lcpawor 125 // Saca offset, lee parámetro [offset] y bp++
 
-// Miscelánea
-
+/* Miscelánea */
 #define lnul    126 // Comprueba que un puntero no sea NULL
 
+/* Instrucciones añadidas en eDIV */
+#define lextasp 127	/* ext + asp, sustituye a funasp							*/
 
 
 //-----------------------------------------------------------------------------

@@ -99,7 +99,7 @@ void dll_func() // ke original, no? XD
 	
 
 
-#else	// si estamos en Linux
+	#else	// si estamos en Linux
 
 		directorio=opendir("so");
 		if(!directorio) {
@@ -119,7 +119,7 @@ void dll_func() // ke original, no? XD
 			fichero_dll=readdir(directorio);
 			if(fichero_dll==0)
 				break;
-          if(fichero_dll->d_type==DT_REG) {
+			if(fichero_dll->d_type==DT_REG) {
 			    printf("Librería encontrada: so/%s\n",fichero_dll->d_name);
                 strcpy(fichdll,"so/");
         		strcat(fichdll,fichero_dll->d_name);
@@ -173,7 +173,7 @@ int leedll(struct _finddata_t fichero_dll)
 
 	// Carga la DLL
 	dll_n++;
-funciones++;
+	funciones++;
 
 	hDLL[dll_n]=LoadDLL(fichdll);
 

@@ -354,6 +354,10 @@ void listado_ensamblador (void)
     case lstrmei: fprintf(sta,"%5u\tstrmei",i); break;
     case lstrmai: fprintf(sta,"%5u\tstrmai",i); break;
     case lcpastr: fprintf(sta,"%5u\tcpastr",i); break;
+	
+	case lnul:    fprintf(sta,"%5u\tnul",i); break;
+
+    case lextasp: fprintf(sta,"%5u\textasp %u",i,mem[i+1]); i++; break;
 
     default: fprintf(sta,"***"); break;
   } fprintf(sta,"\n"); i++; }

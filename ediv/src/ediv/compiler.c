@@ -833,6 +833,9 @@ void gen(int param, int op, int pa)
       } else if (code[15].op==lfun) {
         code[15].op=mem[imem-2]=lfunasp;
         optimizado=1;
+	  } else if (code[15].op==lext) {
+	    code[15].op=mem[imem-2]=lextasp;
+		optimizado=1;
       } break;
     case laid:
       if (code[15].op==lcar) {

@@ -1,3 +1,10 @@
+26/5/2003
+---------
+ * Ya están comprobados todos los nuevos opcodes de string, parece ke
+   rulan bien :) Encontré un bug en el opcode optimizado caraidcpa,
+   ya está arreglado. (Er_Makina)
+ * Añadido el opcode extasp (optimización de ext + asp). (Er_Makina)
+
 25/5/2003
 ---------
  * Añadido soporte para datos STRING. Aún quedan por comprobar algunos

@@ -523,7 +523,10 @@ int proceso( int num, int padre )
 			break;
 		case lcaraidcpa://68
 			mem[mem[imem++]+procs_s[num_proc].id]=pila[reserved("param_offset",procs_s[num_proc].id)++];
-			sp--;
+			//sp--;
+			cpas++;
+			if(cpas==reserved("parameters",procs_s[num_proc].id))
+				sp-=cpas;
 			break;
 		case laddptr://69
 			pila[sp-1]=mem[pila[sp-1]+pila[sp]];
@@ -1009,6 +1012,17 @@ int proceso( int num, int padre )
 				}
 			#endif*/
 			break;
+
+		/* OPCODES NUEVOS DE EDIV */
+
+		case lextasp:
+			externa=extfuncs[mem[imem]];
+			// corresponder con FUNCTION_PARAMS
+			//temp = externa(pila,&sp,mem,varindex,&procs_s,Call_Entrypoint);
+			fp.num_params=extparms[mem[imem++]];
+			externa(&fp);
+			break;
+
 		}
 
 		#ifdef DBG
