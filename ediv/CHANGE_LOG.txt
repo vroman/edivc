@@ -5,6 +5,7 @@
    compilar en release no da errores. (Daijo)
  * En Windows XP el ejecutable generado con eDIV *NO* se ejecuta,
    ¨sugerencias de porque se produce el fallo? (Daijo).
+   Esto último ya está arreglado (Er_Makina)
 
 6/10/2002
 ---------
