@@ -6,6 +6,27 @@
    claro identificar errores mediante un nombre en lugar de un numero. (Daijo)
  * Limpio el archivo extern.h y comentarizo segun las normas de ANSI C99. (Daijo)
  * Elimino varias variables no utilizadas en las dll's. (Daijo)
+ * Ahora el stub con trazador es aplicación de consola, desde la que podemos
+   trazar el programa con un "mini-trazador" que lleva incorporado. Así podemos
+   descubrir fácilmente dónde petan los programas (por ejemplo, robots.prg
+   peta en el collision). Por cierto, lo que muestra el trazador entre corchetes
+   al principio de cada línea es el imem donde comienza la sentencia.
+   (Er_Makina)
+ * Haciendo el mini_trazador he modificado inicio_sentencia(), ahora no tiene
+   bucle, sólo un par de asignaciones, así que en teoría eDIV debería compilar
+   ya correctamente en Windows 98. (Er_Makina)
+ * Cuando eDIV compila con la opción -d (y compilado en modo Debug), genera un
+   fichero ediv.lin donde se muestra la información que usa el trazador para
+   localizar el código correspondiente al imem actual. (Er_Makina)
+
+18/10/2002
+----------
+ * Añadido el entrypoint "quit". Usadlo para liberar los recursos de la dll.
+   (Er_Makina)
+ * Arreglado get_id, que (en teoria) no se reseteaba al hacer frame. Ademas he
+   hecho que use las variables de la estructura reserved. (Er_Makina)
+ * Ahora se inicializan las locales son, father, bigbro y smallbro. (Er_Makina)
+ * Añadido exit() (accede a stub_quit mediante fp->Stub_Quit). (Er_Makina)
 
 17/10/2002
 ----------

@@ -85,6 +85,11 @@ int ini_interprete()
 	fp.Runtime_Error=error;
 	fp.Critical_Error=critical_error;
 	fp.GetVarOffset=GetVarOffset;
+	fp.Stub_Quit=stub_quit;
+
+	#ifdef DBG
+		last_lin=0;
+	#endif /* DBG */
 
 
 	return 1 ;
@@ -142,7 +147,7 @@ int interprete()
 	{
 		for ( proceso_actual = 0 ; proceso_actual < num_proc_orden ; proceso_actual++ )
 		{
-			proceso( proc_orden[ proceso_actual ] ) ;
+			proceso( proc_orden[ proceso_actual ], -1 ) ;
 		}
 		Call_Entrypoint(EDIV_frame);
 		
@@ -156,18 +161,21 @@ int interprete()
 }
 
 
-int proceso( int num )
+int proceso( int num, int padre )
 {
 	int v1 ;
 	int retcode = 0;
 	int no_devuelve = 0 ;
 	int (*externa)(struct _fun_params*);
 	int temp ;
-	
+	#ifdef DBG
+		int actual_lin;
+	#endif
+
 	num_proc = num ;
 	imem = procs_s[num_proc].imem ;
 	
-	printf("num_proc: %d\n",num);
+	//printf("num_proc: %d\n",num);
 
 	
 	//if(num==972) assert(0);
@@ -284,8 +292,8 @@ int proceso( int num )
 			procs_s[v1].imem = mem[imem++] ;
 			temp = proceso_actual ;
 			proceso_actual = lista_mete(v1) ;
-			procs_s[num_proc].imem = imem ;
-			proceso(v1) ;
+			procs_s[num_proc].imem = imem ;			
+			proceso(v1,num_proc) ;
 			proceso_actual = temp ;
 			num_proc = num ;
 			imem = procs_s[num_proc].imem ;
@@ -300,6 +308,7 @@ int proceso( int num )
 			break;
 		case lfrm://29
 			procs_s[num_proc].imem = imem ;
+			reserved("type_scan",procs_s[num_proc].id)=0;		/* resetea get_id() */
 			if ( first_loaded )
 			{
 				Call_Entrypoint(EDIV_first_load);
@@ -321,8 +330,20 @@ int proceso( int num )
 				critical_error(3); // redefinición del tipo de proceso
 			procs_s[num_proc].id = mem[2] + ( num_proc * iloc_len ) ;
 			if(procs_s[num_proc].id>imem_max-iloc_len) critical_error(8);	// demasiados procesos en ejecución
-			reserved("process_id",procs_s[num_proc].id)=procs_s[num_proc].id;
 			memcpy(&mem[procs_s[num_proc].id],&mem[iloc],iloc_pub_len<<2);
+			reserved("process_id",procs_s[num_proc].id)=procs_s[num_proc].id;
+			if(padre!=-1) {
+				int bigbro;
+				if(bigbro=local("son",procs_s[padre].id)) {
+					local("smallbro",bigbro)=procs_s[num_proc].id;
+					local("bigbro",procs_s[num_proc].id)=bigbro;
+				}
+				local("son",procs_s[padre].id)=procs_s[num_proc].id;
+				local("father",procs_s[num_proc].id)=procs_s[padre].id;
+			}
+			else {
+				local("father",procs_s[num_proc].id)=0;
+			}
 			procs_s[num_proc].tipo = mem[ imem++ ] ;
 			reserved("process_type",procs_s[num_proc].id) = procs_s[num_proc].tipo ;
 			inicio_privadas=mem[6];
@@ -436,7 +457,7 @@ int proceso( int num )
 			break ;
 		case ldbg://58
 			#ifdef DBG
-				Call_Entrypoint(EDIV_debug,imem,nombreprg,lin,0);
+				Call_Entrypoint(EDIV_debug,imem,nombre_program,lin,0);
 			#endif
 			break ;
 
@@ -507,8 +528,22 @@ int proceso( int num )
 			break;
 		}
 		#ifdef DBG
-			Call_Entrypoint(EDIV_trace,imem,nombreprg,lin,0);
-		#endif
+			Call_Entrypoint(EDIV_trace,imem,nombre_program,lin,0);
+			#ifdef _DEBUG
+				actual_lin=localiza_lin(imem);
+				if(actual_lin!=last_lin) {
+					unsigned char* p=&prog[lin[actual_lin*4+3]];
+//					printf("[%d|%d-%d] ",imem,lin[actual_lin*4+3],lin[actual_lin*4+4]);
+					printf("[%d] ",imem);
+					while(p<=&prog[lin[actual_lin*4+4]]) {
+						putc(*p,stdout);
+						p++;
+					}
+					printf("\n");
+					last_lin=actual_lin;
+				}
+			#endif /* _DEBUG */
+		#endif /* DBG */
 	}
 
 	if ( devolver > 0 && no_devuelve == 0 )
@@ -522,5 +557,49 @@ int proceso( int num )
 	return 1 ;
 }
 
+#ifdef DBG
 
+/*
+ * int localiza_lin (int ip)
+ * Localiza el imem actual (ip) en la tabla LIN (es decir, localiza en qué línea y
+ * columna del PRG nos encontramos).
+ *
+ * Retorna:
+ * ((El índice en lin[])-1)/4 <- sentiende no?
+ */
 
+int localiza_lin(int ip)
+{
+	lin_item* last;
+	int i;
+	/* Primero, para ahorrar tiempo, comprueba si aún seguimos dentro de la misma
+	   sentencia, aunque sea distinto opcode */
+	last=(lin_item*)(&lin[last_lin*4]);
+	if(last->inicio<=ip && last->fin>=ip) {
+		printf("(%d) last_lin\n",ip);
+		return last_lin;
+	}
+	
+	/* Si no, recorre la tabla LIN a partir de donde estábamos, no desde el principio,
+	   ya que es más probable que hayamos saltado a una sentencia posterior que a una
+	   anterior */
+	for(i=last_lin;i<lin[0];i++) {
+		if(lin[i*4+1]<=ip && lin[i*4+2]>=ip)
+			return i;
+	}
+
+	/* No lo hemos encontrado, entonces buscaremos desde el principio hasta last_lin */
+	for(i=0;i<last_lin;i++) {
+		if(lin[i*4+1]<=ip && lin[i*4+2]>=ip)
+			return i;
+	}
+
+	/* Si aún no lo hemos encontrado, mal rollito.. bug seguro, avisemos al programador */
+	#ifdef _DEBUG
+		printf("PANIC! No se en que parte del PRG estoy! imem=%d, last_lin=%d\n",ip,last_lin);
+	#endif
+
+	return last_lin;
+}
+
+#endif /* DBG */

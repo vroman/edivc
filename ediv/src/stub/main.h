@@ -77,9 +77,19 @@ Uint8 * keys;
 //
 
 #ifdef DBG
-char* prog;
+
+unsigned char* prog;
 int* lin;
-#endif
+int last_lin;
+typedef struct _lin_item {
+	int inicio;
+	int fin;
+	int inicio_prg;
+	int fin_prg;
+} lin_item;
+int linsize;
+
+#endif /* DBG */
 
 ///
 // PROTOTIPOS

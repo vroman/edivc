@@ -31,8 +31,8 @@
 
 #include "main.h"
 #include "extern.h"
-#include "parser.h"
-#include "compiler.h"
+//#include "parser.h"
+//#include "compiler.h"
 #include "varindex.h"
 
 #include "language.h"
@@ -811,7 +811,7 @@ int Call_Entrypoint(int ep, ...)
 						funcion_ep=entrypoints[i].hfuncion;
 						funcion_ep(_imem,_nombreprg,_lin,_dbg);
 					}
-#endif
+#endif /* DBG */
 
 			}
 		}

@@ -235,8 +235,10 @@ struct {      // Peephole, "mirilla" para el optimizador
 FILE * linf;	/* En este temporal guardamos la info y luego lo agregamos al exe */
 
 int inicio,final;     /* Direcciones inicial y final de mem[] de la sentencia */
-int linea1,columna1;  /* Posicion en la que comienza la sentencia en el fuente */
-int linea2,columna2;  /* Posicion en la que acaba la sentencia en el fuente */
+//int linea1,columna1;  /* Posicion en la que comienza la sentencia en el fuente */
+//int linea2,columna2;  /* Posicion en la que acaba la sentencia en el fuente */
+int inicio_prg,final_prg; /* Direcciones inicial y final en el PRG de la sentencia */
+int linsize;
 
 void inicio_sentencia(void);  /* Fija inicio, linea1, columna1 */
 void final_sentencia(void);   /* Fija final, linea2, columna2 */

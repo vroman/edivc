@@ -6,24 +6,28 @@
 --------------------Configuration: Trazador - Win32 Debug--------------------
 </h3>
 <h3>Command Lines</h3>
-Creating temporary file "C:\DOCUME~1\ADMINI~1\CONFIG~1\Temp\RSP6E.tmp" with contents
+Creating temporary file "C:\DOCUME~1\ADMINI~1\CONFIG~1\Temp\RSPDD.tmp" with contents
 [
 /nologo /MD /W3 /Gm /GX /ZI /Od /I "d:\Qt\include" /I "..\src\dlls" /I "..\src\kwrite" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "QT_DLL" /D "QT_THREAD_SUPPORT" /D "_USRDLL" /FR"Debug/" /Fp"Debug/Trazador.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
 "D:\ediv\trazador\main.cpp"
+"D:\ediv\trazador\moc_trazadorwindow.cpp"
+"D:\ediv\trazador\trazadorwindow.cpp"
 ]
-Creating command line "cl.exe @C:\DOCUME~1\ADMINI~1\CONFIG~1\Temp\RSP6E.tmp" 
-Creating temporary file "C:\DOCUME~1\ADMINI~1\CONFIG~1\Temp\RSP6F.tmp" with contents
+Creating command line "cl.exe @C:\DOCUME~1\ADMINI~1\CONFIG~1\Temp\RSPDD.tmp" 
+Creating temporary file "C:\DOCUME~1\ADMINI~1\CONFIG~1\Temp\RSPDE.tmp" with contents
 [
 kernel32.lib user32.lib gdi32.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib imm32.lib wsock32.lib d:\Qt\lib\qt-mt230nc.lib d:\Qt\lib\qtmain.lib /nologo /subsystem:windows /dll /incremental:yes /pdb:"Debug/debug.pdb" /debug /machine:I386 /def:".\trazador.def" /out:"../bin/dll/debug.dll" /implib:"Debug/debug.lib" /pdbtype:sept 
 .\Debug\main.obj
 .\Debug\moc_trazadorwindow.obj
 .\Debug\trazadorwindow.obj
 ]
-Creating command line "link.exe @C:\DOCUME~1\ADMINI~1\CONFIG~1\Temp\RSP6F.tmp"
+Creating command line "link.exe @C:\DOCUME~1\ADMINI~1\CONFIG~1\Temp\RSPDE.tmp"
 <h3>Output Window</h3>
 Compiling...
 main.cpp
 d:\ediv\trazador\main.cpp(51) : warning C4018: '<' : signed/unsigned mismatch
+moc_trazadorwindow.cpp
+trazadorwindow.cpp
 Linking...
    Creating library Debug/debug.lib and object Debug/debug.exp
 

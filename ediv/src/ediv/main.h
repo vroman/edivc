@@ -26,7 +26,7 @@
 #include "edivcfg/iniparser.h"
 
 //#define MULTI_ERROR	// para activar el sistema multi-error (bugs a mansalva)
-#define DEBUG_DLL		// para mostrar información al cargar las DLLs
+//#define DEBUG_DLL		// para mostrar información al cargar las DLLs
 
 #define swap(a,b) {(a)^=(b);(b)^=(a);(a)^=(b);}
 

@@ -257,6 +257,10 @@ int ini_interprete() ;
 int busca_proc_libre() ;
 int lista_mete(int) ;
 int interprete() ;
-int proceso(int) ;
+int proceso(int num, int padre) ;
 
-#endif
+#ifdef DBG
+int localiza_lin(int ip);
+#endif /* DBG */
+
+#endif /* __INTE_H */

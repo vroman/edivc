@@ -82,8 +82,11 @@ typedef int (TYPEOF_Dibuja)(SDL_Surface *, SDL_Rect , SDL_Rect , int , int ) ;
 typedef void (TYPEOF_Runtime_Error)(int, ...);
 typedef void (TYPEOF_Critical_Error)(int, ...);
 
-// Obtiene offset de variable indexada dinámicamente
+/* Obtiene offset de variable indexada dinámicamente */
 typedef int (TYPEOF_GetVarOffset)(tipo_t tipo,char* nombre);
+
+/* Finaliza el stub (exit) */
+typedef void (TYPEOF_Stub_Quit)(int n);
 
 /*
  * ENTRY-POINTS
@@ -97,30 +100,29 @@ typedef int (TYPEOF_GetVarOffset)(tipo_t tipo,char* nombre);
  * Constantes para EDIV_Export_Entrypoint
  */
 
-#define EDIV_set_video_mode			1	// Al activar un nuevo modo de vídeo */ 
-#define EDIV_process_palette		2	// Al cargar una paleta */
-#define EDIV_process_active_palette	3	// Al modificar la paleta activa (usada en los fades) */
-#define EDIV_process_sound			4	// Al cargar un efecto sonoro */
-#define EDIV_process_map			5	// Al cargar un mapa */
-#define EDIV_process_fpg			6	// Al cargar un FPG */
-#define EDIV_process_fnt			7	// Al cargar una fuente */
-#define EDIV_background_to_buffer	8	// Volcar el fondo al buffer */
-#define EDIV_buffer_to_video		9	// Volcar el buffer a la memoria de video */
-#define EDIV_post_process_scroll	10	// Tras dibujar una ventana de scroll (sin los sprites) */
-#define EDIV_post_process_m7		11	// Tras dibujar una ventana de modo7 (sin los sprites) */
-#define EDIV_post_process_m8		12	// Tras dibujar una ventana de modo8 (sin los sprites) */
-#define EDIV_post_process_buffer	13	// Tras haber terminado de dibujarlo todo */
-#define EDIV_post_process			14	// Tras ejecutar el frame de un proceso (cualquier %) */
-#define EDIV_put_sprite				15	// Dibujar un sprite */
-#define EDIV_ss_init				16	// Inicio de salvapantallas */
-#define EDIV_ss_frame				17	// Frame de salvapantallas */
-#define EDIV_ss_end					18	// Fin de salvapantallas */
-#define EDIV_frame					19	// En cada frame */
-#define EDIV_trace					20	// Después de ejecutar cada instrucción de bytecode (solo en debug) */
-#define EDIV_debug					21	// Invocar al trazador - sentencia debug (solo en debug) */
-#define EDIV_first_load				22	// Se ejecuta al cargar la DLL en ejecucion */
-#define EDIV_quit					23  // Llamado por stub_quit() */
-
+#define EDIV_set_video_mode			1	// Al activar un nuevo modo de vídeo
+#define EDIV_process_palette		2	// Al cargar una paleta
+#define EDIV_process_active_palette	3	// Al modificar la paleta activa (usada en los fades)
+#define EDIV_process_sound			4	// Al cargar un efecto sonoro
+#define EDIV_process_map			5	// Al cargar un mapa
+#define EDIV_process_fpg			6	// Al cargar un FPG
+#define EDIV_process_fnt			7	// Al cargar una fuente
+#define EDIV_background_to_buffer	8	// Volcar el fondo al buffer
+#define EDIV_buffer_to_video		9	// Volcar el buffer a la memoria de video
+#define EDIV_post_process_scroll	10	// Tras dibujar una ventana de scroll (sin los sprites)
+#define EDIV_post_process_m7		11	// Tras dibujar una ventana de modo7 (sin los sprites)
+#define EDIV_post_process_m8		12	// Tras dibujar una ventana de modo8 (sin los sprites)
+#define EDIV_post_process_buffer	13	// Tras haber terminado de dibujarlo todo
+#define EDIV_post_process			14	// Tras ejecutar el frame de un proceso (cualquier %)
+#define EDIV_put_sprite				15	// Dibujar un sprite
+#define EDIV_ss_init				16	// Inicio de salvapantallas
+#define EDIV_ss_frame				17	// Frame de salvapantallas
+#define EDIV_ss_end					18	// Fin de salvapantallas
+#define EDIV_frame					19	// En cada frame
+#define EDIV_trace					20	// Después de ejecutar cada instrucción de bytecode (solo en debug)
+#define EDIV_debug					21	// Invocar al trazador - sentencia debug (solo en debug)
+#define EDIV_first_load				22	// Se ejecuta al cargar la DLL en ejecucion
+#define EDIV_quit					23  // Llamado por stub_quit()
 
 /*
  * Call_Entrypoint
@@ -237,6 +239,7 @@ struct _fun_params{
 	TYPEOF_Runtime_Error *Runtime_Error ;
 	TYPEOF_Critical_Error *Critical_Error ;
 	TYPEOF_GetVarOffset *GetVarOffset ;
+	TYPEOF_Stub_Quit *Stub_Quit ;
 } fp ;
 
 		
@@ -247,8 +250,8 @@ struct _fun_params{
  * int sp;
  */
 
-void* extfuncs[MAX_EXTERN_FUNCS]; /* tabla de punteros a las funciones de las DLLs (stub)
-int extparms[MAX_EXTERN_FUNCS];   /* nº de parámetros de cada función externa (necesario para la sobrecarga)
+void* extfuncs[MAX_EXTERN_FUNCS]; /* tabla de punteros a las funciones de las DLLs (stub) */
+int extparms[MAX_EXTERN_FUNCS];   /* nº de parámetros de cada función externa (necesario para la sobrecarga) */
 
 struct _entrypoints {
 	int tipo;			/* Ver #defines de entrypoints más arriba */

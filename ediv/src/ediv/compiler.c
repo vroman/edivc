@@ -118,6 +118,8 @@ void prepara_compilacion()
 	*(prog+progsize)=0;
 	
 	_source=NULL;
+
+	linsize=0;
 }
 
 void compila()
@@ -296,7 +298,11 @@ void compila()
    	}
 
    	/* renombra temp.dj! al nombre del exe */
-   	rename("temp.dj!",outfilename);
+	if(rename("temp.dj!",outfilename)) {
+		printf(translate(33));	/* error escribiendo ejecutable */
+		remove("temp.dj!");
+		exit(1);
+	}
 
 	/* ordenamos varindex */
 	ordena_varindex();
@@ -1004,13 +1010,8 @@ void add_code(int dir, int param, int op) {
  */
 void inicio_sentencia(void)
 {
-	byte * p=ierror-1;
 	inicio=imem;
-	linea1=linea;
-	columna1=0;
-	while (*p!=cr && *p!=lf && p>_source) {
-		columna1++; p--;
-	}
+	inicio_prg=(int)(ierror-prog);
 }
 
 /*
@@ -1018,13 +1019,8 @@ void inicio_sentencia(void)
  */
 void final_sentencia(void)
 {
-	byte * p=old_ierror_end-1;
 	final=imem-1;
-	linea2=old_linea;
-	columna2=0;
-	while (*p!=cr && *p!=lf && p>=_source) {
-		columna2++; p--;
-	}
+	final_prg=(int)(old_ierror_end-prog);
 }
 
 /*
@@ -1033,13 +1029,20 @@ void final_sentencia(void)
 
 void grabar_sentencia(void)
 {
-	if(debug && linf!=NULL) {
+	/*if(debug && linf!=NULL) {
 		fwrite(&inicio,4,1,linf);
 		fwrite(&final,4,1,linf);
 		fwrite(&linea1,4,1,linf);
 		fwrite(&columna1,4,1,linf);
 		fwrite(&linea2,4,1,linf);
 		fwrite(&columna2,4,1,linf);
+	}*/
+	if(debug && linf!=NULL) {
+		fwrite(&inicio,4,1,linf);
+		fwrite(&final,4,1,linf);
+		fwrite(&inicio_prg,4,1,linf);
+		fwrite(&final_prg,4,1,linf);
+		linsize++;
 	}
 }
 
@@ -1052,9 +1055,14 @@ void escribe_lin(FILE* f)
 	int b=0;
 	int l;
 	byte* progcomp;
+#ifdef _DEBUG
+	FILE* ediv_lin;
+	int j;
+#endif
 
 	/* comprimimos el codigo fuente */
 	while(prog[b]!=0) b++;
+	b++;
 	progcomp=e_malloc(b*2);
 	l=b*2;
 	if(compress(progcomp,&l,prog,b)) {
@@ -1071,16 +1079,34 @@ void escribe_lin(FILE* f)
 	free(progcomp);
 	
 	/* Escribe el tamaño del LIN */
-	b=ftell(linf);
 	#ifdef _DEBUG
-		printf("dbg: TAMANO LIN: %d\n",b);
+		printf("dbg: linsize: %d\n",linsize);
 	#endif
-	fwrite(&b,1,4,f);
-
+	fwrite(&linsize,1,4,f);
+	#ifdef _DEBUG
+		ediv_lin=fopen("ediv.lin","w");
+		fprintf(ediv_lin,"linsize: %d\n",linsize);
+	#endif
 	/* Escribe la información LIN (offset de cada sentencia en el prg y en el bytecode) */
 	fseek(linf,0,SEEK_SET);
-	while((b=fgetc(linf))!=EOF)
+	while((b=fgetc(linf))!=EOF) {
 		fputc(b,f);
+	}
+	#ifdef _DEBUG
+		j=0;
+		fseek(linf,0,SEEK_SET);
+		while(!feof(linf)) {
+			fread(&b,1,4,linf);
+			fprintf(ediv_lin,"[%d] eml_start\t%d\n",j,b);
+			fread(&b,1,4,linf);
+			fprintf(ediv_lin,"[%d] eml_end  \t%d\n",j,b);
+			fread(&b,1,4,linf);
+			fprintf(ediv_lin,"[%d] prg_start\t\t%d\n",j,b);
+			fread(&b,1,4,linf);
+			fprintf(ediv_lin,"[%d] prg_end  \t\t%d\n",j++,b);
+		}
+		fclose(ediv_lin);
+	#endif
 	
 	fclose(linf);
 }		

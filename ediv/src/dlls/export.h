@@ -28,6 +28,9 @@
  * notifíquelo a Sion Entertainment en bugs@edivcentral.com
  */
 
+#ifndef __EDIV__EXPORT_H
+#define __EDIV__EXPORT_H
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -38,7 +41,9 @@ extern "C" {
 //#	define DllMain() WINAPI DllMain(HINSTANCE hInst, DWORD reason, LPVOID)
 #	include <windows.h>
 #else
-	typedef enum { FALSE, TRUE } bool;
+	#ifndef bool
+		typedef enum { FALSE, TRUE } bool;
+	#endif
 #endif
 
 
@@ -65,7 +70,7 @@ typedef struct {
 
 #include <SDL/SDL.h>
 
-// Funciones de exportación de datos
+/* Funciones de exportación de datos */
 typedef int (TYPEOF_EDIV_Export)(char* cadena, int nparam, void* hfuncion);
 typedef int (TYPEOF_EDIV_Export_Const)(char* cadena, int valor);
 typedef int (TYPEOF_EDIV_Export_Global)(char* cadena, int valor);
@@ -81,18 +86,21 @@ typedef int (TYPEOF_EDIV_Export_Local_Struct)(char* cadena, int numregs);
 typedef int (TYPEOF_EDIV_Export_Entrypoint)(int ep, void* hfuncion);
 typedef int (TYPEOF_EDIV_Export_Priority)(int priority);
 
-// Call_Entrypoint
+/* Call_Entrypoint */
 typedef int (TYPEOF_Call_Entrypoint)(int ep, ...);
 
-// Dibuja
+/* Dibuja */
 typedef int (TYPEOF_Dibuja)(SDL_Surface *, SDL_Rect, SDL_Rect, int, int);
 
-// Errores
+/* Errores */
 typedef void (TYPEOF_Runtime_Error)(int, ...);
 typedef void (TYPEOF_Critical_Error)(int, ...);
 
-// Obtiene offset de variable indexada dinámicamente
+/* Obtiene offset de variable indexada dinámicamente */
 typedef int (TYPEOF_GetVarOffset)(tipo_t tipo,char* nombre);
+
+/* Finaliza el stub (exit) */
+typedef void (TYPEOF_Stub_Quit)(int n);
 
 // estilo BO2K, sólo para "defaultear" las funciones como NULL
 /*extern TYPEOF_EDIV_Export				*EDIV_Export;
@@ -262,6 +270,7 @@ struct _fun_params{
 	TYPEOF_Runtime_Error *Runtime_Error ;
 	TYPEOF_Critical_Error *Critical_Error ;
 	TYPEOF_GetVarOffset *GetVarOffset ;
+	TYPEOF_Stub_Quit *Stub_Quit ;
 } ;
 
 
@@ -306,3 +315,5 @@ void quit(void);
 #ifdef __cplusplus
 }
 #endif
+
+#endif /* __EDIV__EXPORT_H */

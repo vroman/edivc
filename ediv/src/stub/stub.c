@@ -93,7 +93,6 @@ int main(int argc, char* argv[])
 
 	file_tiempo = fopen( "time.txt" , "w+" ) ;
 
-
 	#ifdef _WIN32
 		f=strlen(argv[0]);
 		if(argv[0][f-4]!='.' || (argv[0][f-3]!='e' && argv[0][f-3]!='E')
@@ -235,9 +234,21 @@ int main(int argc, char* argv[])
 				}
 				free(progcomp);
 				read(f,&linsize,4);
-				lin=(int*)e_malloc(linsize*6*4+4);
+				lin=(int*)e_malloc(linsize*4*4+4);
 				lin[0]=linsize;
-				read(f,&lin[1],linsize);
+
+				for(i=0;i<linsize;i++) {
+					read(f,&lin[i*4+1],4);
+					read(f,&lin[i*4+2],4);
+					read(f,&lin[i*4+3],4);
+					read(f,&lin[i*4+4],4);
+					/*printf("[%d] eml_start\t%d\n",i,lin[i*4+1]);
+					printf("[%d] eml_end  \t%d\n",i,lin[i*4+2]);
+					printf("[%d] prg_start\t\t%d\n",i,lin[i*4+3]);
+					printf("[%d] prg_end  \t\t%d\n",i,lin[i*4+4]);*/
+				}
+
+				/* POR HACER: Leer bloque DBG (tabla de objetos) */
 #endif
 
 				close(f);
@@ -372,7 +383,7 @@ int main(int argc, char* argv[])
   return 0;
 }
 
-#include <assert.h>
+//#include <assert.h>
 void stub_quit(int n)
 {
 	int i;

@@ -96,7 +96,10 @@ int ExportaFuncs(EXPORTAFUNCS_PARAMS)
 	
 	// DATOS LOCALES PREDEFINIDOS
 	
-	// Estructura reserved - POR HACER: ¿preservar compatibilidad con DIV?
+	// Estructura reserved - POR HACER: ¿preservar compatibilidad con DIV? -> si
+	/* pero ¿Qué hacer con distance_1 y distance_2 (sinónimos de m8_object y old_ctype,
+	 * respectivamente)? ya nos toparemos con ellas cuando hagamos el modo7. */
+
 	LOCAL_STRUCT("reserved",0);
 		_INT("process_id",0);
 		_INT("id_scan",0);
@@ -144,37 +147,62 @@ int ExportaFuncs(EXPORTAFUNCS_PARAMS)
 	LOCAL("flags",0);
 	LOCAL("transparency",128) ;
 
+	FUNCTION("exit",2,eDIV_Exit);
 	FUNCTION("get_id",1,eDiv_GetId) ;
 	FUNCTION("define_region",5,eDiv_DefineRegion) ;
 
 	ENTRYPOINT( first_load ) ;
 
-	// POR HACER: funciones signal, get_id, system, exit, ignore_error...
+	// POR HACER: funciones signal, system, ignore_error...
 	
 	return TRUE;
+}
+
+int eDIV_Exit(FUNCTION_PARAMS)
+{
+	int codigo=getparm();
+	char* mensaje=getstrparm();
+	
+	/* FIXME: ¿Qué hacemos con el mensaje? ¿Lo mostramos en un msgbox si no es ""? */
+	#ifdef _WIN32
+		MessageBox(0,mensaje,fp->nombre_program,0);
+	#else
+		printf("%s\n",mensaje);
+	#endif
+
+	#ifdef _DEBUG
+		printf("dbg:\texit(): código de retorno: %d\n",codigo);
+	#endif
+	fp->Stub_Quit(codigo);
+
+	/* Por si acaso :P */
+	return codigo;
 }
 
 int eDiv_GetId(FUNCTION_PARAMS)
 {
 	int i ,id1 ;
 	int a = getparm() ;
-	if ( last_type == a )
-		i = last_proc+1 ;
-	else
+	int* last_type=&reserved("type_scan",fp->procs_s[fp->proc_orden[*fp->proceso_actual]].id);
+	int* last_proc=&reserved("id_scan",fp->procs_s[fp->proc_orden[*fp->proceso_actual]].id);
+
+	if ( *last_type == a )
+		i = *last_proc+1 ;
+	else {
 		i = 0 ;
-	last_type = a ;
+		*last_type = a ;
+	}
 	for ( ; i < *fp->num_procs ; i++ )
 	{
-		last_proc = i ;
+		*last_proc = i ;
 		id1 = fp->procs_s[ fp->proc_orden[ i ] ].id ;
-		//Si el proceso se corresponde con el type
-//		if ( fp->mem[ id1 + fp->varindex[ _res_process_type ] ] == a )
+		/* Si el proceso se corresponde con el type */
 		if ( reserved("process_type",id1) == a )
 		{
 			return ( fp->procs_s[ fp->proc_orden[ i ] ].id ) ;
 		}
 	}
-	last_proc = -1 ;
+	*last_type = 0 ;
 	return 0 ;
 }
 
@@ -199,6 +227,10 @@ int eDiv_DefineRegion(FUNCTION_PARAMS)
 	return 1 ;
 }
 
+int eDIV_Signal(FUNCTION_PARAMS)
+{
+
+}
 
 
 
