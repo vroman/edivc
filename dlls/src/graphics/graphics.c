@@ -25,7 +25,6 @@
 #include "SDL_rotozoom.h"
 #include "default_palette.h"
 
-
 /*! \brief Función de exportación de símbolos de la DLL
  * @return TRUE si la DLL da su permiso para ser cargada, en caso contrario, FALSE
  */
@@ -515,9 +514,9 @@ void first_load(FUNCTION_PARAMS)
 
 	last_blit = -1 ;
 
-	gamma[0] = 128 ;
-	gamma[1] = 128 ;
-	gamma[2] = 128 ;
+	_gamma[0] = 128;
+	_gamma[1] = 128;
+	_gamma[2] = 128;
 
 	define_region = 1 ;
 

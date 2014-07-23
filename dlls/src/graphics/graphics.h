@@ -114,7 +114,7 @@ BOOL primer_frame;				/*!< Indica a frame() si es la primera vez que se ejecuta 
 
 int last_blit ;
 
-int gamma[3] ;
+int _gamma[3] ;
 
 int smooth;						/*!< Indica si se desea suavizar los gráficos @see xput() */
 
