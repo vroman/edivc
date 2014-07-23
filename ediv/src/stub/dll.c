@@ -113,7 +113,7 @@ int carga_dll(char* nombre)
 		char fichdll2[256]="so/";
 		strcat(fichdll2,fichdll);
 		strcat(fichdll,".so");
-		hDLL=LoadDLL(fichdll2);
+		hDLL=dlopen(fichdll2,RTLD_NOW);
 		if(!hDLL)
 			critical_error(5,fichdll); // Librería no encontrada
 	}
