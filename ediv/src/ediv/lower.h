@@ -19,7 +19,7 @@
  */
 
 #ifndef __EDIV_LOWER_H_
-#define __EDOV_LOWER_H_
+#define __EDIV_LOWER_H_
 
 #include "main.h"
 
@@ -32,4 +32,4 @@ byte c_convert(byte c);
 void set_c_lower (const byte *from, const byte *to);
 void inicializa_lower();
 
-#endif // __LOWER_H
+#endif // __EDIV_LOWER_H_
