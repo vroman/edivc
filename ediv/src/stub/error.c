@@ -34,6 +34,8 @@
 
 #ifdef _WIN32
 #	include <windows.h>
+#else
+#include <stdarg.h>
 #endif
 #include <stdio.h>
 
