@@ -49,7 +49,12 @@ extern "C" {
 	#ifndef bool
 		typedef enum { FALSE, TRUE } bool;
 	#endif
+
+	#define BOOL bool;
 #endif
+
+/* ALGUNOS TIPOS DE DATOS */
+#define byte unsigned char
 
 /* VARINDEX */
 /*! \defgroup varindex Acceso a variables indexadas */
@@ -81,7 +86,7 @@ typedef struct {
 
 /* Funciones de exportación de datos */
 typedef int (TYPEOF_EDIV_Export)(char* cadena, int nparam, void* hfuncion);
-typedef int (TYPEOF_EDIV_Export_Const)(char* cadena, int valor);
+typedef int (TYPEOF_EDIV_Export_Const)(byte* cadena, int valor);
 typedef int (TYPEOF_EDIV_Export_Global)(char* cadena, int valor);
 typedef int (TYPEOF_EDIV_Export_Global_Tab)(char* cadena, int numregs);
 typedef int (TYPEOF_EDIV_Export_Global_Struct)(char* cadena, int numregs);
