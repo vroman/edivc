@@ -20,7 +20,10 @@
 
 #include <assert.h>
 
+#ifndef __APPLE__
 #include <io.h>
+#endif
+
 #include <fcntl.h>
 #include <stdio.h>
 #include <string.h>
@@ -35,6 +38,10 @@
 #include "inte.h"
 #include "varindex.h"
 #include "fatal.h"
+
+#ifndef _WIN32
+#define _strdup strdup
+#endif
 
 #define long_header 9    // Longitud de la cabecera al inicio de los programas
 
@@ -108,7 +115,12 @@ int main(int argc, char* argv[])
 		}
 	#endif
 //	assert(0) ;
+
+	#ifdef _WIN32
 	if((f=open(argv[0],O_RDONLY | O_BINARY))==-1) {
+	#else
+	if((f=open(argv[0],O_RDONLY))==-1) {
+	#endif
 		/*#ifdef WIN32
 			strcat(argv[0],".exe");
 			printf("%s\n",argv[0]);
