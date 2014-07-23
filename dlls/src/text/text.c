@@ -222,7 +222,7 @@ int eDiv_WriteInt(FUNCTION_PARAMS)
 	fprintf( fichero , "valor: %i\n" , global("fps") ) ;
 	fclose(fichero) ;
 
-	itoa( fp->mem[ textos[i].offset_var ] , texto2 , 10 ) ;
+	sprintf(texto2, "%d", fp->mem[ textos[i].offset_var ]);
 	texto = texto2 ;
 
 
@@ -325,7 +325,7 @@ void frame(FUNCTION_PARAMS)
 			{
 				SDL_FreeSurface( textos[i].imagen ) ;
 
-				itoa( fp->mem[ textos[i].offset_var ] , texto2 , 10 ) ;
+				sprintf(texto2, "%d", fp->mem[ textos[i].offset_var ]);
 				texto = texto2 ;
 
 				/* Calculamos el ancho del fichero */
