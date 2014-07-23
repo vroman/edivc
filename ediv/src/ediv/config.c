@@ -26,6 +26,7 @@
 #include "compiler.h"
 #include "lower.h"
 #include "language.h"
+#include "expresion.h"
 
 FILE *f;
 int i,tamano;
