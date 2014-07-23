@@ -1,6 +1,8 @@
 #include "utils.h"
 #include "../ediv/lower.h"
 
+byte i_lower = 0;
+
 #ifdef _WIN32 /* Codigo 'Windowsero' */
 unsigned char tolowertab[] = {
     0, 0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8, 0x9, 0xa,
@@ -60,9 +62,10 @@ int diff=0;
 
 #endif /* Codigo 'Windowsero' */
 
-#ifdef _LINUX /* Codigo 'Linuxsero' */
 char *strlwr(char *str)
 {
+	int i = 0;
+
 	if (!i_lower)
 		inicializa_lower();
 
@@ -72,4 +75,3 @@ char *strlwr(char *str)
 	
 	return str;
 }
-#endif /* Codigo 'Linuxsero' */
