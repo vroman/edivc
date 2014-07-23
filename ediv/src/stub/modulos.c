@@ -165,9 +165,13 @@ void dll_func2()
 }
 
 
+#ifdef _WIN32
 int leedll(struct _finddata_t fichero_dll)
+#else
+int leedll()
+#endif
 {
-#ifdef WIN32
+#ifdef _WIN32
 	
 	
 
@@ -262,6 +266,9 @@ int leedll(struct _finddata_t fichero_dll)
 
 int close_dll(int numero)
 {
+	#ifdef _WIN32
 	FreeDLL(hDLL[numero]);
+	#endif
+
 	return 0;
 }
