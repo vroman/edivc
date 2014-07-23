@@ -181,7 +181,7 @@ void dll_func()
 
 	#else	/* si estamos en Linux */
 
-		if(ini) dir=iniparser_getstr(ini,"dll:nixdll"));
+		if(ini) dir=iniparser_getstr(ini,"dll:nixdll");
 		if(!dir) dir="so";
 
 		directorio=opendir(dir);
