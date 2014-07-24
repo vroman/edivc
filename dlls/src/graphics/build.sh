@@ -24,4 +24,4 @@ done
 
 gcc $OBJECTS -shared -o ../../bin/graphics.so -L/usr/local/lib -lSDL
 
-#rm $OBJECTS
+rm $OBJECTS

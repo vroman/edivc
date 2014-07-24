@@ -100,7 +100,7 @@ SDL_Surface *screen;			/*!< Superficie del backbuffer */
 SDL_Surface *fondo;				/*!< Superficie del fondo */
 SDL_Color activepal[256];		/*!< Paleta activa (fades, etc) */
 
-BOOL adaptar_paleta;			/*!< Para el force_pal() */
+unsigned char adaptar_paleta;			/*!< Para el force_pal() */
 
 struct _files files[ 0xFF ] ;	/*!< Tabla de FPG's */
 
@@ -110,7 +110,7 @@ struct _file file0[0xFFF] ;
 int last_map[0xFF] ;
 int color_transparente ;		/*!< Color transparente actual (por defecto, 0) */
 int define_region ;
-BOOL primer_frame;				/*!< Indica a frame() si es la primera vez que se ejecuta */
+unsigned char primer_frame;				/*!< Indica a frame() si es la primera vez que se ejecuta */
 
 int last_blit ;
 
