@@ -24,14 +24,10 @@
  * DIV, tal como las opciones de compilación, estructura reserved, etc.
  */
  
-#ifdef _WIN32
  #include <time.h>
  #include <sys/timeb.h>
  unsigned int tiempo;
  unsigned int ultimo_tiempo;
-#else
- #error ¡adapta las rutinas de timer a Linux! (edivstd no debe usar SDL)
-#endif
 #include <limits.h>
 #include <assert.h>
 
@@ -303,26 +299,22 @@ int eDIV_Let_Me_Alone(FUNCTION_PARAMS)
  */
 void first_load(FUNCTION_PARAMS)
 {
-	#ifdef _WIN32
-		struct timeb tiempob;
-		ftime(&tiempob);
-		ultimo_tiempo=tiempob.time*100+tiempob.millitm/10;
-	#endif
+	struct timeb tiempob;
+	ftime(&tiempob);
+	ultimo_tiempo=tiempob.time*100+tiempob.millitm/10;
 }
 
 void frame(FUNCTION_PARAMS)
 {
 	int i;
 	int timer;
-	#ifdef _WIN32
-		struct timeb tiempob;
-		ftime(&tiempob);
-		tiempo=tiempob.time*100+tiempob.millitm/10;
-		timer=globalptr("timer");
-		for(i=0;i<10;i++)
-			fp->mem[timer+i]+=tiempo-ultimo_tiempo;
-		ultimo_tiempo=tiempo;
-	#endif
+	struct timeb tiempob;
+	ftime(&tiempob);
+	tiempo=tiempob.time*100+tiempob.millitm/10;
+	timer=globalptr("timer");
+	for(i=0;i<10;i++)
+		fp->mem[timer+i]+=tiempo-ultimo_tiempo;
+	ultimo_tiempo=tiempo;
 }
 
 
