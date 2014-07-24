@@ -329,7 +329,7 @@ void sintactico(void)
 	if(case_sensitive) {
 		memcpy(lower+129,"üéâäàåçêëèïîìäåéææôöòûùÿöü¢£¥áíóú",35);
 		memcpy(lower+'A',"ABCDEFGHIJKLMNOPQRSTUVWXYZ",26);
-		lower['Ñ']='Ñ';
+		lower[L'Ñ']=L'Ñ';
 	}
 
 	if (pieza==p_compiler_options) {
@@ -362,7 +362,7 @@ void sintactico(void)
 						case_sensitive=1;
 						memcpy(lower+129,"üéâäàåçêëèïîìäåéææôöòûùÿöü¢£¥áíóú",35);
 						memcpy(lower+'A',"ABCDEFGHIJKLMNOPQRSTUVWXYZ",26);
-						lower['Ñ']='Ñ';
+						lower[L'Ñ']=L'Ñ';
 						break;
 					case 4: // _ignore_errors
 						lexico();
