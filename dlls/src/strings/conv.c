@@ -2,7 +2,7 @@
 
 #include "conv.h"
 
-/* Tabla de conversiσn de caracteres MS-DOS a Windows */
+/* Tabla de conversiΓ³n de caracteres MS-DOS a Windows */
 
 int dos_chars=0;
 
@@ -25,7 +25,7 @@ byte dos_to_win[256] = {
 173, 177,  61, 190, 182, 167, 247, 184, 176, 168, 183, 185, 179, 178, 166, 160
 };
 
-/* Tabla de conversiσn de caracteres Windows a MS-DOS */
+/* Tabla de conversiΓ³n de caracteres Windows a MS-DOS */
 
 byte win_to_dos[256] =
 {
@@ -78,9 +78,9 @@ void inicializa_lower()
 
 	set_c_lower  ("ABCDEFGHIJKLMNOPQRSTUVWXYZ","abcdefghijklmnopqrstuvwxyz");
 	set_c_lower  ("abcdefghijklmnopqrstuvwxyz","abcdefghijklmnopqrstuvwxyz");
-	set_c_lower  ("ΑΙΝΣΪΡΗΐΘΜÒΩΔΛΟΦάέΒΚΞΤΫΖΓΕΥ","αινσϊρηΰθμςωδλοφόύβκξτϋζγευ");
-	set_c_lower("αινσϊρηΰθμςωδλοφόύβκξτϋζγευ","αινσϊρηΰθμςωδλοφόύβκξτϋζγευ");
-	set_c_lower("1234567890#$_Ίª","1234567890#$_Ίª");
+	set_c_lower  ("ΓΓ‰ΓΓ“ΓΓ‘Γ‡Γ€ΓΓΓ’Γ™Γ„Γ‹ΓΓ–ΓΓΓ‚ΓΓΓ”Γ›Γ†ΓƒΓ…Γ•","Γ΅Γ©Γ­Γ³ΓΊΓ±Γ§Γ Γ¨Γ¬Γ²ΓΉΓ¤Γ«Γ―Γ¶ΓΌΓ½ΓΆΓªΓ®Γ΄Γ»Γ¦Γ£Γ¥Γµ");
+	set_c_lower("Γ΅Γ©Γ­Γ³ΓΊΓ±Γ§Γ Γ¨Γ¬Γ²ΓΉΓ¤Γ«Γ―Γ¶ΓΌΓ½ΓΆΓªΓ®Γ΄Γ»Γ¦Γ£Γ¥Γµ","Γ΅Γ©Γ­Γ³ΓΊΓ±Γ§Γ Γ¨Γ¬Γ²ΓΉΓ¤Γ«Γ―Γ¶ΓΌΓ½ΓΆΓªΓ®Γ΄Γ»Γ¦Γ£Γ¥Γµ");
+	set_c_lower("1234567890#$_ΒΊΒª","1234567890#$_ΒΊΒª");
 }
 
 void inicializa_upper()
@@ -89,7 +89,7 @@ void inicializa_upper()
 
 	set_c_upper  ("abcdefghijklmnopqrstuvwxyz","ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 	set_c_upper  ("ABCDEFGHIJKLMNOPQRSTUVWXYZ","ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-	set_c_upper  ("αινσϊρηΰθμςωδλοφόύβκξτϋζγευ","ΑΙΝΣΪΡΗΐΘΜÒΩΔΛΟΦάέΒΚΞΤΫΖΓΕΥ");
-	set_c_upper("ΑΙΝΣΪΡΗΐΘΜÒΩΔΛΟΦάέΒΚΞΤΫΖΓΕΥ","ΑΙΝΣΪΡΗΐΘΜÒΩΔΛΟΦάέΒΚΞΤΫΖΓΕΥ");
-	set_c_upper("1234567890#$_Ίª","1234567890#$_Ίª");
+	set_c_upper  ("Γ΅Γ©Γ­Γ³ΓΊΓ±Γ§Γ Γ¨Γ¬Γ²ΓΉΓ¤Γ«Γ―Γ¶ΓΌΓ½ΓΆΓªΓ®Γ΄Γ»Γ¦Γ£Γ¥Γµ","ΓΓ‰ΓΓ“ΓΓ‘Γ‡Γ€ΓΓΓ’Γ™Γ„Γ‹ΓΓ–ΓΓΓ‚ΓΓΓ”Γ›Γ†ΓƒΓ…Γ•");
+	set_c_upper("ΓΓ‰ΓΓ“ΓΓ‘Γ‡Γ€ΓΓΓ’Γ™Γ„Γ‹ΓΓ–ΓΓΓ‚ΓΓΓ”Γ›Γ†ΓƒΓ…Γ•","ΓΓ‰ΓΓ“ΓΓ‘Γ‡Γ€ΓΓΓ’Γ™Γ„Γ‹ΓΓ–ΓΓΓ‚ΓΓΓ”Γ›Γ†ΓƒΓ…Γ•");
+	set_c_upper("1234567890#$_ΒΊΒª","1234567890#$_ΒΊΒª");
 }

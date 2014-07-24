@@ -18,7 +18,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-// กojo! versi๓n capada, no devuelve errores
+// ยกojo! versiรณn capada, no devuelve errores
 
 #ifdef WIN32
 #  define el_stub "stub.exe"
@@ -112,9 +112,9 @@ void init_rnd_coder(int n, char * clave)
 		rndb();
 }
 
-//อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
-//  Funciขn de encriptaciขn/desencriptaciขn
-//อออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
+//รรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรร
+//  Funciยขn de encriptaciยขn/desencriptaciยขn
+//รรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรรร
 
 void coder(byte * ptr, int len, char * clave) 
 {

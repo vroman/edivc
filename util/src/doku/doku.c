@@ -53,7 +53,7 @@ void procesa_indice();
 /*
  * esta es llamada cuando encontramos <%subindex%>. Se le indica el fichero
  * actual y busca la entrada correspondiente en el index.dok. Entonces parsea
- * la porcion de arbol que engloba y genera un subíndice como los de SGML.
+ * la porcion de arbol que engloba y genera un subÃ­ndice como los de SGML.
  */
 void procesa_subindice(char* actual);
 

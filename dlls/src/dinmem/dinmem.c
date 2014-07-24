@@ -4,7 +4,7 @@
 
 
 /*
- * POR HACER: eDIV debe controlar todas las peticiones de memoria dinámica
+ * POR HACER: eDIV debe controlar todas las peticiones de memoria dinÃ¡mica
  * es decir, si hacemos un free() donde no debemos, debe producirse un 
  * fp->Runtime_Error
  */

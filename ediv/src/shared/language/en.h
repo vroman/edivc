@@ -255,7 +255,7 @@
 
 #elif TRANSLATE == TRANSLATE_RUNTIME_ERROR
 
-/* TODO: Creo que esta traducción es un poco patatera, voy a tener que revisarla un poco. */
+/* TODO: Creo que esta traducciÃ³n es un poco patatera, voy a tener que revisarla un poco. */
 /* 100 */ "There is not enough memory to execute the program.",
 /* 101 */ "Call to a key() with a nonexistent key code.",
 /* 102 */ "The palette was not loaded, archive not found.",

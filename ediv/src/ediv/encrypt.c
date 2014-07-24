@@ -86,7 +86,7 @@ void init_rnd_coder(int n, char * clave)
 }
 
 /*
- *  Funci¢n de encriptaci¢n/desencriptaci¢n
+ *  FunciÂ¢n de encriptaciÂ¢n/desencriptaciÂ¢n
  */
 
 void coder(byte * ptr, int len, char * clave) 

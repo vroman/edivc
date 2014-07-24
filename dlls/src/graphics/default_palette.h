@@ -1,8 +1,8 @@
 /*! \file default_palette.h
- * \brief Contiene la definición de la paleta por defecto
+ * \brief Contiene la definiciÃ³n de la paleta por defecto
  *
- * Este fichero contiene la definición de #default_palette, que es un array
- * de bytes que contienen la información RGBA de los colores de la paleta que
+ * Este fichero contiene la definiciÃ³n de #default_palette, que es un array
+ * de bytes que contienen la informaciÃ³n RGBA de los colores de la paleta que
  * se inicializa por defecto (ya que el modo por defecto es de 8 bits).
  */
 

@@ -117,9 +117,9 @@ void lee_ediv_cfg(char* ediv_cfg)
 						break;
 					case 3: /* _case_sensitive */
 						lexico();
-						memcpy(lower+129,"ьйвдаезклипомдейжжфцтыщяцьўЈҐбнуъ",35);
+						memcpy(lower+129,"ГјГ©ГўГ¤Г ГҐГ§ГЄГ«ГЁГЇГ®Г¬Г¤ГҐГ©Г¦Г¦ГґГ¶ГІГ»Г№ГїГ¶ГјВўВЈВҐГЎГ­ГіГє",35);
 						memcpy(lower+'A',"ABCDEFGHIJKLMNOPQRSTUVWXYZ",26);
-						lower['С']='С';
+						lower['Г‘']='Г‘';
 						break;
 					case 4: /* _ignore_errors */
 						lexico();

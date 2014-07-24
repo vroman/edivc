@@ -37,11 +37,11 @@ int eDIV_GET_TRANSPARENT_COLOR(FUNCTION_PARAMS)
 
 /*! \brief Crea un color a partir de las componentes RGB dadas.
  *
- * Esta funciÛn devuelve el color m·s prÛximo posible a las componentes RGB
+ * Esta funci√≥n devuelve el color m√°s pr√≥ximo posible a las componentes RGB
  * dadas. En modos de color paletizado (8 bits) puede devolver un color muy
  * distinto al esperado si no se encuentra otro mejor en la paleta.
- * Esta funciÛn difiere de \link eDIV_FIND_COLOR() find_color() \endlink en
- * que recibe los par·metros en un rango de 0..255 en vez de 0..63.
+ * Esta funci√≥n difiere de \link eDIV_FIND_COLOR() find_color() \endlink en
+ * que recibe los par√°metros en un rango de 0..255 en vez de 0..63.
  * @param r Componente roja (red)
  * @param g Componente verde (green)
  * @param b Componente azul (blue)
@@ -60,11 +60,11 @@ int eDIV_RGB(FUNCTION_PARAMS)
 
 /*! \brief Crea un color a partir de las componentes RGB dadas.
  *
- * Esta funciÛn devuelve el color m·s prÛximo posible a las componentes RGB
+ * Esta funci√≥n devuelve el color m√°s pr√≥ximo posible a las componentes RGB
  * dadas. En modos de color paletizado (8 bits) puede devolver un color muy
  * distinto al esperado si no se encuentra otro mejor en la paleta.
- * Esta funciÛn difiere de \link eDIV_RGB() RGB() \endlink en que recibe los
- * par·metros en un rango de 0..63 en vez de 0..255. Se ha incluido para
+ * Esta funci√≥n difiere de \link eDIV_RGB() RGB() \endlink en que recibe los
+ * par√°metros en un rango de 0..63 en vez de 0..255. Se ha incluido para
  * mantener la compatibilidad con DIV2.
  * @param r Componente roja (red)
  * @param g Componente verde (green)
@@ -84,10 +84,10 @@ int eDIV_FIND_COLOR(FUNCTION_PARAMS)
 
 /*! \brief Obtiene las componentes RGB de un color dado.
  *
- * Esta funciÛn recibe un color y almacena en las variables indicadas sus
+ * Esta funci√≥n recibe un color y almacena en las variables indicadas sus
  * componentes RGB (siempre en un rango de 0..255). Si en lugar de un offset
- * se recibe un 0, se ignorar· esa componente.
- * @param color Color del que se quiere obtener la informaciÛn
+ * se recibe un 0, se ignorar√° esa componente.
+ * @param color Color del que se quiere obtener la informaci√≥n
  * @param offset_r Offset de la variable donde se quiere guardar el valor de la componente roja (red)
  * @param offset_g Offset de la variable donde se quiere guardar el valor de la componente verde (green)
  * @param offset_b Offset de la variable donde se quiere guardar el valor de la componente azul (blue)
@@ -111,7 +111,7 @@ int eDIV_GET_RGB(FUNCTION_PARAMS)
 
 /*! \brief Hace un fundido de pantalla
  *
- * \todo °°funciÛn sin acabar!!
+ * \todo ¬°¬°funci√≥n sin acabar!!
  */
 int eDIV_FADE(FUNCTION_PARAMS)
 {

@@ -19,7 +19,7 @@
  */
 
 /*
- * Precarga de las estructuras léxicas, analiza el fichero ltlex.def
+ * Precarga de las estructuras lÃ©xicas, analiza el fichero ltlex.def
  */
 
 #include <stdio.h>
@@ -43,9 +43,9 @@ void ltlex_error(int error)
 
 void analiza_ltlex(void){
 
-    byte *_buf, * buf;		/* Buffer del texto y puntero al carácter actual */
+    byte *_buf, * buf;		/* Buffer del texto y puntero al carÃ¡cter actual */
 	byte cont=1;			/* 0 indica final del archivo                    */
-    int len;				/* Tamaño del archivo                            */
+    int len;				/* TamaÃ±o del archivo                            */
     struct lex_ele * e;		/* Puntero al lex_case correspondiente           */
 	FILE * def;				/* Stream del fichero                            */
 
@@ -65,7 +65,7 @@ void analiza_ltlex(void){
     fseek(def,0,SEEK_SET);
     len=fread(buf,1,len,def);
 
-	/* El carácter ASCII 0 indica final del fichero */
+	/* El carÃ¡cter ASCII 0 indica final del fichero */
     *(buf+len)=0;
 
 	#ifdef _DEBUG
@@ -89,10 +89,10 @@ void analiza_ltlex(void){
 			case lf:
 				linea++;
 				break;
-				/* Los ; indican línea de comentario */
+				/* Los ; indican lÃ­nea de comentario */
 			case ';':
 				while (*buf!=cr && *buf!=lf) buf++; break;
-				/* El símbolo & indica definición de token */
+				/* El sÃ­mbolo & indica definiciÃ³n de token */
 			case '&':
 				*buf=lower[*buf];
 				if (*buf>='0' && *buf<='9')
@@ -118,7 +118,7 @@ void analiza_ltlex(void){
 					buf--; ivnom.b++;
 				} else if (t>=0x78 && t<=0x7b) {  /* Analiza un delimitador de literal */
 					lex_case[*buf]=(struct lex_ele*)l_lit;		
-				} else {                          /* Analiza un nuevo símbolo */
+				} else {                          /* Analiza un nuevo sÃ­mbolo */
 					if ((e=lex_case[*buf])==0) {
 						if (num_nodos++==max_nodos)
 							ltlex_error(3);

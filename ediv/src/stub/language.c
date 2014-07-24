@@ -19,7 +19,7 @@
  */
 
 
-/**** ¡¡¡ OJO CON LAS COMAS !!! ****/
+/**** Â¡Â¡Â¡ OJO CON LAS COMAS !!! ****/
 
 
 #ifdef _WIN32
@@ -37,11 +37,11 @@ int detecta_idioma_iso(char* lang)
 {
 	int i;
 	static char getid[NUM_LANGUAGES][3] = {
-		"es",	// español
+		"es",	// espaÃ±ol
 		"it",	// italiano
-		"pt",	// portugués
-		"en",	// inglés
-		"ca",	// catalán
+		"pt",	// portuguÃ©s
+		"en",	// inglÃ©s
+		"ca",	// catalÃ¡n
 		"eu"	// euskera
 	};
 	if(lang==NULL) return DEFAULT_LANGUAGE;
@@ -61,11 +61,11 @@ int detecta_idioma()
 	#ifdef _WIN32
 		int i;
 		static int getid[NUM_LANGUAGES] = {
-			0x0a,	// español
+			0x0a,	// espaÃ±ol
 			0x10,	// italiano
-			0x16,	// portugués
-			0x09,	// inglés
-			0x03,	// catalán
+			0x16,	// portuguÃ©s
+			0x09,	// inglÃ©s
+			0x03,	// catalÃ¡n
 			0x2d	// euskera
 		};
 		LANGID lang;
@@ -96,8 +96,8 @@ char* translate(int id_cadena)
 
 
 /*
- * NOTA: los huecos vacíos (184..199) son de errores no usados en DIV2, por favor
- * aprovechadlos para añadir nuevos errores.
+ * NOTA: los huecos vacÃ­os (184..199) son de errores no usados en DIV2, por favor
+ * aprovechadlos para aÃ±adir nuevos errores.
  */
 
 char* translate_runtime_error(int num)

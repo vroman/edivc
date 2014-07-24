@@ -56,8 +56,8 @@ int ini_interprete()
 
 	// Posicion de inicio del code
 	iloc=mem[2]; // Inicio de la imagen de las variables locales
-	iloc_len=mem[6]+mem[5]; // Longitud de las locales (p£blicas y privadas)
-	iloc_pub_len=mem[6]; 	// Longitud de las variables locales p£blicas
+	iloc_len=mem[6]+mem[5]; // Longitud de las locales (p¬£blicas y privadas)
+	iloc_pub_len=mem[6]; 	// Longitud de las variables locales p¬£blicas
 	inicio_privadas=iloc_pub_len;
 	imem=mem[1]; // Principio del codigo
 /*
@@ -274,12 +274,12 @@ int proceso( int num, int padre )
 			sp--;
 			break;
 		case ldiv://15
-			if(pila[sp]==0) error(145); // divisiÛn entre cero
+			if(pila[sp]==0) error(145); // divisi√≥n entre cero
 			pila[sp-1] /= pila[sp] ;
 			sp--;
 			break;
 		case lmod://16
-			if(pila[sp]==0) error(145); // divisiÛn entre cero
+			if(pila[sp]==0) error(145); // divisi√≥n entre cero
 			pila[sp-1] %= pila[sp] ;
 			sp--;
 			break;
@@ -360,11 +360,11 @@ int proceso( int num, int padre )
 			break;
 		case ltyp://32
 			if ( procs_s[num_proc].tipo != 0 ) {
-				critical_error(3); // redefiniciÛn del tipo de proceso
+				critical_error(3); // redefinici√≥n del tipo de proceso
 			}
 			procs_s[num_proc].id = (mem[2] + ( num_proc * iloc_len ))|1;
 			if(procs_s[num_proc].id>imem_max-iloc_len)
-				critical_error(8);	// demasiados procesos en ejecuciÛn
+				critical_error(8);	// demasiados procesos en ejecuci√≥n
 			memcpy(&mem[procs_s[num_proc].id],&mem[iloc],iloc_pub_len<<2);
 			reserved("process_id",procs_s[num_proc].id)=procs_s[num_proc].id;
 			if(padre!=-1) {
@@ -413,14 +413,14 @@ int proceso( int num, int padre )
 		case lipt://38
 			pila[sp] = ++mem[ pila[sp] ] ;
 			break ;
-		case lpti://39 COMPORTAMIENTO EXTRA—O SI SE PONE EN UNA LINEA
+		case lpti://39 COMPORTAMIENTO EXTRA√ëO SI SE PONE EN UNA LINEA
 			mem[ pila[sp] ]++;
 			pila[sp] = mem[ pila[sp] ]-1 ;
 			break ;
 		case ldpt://40
 			pila[sp] = --mem[ pila[sp] ] ;
 			break ;
-		case lptd://41 COMPORTAMIENTO EXTRA—O SI SE PONE EN UNA LINEA
+		case lptd://41 COMPORTAMIENTO EXTRA√ëO SI SE PONE EN UNA LINEA
 			mem[ pila[sp] ]--;
 			pila[sp] = mem[ pila[sp] ]+1 ;
 			break ;
@@ -846,14 +846,14 @@ int proceso( int num, int padre )
 			nstring=((nstring+1)&3);
 			break;
 
-		case lstrdec: /* cambio de tamaÒo "en el aire" (no da error, hace lo que puede) */
+		case lstrdec: /* cambio de tama√±o "en el aire" (no da error, hace lo que puede) */
 			oo=strlen((char*)&mem[pila[sp-1]]);
 			if (oo<1028) {
 				strcpy((char*)&mem[nullstring[nstring]],(char*)&mem[pila[sp-1]]);
 				if (pila[sp]>0) { /* Quitar caracteres */
 					if (pila[sp]>=oo) memb[nullstring[nstring]*4]=0;
 					else memb[nullstring[nstring]*4+oo-pila[sp]]=0;
-				} else if (pila[sp]<0) { /* AÒadir (?) caracteres (por homogeneidad) */
+				} else if (pila[sp]<0) { /* A√±adir (?) caracteres (por homogeneidad) */
 					pila[sp]=oo-pila[sp]; /* Nueva longitud */
 					if (pila[sp]>1025) pila[sp]=1025;
 					for (;oo<pila[sp];oo++) {
@@ -865,7 +865,7 @@ int proceso( int num, int padre )
 			nstring=((nstring+1)&3);
 			break;
 
-		case lstrsub: /* cambio de tamaÒo a un string */
+		case lstrsub: /* cambio de tama√±o a un string */
 			oo=strlen((char*)&mem[pila[sp-1]]);
 /*			#ifdef DEBUG
 				if ((mem[pila[sp-1]-1]&0xFFF00000)!=0xDAD00000) {
@@ -882,7 +882,7 @@ int proceso( int num, int padre )
 			if (pila[sp]>0) { // Quitar caracteres
 				if (pila[sp]>=oo) memb[pila[sp-1]*4]=0;
 				else memb[pila[sp-1]*4+oo-pila[sp]]=0;
-			} else if (pila[sp]<0) { /* AÒadir (?) caracteres (por homogeneidad) */
+			} else if (pila[sp]<0) { /* A√±adir (?) caracteres (por homogeneidad) */
 				pila[sp]=oo-pila[sp]; /* Nueva longitud */
 				for (;oo<pila[sp];oo++) {
 					memb[pila[sp-1]*4+oo]=' ';
@@ -1011,7 +1011,7 @@ int proceso( int num, int padre )
 			sp--; mem[procs_s[num_proc].id+_param_offset]++;
 			break;
 
-		/* ComprobaciÛn de punteros nulos */
+		/* Comprobaci√≥n de punteros nulos */
 		case lnul:
 /*			#ifdef DEBUG
 				if (!pila[sp]) {
@@ -1068,18 +1068,18 @@ int proceso( int num, int padre )
 
 /*
  * int localiza_lin (int ip)
- * Localiza el imem actual (ip) en la tabla LIN (es decir, localiza en quÈ lÌnea y
+ * Localiza el imem actual (ip) en la tabla LIN (es decir, localiza en qu√© l√≠nea y
  * columna del PRG nos encontramos).
  *
  * Retorna:
- * ((El Ìndice en lin[])-1)/4 <- sentiende no?
+ * ((El √≠ndice en lin[])-1)/4 <- sentiende no?
  */
 
 int localiza_lin(int ip)
 {
 	lin_item* last;
 	int i;
-	/* Primero, para ahorrar tiempo, comprueba si a˙n seguimos dentro de la misma
+	/* Primero, para ahorrar tiempo, comprueba si a√∫n seguimos dentro de la misma
 	   sentencia, aunque sea distinto opcode */
 	last=(lin_item*)(&lin[last_lin*4]);
 	if(last->inicio<=ip && last->fin>=ip) {
@@ -1087,8 +1087,8 @@ int localiza_lin(int ip)
 		return last_lin;
 	}
 	
-	/* Si no, recorre la tabla LIN a partir de donde est·bamos, no desde el principio,
-	   ya que es m·s probable que hayamos saltado a una sentencia posterior que a una
+	/* Si no, recorre la tabla LIN a partir de donde est√°bamos, no desde el principio,
+	   ya que es m√°s probable que hayamos saltado a una sentencia posterior que a una
 	   anterior */
 	for(i=last_lin;i<lin[0];i++) {
 		if(lin[i*4+1]<=ip && lin[i*4+2]>=ip)
@@ -1101,7 +1101,7 @@ int localiza_lin(int ip)
 			return i;
 	}
 
-	/* Si a˙n no lo hemos encontrado, mal rollito.. bug seguro, avisemos al programador */
+	/* Si a√∫n no lo hemos encontrado, mal rollito.. bug seguro, avisemos al programador */
 	#ifdef _DEBUG
 		printf("PANIC! No se en que parte del PRG estoy! imem=%d, last_lin=%d\n",ip,last_lin);
 	#endif

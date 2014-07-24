@@ -1,7 +1,7 @@
 /* 
- * Esto contiene la imagen del icono por defecto del stub en su versión
+ * Esto contiene la imagen del icono por defecto del stub en su versiÃ³n
  * 16x16x16 (obtenida con Resource Hacker y gif2h), la cual se busca en el
- * stub para saber dónde hay que escribir el nuevo icono.
+ * stub para saber dÃ³nde hay que escribir el nuevo icono.
  */
 
 static unsigned char image[]={

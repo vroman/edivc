@@ -8,11 +8,11 @@
 #include "graphics.h"
 
 /*! \brief Crea un nuevo draw
- * \todo Permitir más tipos de figuras, y hacer que se dibujen en tiempo real, para que sean más rápidos y no consuman memoria
- * @param t Tipo de figura (1=línea, 2=rectángulo, 3=rectángulo relleno, 4=elipse, 5=elipse rellena)
+ * \todo Permitir mÃ¡s tipos de figuras, y hacer que se dibujen en tiempo real, para que sean mÃ¡s rÃ¡pidos y no consuman memoria
+ * @param t Tipo de figura (1=lÃ­nea, 2=rectÃ¡ngulo, 3=rectÃ¡ngulo relleno, 4=elipse, 5=elipse rellena)
  * @param c Color
  * @param o Opacidad (0..15)
- * @param r Región
+ * @param r RegiÃ³n
  * @param x0 Coordenada X inicial
  * @param y0 Coordenada Y inicial
  * @param x1 Coordenada X final

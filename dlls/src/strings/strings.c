@@ -82,7 +82,7 @@ int DIV_strcpy(FUNCTION_PARAMS)
 	int dest=getparm();
 
 	if ((fp->mem[dest-1]&0xFFF00000)!=0xDAD00000) {
-		fp->Runtime_Error(164);	/* Cadena destino inválida */
+		fp->Runtime_Error(164);	/* Cadena destino invÃ¡lida */
 		return 0;		
 	}
 	if ((unsigned)src>255) {
@@ -115,7 +115,7 @@ int DIV_strset(FUNCTION_PARAMS)
 	int n;
 
 	if ((fp->mem[cadena-1]&0xFFF00000)!=0xDAD00000) {
-		fp->Runtime_Error(164); /* Cadena destino inválida */
+		fp->Runtime_Error(164); /* Cadena destino invÃ¡lida */
 		return 0;
 	}
 	n=(fp->mem[cadena-1]&0xFFFFF)+1;
@@ -174,7 +174,7 @@ int DIV_strcat(FUNCTION_PARAMS)
 	int n;
 
 	if ((fp->mem[dest-1]&0xFFF00000)!=0xDAD00000) {
-		fp->Runtime_Error(164); /* Cadena destino inválida */
+		fp->Runtime_Error(164); /* Cadena destino invÃ¡lida */
 		return 0;
 	}
 
@@ -318,7 +318,7 @@ int DIV_strdel(FUNCTION_PARAMS)
 	int str=getparm();
 
 	if ((fp->mem[str-1]&0xFFF00000)!=0xDAD00000) {
-		fp->Runtime_Error(164); /* Cadena destino inválida */
+		fp->Runtime_Error(164); /* Cadena destino invÃ¡lida */
 		return str;
 	}
 

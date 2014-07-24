@@ -1,6 +1,6 @@
 /*
 ** carga.c
-** Incluye las funciones de carga y descarga de recursos gr·ficos
+** Incluye las funciones de carga y descarga de recursos gr√°ficos
 ** (bmp, fpg, map, pcx, pal, png...)
 */
 

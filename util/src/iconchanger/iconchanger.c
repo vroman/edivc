@@ -1,17 +1,17 @@
 /* IconChanger
- * PequeÒa utilidad-complemento para eDIV que permite sustituir el icono del stub de
+ * Peque√±a utilidad-complemento para eDIV que permite sustituir el icono del stub de
  * win32 por otro. El icono nuevo debe ser exactamente igual que el original del stub,
  * es decir, tiene que cumplir las siguientes condiciones:
- * - Contener 6 im·genes en total:
+ * - Contener 6 im√°genes en total:
  *   + 16x16 a 4, 8 y 24 bits de color
  *   + 32x32 a 4, 8 y 24 bits de color
  * - "Pesar" exactamente 8.854 bytes.
- * Este programa es muy simple asÌ que no se molesta en comprobar el formato del fichero,
- * ˙nicamente comprueba su tamaÒo. Si metes un icono que no es adecuado.. all· t˙..
- * Puede ser ˙til en el futuro currarnos un programa decente que soporte cualquier tipo
- * de iconos, que cambiara el tamaÒo del exe, etc etc, ya serÌa la reostia, pero por
+ * Este programa es muy simple as√≠ que no se molesta en comprobar el formato del fichero,
+ * √∫nicamente comprueba su tama√±o. Si metes un icono que no es adecuado.. all√° t√∫..
+ * Puede ser √∫til en el futuro currarnos un programa decente que soporte cualquier tipo
+ * de iconos, que cambiara el tama√±o del exe, etc etc, ya ser√≠a la reostia, pero por
  * ahora con esto nos sobra.
- * PekeÒo inconveniente: sÛlo se puede cambiar el icono 1 vez :p  Si se kiere cambiar el
+ * Peke√±o inconveniente: s√≥lo se puede cambiar el icono 1 vez :p  Si se kiere cambiar el
  * icono por segunda vez, hay que recompilar el programa. En realidad no importa, ya que
  * en verdad es lo que pasa en todos los compiladores...
  * Si se kiere cambiar el icono y un virus te ha comido el ediv.exe o el .prg, pos tiras
@@ -21,7 +21,7 @@
  */
 
 #ifndef _WIN32
-#error IconChanger es sÛlamente para Win32
+#error IconChanger es s√≥lamente para Win32
 #endif
 
 #include <stdio.h>
@@ -31,9 +31,9 @@
 #include "iconchanger.h"
 
 
-#define ICO_SIZE	8854		// TamaÒo que debe tener el .ico
+#define ICO_SIZE	8854		// Tama√±o que debe tener el .ico
 #define	ICO_START	0x66		// Offset donde se empieza a leer el .ico
-#define ICO_LEN		0x2230		// TamaÒo del bloque a copiar del .ico al .exe
+#define ICO_LEN		0x2230		// Tama√±o del bloque a copiar del .ico al .exe
 
 
 void* e_malloc(size_t size)
@@ -71,10 +71,10 @@ int main(int argc, char* argv[])
 	tamanyo=ftell(f);
 	if(tamanyo!=ICO_SIZE) {
 		fclose(f);
-		printf("ERROR: El icono no es del formato v·lido\n\n");
-		printf("Te refrescarÈ la memoria:\nEl icono (.ico) DEBE contener 6 im·genes en total, a saber:\n");
-		printf(" - 3 im·genes de 16x16 (a 4, 8 y 24 bits de color).\n");
-		printf(" - 3 im·genes de 32x32 (a 4, 8 y 24 bits de color).\n");
+		printf("ERROR: El icono no es del formato v√°lido\n\n");
+		printf("Te refrescar√© la memoria:\nEl icono (.ico) DEBE contener 6 im√°genes en total, a saber:\n");
+		printf(" - 3 im√°genes de 16x16 (a 4, 8 y 24 bits de color).\n");
+		printf(" - 3 im√°genes de 32x32 (a 4, 8 y 24 bits de color).\n");
 		printf("No puede faltar ninguna, ya que el archivo debe ocupar EXACTAMENTE %d bytes.\n\n",ICO_SIZE);
 		exit(4);
 	}

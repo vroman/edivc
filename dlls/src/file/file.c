@@ -50,7 +50,7 @@ int eDiv_Fopen(FUNCTION_PARAMS)
 	for (i=0;i<strlen(modo);i++)
 		if (modo[i]!='r' && modo[i]!='w' && modo[i]!='a' && modo[i]!='+') break;
 	if (i<strlen(modo)) {
-		fp->Runtime_Error(166); /* modo de acceso al archivo no válido */
+		fp->Runtime_Error(166); /* modo de acceso al archivo no vÃ¡lido */
 		return 0;
 	}
 	strcat(modo,"b");
@@ -83,7 +83,7 @@ int eDiv_Fwrite(FUNCTION_PARAMS)
 	offset = getparm() ;
 
 	if ( !existe[handle] ) {
-		fp->Runtime_Error(170); /* handle no válido */
+		fp->Runtime_Error(170); /* handle no vÃ¡lido */
 		return 0;
 	}
 	
@@ -119,7 +119,7 @@ int eDiv_Ftell(FUNCTION_PARAMS)
 	int handle=getparm();
 
 	if ( !existe[handle] ) {
-		fp->Runtime_Error(170); /* handle no válido */
+		fp->Runtime_Error(170); /* handle no vÃ¡lido */
 		return -1 ;				/* En caso de error, DIV2 devuelve handle, pero no me parece muy correcto... */
 	}
 
@@ -134,7 +134,7 @@ int eDiv_Fseek(FUNCTION_PARAMS)
 	handle = getparm() ;
 
 	if ( !existe[handle] ) {
-		fp->Runtime_Error(170); /* handle no válido */
+		fp->Runtime_Error(170); /* handle no vÃ¡lido */
 		return -1 ;				/* ocurre lo mismo que con ftell... */
 	}
 

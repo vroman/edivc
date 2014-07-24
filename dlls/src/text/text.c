@@ -116,7 +116,7 @@ int eDiv_Write(FUNCTION_PARAMS)
 	fuente = getparm() ;
 
 	if(fuente<0 || fuente>MAX_FONTS || !existe[fuente]) {
-		fp->Runtime_Error(116);	/* id de fuente no v·lido */
+		fp->Runtime_Error(116);	/* id de fuente no v√°lido */
 		return -1;
 	}
 
@@ -196,7 +196,7 @@ int eDiv_WriteInt(FUNCTION_PARAMS)
 	fuente = getparm() ;
 
 	if(fuente<0 || fuente>MAX_FONTS || !existe[fuente]) {
-		fp->Runtime_Error(116);	/* id de fuente no v·lido */
+		fp->Runtime_Error(116);	/* id de fuente no v√°lido */
 		return -1;
 	}
 
@@ -297,7 +297,7 @@ int eDiv_DeleteText(FUNCTION_PARAMS)
 		return 1;
 	}
 	else if (i<1 || i>MAX_WRITES) {
-		fp->Runtime_Error(119);	/* id de texto no v·lido */
+		fp->Runtime_Error(119);	/* id de texto no v√°lido */
 		return -1 ;
 	}
 

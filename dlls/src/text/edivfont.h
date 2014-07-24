@@ -21,7 +21,7 @@
 
 /*
   -Estructura de control
-      contiene informacion sobre el offset y tamaño del bmp en el fichero .fnt
+      contiene informacion sobre el offset y tamaÃ±o del bmp en el fichero .fnt
 	  para poder leerlo, tambien contiene el offset de la estructura de informacion
   -Mapa de caracteres
       es la imagen del mapa de caracteres, se copia directamente.

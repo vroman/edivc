@@ -27,7 +27,7 @@
 
 
 /*
- * Errores de compilaci髇
+ * Errores de compilaci贸n
  */
 
 #if TRANSLATE == TRANSLATE_ERROR
@@ -227,14 +227,14 @@
 
 /* FIXME: traducir esto */
 /* 0	*/	"ERROR %d: ",
-/* 1	*/	"eDIV: Error en ejecuci髇",
-/* 2	*/	"eDIV: Error cr韙ico",
+/* 1	*/	"eDIV: Error en ejecuci贸n",
+/* 2	*/	"eDIV: Error cr铆tico",
 /* 3	*/	"Error en %s: ",
-/* 4	*/	"eDIV: Error en librer韆 din醡ica" /* SIN COMA */
+/* 4	*/	"eDIV: Error en librer铆a din谩mica" /* SIN COMA */
 
 
 /*
- * Errores de tiempo de ejecuci髇 del stub
+ * Errores de tiempo de ejecuci贸n del stub
  */
 
 #elif TRANSLATE == TRANSLATE_RUNTIME_ERROR
@@ -343,7 +343,7 @@
 
 
 /*
- * Errores cr韙icos del stub
+ * Errores cr铆ticos del stub
  */
 
 #elif TRANSLATE == TRANSLATE_CRITICAL_ERROR
@@ -356,8 +356,8 @@
 /* 5	*/	"Ezin da liburutegia aurkitu: %s",
 /* 6	*/	"%s ez da eDIV-en liburutegi zuzen bat",
 /* 7	*/	"No se pudo inicializar SDL",	// FIXME: traducir esto
-/* 8	*/	"Demasiados procesos en ejecuci髇",	// FIXME: traducir esto
-/* 9	*/	"Se requiere SDL versi髇 %d.%d.%d\nVersi髇 detectada en el sistema: %d.%d.%d" /* SIN COMA */ // FIXME: traducir esto
+/* 8	*/	"Demasiados procesos en ejecuci贸n",	// FIXME: traducir esto
+/* 9	*/	"Se requiere SDL versi贸n %d.%d.%d\nVersi贸n detectada en el sistema: %d.%d.%d" /* SIN COMA */ // FIXME: traducir esto
 
 
 #endif

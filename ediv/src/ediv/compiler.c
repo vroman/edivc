@@ -64,13 +64,13 @@ void prepara_compilacion()
 	iobj=obj;
 	num_obj=0;
 
-	/* Inicializamos la tabla de sÌmbolos */
+	/* Inicializamos la tabla de s√≠mbolos */
 	memset(lex_simb,0,sizeof(lex_simb));
 	ilex_simb=lex_simb;
 	num_nodos=0;
 
 
-	/* Inicializamos los caracteres b·sicos en lex_case */
+	/* Inicializamos los caracteres b√°sicos en lex_case */
 	for (n=0;n<256;n++)
 		if (lower[n]) {
 			if (n>='0' && n<='9')
@@ -87,7 +87,7 @@ void prepara_compilacion()
 	ivnom.b=vnom;
 
 
-	/* Leemos los sÌmbolos y palabras reservadas de ltlex.def */
+	/* Leemos los s√≠mbolos y palabras reservadas de ltlex.def */
 	analiza_ltlex();
 
 
@@ -108,7 +108,7 @@ void prepara_compilacion()
 	loc=(int*)e_malloc(iloc_max*sizeof(int));
 	memset(loc,0,iloc_max*sizeof(int));
 
-	/* øQue es esto? */
+	/* ¬øQue es esto? */
 	ifrm_max=default_buffer/2;
 	frm=(int*)e_malloc(ifrm_max*sizeof(int));
 	memset(frm,0,ifrm_max*sizeof(int));
@@ -139,7 +139,7 @@ void compila()
 	
 	printf(translate(27));
 	
-	/* inicio_textos debe ser como mÌnimo 256 */
+	/* inicio_textos debe ser como m√≠nimo 256 */
 	if(imem<256) imem=256;
 	itxt=inicio_textos=imem;
 	psintactico();		/* Para obtener "longitud_textos" */
@@ -184,7 +184,7 @@ void compila()
 	source=prog;
 	
 	inicializa_index();	/* ahora toca construir el indice de variables */
-	dll_func2();		 /* recarga sÛlo las dlls necesarias */
+	dll_func2();		 /* recarga s√≥lo las dlls necesarias */
 	
 	if(debug) {
 		if((linf=tmpfile())==NULL) {
@@ -193,7 +193,7 @@ void compila()
 		}
 	}
 
-	/* inicio_textos debe ser como mÌnimo 256 */
+	/* inicio_textos debe ser como m√≠nimo 256 */
 	if(imem<256) imem=256;
 	itxt=inicio_textos=imem;
 	imem+=longitud_textos;
@@ -204,7 +204,7 @@ void compila()
 	sintactico();
 	
 	/* 
-	 * Ahora que estamos en el final del bytecode, aÒadiremos la rutina que carga
+	 * Ahora que estamos en el final del bytecode, a√±adiremos la rutina que carga
 	 * las DLLs. Lo primero es guardar las cadenas con los nombres:
 	 */
 	for(n=0;n<numdlls;n++)
@@ -216,7 +216,7 @@ void compila()
 			test_buffer(&mem,&imem_max,imem);
 		}
 
-	/* Si estamos compilando en modo debug, aÒadimos tambien la debug.dll */
+	/* Si estamos compilando en modo debug, a√±adimos tambien la debug.dll */
 	if(debug) {
 		dlls[numdlls].mem_nombre=imem;
 		memcpy(&mem[imem],"debug",6);
@@ -225,8 +225,8 @@ void compila()
 	}
 	
 	/* 
-	 * Ahora estamos en la posiciÛn donde comienza la rutina, por lo que tenemos
-	 * que guardar la posiciÛn actual en el offset que guardamos en salto_import
+	 * Ahora estamos en la posici√≥n donde comienza la rutina, por lo que tenemos
+	 * que guardar la posici√≥n actual en el offset que guardamos en salto_import
 	 */
 	mem[salto_import]=imem;
 	
@@ -240,7 +240,7 @@ void compila()
 
 	g2(ljmp,salto_import+1);			
 	
-	/* Ya est· !! :) */
+	/* Ya est√° !! :) */
 	
 	/* Preparamos la cabecera del bytecode */
 	mem[2]=imem;
@@ -249,26 +249,26 @@ void compila()
 	mem[5]=iloc_len-iloc;
 	mem[6]=iloc;
 	mem[7]=0; /* Antes imem+iloc (inicio textos), ahora no se utiliza */
-	mem[8]=imem+iloc; /* N˙mero de elementos ocupados en mem[] */
+	mem[8]=imem+iloc; /* N√∫mero de elementos ocupados en mem[] */
 
 	/*
 	 * mem[0] se usa para almacenar flags para el ejecutable. En el caso de DIV 2,
-	 * Èstas eran:
+	 * √©stas eran:
 	 * +1	= El programa es un setup de sonido (setup_program)
-	 * +128	= El programa invoca al trazador nada m·s ejecutarse (compilado con F12)
-	 * +512	= Se ignoran los errores de ejecuciÛn (ignore_errors)
+	 * +128	= El programa invoca al trazador nada m√°s ejecutarse (compilado con F12)
+	 * +512	= Se ignoran los errores de ejecuci√≥n (ignore_errors)
 	 * +1024= Modo DEMO (mensaje en el centro de la pantalla parpadeando diciendo
-	 *		  "VERSI”N DE DEMOSTRACI”N")
+	 *		  "VERSI√ìN DE DEMOSTRACI√ìN")
 	 */
 
 	/*
 	 * nosotros usaremos las siguientes:
 	 * +16	= El exe lleva incluidas las DLL's
 	 *        A ver como lo hacemos en Linux.. 1) con temporales o 2) hurgando en el codigo
-	 *        de dlopen y demas y haciendonos una pekeÒa lib (esto es mas aconsejable)
+	 *        de dlopen y demas y haciendonos una peke√±a lib (esto es mas aconsejable)
 	 * +32	= El exe lleva incluido el PAK
 	 * +64	= Compilado en modo debug
-	 * +128 = Igual que en DIV2, el programa invoca al trazador nada m·s ejecutarse (se
+	 * +128 = Igual que en DIV2, el programa invoca al trazador nada m√°s ejecutarse (se
 	 *        ha usado la orden "trazar programa" en el IDE)
 	 * +512	= ignore_errors, igual que en DIV2
 	 */
@@ -355,7 +355,7 @@ void compila()
 				free(q); free(p);
 				m=l*2;
 				q=(byte*)e_malloc(m);
-				if(!compress(q,&m,varptr,l)) { /* n∫variables,longitud_datos_descomp,longitud_datos_comp,datos_comp... */
+				if(!compress(q,&m,varptr,l)) { /* n¬∫variables,longitud_datos_descomp,longitud_datos_comp,datos_comp... */
 					fwrite(&num_indexed_vars,1,4,f);
 					fwrite(&l,1,4,f);
 					fwrite(&m,1,sizeof(unsigned long),f);
@@ -371,7 +371,7 @@ void compila()
 						fwrite(&start_lin,1,4,f);
 						fwrite(&start_dbg,1,4,f);
 					}			
-					fwrite(&stub_size,1,4,f); /* Ultimos 4 bytes siempre son el tamaÒo del stub */
+					fwrite(&stub_size,1,4,f); /* Ultimos 4 bytes siempre son el tama√±o del stub */
 					fclose(f);
 				} else {
 					free(q);
@@ -409,7 +409,7 @@ void compila()
 
 /*
  * void test_buffer(int **bufer, int *maximo, int n);
- * Comprueba los lÌmites de un buffer de generaciÛn de cÛdigo
+ * Comprueba los l√≠mites de un buffer de generaci√≥n de c√≥digo
  */
 void test_buffer(int **buffer,int *maximo,int n)
 {
@@ -566,17 +566,17 @@ void sentencia(void) {
         if (pieza==p_step) {
           lexico();
           step=constante();
-          if (from<to && step<=0) error(4,62); /* el valor step no es v·lido */
+          if (from<to && step<=0) error(4,62); /* el valor step no es v√°lido */
           if (from>to && step>=0) error(4,62);
         } else {
           if (from<to) step=1; else step=-1;
         }
-        g2(lcar,from); /* AsignaciÛn del from */
+        g2(lcar,from); /* Asignaci√≥n del from */
         g1(lasi); g1(lasp);
 
         im1=imem; /* Inicio del bucle */
 
-        if (dir>=0) { /* ComparaciÛn de la condiciÛn de permanencia */
+        if (dir>=0) { /* Comparaci√≥n de la condici√≥n de permanencia */
           g2(lcar,dir);
         } else {
           g2(lcar,-dir); g1(laid);
@@ -593,7 +593,7 @@ void sentencia(void) {
         if (pieza!=p_end) error(0,57); inicio_sentencia(); /* esperando END */
         lexico();
 
-        im3=imem; /* PosiciÛn del continue */
+        im3=imem; /* Posici√≥n del continue */
 
         if (dir>=0) { /* Incremento y vuelta al inicio del bucle */
           g2(lcar,dir);
@@ -787,7 +787,7 @@ void sentencia(void) {
 
 
 /*
- * Funciones de generaciÛn de cÛdigo
+ * Funciones de generaci√≥n de c√≥digo
  */
 
 void g1(int op) {
@@ -799,7 +799,7 @@ void g2(int op, int pa) {
 }
 
 /*
- *  OptimizaciÛn peephole de cÛdigo intermedio EML
+ *  Optimizaci√≥n peephole de c√≥digo intermedio EML
  */
 
 void gen(int param, int op, int pa) 
@@ -958,7 +958,7 @@ void gen(int param, int op, int pa)
       } else if (code[15].op==lcar){
         if (mem[imem-1]==1) remove_code(1);
         else if (mem[imem-1]!=0) {
-          code[15].op=mem[imem-2]=lcardiv; /* Un cardiv nunca ser· "cardiv 0" */
+          code[15].op=mem[imem-2]=lcardiv; /* Un cardiv nunca ser√° "cardiv 0" */
           optimizado=1;
         }
       } break;
@@ -1054,7 +1054,7 @@ void grabar_sentencia(void)
 }
 
 /*
- * Agrega informaciÛn de depurado al ejecutable
+ * Agrega informaci√≥n de depurado al ejecutable
  */
 
 void escribe_lin(FILE* f)
@@ -1077,15 +1077,15 @@ void escribe_lin(FILE* f)
 		fclose(f);
 		errormem();
 	}
-	/* escribe el tamaÒo del codigo descomprimido */
+	/* escribe el tama√±o del codigo descomprimido */
 	fwrite(&b,1,4,f);
-	/* escribe el tamaÒo del codigo comprimido */
+	/* escribe el tama√±o del codigo comprimido */
 	fwrite(&l,1,4,f);
 	/* escribe el codigo comprimido */
 	fwrite(progcomp,1,l,f);
 	free(progcomp);
 	
-	/* Escribe el tamaÒo del LIN */
+	/* Escribe el tama√±o del LIN */
 	#ifdef _DEBUG
 		printf("dbg: linsize: %d\n",linsize);
 	#endif
@@ -1094,7 +1094,7 @@ void escribe_lin(FILE* f)
 		ediv_lin=fopen("ediv.lin","w");
 		fprintf(ediv_lin,"linsize: %d\n",linsize);
 	#endif
-	/* Escribe la informaciÛn LIN (offset de cada sentencia en el prg y en el bytecode) */
+	/* Escribe la informaci√≥n LIN (offset de cada sentencia en el prg y en el bytecode) */
 	fseek(linf,0,SEEK_SET);
 	while((b=fgetc(linf))!=EOF) {
 		fputc(b,f);
@@ -1120,7 +1120,7 @@ void escribe_lin(FILE* f)
 
 
 /*
- * Escribe informaciÛn sobre los objetos
+ * Escribe informaci√≥n sobre los objetos
  */
 void escribe_dbg(FILE* f)
 {
@@ -1135,7 +1135,7 @@ void escribe_dbg(FILE* f)
 		int v0,v1,v2,v3,v4,v5;
 	} ob;
 	
-	/* Cabecera de secciÛn DBG */
+	/* Cabecera de secci√≥n DBG */
 	fwrite(&num_obj,4,1,f);
 	fwrite(&num_obj_predefinidos,4,1,f);
 	n=(int)&obj[0];
@@ -1157,11 +1157,11 @@ void escribe_dbg(FILE* f)
 		ob.v5=(int)obj[n].sglo.items3;
 		if (obj[n].tipo==tpsgl || obj[n].tipo==tpslo) ob.v1=(ob.v1-(int)&obj[0])/sizeof(struct objeto);
 
-		/* OJO ! que no se pueden aÒadir objetos aquÌ (ver uso de &obj[0] y sizeof(struct objeto)) */
+		/* OJO ! que no se pueden a√±adir objetos aqu√≠ (ver uso de &obj[0] y sizeof(struct objeto)) */
 		fwrite(&ob,sizeof(ob),1,f);
 	}
 	
-	/* Escribe el tamaÒo del vector de nombres */
+	/* Escribe el tama√±o del vector de nombres */
 	n=(int)ivnom.b-(int)vnom;
 	fwrite(&n,4,1,f);
 	

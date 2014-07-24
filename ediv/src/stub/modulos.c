@@ -111,7 +111,7 @@ void dll_func() // ke original, no? XD
 		for(i=0;i<2;i++) {
 			fichero_dll=readdir(directorio);
 			if(fichero_dll==0) {
-				printf("No se encuentra ninguna librerÌa\n");
+				printf("No se encuentra ninguna librer√≠a\n");
 				exit(1);
 			}
 		}
@@ -121,7 +121,7 @@ void dll_func() // ke original, no? XD
 			if(fichero_dll==0)
 				break;
 			if(fichero_dll->d_type==DT_REG) {
-			    printf("LibrerÌa encontrada: so/%s\n",fichero_dll->d_name);
+			    printf("Librer√≠a encontrada: so/%s\n",fichero_dll->d_name);
                 strcpy(fichdll,"so/");
         		strcat(fichdll,fichero_dll->d_name);
 //				dlls[numdlls].nfuncs=0;
@@ -134,7 +134,7 @@ void dll_func() // ke original, no? XD
             }
 		}
 		if(numdlls==0) {
-			printf("No se encuentra ninguna librerÌa\n");
+			printf("No se encuentra ninguna librer√≠a\n");
 			exit(1);
 		}
 	#endif
@@ -157,7 +157,7 @@ void dll_func2()
 			#endif
 			strcat(fichdll,dlls[i].nombre);
 			if(leedll()) {
-				printf("Error al cargar librerÌa %s\n",dlls[i].nombre);
+				printf("Error al cargar librer√≠a %s\n",dlls[i].nombre);
 				exit(1);
 			}
 		}
@@ -234,7 +234,7 @@ int leedll()
 	ExportaFuncs=(TYPEOF_ExportaFuncs *) dlsym(hDLL,"ExportaFuncs");
 
 	if((errordll=dlerror())!=NULL) {
-		printf("No se encuentra ExportaFuncs en %s - LibrerÌa no v·lida (%s)\n",fichdll,errordll);
+		printf("No se encuentra ExportaFuncs en %s - Librer√≠a no v√°lida (%s)\n",fichdll,errordll);
 		dlclose(hDLL);
 		return 1;
 	}

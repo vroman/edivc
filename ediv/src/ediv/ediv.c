@@ -34,7 +34,7 @@ void muestra_motd();
 void conecta(char *servidor, char *archivo);
 
 #else
-#	include <dlfcn.h>		/* ¿será igual en BeOS? */
+#	include <dlfcn.h>		/* Â¿serÃ¡ igual en BeOS? */
 #	include <dirent.h>
 #endif
 
@@ -138,7 +138,7 @@ int main(int argc, char *argv[])
 				}
 #endif
                 else {
-                    printf(translate(13),argv[i]); /* parámetro erróneo */
+                    printf(translate(13),argv[i]); /* parÃ¡metro errÃ³neo */
                     exit(1);
                 }
             }
@@ -180,7 +180,7 @@ int main(int argc, char *argv[])
 							exit(0);
 #endif
                         default:
-                            printf(translate(15),argv[i][j]); /* parámetro erróneo */
+                            printf(translate(15),argv[i][j]); /* parÃ¡metro errÃ³neo */
                             exit(1);
                     }
                     j++;
@@ -197,7 +197,7 @@ int main(int argc, char *argv[])
 				hayprog=2;
 				break;
 			default:        	
-                printf(translate(13),argv[i]); /* parámetro erróneo */
+                printf(translate(13),argv[i]); /* parÃ¡metro errÃ³neo */
                 exit(1);
 		}
     }
@@ -341,7 +341,7 @@ int main(int argc, char *argv[])
 
 /*
  * void *e_malloc(size_t size)
- * Idéntico a malloc, pero con errormsg automático
+ * IdÃ©ntico a malloc, pero con errormsg automÃ¡tico
  *
  * Retorna:
  *	El numero de bytes de memoria alojados o sale si no se puede reservar la memoria.
@@ -374,7 +374,7 @@ void errormem()
 
 
 /*
- *  Gestión de errores
+ *  GestiÃ³n de errores
  */
 int _le,_t;
 byte *_ie;
@@ -431,7 +431,7 @@ void error(word tipo, word num, ...)
 
 #ifdef MULTI_ERROR		
 	if(n_errors>20)
-		printf("Demasiados errores. Compilación interrumpida.\n");
+		printf("Demasiados errores. CompilaciÃ³n interrumpida.\n");
 				
 	if(num==1 || num==2 || num==6 || n_errors>20) {
 		printf("edivc: Finalizado - %d advertencias, %d errores\n",n_warnings,n_errors);

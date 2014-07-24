@@ -46,14 +46,14 @@ int iloc_len; /* final de las variables locales incluyendo las privadas */
 
 /*
  * mem[]        vector de memoria destino
- * imem         puntero para la generaci髇 de datos y c骴igo
- * imem_max     fin de la memoria destino (indice m醲imo de mem[])
+ * imem         puntero para la generaci贸n de datos y c贸digo
+ * imem_max     fin de la memoria destino (indice m谩ximo de mem[])
  * iloc         inicio en mem[] de las variables locales (inicializadas)
  * iloc_len     longitud de las variables locales
  */
 
 /* 
- * Inserci髇 en la tabla de expresiones, acceso a variables:
+ * Inserci贸n en la tabla de expresiones, acceso a variables:
  *
  * vglo           &vglo ptr
  * tglo[_exp]     &tglo <_exp> add rng ptr
@@ -84,43 +84,43 @@ int case_sensitive;
 
 
 /*
- *  MNEM覰ICOS BYTECODE EML
+ *  MNEM脫NICOS BYTECODE EML
  */
-#define lnop  0 /* *            No operaci髇											*/
+#define lnop  0 /* *            No operaci贸n											*/
 #define lcar  1 /* valor        Carga una constante en pila								*/
 #define lasi  2 /*              Saca valor, offset y mete el valor en [offset]			*/
-#define lori  3 /*              Or l骻ico												*/
+#define lori  3 /*              Or l贸gico												*/
 #define lxor  4 /*              Xor, or exclusivo										*/
-#define land  5 /*              And l骻ico, operador sobre condiciones					*/
-#define ligu  6 /*              Igual, operador logico de comparaci髇					*/
+#define land  5 /*              And l贸gico, operador sobre condiciones					*/
+#define ligu  6 /*              Igual, operador logico de comparaci贸n					*/
 #define ldis  7 /*              Distinto, true si los 2 valores son diferentes			*/
-#define lmay  8 /*              Mayor, comparaci髇 con signo							*/
+#define lmay  8 /*              Mayor, comparaci贸n con signo							*/
 #define lmen  9 /*              Menor, idem												*/
 #define lmei 10 /*              Menor o igual											*/
 #define lmai 11 /*              Mayor o igual											*/
 #define ladd 12 /*              Suma dos constantes										*/
-#define lsub 13 /*              Resta, operaci髇 binaria								*/
-#define lmul 14 /*              Multiplicaci髇											*/
-#define ldiv 15 /*              Divisi髇 de enteros										*/
-#define lmod 16 /*              M骴ulo, resto de la divisi髇							*/
-#define lneg 17 /*              Negaci髇, cambia de signo una constante					*/
+#define lsub 13 /*              Resta, operaci贸n binaria								*/
+#define lmul 14 /*              Multiplicaci贸n											*/
+#define ldiv 15 /*              Divisi贸n de enteros										*/
+#define lmod 16 /*              M贸dulo, resto de la divisi贸n							*/
+#define lneg 17 /*              Negaci贸n, cambia de signo una constante					*/
 #define lptr 18 /*              Pointer, saca offset y mete [offset]					*/
-#define lnot 19 /*              Negaci髇 binaria, bit a bit								*/
+#define lnot 19 /*              Negaci贸n binaria, bit a bit								*/
 #define laid 20 /*              Suma id a la constante de la pila						*/
 #define lcid 21 /*              Carga id en la pila										*/
-#define lrng 22 /* rango        Realiza una comparaci髇 de rango						*/
-#define ljmp 23 /* offset       Salta a una direcci髇 de mem[]							*/
-#define ljpf 24 /* offset       Salta si un valor es falso a una direcci髇				*/
-#define lfun 25 /* c骴igo       Llamada a un proceso interno, ej. signal() (obsoleto, ver lext)	*/
+#define lrng 22 /* rango        Realiza una comparaci贸n de rango						*/
+#define ljmp 23 /* offset       Salta a una direcci贸n de mem[]							*/
+#define ljpf 24 /* offset       Salta si un valor es falso a una direcci贸n				*/
+#define lfun 25 /* c贸digo       Llamada a un proceso interno, ej. signal() (obsoleto, ver lext)	*/
 #define lcal 26 /* offset       Crea un nuevo proceso en el programa					*/
-#define lret 27 /*              Auto-eliminaci髇 del proceso							*/
+#define lret 27 /*              Auto-eliminaci贸n del proceso							*/
 #define lasp 28 /*              Desecha un valor apilado								*/
-#define lfrm 29 /*              Detiene por este frame la ejecuci髇 del proceso			*/
-#define lcbp 30 /* num_par      Inicializa el puntero a los par醡etros locales			*/
-#define lcpa 31 /*              Saca offset, lee par醡etro [offset] y bp++				*/
+#define lfrm 29 /*              Detiene por este frame la ejecuci贸n del proceso			*/
+#define lcbp 30 /* num_par      Inicializa el puntero a los par谩metros locales			*/
+#define lcpa 31 /*              Saca offset, lee par谩metro [offset] y bp++				*/
 #define ltyp 32 /* bloque       Define el tipo de proceso actual (colisiones)			*/
-#define lpri 33 /* offset       Salta a la direcci髇, y carga var. privadas				*/
-#define lcse 34 /* offset       Si switch <> expresi髇, salta al offset					*/
+#define lpri 33 /* offset       Salta a la direcci贸n, y carga var. privadas				*/
+#define lcse 34 /* offset       Si switch <> expresi贸n, salta al offset					*/
 #define lcsr 35 /* offset       Si switch no esta en el rango, salta al offset			*/
 #define lshr 36 /*              Rotacion a la derecha (modo C, >>)						*/
 #define lshl 37 /*              Rotacion a la izquierda (modo C, <<)					*/
@@ -128,26 +128,26 @@ int case_sensitive;
 #define lpti 39 /*              Pointer e incremento									*/
 #define ldpt 40 /*              Decremento y pointer									*/
 #define lptd 41 /*              Pointer y decremento									*/
-#define lada 42 /*              Add-asignaci髇											*/
-#define lsua 43 /*              Sub-asignaci髇											*/
-#define lmua 44 /*              Mul-asignaci髇											*/
-#define ldia 45 /*              Div-asignaci髇											*/
-#define lmoa 46 /*              Mod-asignaci髇											*/
-#define lana 47 /*              And-asignaci髇											*/
-#define lora 48 /*              Or-asignaci髇											*/
-#define lxoa 49 /*              Xor-asignaci髇											*/
-#define lsra 50 /*              Shr-asignaci髇											*/
-#define lsla 51 /*              Shl-asignaci髇											*/
-#define lpar 52 /* num_par_pri  Define el n鷐ero de par醡etros privados					*/
-#define lrtf 53 /*              Auto-eliminaci髇 del proceso, devuelve un valor			*/
+#define lada 42 /*              Add-asignaci贸n											*/
+#define lsua 43 /*              Sub-asignaci贸n											*/
+#define lmua 44 /*              Mul-asignaci贸n											*/
+#define ldia 45 /*              Div-asignaci贸n											*/
+#define lmoa 46 /*              Mod-asignaci贸n											*/
+#define lana 47 /*              And-asignaci贸n											*/
+#define lora 48 /*              Or-asignaci贸n											*/
+#define lxoa 49 /*              Xor-asignaci贸n											*/
+#define lsra 50 /*              Shr-asignaci贸n											*/
+#define lsla 51 /*              Shl-asignaci贸n											*/
+#define lpar 52 /* num_par_pri  Define el n煤mero de par谩metros privados					*/
+#define lrtf 53 /*              Auto-eliminaci贸n del proceso, devuelve un valor			*/
 #define lclo 54 /* offset       Crea un clon del proceso actual							*/
 #define lfrf 55 /*              Pseudo-Frame (frame a un porcentaje)					*/
 #define limp 56 /* offset text  Importa una DLL externa									*/	
-#define lext 57 /* c骴igo       Llama a una funci髇 externa								*/
+#define lext 57 /* c贸digo       Llama a una funci贸n externa								*/
 #define lchk 58 /*              Comprueba la validez de un identificador				*/
 #define ldbg 59 /*              Invoca al debugger										*/
 
-/* Instrucciones a馻didas para la optimizaci髇 (DIV 2.0) */
+/* Instrucciones a帽adidas para la optimizaci贸n (DIV 2.0) */
 #define lcar2 60		/* car + car */
 #define lcar3 61		/* car + car + car */
 #define lcar4 62		/* car + car + car + car */
@@ -167,31 +167,31 @@ int case_sensitive;
 #define lcarsub 76		/* car + sub */
 #define lcardiv 77		/* car + div */
 
-/* Instrucciones a馻didas para el manejo de caracteres */
+/* Instrucciones a帽adidas para el manejo de caracteres */
 #define lptrchr 78  /* Pointer, saca (index, offset) y mete [offset+byte index]				*/
 #define lasichr 79  /* Saca (valor, index, offset) y mete el valor en [offset+byte index]	*/
 #define liptchr 80  /* Incremento y pointer													*/
 #define lptichr 81  /* Pointer e incremento													*/
 #define ldptchr 82  /* Decremento y pointer													*/
 #define lptdchr 83  /* Pointer y decremento													*/
-#define ladachr 84  /* Add-asignaci髇														*/
-#define lsuachr 85  /* Sub-asignaci髇														*/
-#define lmuachr 86  /* Mul-asignaci髇														*/
-#define ldiachr 87  /* Div-asignaci髇														*/
-#define lmoachr 88  /* Mod-asignaci髇														*/
-#define lanachr 89  /* And-asignaci髇														*/
-#define lorachr 90  /* Or-asignaci髇														*/
-#define lxoachr 91  /* Xor-asignaci髇														*/
-#define lsrachr 92  /* Shr-asignaci髇														*/
-#define lslachr 93  /* Shl-asignaci髇														*/
-#define lcpachr 94  /* Saca offset, lee par醡etro [offset] y bp++							*/
+#define ladachr 84  /* Add-asignaci贸n														*/
+#define lsuachr 85  /* Sub-asignaci贸n														*/
+#define lmuachr 86  /* Mul-asignaci贸n														*/
+#define ldiachr 87  /* Div-asignaci贸n														*/
+#define lmoachr 88  /* Mod-asignaci贸n														*/
+#define lanachr 89  /* And-asignaci贸n														*/
+#define lorachr 90  /* Or-asignaci贸n														*/
+#define lxoachr 91  /* Xor-asignaci贸n														*/
+#define lsrachr 92  /* Shr-asignaci贸n														*/
+#define lslachr 93  /* Shl-asignaci贸n														*/
+#define lcpachr 94  /* Saca offset, lee par谩metro [offset] y bp++							*/
 
-/* Instrucciones a馻didas para el manejo de cadenas */
+/* Instrucciones a帽adidas para el manejo de cadenas */
 #define lstrcpy 95  /* Saca si, di, y hace strcpy(mem[di],[si]) (deja di en pila)			*/
 #define lstrfix 96  /* Amplia una cadena antes de meter un char en ella						*/
 #define lstrcat 97  /* Concatena dos cadenas (opera como strcpy)							*/
 #define lstradd 98  /* Suma dos strings "en el aire" y deja en pila el puntero al aire		*/
-#define lstrdec 99  /* A馻de o quita caracteres a una cadena								*/
+#define lstrdec 99  /* A帽ade o quita caracteres a una cadena								*/
 #define lstrsub 100 /* Quita caracteres a una cadena (-=)									*/
 #define lstrlen 101 /* Sustituye una cadena por su longitud									*/
 #define lstrigu 102 /* Comparacion de igualdad de dos cadenas								*/
@@ -200,39 +200,39 @@ int case_sensitive;
 #define lstrmen 105 /* Cadena menor															*/
 #define lstrmei 106 /* Cadena mayor o igual													*/
 #define lstrmai 107 /* Cadena menor o igual													*/
-#define lcpastr 108 /* Carga un par醡etro en una cadena										*/
+#define lcpastr 108 /* Carga un par谩metro en una cadena										*/
 
-/* Instrucciones a馻didas para el manejo de Words */
+/* Instrucciones a帽adidas para el manejo de Words */
 #define lptrwor 109 /* Pointer, saca (index, offset) y mete [offset+byte index]				*/
 #define lasiwor 110 /* Saca (valor, index, offset) y mete el valor en [offset+byte index]	*/
 #define liptwor 111 /* Incremento y pointer													*/
 #define lptiwor 112 /* Pointer e incremento													*/
 #define ldptwor 113 /* Decremento y pointer													*/
 #define lptdwor 114 /* Pointer y decremento													*/
-#define ladawor 115 /* Add-asignaci髇														*/
-#define lsuawor 116 /* Sub-asignaci髇														*/
-#define lmuawor 117 /* Mul-asignaci髇														*/
-#define ldiawor 118 /* Div-asignaci髇														*/
-#define lmoawor 119 /* Mod-asignaci髇														*/
-#define lanawor 120 /* And-asignaci髇														*/
-#define lorawor 121 /* Or-asignaci髇														*/
-#define lxoawor 122 /* Xor-asignaci髇														*/
-#define lsrawor 123 /* Shr-asignaci髇														*/
-#define lslawor 124 /* Shl-asignaci髇														*/
-#define lcpawor 125 /* Saca offset, lee par醡etro [offset] y bp++							*/
+#define ladawor 115 /* Add-asignaci贸n														*/
+#define lsuawor 116 /* Sub-asignaci贸n														*/
+#define lmuawor 117 /* Mul-asignaci贸n														*/
+#define ldiawor 118 /* Div-asignaci贸n														*/
+#define lmoawor 119 /* Mod-asignaci贸n														*/
+#define lanawor 120 /* And-asignaci贸n														*/
+#define lorawor 121 /* Or-asignaci贸n														*/
+#define lxoawor 122 /* Xor-asignaci贸n														*/
+#define lsrawor 123 /* Shr-asignaci贸n														*/
+#define lslawor 124 /* Shl-asignaci贸n														*/
+#define lcpawor 125 /* Saca offset, lee par谩metro [offset] y bp++							*/
 
-/* Miscel醤ea */
+/* Miscel谩nea */
 #define lnul    126 /* Comprueba que un puntero no sea NULL									*/
 
-/* Instrucciones a馻didas en eDIV */
-#define lextasp 127	/* Combinaci髇 de ext y asp, sustituye a funasp				*/
+/* Instrucciones a帽adidas en eDIV */
+#define lextasp 127	/* Combinaci贸n de ext y asp, sustituye a funasp				*/
 
 
 struct {      /* Peephole, "mirilla" para el optimizador                        */
-  int dir;    /* Direcci髇                                                      */
-  int param;  /* Indica si ese opcode tiene par醡etro                           */
+  int dir;    /* Direcci贸n                                                      */
+  int param;  /* Indica si ese opcode tiene par谩metro                           */
   int op;     /* Opcode                                                         */
-} code[16];   /* En code[15] debe quedar siempre la 鷏tima instrucci髇 generada */
+} code[16];   /* En code[15] debe quedar siempre la 煤ltima instrucci贸n generada */
 
 /* Informacion para temporal de debug (posicion en mem y fuente de cada sentencia) */
 FILE * linf;	/* En este temporal guardamos la info y luego lo agregamos al exe */

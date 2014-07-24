@@ -18,18 +18,18 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-/* Errores en tiempo de ejecuciÛn */
+/* Errores en tiempo de ejecuci√≥n */
 
 /* POR HACER: En Windows se muestra un MsgBox para los errores, pero en Linux se hace
- * un simple printf. Esto no es problema en los errores no crÌticos de la versiÛn debug
+ * un simple printf. Esto no es problema en los errores no cr√≠ticos de la versi√≥n debug
  * (ya que los errores los muestra la DLL de Delphi), o si siempre ejecutamos los juegos
- * desde una consola, pero el usuario final los ejecutar· haciendo doble clic sobre el
- * programa. Por tanto en Linux tambiÈn tenemos que mostrar una MsgBox, y no podemos usar
- * el propio buffer de SDL para imprimirlos (ya que uno de los errores no crÌticos es la
- * falta de memoria), asÌ que habr· que tirar de X a lo basto, recomiendo mirar el cÛdigo
+ * desde una consola, pero el usuario final los ejecutar√° haciendo doble clic sobre el
+ * programa. Por tanto en Linux tambi√©n tenemos que mostrar una MsgBox, y no podemos usar
+ * el propio buffer de SDL para imprimirlos (ya que uno de los errores no cr√≠ticos es la
+ * falta de memoria), as√≠ que habr√° que tirar de X a lo basto, recomiendo mirar el c√≥digo
  * fuente de XBill ya que implementa MsgBoxes de una forma reducida usando Motif o Athena
- * (basada en Xaw). XBill tambiÈn puede usar GTK pero esa librerÌa ya es demasiado grande
- * (la librerÌa a usar debe ser linkada de forma est·tica)
+ * (basada en Xaw). XBill tambi√©n puede usar GTK pero esa librer√≠a ya es demasiado grande
+ * (la librer√≠a a usar debe ser linkada de forma est√°tica)
  */
 
 #ifdef _WIN32
@@ -44,9 +44,9 @@
 
 /* Error ( numero, parametros [...] )
  *
- * Genera un error en tiempo de ejecuciÛn, no crÌtico (en debug se llama al trazador)
- * ATENCI”N: Ahora mismo est· en forma de RELEASE, para la versiÛn DEBUG del stub se deber·
- * invocar al trazador (llamando a la funciÛn adecuada, que a˙n no est· hecha, en debug.dll)
+ * Genera un error en tiempo de ejecuci√≥n, no cr√≠tico (en debug se llama al trazador)
+ * ATENCI√ìN: Ahora mismo est√° en forma de RELEASE, para la versi√≥n DEBUG del stub se deber√°
+ * invocar al trazador (llamando a la funci√≥n adecuada, que a√∫n no est√° hecha, en debug.dll)
  * Otra nota: he puesto exactamente los mismos errores de DIV2, ya que tenemos que mantener
  * la compatibilidad con el ignore_error... 100% compatible, recordad.. :P
  */
@@ -81,7 +81,7 @@ void error(int num, ...)
 /* critical_error ( numero, parametros [...] )
  *
  * Interrumpe el programa con un mensaje de error. No es posible trazar.
- * Esta funciÛn es igual para release que para debug, ya que no se puede trazar en el punto
+ * Esta funci√≥n es igual para release que para debug, ya que no se puede trazar en el punto
  * en que se produce un error de este tipo.
  */
 
@@ -107,16 +107,16 @@ void critical_error(int num, ...)
 /* custom_error (tipo, mensaje)
  *
  * Permite a las DLLs generar sus propios errores, para que no dependan de los
- * que hay definidos en el stub. El par·metro tipo permite indicar si se trata de
- * un error crÌtico (que debe interrumpir la ejecuciÛn del programa) o un error
+ * que hay definidos en el stub. El par√°metro tipo permite indicar si se trata de
+ * un error cr√≠tico (que debe interrumpir la ejecuci√≥n del programa) o un error
  * runtime (que llama al trazador si estamos en modo debug). A ser posible hay
  * que usar los que incluye el stub, ya que estos errores no pueden usarse con
- * ignore_error (no tienen un cÛdigo asociado), aunque sÌ se ven afectados por
+ * ignore_error (no tienen un c√≥digo asociado), aunque s√≠ se ven afectados por
  * compiler_options _ignore_errors.
- * NOTA: una DLL puede incluir su propio sistema de gestiÛn de errores, por tanto
- * puede asignar cÛdigos a sus propios errores e incluso incluir su propia versiÛn
+ * NOTA: una DLL puede incluir su propio sistema de gesti√≥n de errores, por tanto
+ * puede asignar c√≥digos a sus propios errores e incluso incluir su propia versi√≥n
  * de ignore_error.
- * DESVENTAJA: se pierde la capacidad multiling¸e, a menos que la incluya la propia DLL.
+ * DESVENTAJA: se pierde la capacidad multiling√ºe, a menos que la incluya la propia DLL.
  */
 
 void custom_error(tipoerror tipo, char* mensaje)

@@ -21,11 +21,11 @@
 
 /* 
  * IDs de idioma:
- *   0  - ES - EspaÒol
+ *   0  - ES - Espa√±ol
  *   1  - IT - Italiano (CicTec)
- *   2  - PT - PortuguÈs (tareco)
- *   3  - EN - InglÈs (de momento Er_Makina :P)
- *   4  - CA - Catal·n (BenKo)
+ *   2  - PT - Portugu√©s (tareco)
+ *   3  - EN - Ingl√©s (de momento Er_Makina :P)
+ *   4  - CA - Catal√°n (BenKo)
  *   5  - EU - Euskera (Jorge Urreta)
  */
 

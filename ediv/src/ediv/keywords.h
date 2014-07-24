@@ -25,7 +25,7 @@
 extern struct keywords {
 	char  keyword[20];	/* Max. 20 caracteres por keyword */
     char  code;			/* Code del keyword */
-	void* hfuncion;		/* Puntero a la función correspondiente (para no usar SWITCH) */
+	void* hfuncion;		/* Puntero a la funciÃ³n correspondiente (para no usar SWITCH) */
 } table[];
 
 extern struct prioridades {
@@ -38,8 +38,8 @@ extern struct prioridades {
 /* CM = TIPO DE COMANDO */
 #define CM_SEPARATE		0		/* Se pone entre linea y linea        */
 #define CM_STATEMENT	1		/* Statement                          */
-#define CM_CALL			2		/* Llamada a una función o un proceso */
-#define CM_SIGNO		3		/* Asignación                         */
+#define CM_CALL			2		/* Llamada a una funciÃ³n o un proceso */
+#define CM_SIGNO		3		/* AsignaciÃ³n                         */
 #define CM_DATA			4		/* Cualquier dato                     */
 
 /* ST = STATEMENTS */

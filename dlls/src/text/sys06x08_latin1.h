@@ -1,6 +1,6 @@
 /**
  * @file sys06x08_latin1.h
- * Definición de la fuente sys06x08_latin1 (generado por builtinfont)
+ * DefiniciÃ³n de la fuente sys06x08_latin1 (generado por builtinfont)
  */
 
 #ifndef __EDIV__sys06x08_latin1_h__

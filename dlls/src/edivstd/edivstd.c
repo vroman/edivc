@@ -20,8 +20,8 @@
 
 /* 
  *EDIVSTD.DLL
- * Esta librería contiene los datos más básicos que puede requerir un programa
- * DIV, tal como las opciones de compilación, estructura reserved, etc.
+ * Esta librerÃ­a contiene los datos mÃ¡s bÃ¡sicos que puede requerir un programa
+ * DIV, tal como las opciones de compilaciÃ³n, estructura reserved, etc.
  */
  
 #ifdef _WIN32
@@ -30,7 +30,7 @@
  unsigned int tiempo;
  unsigned int ultimo_tiempo;
 #else
- #error ¡adapta las rutinas de timer a Linux! (edivstd no debe usar SDL)
+ #error Â¡adapta las rutinas de timer a Linux! (edivstd no debe usar SDL)
 #endif
 #include <limits.h>
 #include <assert.h>
@@ -65,7 +65,7 @@ int ExportaFuncs(EXPORTAFUNCS_PARAMS)
 
 	/* CONSTANTES PREDEFINIDAS */
 	
-	/* Opciones de compilación */
+	/* Opciones de compilaciÃ³n */
 	CONST("_max_process",0);
 	CONST("_extended_conditions",1);
 	CONST("_simple_conditions",2);
@@ -99,7 +99,7 @@ int ExportaFuncs(EXPORTAFUNCS_PARAMS)
 	CONST("max_int",INT_MAX);
 	CONST("min_int",INT_MIN);
 	
-	/* Señales entre procesos */
+	/* SeÃ±ales entre procesos */
 	CONST("s_kill",0);
 	CONST("s_wakeup",1);
 	CONST("s_sleep",2);
@@ -115,18 +115,18 @@ int ExportaFuncs(EXPORTAFUNCS_PARAMS)
 	/* Contadores de tiempo */
 	GLOBAL_ARRAY("timer",9);
 	
-	/* Tiempo máximo de ejecución para un proceso */
+	/* Tiempo mÃ¡ximo de ejecuciÃ³n para un proceso */
 	GLOBAL("max_process_time",500);
 	
-	/* Argumentos de línea de comando */
+	/* Argumentos de lÃ­nea de comando */
 	GLOBAL("argc",0);
 	GLOBAL_ARRAY("argv",9);
 	
 	
 	/* DATOS LOCALES PREDEFINIDOS */
 	
-	/* Estructura reserved - POR HACER: ¿preservar compatibilidad con DIV? -> si
-	 * pero ¿Qué hacer con distance_1 y distance_2 (sinónimos de m8_object y old_ctype,
+	/* Estructura reserved - POR HACER: Â¿preservar compatibilidad con DIV? -> si
+	 * pero Â¿QuÃ© hacer con distance_1 y distance_2 (sinÃ³nimos de m8_object y old_ctype,
 	 * respectivamente)? ya nos toparemos con ellas cuando hagamos el modo7. 
 	 */
 
@@ -153,7 +153,7 @@ int ExportaFuncs(EXPORTAFUNCS_PARAMS)
 		_INT("caller_id",0);
 	END_STRUCT;
 	
-	/* Jerarquía de procesos */
+	/* JerarquÃ­a de procesos */
 	LOCAL("father",0);
 	LOCAL("son",0);
 	LOCAL("smallbro",0);
@@ -190,7 +190,7 @@ int eDIV_Exit(FUNCTION_PARAMS)
 	char* mensaje=getstrparm();
 	
 	/* 
-	 * FIXME: ¿Qué hacemos con el mensaje? ¿Lo mostramos en un msgbox si no es ""? 
+	 * FIXME: Â¿QuÃ© hacemos con el mensaje? Â¿Lo mostramos en un msgbox si no es ""? 
 	 */
 	if(*mensaje) {
 		#ifdef _WIN32
@@ -200,7 +200,7 @@ int eDIV_Exit(FUNCTION_PARAMS)
 		#endif
 	}
 	#ifdef _DEBUG
-		printf("dbg:\texit(): código de retorno: %d\n",codigo);
+		printf("dbg:\texit(): cÃ³digo de retorno: %d\n",codigo);
 	#endif
 	fp->Stub_Quit(codigo);
 

@@ -1,5 +1,5 @@
 /*! \file graphics.h
- * \brief Cabecera principal de la librería
+ * \brief Cabecera principal de la librerÃ­a
  *
  * Este fichero, aparte de otras cosas, contiene los prototipos de todos los .c
  * (excepto de SDL_rotozoom.c).
@@ -20,12 +20,12 @@
 #define ERR_INVALIDFPGHEADER	106
 #define ERR_INVALIDMAPCODE		110
 
-#define MAX_DRAWS	1024				/*!< Número máximo de objetos que soporta draw() (en el DIV2 eran 256) */
-#define MAX_REGIONS 32					/*!< Número máximo de regiones de pantalla (en el DIV2 eran 32) */
+#define MAX_DRAWS	1024				/*!< NÃºmero mÃ¡ximo de objetos que soporta draw() (en el DIV2 eran 256) */
+#define MAX_REGIONS 32					/*!< NÃºmero mÃ¡ximo de regiones de pantalla (en el DIV2 eran 32) */
 
 /* Macros */
 
-/*! Se usa para la colisión por bounding-box */
+/*! Se usa para la colisiÃ³n por bounding-box */
 #define Miedzy(x,a,b)	(((x) >= (a)) && ((x) <= (b)))
 
 /*! Asigna a una superficie la paleta de otra superficie */
@@ -116,7 +116,7 @@ int last_blit ;
 
 int _gamma[3] ;
 
-int smooth;						/*!< Indica si se desea suavizar los gráficos @see xput() */
+int smooth;						/*!< Indica si se desea suavizar los grÃ¡ficos @see xput() */
 
 struct _graphics* graphics;		/*!< Para que todas las funciones puedan acceder a fp->graphics */
 

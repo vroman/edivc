@@ -29,9 +29,9 @@ typedef struct
 	HDC				hDC;				// DC global que usamos
 	HWND			hWnd;				// HWND de la ventana principal
 
-	HDC				hdcDIBSection;		// DC compatible con sección DIB
-	HBITMAP			hDIBSection;		// sección DIB
-	unsigned char	*pDIBBase;			// puntero base DIB, ¡NO usado directamente para dibujar!
+	HDC				hdcDIBSection;		// DC compatible con secciÃ³n DIB
+	HBITMAP			hDIBSection;		// secciÃ³n DIB
+	unsigned char	*pDIBBase;			// puntero base DIB, Â¡NO usado directamente para dibujar!
 
 	HPALETTE		hPal;				// paleta actual
 	HPALETTE		hpalOld;			// paleta original del sistema
@@ -40,7 +40,7 @@ typedef struct
 	HINSTANCE		hinstDDRAW;			// instancia de DDRAW.DLL
 	LPDIRECTDRAW 	lpDirectDraw;		// puntero al objeto DirectDraw
 
-	LPDIRECTDRAWSURFACE lpddsFrontBuffer;	// frontbuffer en memoria de vídeo
+	LPDIRECTDRAWSURFACE lpddsFrontBuffer;	// frontbuffer en memoria de vÃ­deo
 	LPDIRECTDRAWSURFACE lpddsBackBuffer;	// backbuffer en memoria del sistema
 	LPDIRECTDRAWSURFACE lpddsOffScreenBuffer;	// backbuffer en memoria del sistema
 	LPDIRECTDRAWPALETTE	lpddpPalette;		// paleta DirectDraw

@@ -1,6 +1,6 @@
 /**
  * @file sys06x08_msdos.h
- * Definición de la fuente sys06x08_msdos (generado por builtinfont)
+ * DefiniciÃ³n de la fuente sys06x08_msdos (generado por builtinfont)
  */
 
 #ifndef __EDIV__sys06x08_msdos_h__

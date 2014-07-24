@@ -44,13 +44,13 @@ struct objeto * ob2;*/
 
 int creaobj;
 
-byte decl_struct=0;		// 1 si se est· declarando un struct
+byte decl_struct=0;		// 1 si se est√° declarando un struct
 
 byte slocal=0;			// para las structs. 0=global, 1=local
 int nregs;
 int offset;
 
-// no creo que haga falta (sÛlo servirÌa para comprobar errores en las dll)
+// no creo que haga falta (s√≥lo servir√≠a para comprobar errores en las dll)
 // -> nos ahorramos la tabla de objetos
 
 /*int crea_objeto(byte * nombre)
@@ -80,7 +80,7 @@ int offset;
 }*/
 
 
-// Errores especÌficos en la ejecuciÛn de una DLL
+// Errores espec√≠ficos en la ejecuci√≥n de una DLL
 
 void dll_error(int error, ...)
 {
@@ -185,7 +185,7 @@ int EDIV_Export_Const(char* cadena, int valor)
 		return 0;
 	}
 
-	// sÛlamente se tendr· que hacer algo en la versiÛn con trazador
+	// s√≥lamente se tendr√° que hacer algo en la versi√≥n con trazador
 
 /*	creaobj=crea_objeto((byte*)cadena);
 

@@ -33,11 +33,11 @@
 
 #define swap(a,b) {(a)^=(b);(b)^=(a);(a)^=(b);}
 
-unsigned int stub_size;			/* tamaÒo del STUB.EXE (est· almacenado en edivrun.lib) */
+unsigned int stub_size;			/* tama√±o del STUB.EXE (est√° almacenado en edivrun.lib) */
 
 byte *prog, *tprog;				/* buffer donde se almacena el PRG                      */
-size_t progsize;				/* tamaÒo del PRG                                       */
-char nombreprog[256];			/* nombre del PRG sin extensiÛn                         */
+size_t progsize;				/* tama√±o del PRG                                       */
+char nombreprog[256];			/* nombre del PRG sin extensi√≥n                         */
 char *fichero_prg;				/* nombre del archivo a compilar                        */
 char outfilename[256];			/* archivo de salida                                    */
 char edivrun_lib[256];			/* archivo stub (distinto para cada sistema)            */
@@ -50,7 +50,7 @@ int n_errors;
 int n_warnings;
 int linea;
 
-/* InformaciÛn sobre los errores */
+/* Informaci√≥n sobre los errores */
 
 /*
  * int numero_error=-1;
@@ -65,8 +65,8 @@ word error_25;        /* Para emitir "se esperaba una sentencia" */
 void *e_malloc(size_t size);		 /* un malloc con mensaje de error                    */
 void e_free(void *puntero);          /* un free que fija el puntero a NULL tras liberarlo */
 void errormem();					 /* mensaje "memoria insuficiente"                    */
-void save_error(word tipo);			 /* guarda una posiciÛn de error                      */
-void error(word tipo,word num, ...); /* error de compilaciÛn                              */
+void save_error(word tipo);			 /* guarda una posici√≥n de error                      */
+void error(word tipo,word num, ...); /* error de compilaci√≥n                              */
 void warning(int num, ...);			 /* warning en el proceso                             */
 
 #endif

@@ -10,7 +10,7 @@
 #include "export.h"
 #include "graphics.h"
 
-/*! \brief Avanza 'a' unidades seg˙n el ·ngulo del proceso.
+/*! \brief Avanza 'a' unidades seg√∫n el √°ngulo del proceso.
  * @param a Distancia que se quiere avanzar
  * @return 1
  * @see eDIV_XADVANCE()
@@ -28,8 +28,8 @@ int eDIV_ADVANCE(FUNCTION_PARAMS)
 	return 1 ;
 }
 
-/*! \brief Avanza 'b' unidades seg˙n el ·ngulo 'a'
- * @param a ¡ngulo
+/*! \brief Avanza 'b' unidades seg√∫n el √°ngulo 'a'
+ * @param a √Ångulo
  * @param b Distancia que se quiere avanzar
  * @return 1
  * @see eDIV_ADVANCE()

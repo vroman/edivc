@@ -24,7 +24,7 @@
 //#include <SDL/SDL.h>
 #include "shared.h"
 
-//#define DEBUG_DLL		// para mostrar información al cargar las DLLs
+//#define DEBUG_DLL		// para mostrar informaciÃ³n al cargar las DLLs
 
 #define swap(a,b) {(a)^=(b);(b)^=(a);(a)^=(b);}
 
@@ -49,9 +49,9 @@ int debug;				// 1 = el programa esta compilado en modo debug
 int num_proc;			// Numero de proceso activo ( indice procs_s[] )
 
 int imem;				// indice de mem
-int imem_max;			// máximo indice de mem
+int imem_max;			// mÃ¡ximo indice de mem
 
-int * mem;				// Memoria principal de la máquina destino
+int * mem;				// Memoria principal de la mÃ¡quina destino
 
 // iguales que mem pero de tipo word y byte
 word * memw;
@@ -100,10 +100,10 @@ int linsize;
 // PROTOTIPOS
 ///
 
-void error(int num, ...);		// Mensaje de error no crítico (trazable)
-void critical_error(int num, ...);		// Mensaje de error crítico
+void error(int num, ...);		// Mensaje de error no crÃ­tico (trazable)
+void critical_error(int num, ...);		// Mensaje de error crÃ­tico
 void custom_error(tipoerror tipo, char* mensaje); /* Errores personalizados de las DLLs */
 void stub_quit(int n);				// Salir del stub
-void* e_malloc(size_t size);	// identico a malloc pero con errormsg utomático
+void* e_malloc(size_t size);	// identico a malloc pero con errormsg utomÃ¡tico
 
 #endif /* __MAIN_H */

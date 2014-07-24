@@ -21,7 +21,7 @@
 
 /*
  * Archivo auxiliar para los language.c
- * Hay que editarlo cada vez que se añada un nuevo idioma
+ * Hay que editarlo cada vez que se aÃ±ada un nuevo idioma
  * LOS INCLUDES DEBEN ESTAR EN ORDEN (ver language.h)
  */
 

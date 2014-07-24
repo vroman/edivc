@@ -8,18 +8,18 @@
 #include "graphics.h"
 
 /*! \brief Cambia el modo de la pantalla
- * \todo ¿más flags?
+ * \todo Â¿mÃ¡s flags?
  *
- * Esta función permite distintas sintaxis:
+ * Esta funciÃ³n permite distintas sintaxis:
  *	- Sintaxis de DIV2:
- *		@param modo Modo de pantalla indicado por una constante tipo mWWWxHHH ó por un identificador de video_modes[]
+ *		@param modo Modo de pantalla indicado por una constante tipo mWWWxHHH Ã³ por un identificador de video_modes[]
  *
  *	- Sintaxis de eDIV:
- *		@param anchura Ancho de la nueva resolución
- *		@param altura Alto de la nueva resolución
- *		@param [bpp] Profundidad de color, puede ser 8, 16, 24 ó 32 (por defecto es 8)
- *		@param [flags] Flags de la ventana del juego, puede ser una combinación de:
- *						  _fullscreen (1), ... ya veremos si añadimos más xD
+ *		@param anchura Ancho de la nueva resoluciÃ³n
+ *		@param altura Alto de la nueva resoluciÃ³n
+ *		@param [bpp] Profundidad de color, puede ser 8, 16, 24 Ã³ 32 (por defecto es 8)
+ *		@param [flags] Flags de la ventana del juego, puede ser una combinaciÃ³n de:
+ *						  _fullscreen (1), ... ya veremos si aÃ±adimos mÃ¡s xD
  * .
  *
  * @return 0

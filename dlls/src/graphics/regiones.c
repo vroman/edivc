@@ -8,13 +8,13 @@
 #include "graphics.h"
 
 
-/*! \brief Define una regiÛn de pantalla
- * \todo AÒadir un poco de comprobaciÛn de errores
- * @param n N˙mero de la regiÛn a definir (1..31)
- * @param x Coordenada X de la esquina superior izquierda de la regiÛn
- * @param y Coordenada Y de la esquina superior izquierda de la regiÛn
- * @param w Anchura de la regiÛn
- * @param h Altura de la regiÛn
+/*! \brief Define una regi√≥n de pantalla
+ * \todo A√±adir un poco de comprobaci√≥n de errores
+ * @param n N√∫mero de la regi√≥n a definir (1..31)
+ * @param x Coordenada X de la esquina superior izquierda de la regi√≥n
+ * @param y Coordenada Y de la esquina superior izquierda de la regi√≥n
+ * @param w Anchura de la regi√≥n
+ * @param h Altura de la regi√≥n
  * @return 1 si todo fue bien o 0 si hubo un error
  * @see eDIV_OUT_REGION(), eDIV_SCREEN_COPY()
  */
@@ -28,7 +28,7 @@ int eDIV_DEFINE_REGION(FUNCTION_PARAMS)
 	n = getparm() ;
 
 	if ( n > 31 || n < 1 ) {
-		fp->Runtime_Error(108); /* n∫ de regiÛn inv·lido */
+		fp->Runtime_Error(108); /* n¬∫ de regi√≥n inv√°lido */
 		return 0;
 	}
 
@@ -41,10 +41,10 @@ int eDIV_DEFINE_REGION(FUNCTION_PARAMS)
 	return 1 ;
 }
 
-/*! \brief Indica si un proceso est· fuera de la regiÛn indicada
+/*! \brief Indica si un proceso est√° fuera de la regi√≥n indicada
  * @param id Identificador del proceso
- * @param r RegiÛn
- * @return 1 si el proceso est· fuera de la regiÛn o 0 en caso contrario
+ * @param r Regi√≥n
+ * @return 1 si el proceso est√° fuera de la regi√≥n o 0 en caso contrario
  * @see eDIV_DEFINE_REGION()
  */
 int eDIV_OUT_REGION(FUNCTION_PARAMS)

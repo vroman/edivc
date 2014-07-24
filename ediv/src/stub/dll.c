@@ -62,7 +62,7 @@ int carga_dll(char* nombre)
 		printf("intento 2: %s\n",resolved_path);
 		if(resolved_path) hDLL=LoadLibraryEx(resolved_path,NULL,LOAD_WITH_ALTERED_SEARCH_PATH);
 		if(hDLL==NULL)
-			critical_error(5,fichdll); // Librería no encontrada
+			critical_error(5,fichdll); // LibrerÃ­a no encontrada
 	}
 
 	// Inicializa y ejecuta la funcion ExportaFuncs de la DLL
@@ -115,7 +115,7 @@ int carga_dll(char* nombre)
 		strcat(fichdll,".so");
 		hDLL=dlopen(fichdll2,RTLD_NOW);
 		if(!hDLL)
-			critical_error(5,fichdll); // Librería no encontrada
+			critical_error(5,fichdll); // LibrerÃ­a no encontrada
 	}
 
 	// Inicializa y ejecuta la funcion ExportaFuncs de la DLL

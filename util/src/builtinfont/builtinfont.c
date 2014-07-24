@@ -22,7 +22,7 @@
 /**
  * @file builtinfont.c
  * Convierte una fuente en bmp (8bpp) de 6x8 en un .h para poderse usar como
- * fuente de sistema (nº 0) en el stub.
+ * fuente de sistema (nÂº 0) en el stub.
  * NOTA: Este programa es menos indulgente que el de Riseven leyendo los .bmp :p
  */
 
@@ -110,7 +110,7 @@ int main(int argc, char* argv[])
 		printf("Error al crear %s\n",nombreh);
 		exit(EXIT_FAILURE);
 	}
-	fprintf(fp,"/**\n * @file %s\n * Definición de la fuente %s (generado por builtinfont)\n */\n\n",nombreh,nombre);
+	fprintf(fp,"/**\n * @file %s\n * DefiniciÃ³n de la fuente %s (generado por builtinfont)\n */\n\n",nombreh,nombre);
 	fprintf(fp,"#ifndef __EDIV__%s_h__\n#define __EDIV__%s_h__\n\n",nombre,nombre);
 	fprintf(fp,"static unsigned char %s[256*8] = {\n",nombre);
 

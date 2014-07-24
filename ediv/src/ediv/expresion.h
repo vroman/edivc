@@ -21,12 +21,12 @@
 #ifndef __EDIV_EXPRESION_H_
 #define __EDIV_EXPRESION_H_
 
-#define max_exp 512     /* M醲imo n鷐ero de elementos en una expresi髇 */
-#define long_pila 2048  /* Longitud de la pila en ejecuci髇            */
+#define max_exp 512     /* M谩ximo n煤mero de elementos en una expresi贸n */
+#define long_pila 2048  /* Longitud de la pila en ejecuci贸n            */
 
-int pila[long_pila+max_exp+64]; /* c醠culo de expresiones (compilaci髇 y ejecuci髇) */
+int pila[long_pila+max_exp+64]; /* c谩lculo de expresiones (compilaci贸n y ejecuci贸n) */
 
-/* Tabla de elementos en la evaluaci髇 de una expresi髇 */
+/* Tabla de elementos en la evaluaci贸n de una expresi贸n */
 
 struct exp_ele {
   byte tipo; /* econs, eoper, erango, ewhoami, ecall */
@@ -39,14 +39,14 @@ struct exp_ele {
 
 #define econs   0       /* Constante          // Tipos de elementos en tabexp[] */
 #define eoper   1       /* Operador                                             */
-#define erango  2       /* Comprobaci髇 de rango                                */
+#define erango  2       /* Comprobaci贸n de rango                                */
 #define ewhoami 3       /* Identificador de proceso                             */
-#define ecall   4       /* Creaci髇 de un proceso                               */
-/*#define efunc   5*/   /* Llamada a una funci髇 interna                        */
-#define efext   6       /* Llamada a una funci髇 externa                        */
-#define echeck  7       /* Comprobaci螈n de validez de un identificador         */
+#define ecall   4       /* Creaci贸n de un proceso                               */
+/*#define efunc   5*/   /* Llamada a una funci贸n interna                        */
+#define efext   6       /* Llamada a una funci贸n externa                        */
+#define echeck  7       /* Comprobaci贸垄n de validez de un identificador         */
 #define estring 8       /* Cadena de texto (su offset constante)                */
-#define enull   9       /* Comprobaci de NULL pointer                         */
+#define enull   9       /* Comprobaci垄n de NULL pointer                         */
 
 /* 
  * Prototipos

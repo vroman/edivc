@@ -1,4 +1,4 @@
-/* Copyright (C) 1999 José Luis Cebrián Pagüe
+/* Copyright (C) 1999 JosÃ© Luis CebriÃ¡n PagÃ¼e
  * Copyright (C) 2000-2002 Sion, Ltd
  *
  * This program is free software; you can redistribute it and/or modify
@@ -21,7 +21,7 @@
 #include "main.h"
 #include "lower.h"
 
-/* Tabla de conversión de caracteres MS-DOS a Windows */
+/* Tabla de conversiÃ³n de caracteres MS-DOS a Windows */
 
 int dos_chars=0;
 
@@ -44,7 +44,7 @@ byte dos_to_win[256] = {
 173, 177,  61, 190, 182, 167, 247, 184, 176, 168, 183, 185, 179, 178, 166, 160
 };
 
-/* Tabla de conversión de caracteres Windows a MS-DOS */
+/* Tabla de conversiÃ³n de caracteres Windows a MS-DOS */
 
 byte win_to_dos[256] =
 {
@@ -91,16 +91,16 @@ void inicializa_lower()
 		      "abcdefghijklmnopqrstuvwxyz");
 
 #ifdef RESPETAR_ACENTOS
-	set_c_lower  ("ÁÉÍÓÚÑÇÀÈÌÒÙÄËÏÖÜİÂÊÎÔÛÆÃÅÕ",
-		      "áéíóúñçàèìòùäëïöüıâêîôûæãåõ");
-	set_c_lower("áéíóúñçàèìòùäëïöüıâêîôûæãåõ",
-				"áéíóúñçàèìòùäëïöüıâêîôûæãåõ");
+	set_c_lower  ("ÃÃ‰ÃÃ“ÃšÃ‘Ã‡Ã€ÃˆÃŒÃ’Ã™Ã„Ã‹ÃÃ–ÃœÃÃ‚ÃŠÃÃ”Ã›Ã†ÃƒÃ…Ã•",
+		      "Ã¡Ã©Ã­Ã³ÃºÃ±Ã§Ã Ã¨Ã¬Ã²Ã¹Ã¤Ã«Ã¯Ã¶Ã¼Ã½Ã¢ÃªÃ®Ã´Ã»Ã¦Ã£Ã¥Ãµ");
+	set_c_lower("Ã¡Ã©Ã­Ã³ÃºÃ±Ã§Ã Ã¨Ã¬Ã²Ã¹Ã¤Ã«Ã¯Ã¶Ã¼Ã½Ã¢ÃªÃ®Ã´Ã»Ã¦Ã£Ã¥Ãµ",
+				"Ã¡Ã©Ã­Ã³ÃºÃ±Ã§Ã Ã¨Ã¬Ã²Ã¹Ã¤Ã«Ã¯Ã¶Ã¼Ã½Ã¢ÃªÃ®Ã´Ã»Ã¦Ã£Ã¥Ãµ");
 #else
-	set_c_lower  ("ÁÉÍÓÚÑÇÀÈÌÒÙÄËÏÖÜİÂÊÎÔÛÆÃÅÕ",
-				  "aeiouncaeiouaeiouyaeiouæaao");
-	set_c_lower  ("áéíóúñÑçÇàèìòùäëïöüıâêîôûæãåõÁÉÍÓÚ",
-				"aeiounnccaeiouaeiouyaeiouÆaaoaeiou");
+	set_c_lower  ("ÃÃ‰ÃÃ“ÃšÃ‘Ã‡Ã€ÃˆÃŒÃ’Ã™Ã„Ã‹ÃÃ–ÃœÃÃ‚ÃŠÃÃ”Ã›Ã†ÃƒÃ…Ã•",
+				  "aeiouncaeiouaeiouyaeiouÃ¦aao");
+	set_c_lower  ("Ã¡Ã©Ã­Ã³ÃºÃ±Ã‘Ã§Ã‡Ã Ã¨Ã¬Ã²Ã¹Ã¤Ã«Ã¯Ã¶Ã¼Ã½Ã¢ÃªÃ®Ã´Ã»Ã¦Ã£Ã¥ÃµÃÃ‰ÃÃ“Ãš",
+				"aeiounnccaeiouaeiouyaeiouÃ†aaoaeiou");
 #endif
 
-	set_c_lower("1234567890#$_ºª","1234567890#$_ºª");
+	set_c_lower("1234567890#$_ÂºÂª","1234567890#$_ÂºÂª");
 }

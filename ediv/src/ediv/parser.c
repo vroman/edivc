@@ -71,7 +71,7 @@ int crea_objeto(byte * nombre, int nparam)
 				o=(*o).anterior;
 			}
 			//while(o!=NULL && (((*o).tipo==tfext) ^^ ((*o).fext.num_par!=nparam))) o=(*o).anterior;
-			if(o==NULL) { // ok, lo aÒadimos a la lista
+			if(o==NULL) { // ok, lo a√±adimos a la lista
 				o=iobj++; (*o).anterior=*ptr_o; *ptr_o=o;
 				(*o).name=(byte*)(ptr_o+1);
 				(*o).member=member;
@@ -97,7 +97,7 @@ int crea_objeto(byte * nombre, int nparam)
 
 
 ////////////////////
-// PRECOMPILACI”N //
+// PRECOMPILACI√ìN //
 ////////////////////
 
 void psintactico(void)
@@ -136,13 +136,13 @@ lex_scan:
 
 		case l_err:
 			if (coment) { pieza=p_rem; _source++; }
-			else error(0,5);	// car·cter no reconocido
+			else error(0,5);	// car√°cter no reconocido
 			_source++;
 			break;
 			
 		case l_eof:
 			pieza=p_ultima;
-			if (coment) error(0,1);	// llegÛ el final dentro de un comentario
+			if (coment) error(0,1);	// lleg√≥ el final dentro de un comentario
 			break;
 
 		case l_cr:
@@ -280,8 +280,8 @@ lex_scan:
 			}
 			
 			if (pieza==p_ultima) {
-				if (coment) error(0,1);	// llegÛ el final dentro de un comentario
-				else error(0,4);		// sÌmbolo no reconocido (°°creo!!) TODO: comprobar
+				if (coment) error(0,1);	// lleg√≥ el final dentro de un comentario
+				else error(0,4);		// s√≠mbolo no reconocido (¬°¬°creo!!) TODO: comprobar
 			}
 			
 			break;
@@ -294,7 +294,7 @@ lex_scan:
 
 
 //////////////////////////////////////
-// AN¡LISIS SINT¡CTICO DEL PROGRAMA //
+// AN√ÅLISIS SINT√ÅCTICO DEL PROGRAMA //
 //////////////////////////////////////
 
 void sintactico(void)
@@ -327,9 +327,9 @@ void sintactico(void)
 	optimizar=1;*/
 
 	if(case_sensitive) {
-		memcpy(lower+129,"¸È‚‰‡ÂÁÍÎËÔÓÏ‰ÂÈÊÊÙˆÚ˚˘ˇˆ¸¢£•·ÌÛ˙",35);
+		memcpy(lower+129,"√º√©√¢√§√†√•√ß√™√´√®√Ø√Æ√¨√§√•√©√¶√¶√¥√∂√≤√ª√π√ø√∂√º¬¢¬£¬•√°√≠√≥√∫",35);
 		memcpy(lower+'A',"ABCDEFGHIJKLMNOPQRSTUVWXYZ",26);
-		lower['—']='—';
+		lower['√ë']='√ë';
 	}
 
 	if (pieza==p_compiler_options) {
@@ -360,9 +360,9 @@ void sintactico(void)
 					case 3: // _case_sensitive
 						lexico();
 						case_sensitive=1;
-						memcpy(lower+129,"¸È‚‰‡ÂÁÍÎËÔÓÏ‰ÂÈÊÊÙˆÚ˚˘ˇˆ¸¢£•·ÌÛ˙",35);
+						memcpy(lower+129,"√º√©√¢√§√†√•√ß√™√´√®√Ø√Æ√¨√§√•√©√¶√¶√¥√∂√≤√ª√π√ø√∂√º¬¢¬£¬•√°√≠√≥√∫",35);
 						memcpy(lower+'A',"ABCDEFGHIJKLMNOPQRSTUVWXYZ",26);
-						lower['—']='—';
+						lower['√ë']='√ë';
 						break;
 					case 4: // _ignore_errors
 						lexico();
@@ -399,18 +399,18 @@ void sintactico(void)
                         comprueba_null=0;
                         break;
                     default:
-                        error(0,8); // se esperaba una opciÛn de compilaciÛn
+                        error(0,8); // se esperaba una opci√≥n de compilaci√≥n
                         break;
                 }
             } else {
                 if (!free_sintax) {
                     if (pieza==p_program) {
-                    	error(3,9); // se esperaba ';' (°creo!) TODO: comprobar
+                    	error(3,9); // se esperaba ';' (¬°creo!) TODO: comprobar
                     	//lexico();
                     	break;
                     }
                     else {
-                    	error(0,8); // se esperaba una opciÛn de compilaciÛn
+                    	error(0,8); // se esperaba una opci√≥n de compilaci√≥n
                     	//lexico();
                     	// puede ser peligroso
                     	while(pieza!=p_coma && pieza!=p_ptocoma && pieza!=p_program)
@@ -431,7 +431,7 @@ void sintactico(void)
 	if (pieza!=p_program && pieza!=p_setup_program) error(4,44); // esperando PROGRAM
 
 	if (pieza==p_setup_program)
-		warning(1); // caracterÌstica desfasada
+		warning(1); // caracter√≠stica desfasada
 
 	//if ((lins=fopen(cWork,"wb"))==NULL) c_error(0,0);	// cWork="system\exec.ins"
 
@@ -515,7 +515,7 @@ void sintactico(void)
           if (pieza==p_pointer) { // Se define un puntero a struct
 
             lexico(); if (pieza!=p_id) error(1,27); ob=o; // esperando el nombre de la estructura
-            if ((*ob).tipo==tnone) error(0,28); // No se define el pointer asÌ
+            if ((*ob).tipo==tnone) error(0,28); // No se define el pointer as√≠
             if ((*ob).tipo!=tsglo && (*ob).tipo!=tsloc) error(0,28);
             lexico();
             puntero_a_struct:
@@ -874,7 +874,7 @@ void sintactico(void)
           if (pieza==p_pointer) { // Se define un puntero a struct
 
             lexico(); if (pieza!=p_id) error(1,27); ob=o; // esperando el nombre de la estructura
-            if ((*ob).tipo==tnone) error(0,28); // No se define el pointer asÌ
+            if ((*ob).tipo==tnone) error(0,28); // No se define el pointer as√≠
             if ((*ob).tipo!=tsglo && (*ob).tipo!=tsloc) error(0,28);
             lexico();
             puntero_a_struct_local:
@@ -1211,10 +1211,10 @@ void sintactico(void)
     }
 
     //
-    // CÛdigo principal
+    // C√≥digo principal
     //
 
-    // Genera el salto al inicio del cÛdigo (long_header)
+    // Genera el salto al inicio del c√≥digo (long_header)
 
     mem[0]=0; mem[1]=imem; iloc_len=iloc;
 
@@ -1236,10 +1236,10 @@ void sintactico(void)
 		while (pieza==p_ptocoma || pieza==p_coma) lexico();
 	}
 
-    // esta instrucciÛn realiza un salto a la rutina donde est·n los limp
-    // (importaciÛn de DLLs). Como esta la colocaremos al final (porque, hasta
-    // que lleguemos al final no sabremos quÈ dlls hay que importar), dejamos
-    // el par·metro de ljmp de momento a 0 y guardamos el offset en
+    // esta instrucci√≥n realiza un salto a la rutina donde est√°n los limp
+    // (importaci√≥n de DLLs). Como esta la colocaremos al final (porque, hasta
+    // que lleguemos al final no sabremos qu√© dlls hay que importar), dejamos
+    // el par√°metro de ljmp de momento a 0 y guardamos el offset en
     // salto_import, donde al final sustituiremos el 0 por el offset adecuado.
 
     salto_import=imem+1;
@@ -1302,10 +1302,10 @@ void sintactico(void)
       while (pieza!=p_cerrar) {
         (*ob).proc.num_par++; expresion_cpa();
         if (pieza!=p_cerrar) if (pieza!=p_coma) error(3,35); // se esperaba una coma
-          else { lexico(); if (pieza==p_cerrar) error(3,36); } // se esperaba otro par·metro
+          else { lexico(); if (pieza==p_cerrar) error(3,36); } // se esperaba otro par√°metro
       }
       if ((*ob).usado) {
-        if (num_par==(*ob).proc.num_par) (*ob).usado=0; else error(0,38); // n∫ de parametros incorrecto
+        if (num_par==(*ob).proc.num_par) (*ob).usado=0; else error(0,38); // n¬∫ de parametros incorrecto
       }
       pasa_ptocoma(); final_sentencia();
 
@@ -1313,7 +1313,7 @@ void sintactico(void)
         g2(lpar,parametros-1);
       }
 
-      parametros=-1; // Para que los par·metros se puedan repetir como PRIVATE
+      parametros=-1; // Para que los par√°metros se puedan repetir como PRIVATE
 
       num_par=mem[_imem]=(*ob).proc.num_par;
 
@@ -1362,7 +1362,7 @@ lex_scan:
 
 		case l_err:
 			if (coment) { pieza=p_rem; _source++; }
-			else error(0,5);	// car·cter no reconocido
+			else error(0,5);	// car√°cter no reconocido
 			_source++;
 			break;
 			
@@ -1527,7 +1527,7 @@ lex_scan:
 			pieza=p_num;
 			pieza_num=0;
 
-			// N˙mero hexadecimal
+			// N√∫mero hexadecimal
 			if (*_source=='0' && lower[*(_source+1)]=='x') {
 				_source+=2;
 				while ((int)lex_case[*_source]==l_num ||
@@ -1580,8 +1580,8 @@ lex_scan:
 			}
 
 			if (pieza==p_ultima) {
-				if (coment) error(0,1);	// llegÛ el final dentro de un comentario
-				else error(0,4);		// sÌmbolo no reconocido (°°creo!!)
+				if (coment) error(0,1);	// lleg√≥ el final dentro de un comentario
+				else error(0,4);		// s√≠mbolo no reconocido (¬°¬°creo!!)
 			}
 
 			break;
@@ -1594,7 +1594,7 @@ lex_scan:
 
 
 //-----------------------------------------------------------------------------
-//  Adivina cual ser· la siguiente pieza lexica leida (y donde estar·)
+//  Adivina cual ser√° la siguiente pieza lexica leida (y donde estar√°)
 //-----------------------------------------------------------------------------
 
 // No genera nunca errores
@@ -1754,7 +1754,7 @@ void pasa_ptocoma(void)
   //
 
     // *** OJO *** No se debe permitir #id.tvpri
-    //             pues fallarÌa a no ser que #id fuera del mismo tipo que el
+    //             pues fallar√≠a a no ser que #id fuera del mismo tipo que el
     //             proceso actual (hermano)
 
 void analiza_private(void) {
@@ -1776,7 +1776,7 @@ void analiza_private(void) {
         if (pieza==p_pointer) { // Se define un puntero a struct
 
           lexico(); if (pieza!=p_id) error(1,27); ob=o; // esperando el nombre de la estructura
-          if ((*ob).tipo==tnone) error(0,28); // No se define el pointer asÌ
+          if ((*ob).tipo==tnone) error(0,28); // No se define el pointer as√≠
           if ((*ob).tipo!=tsglo && (*ob).tipo!=tsloc) error(0,28);
           lexico();
           puntero_a_struct:
@@ -1867,7 +1867,7 @@ void analiza_private(void) {
         } else {
 
           if (pieza!=p_id) error(1,29); // esperando el nombre de la cadena
-          ob=o; if ((*ob).tipo!=tnone) { // Mira si se repite un par·metro ...
+          ob=o; if ((*ob).tipo!=tnone) { // Mira si se repite un par√°metro ...
             if (parametros==-1 && (*ob).param==1 && (*ob).bloque==bloque_actual) {
               if ((*ob).tipo==tcloc) { // Se repite un string
                 save_error(0);
@@ -1883,8 +1883,8 @@ void analiza_private(void) {
                     lexico();
                   }
                 } else dup=255;
-                if (dup!=(*ob).cloc.totalen) error(4,41); // la longitud no coincide con la declaraciÛn anterior
-                else if (pieza==p_asig) error(0,42); // no se puede inicializar un par·metro
+                if (dup!=(*ob).cloc.totalen) error(4,41); // la longitud no coincide con la declaraci√≥n anterior
+                else if (pieza==p_asig) error(0,42); // no se puede inicializar un par√°metro
                 else {
                   while (pieza==p_ptocoma || pieza==p_coma) lexico();
                   (*ob).param++;
@@ -1955,10 +1955,10 @@ void analiza_private(void) {
           if (pieza!=p_id) error(1,23); // esperando un nombre
           ob=o; if ((*ob).tipo!=tnone) {
             if (parametros==-1 && (*ob).param==1 && (*ob).bloque==bloque_actual) {
-              if ((*ob).tipo==tbloc) { // Se repite un byte par·metro
+              if ((*ob).tipo==tbloc) { // Se repite un byte par√°metro
                 lexico();
-                if (pieza==p_corab) error(2,33); // no se puede pasar una tabla como par·metro
-                else if (pieza==p_asig) error(0,42); // no se puede inicializar un par·metro
+                if (pieza==p_corab) error(2,33); // no se puede pasar una tabla como par√°metro
+                else if (pieza==p_asig) error(0,42); // no se puede inicializar un par√°metro
                 else {
                   while (pieza==p_ptocoma || pieza==p_coma) {
                     lexico();
@@ -2047,10 +2047,10 @@ void analiza_private(void) {
           if (pieza!=p_id) error(1,23); // esperando un nombre
           ob=o; if ((*ob).tipo!=tnone) {
             if (parametros==-1 && (*ob).param==1 && (*ob).bloque==bloque_actual) {
-              if ((*ob).tipo==twloc) { // Se repite un word par·metro
+              if ((*ob).tipo==twloc) { // Se repite un word par√°metro
                 lexico();
-                if (pieza==p_corab) error(2,33); // no se puede pasar una tabla como par·metro
-                else if (pieza==p_asig) error(0,42); // no se puede inicializar un par·metro
+                if (pieza==p_corab) error(2,33); // no se puede pasar una tabla como par√°metro
+                else if (pieza==p_asig) error(0,42); // no se puede inicializar un par√°metro
                 else {
                   while (pieza==p_ptocoma || pieza==p_coma) {
                     lexico();
@@ -2139,14 +2139,14 @@ void analiza_private(void) {
 
         } else {
 
-          // Si el objeto no es tnone, se repite un par·metro o bien es un error
+          // Si el objeto no es tnone, se repite un par√°metro o bien es un error
 
           ob=o; if ((*ob).tipo!=tnone) {
             if (parametros==-1 && (*ob).param==1 && (*ob).bloque==bloque_actual) {
               if ((*ob).tipo==tvloc) { // Se repite una variable local
                 lexico();
-                if (pieza==p_corab) error(2,33); // no se puede pasar una tabla como par·metro
-                else if (pieza==p_asig) error(0,42); // no se puede inicializar un par·metro
+                if (pieza==p_corab) error(2,33); // no se puede pasar una tabla como par√°metro
+                else if (pieza==p_asig) error(0,42); // no se puede inicializar un par√°metro
                 else {
                   while (pieza==p_ptocoma || pieza==p_coma) {
                     lexico();
@@ -2209,7 +2209,7 @@ void analiza_private(void) {
 }
 
 //-----------------------------------------------------------------------------
-//      An·lisis de una declaraciÛn pointer (int, word o byte)
+//      An√°lisis de una declaraci√≥n pointer (int, word o byte)
 //-----------------------------------------------------------------------------
 
 struct objeto * analiza_pointer(int tipo, int offset)
@@ -2220,7 +2220,7 @@ struct objeto * analiza_pointer(int tipo, int offset)
   if (pieza!=p_id) error(1,23);	// esperando un nombre
   ob=o; if ((*ob).tipo!=tnone) {
     if (parametros==-1 && (*ob).param==1 && (*ob).bloque==bloque_actual) {
-      if ((*ob).tipo==tipo) { // Se repite un pointer par·metro como private
+      if ((*ob).tipo==tipo) { // Se repite un pointer par√°metro como private
         save_error(0); lexico();
         len1=-1; len2=-1; len3=-1;
         if (pieza==p_corab) { lexico();
@@ -2234,8 +2234,8 @@ struct objeto * analiza_pointer(int tipo, int offset)
             }
           } if (pieza!=p_corce) error(3,19); lexico(); // esperando ']'
         }
-        if (len1!=(*ob).pilo.len1 || len2!=(*ob).pilo.len2 || len3!=(*ob).pilo.len3) error(4,41); // la longitud no coincide con la declaraciÛn anterior
-        else if (pieza==p_asig) error(0,42); // no se puede inicializar un par·metro
+        if (len1!=(*ob).pilo.len1 || len2!=(*ob).pilo.len2 || len3!=(*ob).pilo.len3) error(4,41); // la longitud no coincide con la declaraci√≥n anterior
+        else if (pieza==p_asig) error(0,42); // no se puede inicializar un par√°metro
         else {
           while (pieza==p_ptocoma || pieza==p_coma) lexico();
           (*ob).param++; // No permite volver a redeclararlo
@@ -2269,7 +2269,7 @@ struct objeto * analiza_pointer(int tipo, int offset)
 
 //-----------------------------------------------------------------------------
 
-int analiza_struct(int offstruct) { // tras " struct id [ <const> ] " // idmember
+int analiza_struct(int offstruct) { // tras " struct id [ <const> ] " // id√∞member
   int len=0,dup,i,_itxt,_imem;
   struct objeto * ob;
   struct objeto * old_member,* member2;
@@ -2288,7 +2288,7 @@ int analiza_struct(int offstruct) { // tras " struct id [ <const> ] " // idmemb
         old_member=member; member=NULL; lexico(); member=old_member;
         if (pieza!=p_id) error(1,27); ob=o; // esperando el nombre de la estructura
 
-        if ((*ob).tipo==tnone) error(0,28); // No se define el pointer asÌ
+        if ((*ob).tipo==tnone) error(0,28); // No se define el pointer as√≠
         if ((*ob).tipo!=tsglo && (*ob).tipo!=tsloc) error(0,28);
         lexico();
         puntero_a_struct:
@@ -2629,7 +2629,7 @@ int analiza_struct(int offstruct) { // tras " struct id [ <const> ] " // idmemb
 
 //
 
-int analiza_struct_local(int offstruct) { // tras " struct id [ <const> ] " // idmember
+int analiza_struct_local(int offstruct) { // tras " struct id [ <const> ] " // id√∞member
   int len=0,dup,i,_itxt,_iloc;
   struct objeto * ob;
   struct objeto * old_member,* member2;
@@ -2648,7 +2648,7 @@ int analiza_struct_local(int offstruct) { // tras " struct id [ <const> ] " // i
         old_member=member; member=NULL; lexico(); member=old_member;
         if (pieza!=p_id) error(1,27); ob=o; // esperando el nombre de la estructura
 
-        if ((*ob).tipo==tnone) error(0,28); // No se define el pointer asÌ
+        if ((*ob).tipo==tnone) error(0,28); // No se define el pointer as√≠
         if ((*ob).tipo!=tsglo && (*ob).tipo!=tsloc) error(0,28);
         lexico();
         puntero_a_struct:
@@ -2993,7 +2993,7 @@ int analiza_struct_local(int offstruct) { // tras " struct id [ <const> ] " // i
 
 //
 
-int analiza_struct_private(int offstruct) { // tras " struct id [ <const> ] " // idmember
+int analiza_struct_private(int offstruct) { // tras " struct id [ <const> ] " // id√∞member
   int len=0,dup,i,_itxt,_imem;
   struct objeto * ob;
   struct objeto * old_member,* member2;
@@ -3012,7 +3012,7 @@ int analiza_struct_private(int offstruct) { // tras " struct id [ <const> ] " //
         old_member=member; member=NULL; lexico(); member=old_member;
         if (pieza!=p_id) error(1,27); ob=o; // esperando el nombre de la estructura
 
-        if ((*ob).tipo==tnone) error(0,28); // No se define el pointer asÌ
+        if ((*ob).tipo==tnone) error(0,28); // No se define el pointer as√≠
         if ((*ob).tipo!=tsglo && (*ob).tipo!=tsloc) error(0,28);
         lexico();
         puntero_a_struct:
@@ -3366,7 +3366,7 @@ int analiza_pointer_struct(int tipo, int offset, struct objeto * estructura)
   if (pieza!=p_id) error(1,23); // esperando un nombre
   ob=o; if ((*ob).tipo!=tnone) {
     if (parametros==-1 && (*ob).param==1 && (*ob).bloque==bloque_actual) {
-      if ((*ob).tipo==tipo) { // Se repite un pointer par·metro como private
+      if ((*ob).tipo==tipo) { // Se repite un pointer par√°metro como private
         save_error(0); lexico();
         items1=-1; items2=-1; items3=-1;
         if (pieza==p_corab) { lexico();
@@ -3380,8 +3380,8 @@ int analiza_pointer_struct(int tipo, int offset, struct objeto * estructura)
             }
           } if (pieza!=p_corce) error(3,19); lexico(); // esperando ']'
         }
-        if (items1!=(*ob).psgl.items1 || items2!=(*ob).psgl.items2 || items3!=(*ob).psgl.items3)  error(4,41); // la longitud no coincide con la declaraciÛn anterior
-        else if (pieza==p_asig) error(0,42); // no se puede inicializar un par·metro
+        if (items1!=(*ob).psgl.items1 || items2!=(*ob).psgl.items2 || items3!=(*ob).psgl.items3)  error(4,41); // la longitud no coincide con la declaraci√≥n anterior
+        else if (pieza==p_asig) error(0,42); // no se puede inicializar un par√°metro
         else {
           (*ob).param++; return(0); // No permite volver a redeclararlo
         }
@@ -3410,13 +3410,13 @@ int analiza_pointer_struct(int tipo, int offset, struct objeto * estructura)
   (*ob).psgl.offset=offset;       // del pointer
   (*ob).psgl.ostruct=estructura;  // struct original
 
-  // (*ob).psgl.len_item  (*((*ob).psgl.ostruct)).len_item;
+  // (*ob).psgl.len_item √∞ (*((*ob).psgl.ostruct)).len_item;
 
   return(1);
 }
 
   //
-  // InicializaciÛn de tablas (a mem[imem++])
+  // Inicializaci√≥n de tablas (a mem[imem++])
   //
   // <init>  := ( <string> | <exp> [ [p_dup] p_abrir <init> p_cerrar ] )
   //            [ p_coma <init>]
@@ -3455,7 +3455,7 @@ void tglo_init2(int tipo) {
 
   while (1) {
 
-    // Mira si finaliza la inicializaciÛn de datos
+    // Mira si finaliza la inicializaci√≥n de datos
 
     if (pieza==p_cerrar || pieza==p_ptocoma) {
       if (*(imemptr-(int)mem+(int)frm)==1 || tipo==1) {
@@ -3474,7 +3474,7 @@ void tglo_init2(int tipo) {
       return;
     }
 
-    // Una coma sola, como "3,,4", avanza una posiciÛn (y define un 0)
+    // Una coma sola, como "3,,4", avanza una posici√≥n (y define un 0)
 
     if (pieza==p_coma) {
       if (*(imemptr-(int)mem+(int)frm)==1 || tipo==1) {
@@ -3506,7 +3506,7 @@ void tglo_init2(int tipo) {
     } else if (pieza==p_lit || (pieza==p_id && (*o).tipo==tcons && (*o).cons.literal)) {
 
       valor=pieza_num; lexico();
-      if (pieza==p_abrir || pieza==p_dup) error(2,52); // no se puede duplicar 0 o menos veces (se ha indicado un literal como n˙mero de veces)
+      if (pieza==p_abrir || pieza==p_dup) error(2,52); // no se puede duplicar 0 o menos veces (se ha indicado un literal como n√∫mero de veces)
 
       // Mete un literal en un dato de tipo string
 
@@ -3569,7 +3569,7 @@ void tglo_init2(int tipo) {
             if (frm[imem]==0xdad00000) error(2,46); // se esperaba un literal
           }
 
-          // Mete un valor numÈrico en la memoria
+          // Mete un valor num√©rico en la memoria
 
           if (*(imemptr-(int)mem+(int)frm)==1 || tipo==1) { // En un word
 
@@ -3614,13 +3614,13 @@ void tglo_init2(int tipo) {
     if (dup<1) error(2,52); // no se puede duplicar 0 o menos veces
     lexico();
 
-    // Analiza la secuencia como otra inicializaciÛn ...
+    // Analiza la secuencia como otra inicializaci√≥n ...
 
     oimemptr=imemptr;
     tglo_init2(tipo);
     if (pieza!=p_cerrar) error(3,18); // esperando ')'
 
-    // Y la duplica el n˙mero de veces indicado
+    // Y la duplica el n√∫mero de veces indicado
 
     if (dup>1) {
       len=imemptr-oimemptr;
@@ -3633,7 +3633,7 @@ void tglo_init2(int tipo) {
             imem=((int)imemptr-(int)mem+3)/4;
             _imem=((int)oimemptr+n-(int)mem+3)/4;
             if (frm[imem]==0xdad00000) {
-              if (frm[_imem]!=0xdad00000) error(3,53); // inicializaciÛn incorrecta
+              if (frm[_imem]!=0xdad00000) error(3,53); // inicializaci√≥n incorrecta
               else if (mem[imem]!=mem[_imem]) error(3,53);
             } else if (frm[_imem]==0xdad00000) error(3,53);
           }

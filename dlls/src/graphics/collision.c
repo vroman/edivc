@@ -1,6 +1,6 @@
 /*
 ** collision.c
-** Incluye las rutinas de detecciÛn de colisiones entre sprites
+** Incluye las rutinas de detecci√≥n de colisiones entre sprites
 */
 
 #include <SDL/SDL.h>
@@ -10,11 +10,11 @@
 
 /*
 ** int IntersectionRR(int rc1left,int rc1top,int rc1right,int rc1bottom,int rc2left,int rc2top,int rc2right,int rc2bottom)
-** Comprueba si hay colisiÛn entre dos regiones rectangulares.
+** Comprueba si hay colisi√≥n entre dos regiones rectangulares.
 **
 ** Devuelve:
-** 0 - No hay colisiÛn
-** 1 - Hay colisiÛn
+** 0 - No hay colisi√≥n
+** 1 - Hay colisi√≥n
 */
 int IntersectionRR(int rc1left,int rc1top,int rc1right,int rc1bottom,int rc2left,int rc2top,int rc2right,int rc2bottom)
 {
@@ -30,14 +30,14 @@ int IntersectionRR(int rc1left,int rc1top,int rc1right,int rc1bottom,int rc2left
 /*
 ** eDIV_COLLISION (id)
 ** 
-** Detecta si el proceso actual est· colisionando con el del id indicado, o, si
-** se le indica un type, si colisiona con alg˙n proceso de ese tipo
+** Detecta si el proceso actual est√° colisionando con el del id indicado, o, si
+** se le indica un type, si colisiona con alg√∫n proceso de ese tipo
 **
-** Devuelve: - el ID del proceso con el que se est· colisionando (si se indica
-**             un type y se est· colisionando a la vez con varios procesos de
-**             ese type, en sucesivas llamadas se ir·n devolviendo sus respec-
-**             tivos IDs, hasta devolver 0 cuando ya no queden m·s).
-**           - 0 si no se colisiona con ning˙n proceso del ID o type indicado.
+** Devuelve: - el ID del proceso con el que se est√° colisionando (si se indica
+**             un type y se est√° colisionando a la vez con varios procesos de
+**             ese type, en sucesivas llamadas se ir√°n devolviendo sus respec-
+**             tivos IDs, hasta devolver 0 cuando ya no queden m√°s).
+**           - 0 si no se colisiona con ning√∫n proceso del ID o type indicado.
 */
 int eDIV_COLLISION(FUNCTION_PARAMS)
 {

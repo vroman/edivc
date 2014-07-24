@@ -33,46 +33,46 @@
 #endif /* _WIN32 */
 
 //-----------------------------------------------------------------------------
-//  MNEMÓNICOS BYTECODE EML
+//  MNEMÃ“NICOS BYTECODE EML
 //-----------------------------------------------------------------------------
 
-//Mnemónico-Códg.-Operandos (Generación de código EML, "*" = "aún no usado")
+//MnemÃ³nico-CÃ³dg.-Operandos (GeneraciÃ³n de cÃ³digo EML, "*" = "aÃºn no usado")
 
-#define lnop  0 // *            No operación
+#define lnop  0 // *            No operaciÃ³n
 #define lcar  1 // valor        Carga una constante en pila
 #define lasi  2 //              Saca valor, offset y mete el valor en [offset]
-#define lori  3 //              Or lógico
+#define lori  3 //              Or lÃ³gico
 #define lxor  4 //              Xor, or exclusivo
-#define land  5 //              And lógico, operador sobre condiciones
-#define ligu  6 //              Igual, operador logico de comparación
+#define land  5 //              And lÃ³gico, operador sobre condiciones
+#define ligu  6 //              Igual, operador logico de comparaciÃ³n
 #define ldis  7 //              Distinto, true si los 2 valores son diferentes
-#define lmay  8 //              Mayor, comparación con signo
+#define lmay  8 //              Mayor, comparaciÃ³n con signo
 #define lmen  9 //              Menor, idem
 #define lmei 10 //              Menor o igual
 #define lmai 11 //              Mayor o igual
 #define ladd 12 //              Suma dos constantes
-#define lsub 13 //              Resta, operación binaria
-#define lmul 14 //              Multiplicación
-#define ldiv 15 //              División de enteros
-#define lmod 16 //              Módulo, resto de la división
-#define lneg 17 //              Negación, cambia de signo una constante
+#define lsub 13 //              Resta, operaciÃ³n binaria
+#define lmul 14 //              MultiplicaciÃ³n
+#define ldiv 15 //              DivisiÃ³n de enteros
+#define lmod 16 //              MÃ³dulo, resto de la divisiÃ³n
+#define lneg 17 //              NegaciÃ³n, cambia de signo una constante
 #define lptr 18 //              Pointer, saca offset y mete [offset]
-#define lnot 19 //              Negación binaria, bit a bit
+#define lnot 19 //              NegaciÃ³n binaria, bit a bit
 #define laid 20 //              Suma id a la constante de la pila
 #define lcid 21 //              Carga id en la pila
-#define lrng 22 // rango        Realiza una comparación de rango
-#define ljmp 23 // offset       Salta a una dirección de mem[]
-#define ljpf 24 // offset       Salta si un valor es falso a una dirección
-#define lfun 25 /* código       Llamada a un proceso interno, ej. signal() (obsoleto, ver lext)	*/
+#define lrng 22 // rango        Realiza una comparaciÃ³n de rango
+#define ljmp 23 // offset       Salta a una direcciÃ³n de mem[]
+#define ljpf 24 // offset       Salta si un valor es falso a una direcciÃ³n
+#define lfun 25 /* cÃ³digo       Llamada a un proceso interno, ej. signal() (obsoleto, ver lext)	*/
 #define lcal 26 // offset       Crea un nuevo proceso en el programa
-#define lret 27 //              Auto-eliminación del proceso
+#define lret 27 //              Auto-eliminaciÃ³n del proceso
 #define lasp 28 //              Desecha un valor apilado
-#define lfrm 29 //              Detiene por este frame la ejecución del proceso
-#define lcbp 30 // num_par      Inicializa el puntero a los parámetros locales
-#define lcpa 31 //              Saca offset, lee parámetro [offset] y bp++
+#define lfrm 29 //              Detiene por este frame la ejecuciÃ³n del proceso
+#define lcbp 30 // num_par      Inicializa el puntero a los parÃ¡metros locales
+#define lcpa 31 //              Saca offset, lee parÃ¡metro [offset] y bp++
 #define ltyp 32 // bloque       Define el tipo de proceso actual (colisiones)
-#define lpri 33 // offset       Salta a la dirección, y carga var. privadas
-#define lcse 34 // offset       Si switch <> expresión, salta al offset
+#define lpri 33 // offset       Salta a la direcciÃ³n, y carga var. privadas
+#define lcse 34 // offset       Si switch <> expresiÃ³n, salta al offset
 #define lcsr 35 // offset       Si switch no esta en el rango, salta al offset
 #define lshr 36 //              Rotacion a la derecha (modo C, >>)
 #define lshl 37 //              Rotacion a la izquierda (modo C, <<)
@@ -80,26 +80,26 @@
 #define lpti 39 //              Pointer e incremento
 #define ldpt 40 //              Decremento y pointer
 #define lptd 41 //              Pointer y decremento
-#define lada 42 //              Add-asignación
-#define lsua 43 //              Sub-asignación
-#define lmua 44 //              Mul-asignación
-#define ldia 45 //              Div-asignación
-#define lmoa 46 //              Mod-asignación
-#define lana 47 //              And-asignación
-#define lora 48 //              Or-asignación
-#define lxoa 49 //              Xor-asignación
-#define lsra 50 //              Shr-asignación
-#define lsla 51 //              Shl-asignación
-#define lpar 52 // num_par_pri  Define el número de parámetros privados
-#define lrtf 53 //              Auto-eliminación del proceso, devuelve un valor
+#define lada 42 //              Add-asignaciÃ³n
+#define lsua 43 //              Sub-asignaciÃ³n
+#define lmua 44 //              Mul-asignaciÃ³n
+#define ldia 45 //              Div-asignaciÃ³n
+#define lmoa 46 //              Mod-asignaciÃ³n
+#define lana 47 //              And-asignaciÃ³n
+#define lora 48 //              Or-asignaciÃ³n
+#define lxoa 49 //              Xor-asignaciÃ³n
+#define lsra 50 //              Shr-asignaciÃ³n
+#define lsla 51 //              Shl-asignaciÃ³n
+#define lpar 52 // num_par_pri  Define el nÃºmero de parÃ¡metros privados
+#define lrtf 53 //              Auto-eliminaciÃ³n del proceso, devuelve un valor
 #define lclo 54 // offset       Crea un clon del proceso actual
 #define lfrf 55 //              Pseudo-Frame (frame a un porcentaje, frame(100)==frame)
 #define limp 56 // offset text  Importa una DLL externa
-#define lext 57 // código       Llama a una función externa
+#define lext 57 // cÃ³digo       Llama a una funciÃ³n externa
 #define lchk 58 //              Comprueba la validez de un identificador
 #define ldbg 59 //              Invoca al debugger
 
-// Instrucciones añadidas para la optimización (DIV 2.0)
+// Instrucciones aÃ±adidas para la optimizaciÃ³n (DIV 2.0)
 
 #define lcar2 60		/* car + car */
 #define lcar3 61		/* car + car + car */
@@ -120,7 +120,7 @@
 #define lcarsub 76		/* car + sub */
 #define lcardiv 77		/* car + div */
 
-// Instrucciones añadidas para el manejo de caracteres
+// Instrucciones aÃ±adidas para el manejo de caracteres
 
 #define lptrchr 78  // Pointer, saca (index, offset) y mete [offset+byte index]
 #define lasichr 79  // Saca (valor, index, offset) y mete el valor en [offset+byte index]
@@ -128,25 +128,25 @@
 #define lptichr 81  // Pointer e incremento
 #define ldptchr 82  // Decremento y pointer
 #define lptdchr 83  // Pointer y decremento
-#define ladachr 84  // Add-asignación
-#define lsuachr 85  // Sub-asignación
-#define lmuachr 86  // Mul-asignación
-#define ldiachr 87  // Div-asignación
-#define lmoachr 88  // Mod-asignación
-#define lanachr 89  // And-asignación
-#define lorachr 90  // Or-asignación
-#define lxoachr 91  // Xor-asignación
-#define lsrachr 92  // Shr-asignación
-#define lslachr 93  // Shl-asignación
-#define lcpachr 94  // Saca offset, lee parámetro [offset] y bp++
+#define ladachr 84  // Add-asignaciÃ³n
+#define lsuachr 85  // Sub-asignaciÃ³n
+#define lmuachr 86  // Mul-asignaciÃ³n
+#define ldiachr 87  // Div-asignaciÃ³n
+#define lmoachr 88  // Mod-asignaciÃ³n
+#define lanachr 89  // And-asignaciÃ³n
+#define lorachr 90  // Or-asignaciÃ³n
+#define lxoachr 91  // Xor-asignaciÃ³n
+#define lsrachr 92  // Shr-asignaciÃ³n
+#define lslachr 93  // Shl-asignaciÃ³n
+#define lcpachr 94  // Saca offset, lee parÃ¡metro [offset] y bp++
 
-// Instrucciones añadidas para el manejo de cadenas
+// Instrucciones aÃ±adidas para el manejo de cadenas
 
 #define lstrcpy 95  // Saca si, di, y hace strcpy(mem[di],[si]) (deja di en pila)
 #define lstrfix 96  // Amplia una cadena antes de meter un char en ella
 #define lstrcat 97  // Concatena dos cadenas (opera como strcpy)
 #define lstradd 98  // Suma dos strings "en el aire" y deja en pila el puntero al aire
-#define lstrdec 99  // Añade o quita caracteres a una cadena
+#define lstrdec 99  // AÃ±ade o quita caracteres a una cadena
 #define lstrsub 100 // Quita caracteres a una cadena (-=)
 #define lstrlen 101 // Sustituye una cadena por su longitud
 #define lstrigu 102 // Comparacion de igualdad de dos cadenas
@@ -155,9 +155,9 @@
 #define lstrmen 105 // Cadena menor
 #define lstrmei 106 // Cadena mayor o igual
 #define lstrmai 107 // Cadena menor o igual
-#define lcpastr 108 // Carga un parámetro en una cadena
+#define lcpastr 108 // Carga un parÃ¡metro en una cadena
 
-// Instrucciones añadidas para el manejo de Words
+// Instrucciones aÃ±adidas para el manejo de Words
 
 #define lptrwor 109 // Pointer, saca (index, offset) y mete [offset+byte index]
 #define lasiwor 110 // Saca (valor, index, offset) y mete el valor en [offset+byte index]
@@ -165,39 +165,39 @@
 #define lptiwor 112 // Pointer e incremento
 #define ldptwor 113 // Decremento y pointer
 #define lptdwor 114 // Pointer y decremento
-#define ladawor 115 // Add-asignación
-#define lsuawor 116 // Sub-asignación
-#define lmuawor 117 // Mul-asignación
-#define ldiawor 118 // Div-asignación
-#define lmoawor 119 // Mod-asignación
-#define lanawor 120 // And-asignación
-#define lorawor 121 // Or-asignación
-#define lxoawor 122 // Xor-asignación
-#define lsrawor 123 // Shr-asignación
-#define lslawor 124 // Shl-asignación
-#define lcpawor 125 // Saca offset, lee parámetro [offset] y bp++
+#define ladawor 115 // Add-asignaciÃ³n
+#define lsuawor 116 // Sub-asignaciÃ³n
+#define lmuawor 117 // Mul-asignaciÃ³n
+#define ldiawor 118 // Div-asignaciÃ³n
+#define lmoawor 119 // Mod-asignaciÃ³n
+#define lanawor 120 // And-asignaciÃ³n
+#define lorawor 121 // Or-asignaciÃ³n
+#define lxoawor 122 // Xor-asignaciÃ³n
+#define lsrawor 123 // Shr-asignaciÃ³n
+#define lslawor 124 // Shl-asignaciÃ³n
+#define lcpawor 125 // Saca offset, lee parÃ¡metro [offset] y bp++
 
-/* Miscelánea */
+/* MiscelÃ¡nea */
 #define lnul    126 // Comprueba que un puntero no sea NULL
 
-/* Instrucciones añadidas en eDIV */
+/* Instrucciones aÃ±adidas en eDIV */
 #define lextasp 127	/* ext + asp, sustituye a funasp							*/
 
 
 //-----------------------------------------------------------------------------
-// Variables locales del sistema de sprites (las primeras no son p£blicas)
+// Variables locales del sistema de sprites (las primeras no son pÂ£blicas)
 //-----------------------------------------------------------------------------
 
 #define _Id         0  //Para comprobar validez de accesos externos
 #define _IdScan     1  //Recorrido del resto de los procesos (p.ej.colisiones)
 #define _Bloque     2  //Identificador del tipo de proceso (para colisiones)
-#define _BlScan     3  //Ultimo tipo de proceso scaneado en el £ltimo recorrido
+#define _BlScan     3  //Ultimo tipo de proceso scaneado en el Â£ltimo recorrido
 #define _Status     4  //Estado (0 dead, 1 killed, 2 alive, 3 sleept, 4 freezed)
-#define _NumPar     5  //N£mero de par metros del proceso
-#define _Param      6  //Puntero a los par metros pasados al proceso (en pila)
-#define _IP         7  //Puntero de ejecuci¢n (la siguiente al frame anterior)
+#define _NumPar     5  //NÂ£mero de parÂ metros del proceso
+#define _Param      6  //Puntero a los parÂ metros pasados al proceso (en pila)
+#define _IP         7  //Puntero de ejecuciÂ¢n (la siguiente al frame anterior)
 #define _SP         8  //Puntero de pila (stack pointer del proceso)
-#define _Executed   9  //Indica para cada frame si el proceso ya se ejecut¢
+#define _Executed   9  //Indica para cada frame si el proceso ya se ejecutÂ¢
 #define _Painted    10 //Indica si el proceso ya ha sido pintado
 
 // Las siguientes 2 variables son duales, segun el proceso sea de m7 o m8
@@ -211,30 +211,30 @@
 #define _Frame      13 //Cuanto frame lleva el proceso (frame(n))
 #define _x0         14 //Caja ocupada por el sprite cada
 #define _y0         15 // vez que se pinta para realizar
-#define _x1         16 // volcado y restauraci¢n de fondo
+#define _x1         16 // volcado y restauraciÂ¢n de fondo
 #define _y1         17 // parcial (dump_type==0 y restore_background==0)
 #define _FCount     18 //Cuenta de llamadas a funcion (para saltarse retornos en frame)
 #define _Caller     19   //ID del proceso o funcion llamador (0 si ha sido el kernel)
 
 #define _Father     20 //Id del padre del proceso (0 si no existe)
-#define _Son        21 //Id del £ltimo hijo que ha creado (0 sne)
+#define _Son        21 //Id del Â£ltimo hijo que ha creado (0 sne)
 #define _SmallBro   22 //Id del hermano menor del proceso (0 sne)
-#define _BigBro     23 //Id del hermanos mayor (m s viejo) del proceso (0 sne)
+#define _BigBro     23 //Id del hermanos mayor (mÂ s viejo) del proceso (0 sne)
 #define _Priority   24 //Prioridad de proceso (positivo o negativo)
 #define _Ctype      25 //Indica si es relativo a pantalla, parallax o mode 7
-#define _X          26 //Coordenada x (del centro gravitatorio del gr fico)
+#define _X          26 //Coordenada x (del centro gravitatorio del grÂ fico)
 #define _Y          27 //Coordenada y (idem)
-#define _Z          28 //Coordenada z (Prioridad para la impresi¢n)
-#define _Graph      29 //C¢digo del gr fico (se corresponde con los ficheros)
+#define _Z          28 //Coordenada z (Prioridad para la impresiÂ¢n)
+#define _Graph      29 //CÂ¢digo del grÂ fico (se corresponde con los ficheros)
 #define _Flags      30 //Define espejados horizontales y verticales
-#define _Size       31 //Tama¤o (%) del gr fico
-#define _Angle      32 //Angulo de rotaci¢n del gr fico (0 gr fico normal)
-#define _Region     33 //Regi¢n con la que hacer el clipping del gr fico
-#define _File       34 //FPG que contiene los gr ficos del proceso
-#define _XGraph     35 //Puntero a tabla: n§graficos,graf_angulo_0,...
+#define _Size       31 //Tamaâ‚¬o (%) del grÂ fico
+#define _Angle      32 //Angulo de rotaciÂ¢n del grÂ fico (0 grÂ fico normal)
+#define _Region     33 //RegiÂ¢n con la que hacer el clipping del grÂ fico
+#define _File       34 //FPG que contiene los grÂ ficos del proceso
+#define _XGraph     35 //Puntero a tabla: nÂ§graficos,graf_angulo_0,...
 #define _Height     36 //Altura de los procesos en el modo 7 (pix/4)
-#define _Cnumber    37 //Indica en que scroll o m7 se ver  el gr fico
-#define _Resolution 38 //Resoluci¢n de las coordenadas x,y para este proceso
+#define _Cnumber    37 //Indica en que scroll o m7 se verÂ  el grÂ fico
+#define _Resolution 38 //ResoluciÂ¢n de las coordenadas x,y para este proceso
 #define _Radius     39 //Radio del objeto en m8
 #define _M8_Wall    40 //Pared con la que colisiona
 #define _M8_Sector  41 //Sector en el que esta

@@ -43,7 +43,7 @@
 #define _prn_scr 55     /* Impr Pant */
 #define _scroll_lock 70 /* Bloq Despl */
 
-#define _wave 41 /* "º" */
+#define _wave 41 /* "Âº" */
 #define _1 2
 #define _2 3
 #define _3 4
@@ -55,7 +55,7 @@
 #define _9 10
 #define _0 11
 #define _minus 12 /* ? */
-#define _plus 13  /* ¿ */
+#define _plus 13  /* Â¿ */
 
 #define _backspace 14
 #define _tab 15
@@ -83,7 +83,7 @@
 #define _j 36
 #define _k 37
 #define _l 38
-#define _semicolon 39  /* Ñ */
+#define _semicolon 39  /* Ã‘ */
 #define _apostrophe 40 /* { */
 #define _backslash 43  /* } */
 
@@ -248,20 +248,20 @@ int ExportaFuncs(EXPORTAFUNCS_PARAMS)
 	GLOBAL_STRUCT("mouse",0);
 		_INT("x",0);			/* Coordenada x */
 		_INT("y",0);			/* Coordenada y */
-		_INT("graph",0);		/* Gráfico */
+		_INT("graph",0);		/* GrÃ¡fico */
 		_INT("file",0);			/* FPG */
 		_INT("z",-512);			/* Profundidad (TODO) */
-		_INT("angle",0);		/* Ángulo (TODO) */
-		_INT("size",100);		/* Tamaño (TODO) */
+		_INT("angle",0);		/* Ãngulo (TODO) */
+		_INT("size",100);		/* TamaÃ±o (TODO) */
 		_INT("flags",0);		/* Banderas (TODO) */
-		_INT("region",0);		/* Región (TODO) */
-		_INT("left",0);			/* Botón izquierdo */
-		_INT("middle",0);		/* Botón central o de ruedecilla */
-		_INT("right",0);		/* Botón derecho */
+		_INT("region",0);		/* RegiÃ³n (TODO) */
+		_INT("left",0);			/* BotÃ³n izquierdo */
+		_INT("middle",0);		/* BotÃ³n central o de ruedecilla */
+		_INT("right",0);		/* BotÃ³n derecho */
 		_INT("wheelup",0);		/* Ruedecilla arriba (NUEVO) */
 		_INT("wheeldown",0);	/* Ruedecilla abajo (NUEVO) */
-		_INT("cursor",0);		/* Emulación con teclas de cursor (TODO) */
-		_INT("speed",0);		/* Velocidad del ratón (TODO) */
+		_INT("cursor",0);		/* EmulaciÃ³n con teclas de cursor (TODO) */
+		_INT("speed",0);		/* Velocidad del ratÃ³n (TODO) */
 		_INT("transparency",0); /* Transparencia (NUEVO) (TODO) */
 	END_STRUCT;
 
@@ -430,10 +430,10 @@ void frame(FUNCTION_PARAMS)
 	if(mbuttons&SDL_BUTTON(3))
 		fp->mem[_mouse+11]=1;
 	
-	if(mbuttons&SDL_BUTTON(4))	/* podria no funcionar ¿necesario sdl_event? */
+	if(mbuttons&SDL_BUTTON(4))	/* podria no funcionar Â¿necesario sdl_event? */
 		fp->mem[_mouse+12]=1;
 	
-	if(mbuttons&SDL_BUTTON(5))	/* podria no funcionar ¿necesario sdl_event? */
+	if(mbuttons&SDL_BUTTON(5))	/* podria no funcionar Â¿necesario sdl_event? */
 		fp->mem[_mouse+13]=1;
 	
 	/* si mouse.graph!=0 */
@@ -450,7 +450,7 @@ void frame(FUNCTION_PARAMS)
 		dstrect.h=mapamouse->h;
 
 		/*
-		 * TODO: añadir chequeo de error si no existe file o mapa
+		 * TODO: aÃ±adir chequeo de error si no existe file o mapa
 		 */
 		fp->Dibuja(mapamouse,dstrect.x,dstrect.y,fp->files[fp->mem[_mouse+3]].mapa[fp->mem[_mouse+2]].cpoint[0].x,fp->files[fp->mem[_mouse+3]].mapa[fp->mem[_mouse+2]].cpoint[0].y,fp->mem[_mouse+8],fp->mem[_mouse+4],fp->mem[_mouse+7],(fp->mem[_mouse+7]&4)?128:255,fp->mem[_mouse+6],fp->mem[_mouse+5]);
 	}

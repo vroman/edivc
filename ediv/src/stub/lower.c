@@ -1,5 +1,5 @@
-/* Fenix - Compilador/intérprete de videojuegos
- * Copyright (C) 1999 José Luis Cebrián Pagüe
+/* Fenix - Compilador/intÃ©rprete de videojuegos
+ * Copyright (C) 1999 JosÃ© Luis CebriÃ¡n PagÃ¼e
  *
  * Adaptado a eDiv por Sion Entertainment
  *
@@ -23,7 +23,7 @@
 #include "main.h"
 #include "lower.h"  // <- hacer un h con las declaraciones
 
-/* Tabla de conversión de caracteres MS-DOS a Windows */
+/* Tabla de conversiÃ³n de caracteres MS-DOS a Windows */
 
 int dos_chars=0;
 
@@ -46,7 +46,7 @@ byte dos_to_win[256] = {
 173, 177,  61, 190, 182, 167, 247, 184, 176, 168, 183, 185, 179, 178, 166, 160
 };
 
-/* Tabla de conversión de caracteres Windows a MS-DOS */
+/* Tabla de conversiÃ³n de caracteres Windows a MS-DOS */
 
 byte win_to_dos[256] =
 {
@@ -87,7 +87,7 @@ void set_c_lower (const byte * from, const byte * to)
 void inicializa_lower()
 {
 
-	/* ¡Esto hay que revisarlo bastante!
+	/* Â¡Esto hay que revisarlo bastante!
 	 */
 
 	memset (lower, 0, 256);  // es necesario
@@ -98,16 +98,16 @@ void inicializa_lower()
 		      "abcdefghijklmnopqrstuvwxyz");
 
 #ifdef RESPETAR_ACENTOS
-	set_c_lower  ("ÁÉÍÓÚÑÇÀÈÌÒÙÄËÏÖÜÝÂÊÎÔÛÆÃÅÕ",
-		      "áéíóúñçàèìòùäëïöüýâêîôûæãåõ");
-	set_c_lower("áéíóúñçàèìòùäëïöüýâêîôûæãåõ",
-				"áéíóúñçàèìòùäëïöüýâêîôûæãåõ");
+	set_c_lower  ("ÃÃ‰ÃÃ“ÃšÃ‘Ã‡Ã€ÃˆÃŒÃ’Ã™Ã„Ã‹ÃÃ–ÃœÃÃ‚ÃŠÃŽÃ”Ã›Ã†ÃƒÃ…Ã•",
+		      "Ã¡Ã©Ã­Ã³ÃºÃ±Ã§Ã Ã¨Ã¬Ã²Ã¹Ã¤Ã«Ã¯Ã¶Ã¼Ã½Ã¢ÃªÃ®Ã´Ã»Ã¦Ã£Ã¥Ãµ");
+	set_c_lower("Ã¡Ã©Ã­Ã³ÃºÃ±Ã§Ã Ã¨Ã¬Ã²Ã¹Ã¤Ã«Ã¯Ã¶Ã¼Ã½Ã¢ÃªÃ®Ã´Ã»Ã¦Ã£Ã¥Ãµ",
+				"Ã¡Ã©Ã­Ã³ÃºÃ±Ã§Ã Ã¨Ã¬Ã²Ã¹Ã¤Ã«Ã¯Ã¶Ã¼Ã½Ã¢ÃªÃ®Ã´Ã»Ã¦Ã£Ã¥Ãµ");
 #else
-	set_c_lower  ("ÁÉÍÓÚÑÇÀÈÌÒÙÄËÏÖÜÝÂÊÎÔÛÆÃÅÕ",
-				  "aeiouncaeiouaeiouyaeiouæaao");
-	set_c_lower  ("áéíóúñÑçÇàèìòùäëïöüýâêîôûæãåõÁÉÍÓÚ",
-				"aeiounnccaeiouaeiouyaeiouÆaaoaeiou");
+	set_c_lower  ("ÃÃ‰ÃÃ“ÃšÃ‘Ã‡Ã€ÃˆÃŒÃ’Ã™Ã„Ã‹ÃÃ–ÃœÃÃ‚ÃŠÃŽÃ”Ã›Ã†ÃƒÃ…Ã•",
+				  "aeiouncaeiouaeiouyaeiouÃ¦aao");
+	set_c_lower  ("Ã¡Ã©Ã­Ã³ÃºÃ±Ã‘Ã§Ã‡Ã Ã¨Ã¬Ã²Ã¹Ã¤Ã«Ã¯Ã¶Ã¼Ã½Ã¢ÃªÃ®Ã´Ã»Ã¦Ã£Ã¥ÃµÃÃ‰ÃÃ“Ãš",
+				"aeiounnccaeiouaeiouyaeiouÃ†aaoaeiou");
 #endif
 
-	set_c_lower("1234567890#$_ºª","1234567890#$_ºª");
+	set_c_lower("1234567890#$_ÂºÂª","1234567890#$_ÂºÂª");
 }

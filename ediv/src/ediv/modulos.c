@@ -203,7 +203,7 @@ void dll_func()
 			if(fichero_dll->d_type==DT_REG) {
 				char dllkey[256]="dll_priority:";
 				#ifdef _DEBUG
-					printf("dbg: Librería encontrada: %s/%s\n",dir,fichero_dll->d_name);
+					printf("dbg: LibrerÃ­a encontrada: %s/%s\n",dir,fichero_dll->d_name);
 				#endif
 				carga=1;
 				sprintf(fichdll,"%s/%s",dir,fichero_dll->d_name);

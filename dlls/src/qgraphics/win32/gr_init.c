@@ -1,6 +1,6 @@
 /*
- * Este fichero contiene rutinas específicas para una plataforma.
- * En caso de hacer un port de la librería, deben implementarse las siguientes
+ * Este fichero contiene rutinas especÃ­ficas para una plataforma.
+ * En caso de hacer un port de la librerÃ­a, deben implementarse las siguientes
  * funciones:
  *
  * gr_Init

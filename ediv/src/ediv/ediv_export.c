@@ -38,11 +38,11 @@ struct objeto * ob2;
 int creaobj;
 int numparams;
 
-byte decl_struct=0;		/* 1 si se está declarando un struct */
-byte struct_reserved=0;	/* 1 si se está declarando la estructura reserved */
+byte decl_struct=0;		/* 1 si se estÃ¡ declarando un struct */
+byte struct_reserved=0;	/* 1 si se estÃ¡ declarando la estructura reserved */
 
 
-/* Errores específicos en la ejecución de una DLL */
+/* Errores especÃ­ficos en la ejecuciÃ³n de una DLL */
 void dll_error(int error, ...)
 {
 	va_list opparam;

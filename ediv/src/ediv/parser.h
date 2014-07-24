@@ -28,7 +28,7 @@ byte* nombre_program;	/* nombre del programa, para guardarlo en el exe */
 
 /*
  * A continuacion viene el asunto de los objetos. Para el que no se haya estudiado a fondo
- * el DIVC.CPP (ejem) diré que un objeto es cada una de las variables, constantes, tipos
+ * el DIVC.CPP (ejem) dirÃ© que un objeto es cada una de las variables, constantes, tipos
  * de proceso (declarados con PROCESS), tipos de funcion (declarados con FUNCTION), funciones
  * de DLL, estructuras, etc. etc. etc.
  * Estudiaros la siguiente tabla para entenderlo mejor...
@@ -44,11 +44,11 @@ byte* nombre_program;	/* nombre del programa, para guardarlo en el exe */
 struct objeto {
   byte tipo;    /* Tipo de objeto                                                */
   byte usado;   /* Indica si el objeto ha sido usado antes de definirse          */
-  byte * name;  /* Puntero al nombre, para algún listado                         */
-  byte * ierror;/* Puntero al código para determinar la columna si es necesario  */
-  int linea;    /* Línea de código fuente, para informar del error               */
-  int param;    /* Indica que es un objeto declarado en los parámetros           */
-  int dll;	    /* En qué dll se declara el objeto, -1 = pertenece al prg        */
+  byte * name;  /* Puntero al nombre, para algÃºn listado                         */
+  byte * ierror;/* Puntero al cÃ³digo para determinar la columna si es necesario  */
+  int linea;    /* LÃ­nea de cÃ³digo fuente, para informar del error               */
+  int param;    /* Indica que es un objeto declarado en los parÃ¡metros           */
+  int dll;	    /* En quÃ© dll se declara el objeto, -1 = pertenece al prg        */
   struct objeto * anterior; /* Anterior objeto de igual nombre                   */
   struct objeto * bloque;   /* Bloque de este proceso (0-global/local N-private) */
   struct objeto * member;   /* Indica a que struct pertenece (0-n/a)             */
@@ -81,14 +81,14 @@ struct objeto {
     } cglo,pcgl;
     struct {                                            /* Struct                    */
       int offset;
-      int len_item;                                     /* Número de campos          */
+      int len_item;                                     /* NÃºmero de campos          */
       int totalitems;                                   /* Numero total de registros */
       int items1,items2,items3;                         /* -1 si n/a                 */
     } sglo,sloc;
     struct {                                            /* Struct pointer            */
       int offset;
       struct objeto * ostruct;                          /* Puntero al struct         */
-      int totalitems;                                   /* Número total de registros */
+      int totalitems;                                   /* NÃºmero total de registros */
       int items1,items2,items3;                         /* -1 si n/a                 */
     } psgl,pslo;
     struct {                                            /* Variable local            */
@@ -116,12 +116,12 @@ struct objeto {
     struct {                                            /* Proceso                   */
       struct objeto * bloque;
       int offset;
-      int num_par;										/* Número de parámetros      */
+      int num_par;										/* NÃºmero de parÃ¡metros      */
     } proc;
 
 	  /*
 	   * qsort requiere como parametros un nombre de estructura y un campo
-       * Ya le buscaremos una solución (p.ej. una función complementaria a EDIV_Export)
+       * Ya le buscaremos una soluciÃ³n (p.ej. una funciÃ³n complementaria a EDIV_Export)
 	   */
 
     struct {                                            /* Funcion externa (DLL)     */
@@ -144,7 +144,7 @@ struct objeto {
 #define tfunc   9
 #define tsglo   10		/* Structs                                        */
 #define tsloc   11
-#define tfext   12      /* Función de una librer¡a externa                */
+#define tfext   12      /* FunciÃ³n de una librerÂ¡a externa                */
 #define tbglo   13      /* Byte global                                    */
 #define twglo   14		/* Word global                                    */
 #define tbloc   15		/* Byte local                                     */
@@ -172,33 +172,33 @@ byte * vhash[256];		/* Punteros al vector de nombres;               */
 
 
 /*
- * Ahora viene todo lo referente al parser en si, es decir, al analizador léxico y sintáctico.
- * También se incluye aquí al evaluador de expresiones (por cierto, usa notación polaca xD)
- * El parser de DIV es realmente bueno, y además muy personalizable. Que yo sepa, sólo existe
- * un bug en el evaluador de expresiones, al parecer los operadores lógicos no funcionan de
+ * Ahora viene todo lo referente al parser en si, es decir, al analizador lÃ©xico y sintÃ¡ctico.
+ * TambiÃ©n se incluye aquÃ­ al evaluador de expresiones (por cierto, usa notaciÃ³n polaca xD)
+ * El parser de DIV es realmente bueno, y ademÃ¡s muy personalizable. Que yo sepa, sÃ³lo existe
+ * un bug en el evaluador de expresiones, al parecer los operadores lÃ³gicos no funcionan de
  * igual forma en sus distintas sintaxis, al menos al trabajar con cadenas. Es decir, que un
- * AND no devuelve lo mismo que un && (pablo-bug nº1). Pero todo se arreglará con un vistazo
+ * AND no devuelve lo mismo que un && (pablo-bug nÂº1). Pero todo se arreglarÃ¡ con un vistazo
  * al listado EML ;)
  */
 
-#define max_nodos 128   /* Máximo número de nodos del léxico para símbolos */
+#define max_nodos 128   /* MÃ¡ximo nÃºmero de nodos del lÃ©xico para sÃ­mbolos */
 
 #define cr 13           /* Retorno de carro */
 #define lf 10           /* Salto de linea   */
-#define tab 9           /* Tabulación       */
+#define tab 9           /* TabulaciÃ³n       */
 
 /* Valores de lex_case, si no son punteros a lex_simb */
 #define l_err 0         /* Caracter desconocido                      */
-#define l_cr  1         /* Fin de linea (l_err Carácter no esperado) */
+#define l_cr  1         /* Fin de linea (l_err CarÃ¡cter no esperado) */
 #define l_id  2         /* Identificador o palabra reservada         */
 #define l_spc 3         /* Espacios y tabulaciones                   */
 #define l_lit 4         /* Literal                                   */
-#define l_num 5         /* Constante numérica                        */
+#define l_num 5         /* Constante numÃ©rica                        */
 #define l_eof 6			/* Fin de fichero                            */
 
 
 /*
- * Valores sintácticos o tokens (pieza)
+ * Valores sintÃ¡cticos o tokens (pieza)
  */
 #define p_ultima        0x00 /* Fin de fichero <EOF> */
 #define p_program       0x01
@@ -210,7 +210,7 @@ byte * vhash[256];		/* Punteros al vector de nombres;               */
 #define p_process       0x07
 #define p_private       0x08
 #define p_struct        0x09
-#define p_import        0x0A /* sólo para mostrar el warning de que ya no se usa */
+#define p_import        0x0A /* sÃ³lo para mostrar el warning de que ya no se usa */
 #define p_setup_program 0x0B /* idem                                             */
 
 #define p_string        0x0C
@@ -376,16 +376,16 @@ byte * vhash[256];		/* Punteros al vector de nombres;               */
 
 #define p_lit           0xfc /* Puntero al literal (txt) en pieza_num   */
 #define p_id            0xfd /* o es un ptr a vnom (a un ptr al objeto) */
-#define p_num           0xfe /* Número en pieza_num                     */
+#define p_num           0xfe /* NÃºmero en pieza_num                     */
 
-/* Tabla de elementos léxicos (distintos tipos de token) */
+/* Tabla de elementos lÃ©xicos (distintos tipos de token) */
 struct lex_ele { byte caracter;
          byte token;
                  struct lex_ele * alternativa;
                  struct lex_ele * siguiente; }
        lex_simb[max_nodos], * ilex_simb, * lex_case[256];
 
-/* Pieza (token) que se está leyendo (ver constantes p_xxxx) */
+/* Pieza (token) que se estÃ¡ leyendo (ver constantes p_xxxx) */
 int pieza, pieza_num;
 
 struct objeto * o;             /* Cuando pieza=p_id, objeto de tipo (**o).tipo */
@@ -393,7 +393,7 @@ struct objeto * bloque_actual; /* Bloque que esta siendo analizado             *
 struct objeto * bloque_lexico; /* Es 0 hasta las privadas del program          */
 struct objeto * member;        /* !=0 al declarar/acceder un miembro de un struct */
 
-/* número de nodos, número de objetos */
+/* nÃºmero de nodos, nÃºmero de objetos */
 int num_nodos, num_obj;
 int num_obj_predefinidos;
 
@@ -401,14 +401,14 @@ int num_obj_predefinidos;
 /*
  *      Variables relacionadas con el listado formateado
  */
-int coment; /* 0-Código, 1-Dentro de comentario, 2-Anidado, ... */
+int coment; /* 0-CÃ³digo, 1-Dentro de comentario, 2-Anidado, ... */
 
 
 
-int old_linea; /* Situación en el fichero del token anterior al último leido */
+int old_linea; /* SituaciÃ³n en el fichero del token anterior al Ãºltimo leido */
 byte * old_ierror, * old_ierror_end;
 
-/* El último token leido está en (linea,ierror,ierror_end) */
+/* El Ãºltimo token leido estÃ¡ en (linea,ierror,ierror_end) */
 byte * ultima_linea,cero;
 
 /* Siguiente token -> next_lexico() */

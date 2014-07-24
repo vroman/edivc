@@ -1,9 +1,9 @@
 /*! \file graphics.c
- * \brief DLL principal del motor gr·fico 2D de eDIV
+ * \brief DLL principal del motor gr√°fico 2D de eDIV
  *
  * En esta DLL se encuentran las principales funciones relacionadas con el
- * manejo de gr·ficos. Tiene prioridad P_SIEMPRE ya que se supone que la
- * mayorÌa de los programas hechos con eDIV requerir·n tratamiento de gr·ficos.
+ * manejo de gr√°ficos. Tiene prioridad P_SIEMPRE ya que se supone que la
+ * mayor√≠a de los programas hechos con eDIV requerir√°n tratamiento de gr√°ficos.
  */
 
 #include <stdio.h>
@@ -25,12 +25,12 @@
 #include "SDL_rotozoom.h"
 #include "default_palette.h"
 
-/*! \brief FunciÛn de exportaciÛn de sÌmbolos de la DLL
+/*! \brief Funci√≥n de exportaci√≥n de s√≠mbolos de la DLL
  * @return TRUE si la DLL da su permiso para ser cargada, en caso contrario, FALSE
  */
 int ExportaFuncs(EXPORTAFUNCS_PARAMS)
 {
-	/* Modos predefinidos para set_mode (sÛlo 8 bpp, compatibilidad DIV2) */
+	/* Modos predefinidos para set_mode (s√≥lo 8 bpp, compatibilidad DIV2) */
 	CONST("m320x200",320200);
 	CONST("m320x240",320240);
 	CONST("m320x400",320400);
@@ -88,7 +88,7 @@ int ExportaFuncs(EXPORTAFUNCS_PARAMS)
 	GLOBAL("num_video_modes",0);
 	GLOBAL("vsync",0);
 	GLOBAL("draw_z",-255);
-	GLOBAL("smooth",smooth); /* > AtenciÛn una nueva variable que indica si se activa o no el SMOOTH al ZOOMEAR. */
+	GLOBAL("smooth",smooth); /* > Atenci√≥n una nueva variable que indica si se activa o no el SMOOTH al ZOOMEAR. */
 
 	/* variables locales */
 	LOCAL("x",0);
@@ -170,9 +170,9 @@ FILE * memo ;
 
 /*! \brief Guarda una captura de la pantalla en un .bmp
  *
- * Esta funciÛn es llamada cuando se pulsa ALT+P. Primero busca un nombre de
- * fichero v·lido del tipo nombre_programa####.bmp, donde #### es el primer
- * n˙mero que haya disponible, para ir numerando las capturas autom·ticamente.
+ * Esta funci√≥n es llamada cuando se pulsa ALT+P. Primero busca un nombre de
+ * fichero v√°lido del tipo nombre_programa####.bmp, donde #### es el primer
+ * n√∫mero que haya disponible, para ir numerando las capturas autom√°ticamente.
  * Luego simplemente usa SDL_SaveBMP() para guardar el backbuffer con ese
  * nombre.
  * @param nombre_program Nombre del programa, obtenido de fp->nombre_program
@@ -194,14 +194,14 @@ void guarda_pantallazo(char* nombre_program)
 	SDL_SaveBMP(screen,capturef);
 }
 
-/*! \brief FunciÛn para usar con qsort() para ordenar los blits por su Z
+/*! \brief Funci√≥n para usar con qsort() para ordenar los blits por su Z
  *
- * Esta funciÛn se pasa a qsort() para que la graphics (en el entrypoint frame)
- * ordene los blits (del tipo struct _blits) seg˙n su Z, para que se dibujen
+ * Esta funci√≥n se pasa a qsort() para que la graphics (en el entrypoint frame)
+ * ordene los blits (del tipo struct _blits) seg√∫n su Z, para que se dibujen
  * en el backbuffer en el orden correcto.
  * @param a Primer blit a ordenar
  * @param b Segundo blit a ordenar
- * @return -1 si a est· detr·s de b, 1 si a est· delante de b, 0 si tienen la misma Z
+ * @return -1 si a est√° detr√°s de b, 1 si a est√° delante de b, 0 si tienen la misma Z
  * @see frame(), struct _blits
  */
 int ordena_por_z(const void* a, const void* b)
@@ -218,8 +218,8 @@ int ordena_por_z(const void* a, const void* b)
 
 /*! \brief Entrypoint frame
  *
- * Este entrypoint se ejecuta una vez todos los procesos han ejecutado su cÛdigo
- * correspondiente al frame actual. Se encarga de procesar todos los gr·ficos
+ * Este entrypoint se ejecuta una vez todos los procesos han ejecutado su c√≥digo
+ * correspondiente al frame actual. Se encarga de procesar todos los gr√°ficos
  * en pantalla (fondo, draws, procesos y los creados por otras DLL's mediante
  * fp->Dibuja()), blitearlos en el backbuffer y actualizar la pantalla.
  * @see Dibuja(), draw.c
@@ -245,7 +245,7 @@ void frame(FUNCTION_PARAMS)
 		primer_frame=FALSE;
 
 		/*
-		 * TODO: AÒadir comprobacion de errores en los 2 if siguientes (Daijo)
+		 * TODO: A√±adir comprobacion de errores en los 2 if siguientes (Daijo)
 		 */
 		if (SDL_Init(SDL_INIT_VIDEO)) {
 			fp->Critical_Error(7); /* No se pudo inicializar SDL */
@@ -478,9 +478,9 @@ void frame(FUNCTION_PARAMS)
 
 /*! \brief Entrypoint first_load
  *
- * Este entrypoint se ejecuta cuando la DLL se carga en el comienzo de la ejecuciÛn
+ * Este entrypoint se ejecuta cuando la DLL se carga en el comienzo de la ejecuci√≥n
  * del programa. Se usa para inicializar todos los datos internos de la DLL y
- * realizar alguna operaciÛn inicial si es preciso.
+ * realizar alguna operaci√≥n inicial si es preciso.
  */
 void first_load(FUNCTION_PARAMS)
 {
@@ -566,28 +566,28 @@ void first_load(FUNCTION_PARAMS)
  * Funciones Internas de la DLL
  */
 
-/*! \brief Agrega un gr·fico a la lista de blits
+/*! \brief Agrega un gr√°fico a la lista de blits
  * 
- * Esta funciÛn puede usarse desde cualquier DLL (se exporta en la estructura fp)
+ * Esta funci√≥n puede usarse desde cualquier DLL (se exporta en la estructura fp)
  * y se encarga de meter un registro en la pila de bliteos, permitiendo especificar
- * ciertos par·metros describiendo cÛmo debe dibujarse el gr·fico, incluyendo Z,
+ * ciertos par√°metros describiendo c√≥mo debe dibujarse el gr√°fico, incluyendo Z,
  * transparencia, etc.
- * La funciÛn hace "clipping" al gr·fico autom·ticamente seg˙n la regiÛn que se le
+ * La funci√≥n hace "clipping" al gr√°fico autom√°ticamente seg√∫n la regi√≥n que se le
  * indique.
  * \todo Hacer que no obligue a la DLL que la llama a usar SDL. Puede convertirse
- * esta funciÛn o usar una alternativa, esta se usarÌa de forma interna y la otra se
- * almacenarÌa en fp->Dibuja para que la usen las dem·s DLL's.
- * @param src Superficie donde se encuentra el gr·fico a dibujar
+ * esta funci√≥n o usar una alternativa, esta se usar√≠a de forma interna y la otra se
+ * almacenar√≠a en fp->Dibuja para que la usen las dem√°s DLL's.
+ * @param src Superficie donde se encuentra el gr√°fico a dibujar
  * @param x Coordenada X destino
  * @param y Coordenada Y destino
- * @param cx Y del centro del gr·fico (relativo al mismo)
- * @param cy X del centro del gr·fico
- * @param region RegiÛn de pantalla en la que se dibujar·
- * @param z Profundidad del gr·fico, permite que pueda dibujarse delante o detr·s de otros gr·ficos
- * @param flags Flags de espejado horizontal(1)/vertical(2) (sÛlo se tendr·n en cuenta estos dos bits)
- * @param trans Transparencia del gr·fico (0..255)
- * @param size TamaÒo (en porcentaje) al que debe escalarse el gr·fico, 100% es el tamaÒo original
- * @param angle ¡ngulo (en milÈsimas de grado) para rotar el gr·fico. (0 = sin rotaciÛn)
+ * @param cx Y del centro del gr√°fico (relativo al mismo)
+ * @param cy X del centro del gr√°fico
+ * @param region Regi√≥n de pantalla en la que se dibujar√°
+ * @param z Profundidad del gr√°fico, permite que pueda dibujarse delante o detr√°s de otros gr√°ficos
+ * @param flags Flags de espejado horizontal(1)/vertical(2) (s√≥lo se tendr√°n en cuenta estos dos bits)
+ * @param trans Transparencia del gr√°fico (0..255)
+ * @param size Tama√±o (en porcentaje) al que debe escalarse el gr√°fico, 100% es el tama√±o original
+ * @param angle √Ångulo (en mil√©simas de grado) para rotar el gr√°fico. (0 = sin rotaci√≥n)
  * @return 1
  * @see frame(), xput(), ordena_por_z(), #blits
  */
@@ -615,9 +615,9 @@ int Dibuja(SDL_Surface *src,int x,int y,int cx,int cy,int region,int z,int flags
 	if(angle<0) angle+=360000;
 	angulo=angle/1000;
 	
-	/*! Ahora siempre se crea una copia de la surface, lo he puesto asÌ porque
+	/*! Ahora siempre se crea una copia de la surface, lo he puesto as√≠ porque
 	 * tiene la ventaja de que con el smooth no kedan bordes negros y hace un
-	 * perfecto antialiasing, pero vamos, esto hay ke optimizarlo bastante (habr·
+	 * perfecto antialiasing, pero vamos, esto hay ke optimizarlo bastante (habr√°
 	 * que guarrear bastante en el SDL_rotozoomer.c)
 	 */
 	
@@ -625,7 +625,7 @@ int Dibuja(SDL_Surface *src,int x,int y,int cx,int cy,int region,int z,int flags
 	SDL_SetColorKey(temp,src->flags,color_transparente);
 
 	if(flags&3) {
-		/* el volteado vertical es m·s r·pido */
+		/* el volteado vertical es m√°s r√°pido */
 		if((flags&3)==2) {
 			for(i=0;i<src->h;i++)
 				memcpy((byte*)temp->pixels+i*temp->pitch,(byte*)src->pixels+(src->h-i-1)*src->pitch,src->pitch);
@@ -657,8 +657,8 @@ int Dibuja(SDL_Surface *src,int x,int y,int cx,int cy,int region,int z,int flags
 	blits[last_blit].src = xput(temp,zoom,angulo);
 
 	/*! 
-	 * PequeÒo hack para arreglar transparency
-	 * \todo DeberÌa limpiarse y revisarse un poco :P
+	 * Peque√±o hack para arreglar transparency
+	 * \todo Deber√≠a limpiarse y revisarse un poco :P
 	 */
 	
 	
@@ -720,14 +720,14 @@ int Dibuja(SDL_Surface *src,int x,int y,int cx,int cy,int region,int z,int flags
 	return 1 ;
 }
 
-/*! \brief Escala y rota un gr·fico
+/*! \brief Escala y rota un gr√°fico
  *
- * Esta funciÛn recibe una superficie y la rota y escala seg˙n los valores deseados,
- * y devuelve una nueva superficie que contiene el gr·fico transformado.
- * @param src La superficie con el gr·fico que se desea transformar
- * @param size TamaÒo al que se desea escalar el gr·fico (1.0 es el tamaÒo original)
- * @param angle ¡ngulo (en grados) al que se desea rotar el gr·fico (0.0 = sin rotaciÛn)
- * @return Una nueva superficie con el gr·fico transformado
+ * Esta funci√≥n recibe una superficie y la rota y escala seg√∫n los valores deseados,
+ * y devuelve una nueva superficie que contiene el gr√°fico transformado.
+ * @param src La superficie con el gr√°fico que se desea transformar
+ * @param size Tama√±o al que se desea escalar el gr√°fico (1.0 es el tama√±o original)
+ * @param angle √Ångulo (en grados) al que se desea rotar el gr√°fico (0.0 = sin rotaci√≥n)
+ * @return Una nueva superficie con el gr√°fico transformado
  * @see Dibuja(), SDL_rotozoom.c
  */
 SDL_Surface *xput(SDL_Surface *src,double size,double angle)

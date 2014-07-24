@@ -2,9 +2,9 @@
  * \brief Funciones de operaciones con mapas
  *
  * Este fichero contiene las funciones para las operaciones con mapas
- * (modificaciÛn, obtenciÛn de informaciÛn, bliteos, etc).
+ * (modificaci√≥n, obtenci√≥n de informaci√≥n, bliteos, etc).
  *
- * \todo Falta respetar el centro del gr·fico, y soporte para FLAGS 1 y 2
+ * \todo Falta respetar el centro del gr√°fico, y soporte para FLAGS 1 y 2
  */
 
 #include <SDL/SDL.h>
@@ -14,13 +14,13 @@
 
 /*! \brief Copia un trozo de mapa y lo pega en otro mapa
  *
- * Esta funciÛn sÛlo permite operaciones en el mismo FPG.
- * \todo øsobrecargar para permitir operaciones entre FPG's?
+ * Esta funci√≥n s√≥lo permite operaciones en el mismo FPG.
+ * \todo ¬øsobrecargar para permitir operaciones entre FPG's?
  * @param f FPG donde se encuentran los dos mapas
- * @param g2 Gr·fico de destino
+ * @param g2 Gr√°fico de destino
  * @param x2 Coordenada X destino
  * @param y2 Coordenada Y destino
- * @param g1 Gr·fico de origen
+ * @param g1 Gr√°fico de origen
  * @param x1 Coordenada X origen
  * @param y1 Coordenada Y origen
  * @param w Anchura del bloque a copiar
@@ -63,10 +63,10 @@ int eDIV_MAP_BLOCK_COPY(FUNCTION_PARAMS)
 
 /*! \brief Obtiene el color del pixel, en las coordenadas (x,y), de un mapa.
  * @param f Fichero (FPG) donde se encuentra el mapa
- * @param g CÛdigo del gr·fico dentro del FPG.
+ * @param g C√≥digo del gr√°fico dentro del FPG.
  * @param x Coordenada X del pixel
  * @param y Coordenada Y del pixel
- * @return El color del pÌxel.
+ * @return El color del p√≠xel.
  * @see eDIV_MAP_PUT_PIXEL(), eDIV_PUT_PIXEL(), eDIV_GET_PIXEL()
  */
 int eDIV_MAP_GET_PIXEL(FUNCTION_PARAMS)
@@ -110,11 +110,11 @@ int eDIV_MAP_GET_PIXEL(FUNCTION_PARAMS)
 
 /*! \brief Blitea un mapa dentro de otro mapa
  *
- * Esta funciÛn sÛlo permite operaciones en el mismo FPG.
- * \todo øsobrecargar para permitir operaciones entre FPG's?
+ * Esta funci√≥n s√≥lo permite operaciones en el mismo FPG.
+ * \todo ¬øsobrecargar para permitir operaciones entre FPG's?
  * @param f Fichero (FPG) donde se encuentran los dos mapas.
- * @param g2 Gr·fico de destino
- * @param g1 Gr·fico de origen
+ * @param g2 Gr√°fico de destino
+ * @param g1 Gr√°fico de origen
  * @param x Coordenada X
  * @param y Coordenada Y
  * @return 1
@@ -144,11 +144,11 @@ int eDIV_MAP_PUT(FUNCTION_PARAMS)
 }
 
 
-/*! \brief Cambia el color de un pÌxel determinado de un mapa
+/*! \brief Cambia el color de un p√≠xel determinado de un mapa
  * @param fichero Fichero (FPG) donde se encuentra el mapa
- * @param grafico CÛdigo del mapa dentro del FPG
- * @param x Coordenada X del pÌxel
- * @param y Coordenada y del pÌxel
+ * @param grafico C√≥digo del mapa dentro del FPG
+ * @param x Coordenada X del p√≠xel
+ * @param y Coordenada y del p√≠xel
  * @param color Color
  * @return 1
  * @see eDIV_MAP_GET_PIXEL(), eDIV_PUT_PIXEL(), eDIV_GET_PIXEL()
@@ -218,8 +218,8 @@ int eDIV_MAP_PUT_PIXEL(FUNCTION_PARAMS)
 
 
 /*! \brief Blitea un mapa sobre el buffer del fondo
- * @param fichero Fichero (FPG) donde se encuentra el gr·fico
- * @param grafico CÛdigo del mapa dentro del FPG
+ * @param fichero Fichero (FPG) donde se encuentra el gr√°fico
+ * @param grafico C√≥digo del mapa dentro del FPG
  * @param x Coordenada X destino
  * @param y Coordenada Y destino
  * @return 1
@@ -250,14 +250,14 @@ int eDIV_PUT(FUNCTION_PARAMS)
 }
 
 
-/*! \brief Como eDIV_PUT() pero permitiendo indicar ·ngulo, tamaÒo y flags.
- * \todo Falta soporte para flags. Revisar y aÒadir fp->Runtime_Error()
- * @param fichero Fichero (FPG) donde se encuentra el gr·fico
- * @param grafico CÛdigo del mapa dentro del FPG
+/*! \brief Como eDIV_PUT() pero permitiendo indicar √°ngulo, tama√±o y flags.
+ * \todo Falta soporte para flags. Revisar y a√±adir fp->Runtime_Error()
+ * @param fichero Fichero (FPG) donde se encuentra el gr√°fico
+ * @param grafico C√≥digo del mapa dentro del FPG
  * @param x Coordenada X destino
  * @param y Coordenada Y destino
- * @param angle ¡ngulo (en milÈsimas de grado)
- * @param zoom TamaÒo (en porcentaje)
+ * @param angle √Ångulo (en mil√©simas de grado)
+ * @param zoom Tama√±o (en porcentaje)
  * @return 1 si se ha colocado correctamente, -1 si el mapa no existe.
  * @see eDIV_PUT(), eDIV_MAP_XPUT(), eDIV_MAP_PUT()
  */
@@ -294,8 +294,8 @@ int eDIV_XPUT(FUNCTION_PARAMS)
 
 
 /*! \brief Blitea un mapa sobre el buffer del fondo en la ESQUINA SUPERIOR IZQUIERDA de la pantalla
- * @param fichero Fichero (FPG) donde se encuentra el gr·fico
- * @param grafico CÛdigo del mapa dentro del FPG
+ * @param fichero Fichero (FPG) donde se encuentra el gr√°fico
+ * @param grafico C√≥digo del mapa dentro del FPG
  * @return 1
  * @see eDIV_PUT(), eDIV_LOAD_SCREEN()
  */
@@ -394,7 +394,7 @@ int eDIV_CLEAR_SCREEN(FUNCTION_PARAMS)
 /*! \brief Obtiene el color del pixel, en las coordenadas (x,y), del buffer del fondo.
  * @param x Coordenada X del pixel
  * @param y Coordenada Y del pixel
- * @return El color del pÌxel.
+ * @return El color del p√≠xel.
  * @see eDIV_PUT_PIXEL(), eDIV_MAP_GET_PIXEL()
  */
 int eDIV_GET_PIXEL(FUNCTION_PARAMS)
@@ -431,16 +431,16 @@ int eDIV_GET_PIXEL(FUNCTION_PARAMS)
 }
 
 
-/*! \brief Crea un nuevo mapa con las caracterÌsticas indicadas.
+/*! \brief Crea un nuevo mapa con las caracter√≠sticas indicadas.
  *
- * El nuevo mapa se crear· en el fichero 0, como si se hubiera cargado con
+ * El nuevo mapa se crear√° en el fichero 0, como si se hubiera cargado con
  * \link eDIV_LOAD_MAP() load_map() \endlink.
  * @param w Anchura del mapa
  * @param h Altura del mapa
  * @param cx Coordenada X del centro del mapa
  * @param cy Coordenada Y del centro del mapa
- * @param c Color con el que se rellenar· el nuevo mapa
- * @return El cÛdigo del nuevo gr·fico, o -1 si ocurriÛ un error
+ * @param c Color con el que se rellenar√° el nuevo mapa
+ * @return El c√≥digo del nuevo gr√°fico, o -1 si ocurri√≥ un error
  * @see eDIV_LOAD_MAP(), eDIV_UNLOAD_MAP()
  */
 int eDIV_NEW_MAP(FUNCTION_PARAMS)
@@ -474,15 +474,15 @@ int eDIV_NEW_MAP(FUNCTION_PARAMS)
 }
 
 
-/*! \brief Copia una regiÛn de la pantalla en un mapa
- * \todo La regiÛn copiada debe ESTIRARSE para adaptarse a la regiÛn destino
- * @param r RegiÛn de la pantalla
+/*! \brief Copia una regi√≥n de la pantalla en un mapa
+ * \todo La regi√≥n copiada debe ESTIRARSE para adaptarse a la regi√≥n destino
+ * @param r Regi√≥n de la pantalla
  * @param f Fichero del mapa destino
- * @param g Gr·fico destino
+ * @param g Gr√°fico destino
  * @param x Coordenada X destino
  * @param y Coordenada Y destino
- * @param w Ancho de la regiÛn destino dentro del mapa
- * @param h Alto de la regiÛn destino dentro del mapa
+ * @param w Ancho de la regi√≥n destino dentro del mapa
+ * @param h Alto de la regi√≥n destino dentro del mapa
  * @return 1
  * @see eDIV_DEFINE_REGION(), eDIV_MAP_BLOCK_COPY()
  */
@@ -517,8 +517,8 @@ int eDIV_SCREEN_COPY(FUNCTION_PARAMS)
 
 /*! \brief Obtiene las coordenadas de un punto de control de un mapa
  * @param f Fichero en el que se encuentra el mapa
- * @param g CÛdigo del mapa dentro del FPG
- * @param n N˙mero del punto de control
+ * @param g C√≥digo del mapa dentro del FPG
+ * @param n N√∫mero del punto de control
  * @param offset_x Offset de la variable donde guardar la coordenada X
  * @param offset_y Offset de la variable donde guardar la coordenada Y
  * @return 0 si todo va bien, -1 si el mapa no existe
@@ -544,7 +544,7 @@ int eDIV_GET_POINT(FUNCTION_PARAMS)
 
 /*! \brief Obtiene las coordenadas en pantalla de un punto de control del proceso actual
  * \todo Tener en cuenta angle, size, etc
- * @param n N˙mero del punto de control
+ * @param n N√∫mero del punto de control
  * @param offset_x Offset de la variable donde guardar la coordenada X
  * @param offset_y Offset de la variable donde guardar la coordenada Y
  * @return 0 si todo va bien, -1 si el mapa no existe
@@ -571,12 +571,12 @@ int eDIV_GET_REAL_POINT(FUNCTION_PARAMS)
 	return 0 ;
 }
 
-/*! \brief Obtiene informaciÛn sobre un mapa
+/*! \brief Obtiene informaci√≥n sobre un mapa
  * @param f Fichero donde se encuentra el mapa
- * @param g CÛdigo del gr·fico dentro del FPG
- * @param i Indica quÈ informaciÛn quiere extraerse del mapa, puede ser uno de:
- *			\a g_wide (0), \a g_height (1), \a g_x_center (2) Û \a g_y_center (3).
- * @return La informaciÛn solicitada, o -1 si hubo un error.
+ * @param g C√≥digo del gr√°fico dentro del FPG
+ * @param i Indica qu√© informaci√≥n quiere extraerse del mapa, puede ser uno de:
+ *			\a g_wide (0), \a g_height (1), \a g_x_center (2) √≥ \a g_y_center (3).
+ * @return La informaci√≥n solicitada, o -1 si hubo un error.
  * @see eDIV_GET_POINT()
  */
 int eDIV_GRAPHIC_INFO(FUNCTION_PARAMS)

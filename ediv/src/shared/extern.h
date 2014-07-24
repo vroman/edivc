@@ -25,7 +25,7 @@
 #include "main.h"
 #include "varindex.h"
 
-#define MAX_EXTERN_FUNCS	0xFFFF		/* ¿Demasiado? */
+#define MAX_EXTERN_FUNCS	0xFFFF		/* Â¿Demasiado? */
 #define MAX_EXTFUNC_PARMS	0xFF
 #define MAX_DLLS			0xFF
 #define MAX_ENTRYPOINTS		0xFF
@@ -33,7 +33,7 @@
 #define P_SIEMPRE			512			/* yo creo ke esto vale */
 #define P_NUNCA				-512
 
-char fichdll[256];	/* Nombre de la DLL que se está ejecutando ahora */
+char fichdll[256];	/* Nombre de la DLL que se estÃ¡ ejecutando ahora */
 
 
 /*
@@ -89,7 +89,7 @@ typedef void (TYPEOF_Runtime_Error)(int, ...);
 typedef void (TYPEOF_Critical_Error)(int, ...);
 typedef void (TYPEOF_Custom_Error)(int,char*);
 
-/* Obtiene offset de variable indexada dinámicamente */
+/* Obtiene offset de variable indexada dinÃ¡micamente */
 typedef int (TYPEOF_GetVarOffset)(tipo_t tipo,char* nombre);
 
 /* Finaliza el stub (exit) */
@@ -99,7 +99,7 @@ typedef void (TYPEOF_Stub_Quit)(int n);
  * ENTRY-POINTS
  * 
  * Estas funciones son llamadas por el STUB en determinados eventos
- * (Cuando una DLL hace cierta acción, lo avisa al Stub y el stub se encarga de llamar
+ * (Cuando una DLL hace cierta acciÃ³n, lo avisa al Stub y el stub se encarga de llamar
  * a las correspondientes rutinas de las dll's, ordenadas por prioridad)
  */
 
@@ -107,7 +107,7 @@ typedef void (TYPEOF_Stub_Quit)(int n);
  * Constantes para EDIV_Export_Entrypoint
  */
 
-#define EDIV_set_video_mode			1	// Al activar un nuevo modo de vídeo
+#define EDIV_set_video_mode			1	// Al activar un nuevo modo de vÃ­deo
 #define EDIV_process_palette		2	// Al cargar una paleta
 #define EDIV_process_active_palette	3	// Al modificar la paleta activa (usada en los fades)
 #define EDIV_process_sound			4	// Al cargar un efecto sonoro
@@ -126,7 +126,7 @@ typedef void (TYPEOF_Stub_Quit)(int n);
 #define EDIV_ss_frame				17	// Frame de salvapantallas
 #define EDIV_ss_end					18	// Fin de salvapantallas
 #define EDIV_frame					19	// En cada frame
-#define EDIV_trace					20	// Después de ejecutar cada instrucción de bytecode (solo en debug)
+#define EDIV_trace					20	// DespuÃ©s de ejecutar cada instrucciÃ³n de bytecode (solo en debug)
 #define EDIV_debug					21	// Invocar al trazador - sentencia debug (solo en debug)
 #define EDIV_first_load				22	// Se ejecuta al cargar la DLL en ejecucion
 #define EDIV_quit					23  // Llamado por stub_quit()
@@ -134,7 +134,7 @@ typedef void (TYPEOF_Stub_Quit)(int n);
 /*
  * Call_Entrypoint
  *
- * Devuelve el número de entrypoints a los que corresponde ese identificador.
+ * Devuelve el nÃºmero de entrypoints a los que corresponde ese identificador.
  * (0 si no hay ninguno)
  */
 int Call_Entrypoint(int ep, ...);
@@ -178,9 +178,9 @@ TYPEOF_EDIV_Export_Priority      *
 typedef int (TYPEOF_ExportaFuncs)(EXPORTAFUNCS_PARAMS_DECLARE);
 
 
-/* FUNCIÓN EXTERNA */
+/* FUNCIÃ“N EXTERNA */
 
-/* ¡ojo! debe ser igual en export.h */
+/* Â¡ojo! debe ser igual en export.h */
 #define FUNCTION_PARAMS	\
 	int *params, int *sp, \
 	int mem[], \
@@ -275,24 +275,24 @@ struct _fun_params{
 		
 
 /*
- * La pila de parametros y su señalador o como se llame
+ * La pila de parametros y su seÃ±alador o como se llame
  * int params[MAX_EXTFUNC_PARMS];
  * int sp;
  */
 
 void* extfuncs[MAX_EXTERN_FUNCS]; /* tabla de punteros a las funciones de las DLLs (stub) */
-int extparms[MAX_EXTERN_FUNCS];   /* nº de parámetros de cada función externa (necesario para la sobrecarga) */
+int extparms[MAX_EXTERN_FUNCS];   /* nÂº de parÃ¡metros de cada funciÃ³n externa (necesario para la sobrecarga) */
 
 struct _entrypoints {
-	int tipo;			/* Ver #defines de entrypoints más arriba */
+	int tipo;			/* Ver #defines de entrypoints mÃ¡s arriba */
 	int dll;			/* DLL que contiene este entrypoint */
-	void* hfuncion;		/* Puntero a la función entrypoint de la DLL */
+	void* hfuncion;		/* Puntero a la funciÃ³n entrypoint de la DLL */
 } entrypoints[MAX_ENTRYPOINTS];
 
 struct _dlls {
     char* nombre;           /* nombre de la DLL (ej: "sample.so") */
     byte usado;				/* si la dll es requerida por el programa */
-    int mem_nombre;			/* posición del nombre en mem[] */
+    int mem_nombre;			/* posiciÃ³n del nombre en mem[] */
 	int prioridad;			/* prioridad por defecto de la DLL */
 	void* hDLL;
 } dlls[MAX_DLLS];
@@ -300,9 +300,9 @@ struct _dlls {
 int dimem;	/* indices para poder devolver offsets de variables segun se van declarando */
 int diloc;
 
-int numdlls;			/* Número de DLLs encontradas en el directorio */
-int n_dlls;				/* Número de DLLs requeridas por el programa */
-int n_externs;			/* Número de funciones importadas */
-int n_entrypoints;		/* Número de entrypoints declarados */
+int numdlls;			/* NÃºmero de DLLs encontradas en el directorio */
+int n_dlls;				/* NÃºmero de DLLs requeridas por el programa */
+int n_externs;			/* NÃºmero de funciones importadas */
+int n_entrypoints;		/* NÃºmero de entrypoints declarados */
 
 #endif // __EXTERN_H

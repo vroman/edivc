@@ -29,7 +29,7 @@ int tipo_factor=0;    /* idem */
 
 
 /*
- *      Analisis de una condición (genera código para calcularla)
+ *      Analisis de una condiciÃ³n (genera cÃ³digo para calcularla)
  */
 
 void condicion(void) {
@@ -58,7 +58,7 @@ void con0() { /* Operadores con asociatividad de derecha a izquierda <- */
 
   con1();
   if ((p=pieza)==p_asig || (p>=p_add_asig && p<=p_shl_asig)) {
-    error(0,69); /* asignación dentro de una condición */
+    error(0,69); /* asignaciÃ³n dentro de una condiciÃ³n */
   }
 }
 
@@ -105,7 +105,7 @@ void con2() {
 
 
 /*
- *      Analisis de una expresión (genera código para calcularla)
+ *      Analisis de una expresiÃ³n (genera cÃ³digo para calcularla)
  */
 void expresion(void) {
   byte * __ierror, * _ierror;
@@ -120,7 +120,7 @@ void expresion(void) {
 }
 
 
-/* expresiones de parámetros */
+/* expresiones de parÃ¡metros */
 void expresion_cpa(void) {
   byte * __ierror, * _ierror;
   int _linea;
@@ -143,7 +143,7 @@ void expresion_cpa(void) {
     g1(lcpawor);
   } else if ((*(_exp-1)).tipo==eoper && (*(_exp-1)).token==p_string) {
     _exp--; generar_expresion(); g1(lcpastr);
-  } else error(4,72); /* parámetro no válido */
+  } else error(4,72); /* parÃ¡metro no vÃ¡lido */
   linea=_linea; ierror=__ierror;
 }
 
@@ -259,7 +259,7 @@ void generar_expresion(void) {
         case p_pointerbyte: g1(lptrchr); break;
         case p_string: break; /* Es como un p_pointer nulo, que no se hace */
 
-        default: error(4,11); /* expresión incorrecta */
+        default: error(4,11); /* expresiÃ³n incorrecta */
       } break;
       default: error(4,11);
     }
@@ -268,7 +268,7 @@ void generar_expresion(void) {
 
 
 /*
- *      Analisis de una expresión constante
+ *      Analisis de una expresiÃ³n constante
  *      No se procesan valores locales ni llamadas a otros procesos
  */
 int constante (void) {
@@ -307,7 +307,7 @@ int constante (void) {
       case p_not: pila[i]^=-1; break;
       case p_shr: pila[i-1]>>=pila[i]; i--; break;
       case p_shl: pila[i-1]<<=pila[i]; i--; break;
-      default: error(4,54);	/* se esperaba una expresión constante */
+      default: error(4,54);	/* se esperaba una expresiÃ³n constante */
     } break;
     default: error(4,54);
   }while (++e!=_exp);
@@ -316,7 +316,7 @@ int constante (void) {
 }
 
 /*
- *      Análisis de una expresión a *tabexp
+ *      AnÃ¡lisis de una expresiÃ³n a *tabexp
  */
 
 void exp00(int tipo_exp) {
@@ -367,8 +367,8 @@ void exp0() { /* Operadores con asociatividad de derecha a izquierda <- */
         exp00(-1);
         (*_exp).tipo=eoper; (*_exp++).token=p_strsub;
         (*_exp).tipo=eoper; (*_exp++).token=p_string; /* Sigue habiendo una cadena en la pila */
-      } else error(0,12); /* asignación a cadena incorrecta */
-    } else error(0,13); /* asignación incorrecta */
+      } else error(0,12); /* asignaciÃ³n a cadena incorrecta */
+    } else error(0,13); /* asignaciÃ³n incorrecta */
   } tipo_factor=0;
 }
 
@@ -390,7 +390,7 @@ void exp2() {
     tf=tipo_factor;
     lexico(); exp3();
     if (tf==2 || tipo_factor==2) {
-      /* OJO, p==q no se hará el strcmp() si son dos punteros a cadenas */
+      /* OJO, p==q no se harÃ¡ el strcmp() si son dos punteros a cadenas */
       p+=p_strigu-p_igu;
       (*_exp).tipo=eoper; (*_exp++).token=p;
       tipo_factor=0;
@@ -468,7 +468,7 @@ void unario() {
         if ((*(_exp-2)).tipo==econs && (*(_exp-2)).valor==0) _exp-=2;
         else error(4,14); /* &words[<exp>] ??? */
       } else if ((*(_exp-1)).tipo==eoper && (*(_exp-1)).token==p_string) {
-        /* &cadena ð cadena */
+        /* &cadena Ã° cadena */
       } else error(4,15); /* no se puede calcular el offset */
     } else if (p==p_inc || p==p_dec) {
       if ((*(_exp-1)).tipo==eoper && (*(_exp-1)).token==p_pointer) {
@@ -492,11 +492,11 @@ void unario() {
       } else error(4,16); /* no se puede realizar el incremento */
     } else if (p==p_pointer) {
       if ((*(_exp-1)).tipo==eoper && (*(_exp-1)).token==p_pointerchar) {
-        /* *cadena[0] ð cadena[0] */
+        /* *cadena[0] Ã° cadena[0] */
       } else if ((*(_exp-1)).tipo==eoper && (*(_exp-1)).token==p_pointerbyte) {
-        /* *cadena[0] ð cadena[0] */
+        /* *cadena[0] Ã° cadena[0] */
       } else if ((*(_exp-1)).tipo==eoper && (*(_exp-1)).token==p_pointerword) {
-        /* *cadena[0] ð cadena[0] */
+        /* *cadena[0] Ã° cadena[0] */
       } else if ((*(_exp-1)).tipo==eoper && (*(_exp-1)).token==p_string) {
         /* *cadena == cadena */
       } else {
@@ -521,8 +521,8 @@ void exp6() { /* Operador de acceso a variables o tablas locales ajenas */
 
     /* 
 	 * OJO, el <p_punto> DEBE SER LO SEGUNDO que el <factor>
-     * introduzca en la <expresión>, no quedan más cojones.
-     * (bueno, si, hacer aquí una búsqueda del p_punto entre e-1 y _exp ...)
+     * introduzca en la <expresiÃ³n>, no quedan mÃ¡s cojones.
+     * (bueno, si, hacer aquÃ­ una bÃºsqueda del p_punto entre e-1 y _exp ...)
 	 */
 
     if ((*e).tipo==eoper && (*e).token==p_punto)
@@ -601,18 +601,18 @@ void factor(void) {
           (*_exp++).valor=((*o).cglo.totalen+5)/4; break;
         case tvglo: case tvloc:
           (*_exp++).valor=1; break;
-        default: error(0,24); /* no se puede calcular el tamaño */
+        default: error(0,24); /* no se puede calcular el tamaÃ±o */
       } lexico(); if (pieza!=p_cerrar) error(3,18); lexico();	/* esperando ')' */
       break;
 
-    case p_struct: /* Se comprueba la declaración de un puntero a struct parámetro */
+    case p_struct: /* Se comprueba la declaraciÃ³n de un puntero a struct parÃ¡metro */
       if (parametros<=0) {
         if (error_25==25) error(1,25); else error(0,error_25);
       } else {
         lexico();
-        if (pieza!=p_pointer) error(0,26); /* No se define el pointer así */
+        if (pieza!=p_pointer) error(0,26); /* No se define el pointer asÃ­ */
         lexico(); if (pieza!=p_id) error(1,27); obs=o;
-        if ((*obs).tipo==tnone) error(0,28); /* No se define el pointer así */
+        if ((*obs).tipo==tnone) error(0,28); /* No se define el pointer asÃ­ */
         if ((*obs).tipo!=tsglo && (*obs).tipo!=tsloc) error(0,28);
         lexico(); ob=o;
         analiza_pointer_struct(tpslo,iloc++,obs);
@@ -623,7 +623,7 @@ void factor(void) {
         (*_exp).tipo=eoper; (*_exp++).token=p_pointer;
       } break;
 
-    case p_string: /* Se comprueba la declaración de un string parámetro */
+    case p_string: /* Se comprueba la declaraciÃ³n de un string parÃ¡metro */
       if (parametros<=0) {
         if (error_25==25) error(1,25); else error(0,error_25);
       } else {
@@ -671,7 +671,7 @@ void factor(void) {
         (*_exp).tipo=eoper; (*_exp++).token=p_string;
       } break;
 
-    case p_byte: /* Se comprueba la declaración de un byte parámetro */
+    case p_byte: /* Se comprueba la declaraciÃ³n de un byte parÃ¡metro */
       if (parametros<=0) {
         if (error_25==25) error(1,25); else error(0,error_25);
       } else {
@@ -703,7 +703,7 @@ void factor(void) {
         (*_exp).tipo=eoper; (*_exp++).token=p_pointerbyte;
       } break;
 
-    case p_word: /* Se comprueba la declaración de un word parámetro */
+    case p_word: /* Se comprueba la declaraciÃ³n de un word parÃ¡metro */
       if (parametros<=0) {
         if (error_25==25) error(1,25); else error(0,error_25);
       } else {
@@ -735,14 +735,14 @@ void factor(void) {
         (*_exp).tipo=eoper; (*_exp++).token=p_pointerword;
       } break;
 
-    case p_int: /* Se comprueba la declaración de un int parámetro */
+    case p_int: /* Se comprueba la declaraciÃ³n de un int parÃ¡metro */
       if (parametros<=0) {
         if (error_25==25) error(1,25); else error(0,error_25);
       } else {
         lexico();
         if (pieza==p_pointer) {
 
-    case p_pointer: /* Declaración de un puntero a int parámetro */
+    case p_pointer: /* DeclaraciÃ³n de un puntero a int parÃ¡metro */
           if (parametros<=0) {
             if (error_25==25) error(1,25); else error(0,error_25);
           } parametros++;
@@ -878,7 +878,7 @@ void factor(void) {
           }
           if (pieza!=p_corce) error(3,19); /* esperando ']' */
           lexico();
-        } else { /* mi_byte ð mi_byte[0] */
+        } else { /* mi_byte Ã° mi_byte[0] */
           (*_exp).tipo=econs; (*_exp++).valor=0;
         } (*_exp).tipo=eoper; (*_exp++).token=p_pointerbyte ; break;
 
@@ -916,7 +916,7 @@ void factor(void) {
           }
           if (pieza!=p_corce) error(3,19); /* esperando ']' */
           lexico();
-        } else { /* mi_byte ð mi_byte[0] */
+        } else { /* mi_byte Ã° mi_byte[0] */
           (*_exp).tipo=econs; (*_exp++).valor=0;
         } (*_exp).tipo=eoper; (*_exp++).token=p_pointerword; break;
 
@@ -1074,7 +1074,7 @@ void factor(void) {
           }
           if (pieza!=p_corce) error(3,19); /* esperando ']' */
           lexico();
-        } else { /* mi_byte ð mi_byte[0] */
+        } else { /* mi_byte Ã° mi_byte[0] */
           (*_exp).tipo=econs; (*_exp++).valor=0;
         } (*_exp).tipo=eoper; (*_exp++).token=p_pointerbyte ; break;
 
@@ -1115,7 +1115,7 @@ void factor(void) {
           }
           if (pieza!=p_corce) error(3,19); /* esperando ']' */
           lexico();
-        } else { /* mi_byte ð mi_byte[0] */
+        } else { /* mi_byte Ã° mi_byte[0] */
           (*_exp).tipo=econs; (*_exp++).valor=0;
         } (*_exp).tipo=eoper; (*_exp++).token=p_pointerword; break;
 
@@ -1197,7 +1197,7 @@ void factor(void) {
 
       case tproc:
         ob=o; lexico(); if (pieza!=p_abrir) error(3,22); lexico(); /* esperando '(' */
-        p=0; while (pieza!=p_cerrar) { /* pðnum_par */
+        p=0; while (pieza!=p_cerrar) { /* pÃ°num_par */
           p++;
           exp00(0);
           if (pieza!=p_cerrar) {
@@ -1208,12 +1208,12 @@ void factor(void) {
         if (p!=(*ob).proc.num_par) error(1,38); /* numero de parametros incorrecto */
         (*_exp).tipo=ecall; (*_exp++).objeto=ob; lexico(); break;
 
-      // POR HACER: implementar soporte para qsort (ver comentario aquí arriba)
+      // POR HACER: implementar soporte para qsort (ver comentario aquÃ­ arriba)
 
       case tfext:
         ob=o; lexico(); if (pieza!=p_abrir) error(3,22); /* esperando '(' */
         lexico();
-        p=0; while (pieza!=p_cerrar) { /* pðnum_par */
+        p=0; while (pieza!=p_cerrar) { /* pÃ°num_par */
           p++;
           exp00(0);
           if (pieza!=p_cerrar) {
@@ -1357,7 +1357,7 @@ void factor_struct(void) {
           (*_exp).tipo=eoper; (*_exp++).token=p_add;
         }
         if (pieza!=p_corce) error(3,19); lexico(); /* esperando ']' */
-      } else { /* mi_byte ð mi_byte[0] */
+      } else { /* mi_byte Ã° mi_byte[0] */
         (*_exp).tipo=econs; (*_exp++).valor=0;
       } struct_pointer=p_pointerbyte; break;
 
@@ -1394,7 +1394,7 @@ void factor_struct(void) {
           (*_exp).tipo=eoper; (*_exp++).token=p_add;
         }
         if (pieza!=p_corce) error(3,19); lexico(); /* esperando ']' */
-      } else { /* mi_byte ð mi_byte[0] */
+      } else { /* mi_byte Ã° mi_byte[0] */
         (*_exp).tipo=econs; (*_exp++).valor=0;
       } struct_pointer=p_pointerword; break;
 
@@ -1540,7 +1540,7 @@ void factor_struct(void) {
           (*_exp).tipo=eoper; (*_exp++).token=p_add;
         }
         if (pieza!=p_corce) error(3,19); lexico(); /* esperando ']' */
-      } else { /* mi_byte ð mi_byte[0] */
+      } else { /* mi_byte Ã° mi_byte[0] */
         (*_exp).tipo=econs; (*_exp++).valor=0;
       } struct_pointer=p_pointerbyte; break;
 
@@ -1577,7 +1577,7 @@ void factor_struct(void) {
           (*_exp).tipo=eoper; (*_exp++).token=p_add;
         }
         if (pieza!=p_corce) error(3,19); lexico(); /* esperando ']' */
-      } else { /* mi_byte ð mi_byte[0] */
+      } else { /* mi_byte Ã° mi_byte[0] */
         (*_exp).tipo=econs; (*_exp++).valor=0;
       } struct_pointer=p_pointerword; break;
 

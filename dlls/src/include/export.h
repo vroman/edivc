@@ -19,12 +19,12 @@
  */
 
 /* Este fichero es la cabecera para las DLL's de eDIV.
- * Para saber cÛmo se utiliza, consulte el eDIV SDK de la documentaciÛn de eDIV
- * ESTE FICHERO -NO- HA DE SER MODIFICADO PARA CREAR DLLs, TAN S”LO POR
- * DESARROLLADORES DE eDIV. EN CASO DE SER MODIFICADO, SE PERDER¡ LA
+ * Para saber c√≥mo se utiliza, consulte el eDIV SDK de la documentaci√≥n de eDIV
+ * ESTE FICHERO -NO- HA DE SER MODIFICADO PARA CREAR DLLs, TAN S√ìLO POR
+ * DESARROLLADORES DE eDIV. EN CASO DE SER MODIFICADO, SE PERDER√Å LA
  * COMPATIBILIDAD CON eDIV Y EL RESTO DE DLLs.
- * En caso de encontrar cualquier bug o anomalÌa en este archivo, por favor
- * notifÌquelo a Sion Entertainment en bugs@edivcentral.com
+ * En caso de encontrar cualquier bug o anomal√≠a en este archivo, por favor
+ * notif√≠quelo a Sion Entertainment en bugs@edivcentral.com
  */
 
 /*! \file export.h
@@ -65,7 +65,7 @@ typedef enum { v_global, v_reserved, v_local } tipo_t;
 
 /*! Estructura de variables indexadas */
 typedef struct {
-	unsigned char hash;	/*!< Hash del nombre de la variable, para acelerar su b˙squeda */
+	unsigned char hash;	/*!< Hash del nombre de la variable, para acelerar su b√∫squeda */
 	tipo_t tipo;		/*!< Tipo de variable (global, reservada o local) */
 	char* nombre;		/*!< Nombre de la variable */
 	int offset;			/*!< offset en mem[] (relativo al proceso si es local o reservada) */
@@ -84,7 +84,7 @@ typedef struct {
 
 #include <SDL/SDL.h>
 
-/* Funciones de exportaciÛn de datos */
+/* Funciones de exportaci√≥n de datos */
 typedef int (TYPEOF_EDIV_Export)(char* cadena, int nparam, void* hfuncion);
 typedef int (TYPEOF_EDIV_Export_Const)(byte* cadena, int valor);
 typedef int (TYPEOF_EDIV_Export_Global)(char* cadena, int valor);
@@ -111,20 +111,20 @@ typedef int (TYPEOF_Dibuja)(SDL_Surface *src,int x,int y,int cx,int cy,int regio
 /*! Tipos de error para custom_error() */
 typedef enum {
 	_runtime_error=1,	/*!< Error normal (se puede depurar y/o ignorar) */
-	_critical_error=2	/*!< Error crÌtico (interrumpe obligatoriamente el programa) */
+	_critical_error=2	/*!< Error cr√≠tico (interrumpe obligatoriamente el programa) */
 } tipoerror;
 
 typedef void (TYPEOF_Runtime_Error)(int, ...);
 typedef void (TYPEOF_Critical_Error)(int, ...);
 typedef void (TYPEOF_Custom_Error)(tipoerror,char*);
 
-/*! Obtiene offset de variable indexada din·micamente */
+/*! Obtiene offset de variable indexada din√°micamente */
 typedef int (TYPEOF_GetVarOffset)(tipo_t tipo,char* nombre);
 
 /*! Finaliza el stub (exit) */
 typedef void (TYPEOF_Stub_Quit)(int n);
 
-/*! EXPORTAFUNCS_PARAMS deben usarse como par·metros para ExportaFuncs */
+/*! EXPORTAFUNCS_PARAMS deben usarse como par√°metros para ExportaFuncs */
 #define EXPORTAFUNCS_PARAMS \
 TYPEOF_EDIV_Export                  *EDIV_Export              ,\
 TYPEOF_EDIV_Export_Const            *EDIV_Export_Const        ,\
@@ -146,7 +146,7 @@ TYPEOF_EDIV_Export_Priority			*EDIV_Export_Priority
  * ENTRY-POINTS
  *
  * Estas funciones son llamadas por el STUB en determinados eventos
- * (Cuando una DLL hace cierta acciÛn, lo avisa al Stub y el stub se encarga de llamar
+ * (Cuando una DLL hace cierta acci√≥n, lo avisa al Stub y el stub se encarga de llamar
  * a las correspondientes rutinas de las dll's, ordenadas por prioridad)
  */
 
@@ -154,7 +154,7 @@ TYPEOF_EDIV_Export_Priority			*EDIV_Export_Priority
 
 /*! \defgroup entrypoints Entrypoints */
 /*! @{ */
-#define EDIV_set_video_mode			1	/* Al activar un nuevo modo de vÌdeo */
+#define EDIV_set_video_mode			1	/* Al activar un nuevo modo de v√≠deo */
 #define EDIV_process_palette		2	/* Al cargar una paleta */
 #define EDIV_process_active_palette	3	/* Al modificar la paleta activa (usada en los fades) */
 #define EDIV_process_sound			4	/* Al cargar un efecto sonoro */
@@ -173,13 +173,13 @@ TYPEOF_EDIV_Export_Priority			*EDIV_Export_Priority
 #define EDIV_ss_frame				17	/* Frame de salvapantallas */
 #define EDIV_ss_end					18	/* Fin de salvapantallas */
 #define EDIV_frame					19	/* En cada frame */
-#define EDIV_trace					20	/* DespuÈs de ejecutar cada instrucciÛn de bytecode (solo en debug) */
+#define EDIV_trace					20	/* Despu√©s de ejecutar cada instrucci√≥n de bytecode (solo en debug) */
 #define EDIV_debug					21	/* Invocar al trazador - sentencia debug (solo en debug) */
 #define EDIV_first_load				22	/* Se ejecuta al cargar la DLL en ejecucion */
 #define EDIV_quit					23  /* Llamado por stub_quit() */
 /*! @} */
 
-/* #defines para que la declaraciÛn de datos sea un poco m·s BASIC... :p */
+/* #defines para que la declaraci√≥n de datos sea un poco m√°s BASIC... :p */
 #ifdef CONST
 #	undef CONST
 #endif
@@ -200,7 +200,7 @@ TYPEOF_EDIV_Export_Priority			*EDIV_Export_Priority
 
 /*!
  * FUNCTION_PARAMS deben usarse como parametros para TODAS las funciones
- * °OJO! debe ser igual en extern.h
+ * ¬°OJO! debe ser igual en extern.h
  */
 #define FUNCTION_PARAMS	struct _fun_params * fp
 
@@ -216,12 +216,12 @@ struct _procs_s{
 	int graph ;
 };
 
-/*! Estructura de una regiÛn de pantalla */
+/*! Estructura de una regi√≥n de pantalla */
 struct _regions {
 	int x , y , w , h ;
 };
 
-/*! Permite asegurarnos de que ciertos recursos est·n cargados */
+/*! Permite asegurarnos de que ciertos recursos est√°n cargados */
 struct _existe {
 	int regions ;
 	int dibuja ;
@@ -267,7 +267,7 @@ struct _graphics {
 	struct _palette* activepal;
 };
 
-/*! Par·metros para las funciones exportadas */
+/*! Par√°metros para las funciones exportadas */
 struct _fun_params{
 	int *pila ;
 	int *sp ;

@@ -35,11 +35,11 @@ int detecta_idioma_iso(char* lang)
 {
 	int i;
 	static char getid[NUM_LANGUAGES][3] = {
-		"es",	/* espaÒol   */
+		"es",	/* espa√±ol   */
 		"it",	/* italiano  */
-		"pt",	/* portuguÈs */
-		"en",	/* inglÈs    */
-		"ca",	/* catal·n   */
+		"pt",	/* portugu√©s */
+		"en",	/* ingl√©s    */
+		"ca",	/* catal√°n   */
 		"eu"	/* euskera   */
 	};
 	if(lang==NULL) return DEFAULT_LANGUAGE;
@@ -62,11 +62,11 @@ int detecta_idioma()
 		#ifdef _WIN32
 			int i;
 			static int getid[NUM_LANGUAGES] = {
-				0x0a,	/* espaÒol   */
+				0x0a,	/* espa√±ol   */
 				0x10,	/* italiano  */
-				0x16,	/* portuguÈs */
-				0x09,	/* inglÈs    */
-				0x03,	/* catal·n   */
+				0x16,	/* portugu√©s */
+				0x09,	/* ingl√©s    */
+				0x03,	/* catal√°n   */
 				0x2d	/* euskera   */
 			};
 			LANGID lang;

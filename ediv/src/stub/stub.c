@@ -50,7 +50,7 @@
 /* Main ( argc, argv )
  *
  * Rutina principal. Lee el bytecode del ejecutable, lo descomprime y lo carga en memoria
- * (La mayorÌa de las variables y buffers se mantienen con el mismo nombre que en el compilador:
+ * (La mayor√≠a de las variables y buffers se mantienen con el mismo nombre que en el compilador:
  * mem, imem_max, etc)
  */
 
@@ -88,8 +88,8 @@ int main(int argc, char* argv[])
 
 	/*sdl_version=SDL_Linked_Version();
 	#ifdef _DEBUG
-		printf("VersiÛn SDL del exe: %d.%d.%d\n",SDL_MAJOR_VERSION,SDL_MINOR_VERSION,SDL_PATCHLEVEL);
-		printf("VersiÛn de SDL instalada: %d.%d.%d\n",sdl_version->major,sdl_version->minor,sdl_version->patch);
+		printf("Versi√≥n SDL del exe: %d.%d.%d\n",SDL_MAJOR_VERSION,SDL_MINOR_VERSION,SDL_PATCHLEVEL);
+		printf("Versi√≥n de SDL instalada: %d.%d.%d\n",sdl_version->major,sdl_version->minor,sdl_version->patch);
 	#endif
 	if(sdl_version->major<SDL_MAJOR_VERSION 
 		|| (sdl_version->major==SDL_MAJOR_VERSION &&
@@ -126,7 +126,7 @@ int main(int argc, char* argv[])
 			printf("%s\n",argv[0]);
 			if((f=open(argv[0],O_RDONLY | O_BINARY))==-1)
 		#endif*/
-		critical_error(1); // error leyendo el cÛdigo del programa
+		critical_error(1); // error leyendo el c√≥digo del programa
 	}
 
 	lseek(f,-4,SEEK_END);
@@ -148,7 +148,7 @@ int main(int argc, char* argv[])
 	if (mimem[3]>0) {
 		imem_max=mimem[8]+mimem[3]*(iloc_len)+iloc_len+2;
 	} else {
-		/* si max_process==0, calcula un lÌmite de memoria */
+		/* si max_process==0, calcula un l√≠mite de memoria */
 		imem_max=mimem[8]+128*(iloc_len)+iloc_len+2;
 		if (imem_max<256*1024) imem_max=256*1024;
 		if (imem_max>512*1024) imem_max=512*1024;
@@ -212,7 +212,7 @@ int main(int argc, char* argv[])
 					free(ptr);
 					free(vartemp);
 					close(f);
-					critical_error(1); // error leyendo el cÛdigo del programa
+					critical_error(1); // error leyendo el c√≥digo del programa
 				}
 
 				varindex=(varindex_t*)e_malloc(num_indexed_vars*sizeof(varindex_t));
@@ -251,7 +251,7 @@ int main(int argc, char* argv[])
 					close(f);
 					free(prog);
 					free(progcomp);
-					critical_error(1);	// error leyendo el cÛdigo del programa
+					critical_error(1);	// error leyendo el c√≥digo del programa
 				}
 				free(progcomp);
 				read(f,&linsize,4);
@@ -280,10 +280,10 @@ int main(int argc, char* argv[])
 				// - Inicializar SDL
 				// - Inicializarlo todo (incluyendo trazador si DBG esta definido)
 				// - Rular el kernel y ke interprete el programa
-				// - Si hay un error, llamar a error() y que se encargue de todo. Si est·
-				//   definido DBG, debe ser posible retomar la ejecuciÛn despues del error
-				// - Al terminar la ejecuciÛn, descargarlo TODO (empezando por los recursos y
-				//   acabando por el cÛdigo interno)
+				// - Si hay un error, llamar a error() y que se encargue de todo. Si est√°
+				//   definido DBG, debe ser posible retomar la ejecuci√≥n despues del error
+				// - Al terminar la ejecuci√≥n, descargarlo TODO (empezando por los recursos y
+				//   acabando por el c√≥digo interno)
 				// - Restaurar el estado del sistema si es necesario y finalizar SDL
 
 				// Nota: las DLL's se cargan en el transcurso del programa (las instrucciones
@@ -406,15 +406,15 @@ int main(int argc, char* argv[])
 			} else {
 				close(f);
 				free(ptr);
-				critical_error(1); // error leyendo el cÛdigo del programa
+				critical_error(1); // error leyendo el c√≥digo del programa
 			}
 			
 		} else {
 			close(f);
-			critical_error(1); // error leyendo el cÛdigo del programa
+			critical_error(1); // error leyendo el c√≥digo del programa
 		}
 		
-  } else { close(f); error(1); } // error leyendo el cÛdigo del programa
+  } else { close(f); error(1); } // error leyendo el c√≥digo del programa
 
   return 0;
 }
@@ -435,7 +435,7 @@ void stub_quit(int n)
 }
 
 
-// idÈntico a malloc, pero con errormsg utom·tico
+// id√©ntico a malloc, pero con errormsg utom√°tico
 void* e_malloc(size_t size)
 {
 	void* ret;
