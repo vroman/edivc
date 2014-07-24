@@ -53,8 +53,8 @@ int main(int argc, char * argv[])
 		_encriptar(0,argv[1],la_clave);
 		_comprimir(0,argv[1]);
 		rename(argv[1],el_stub);
-		#ifdef __linux__
-			chmod(el_stub,493);		// -rwxr-xr-x
+		#if defined(__linux__) || defined(__APPLE__)
+			chmod(el_stub,755);		// -rwxr-xr-x
 		#endif
 	}
  	printf("STUB_SIZE: %d\n",stub_size);
