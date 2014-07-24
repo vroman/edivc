@@ -550,10 +550,10 @@ void sentencia(void) {
         lexico();
         if (pieza!=p_id) error(0,59); /* esperando una variable */
 
-        if ((*o).tipo==tvglo) {
-          dir=(*o).vglo.offset; g2(lcar,dir);
-        } else if ((*o).tipo==tvloc && (!(*o).bloque || (*o).bloque==bloque_actual)) {
-          dir=-(*o).vloc.offset;
+        if (o->tipo==tvglo) {
+          dir=o->vglo.offset; g2(lcar,dir);
+        } else if (o->tipo==tvloc && (!o->bloque || o->bloque==bloque_actual)) {
+          dir=-o->vloc.offset;
           g2(lcar,-dir); g1(laid);
         } else error(0,59); /* esperando una variable */
 

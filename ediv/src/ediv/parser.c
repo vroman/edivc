@@ -52,12 +52,12 @@ int crea_objeto(byte * nombre, int nparam)
 
 		if(nparam==-1) {
 			// busca si el id encontrado se encuentra en la misma struct
-			while(o!=NULL && ((*o).member!=member)) o=(*o).anterior;
+			while(o!=NULL && (o->member!=member)) o=o->anterior;
 			if(o==NULL) { // ok, no hay problema
-				o=iobj++; (*o).anterior=*ptr_o; *ptr_o=o;
-				(*o).name=(byte*)(ptr_o+1);
-				(*o).member=member;
-				(*o).param=0;
+				o=iobj++; o->anterior=*ptr_o; *ptr_o=o;
+				o->name=(byte*)(ptr_o+1);
+				o->member=member;
+				o->param=0;
 				if (num_obj++==max_obj) return 3;	// error "demasiados objetos"
 			} else {
 				return 2;		// dos nombres iguales en el mismo nivel de struct -> "el nombre no es nuevo"
@@ -67,15 +67,15 @@ int crea_objeto(byte * nombre, int nparam)
 			// se trata de una funcion externa. buscamos si es posible la sobrecarga
 			while(1) {
 				if(o==NULL) break;
-				if((*o).tipo==tfext && (*o).fext.num_par==nparam) break;
-				o=(*o).anterior;
+				if(o->tipo==tfext && o->fext.num_par==nparam) break;
+				o=o->anterior;
 			}
-			//while(o!=NULL && (((*o).tipo==tfext) ^^ ((*o).fext.num_par!=nparam))) o=(*o).anterior;
+			//while(o!=NULL && ((o->tipo==tfext) ^^ (o->fext.num_par!=nparam))) o=o->anterior;
 			if(o==NULL) { // ok, lo añadimos a la lista
-				o=iobj++; (*o).anterior=*ptr_o; *ptr_o=o;
-				(*o).name=(byte*)(ptr_o+1);
-				(*o).member=member;
-				(*o).param=0;
+				o=iobj++; o->anterior=*ptr_o; *ptr_o=o;
+				o->name=(byte*)(ptr_o+1);
+				o->member=member;
+				o->param=0;
 				if (num_obj++==max_obj) return 3;	// error "demasiados objetos"
 			} else {
 				return 2;		// dos funciones iguales con el mismo numero de parametros -> "el nombre no es nuevo"
@@ -84,13 +84,13 @@ int crea_objeto(byte * nombre, int nparam)
 
 	} else {
         *ptr=_ivnom; ptr_o=(void*)(_ivnom+4); *ptr_o=o=iobj++; // id nuevo
-        (*o).name=(byte*)_ivnom+8;
-        (*o).member=member;
+        o->name=(byte*)_ivnom+8;
+        o->member=member;
         if (num_obj++==max_obj) return 3;	// error "demasiados objetos"
 	}
 	
-	(*o).dll=numdlls;
-//	(*o).usado_dll=0;
+	o->dll=numdlls;
+//	o->usado_dll=0;
 	
 	return 0;
 }
@@ -250,14 +250,14 @@ lex_scan:
 		default: 									// puntero a un lex_ele
 			e=lex_case[*_source++];
 			_ivnom=_source;
-			pieza=(*e).token;
+			pieza=e->token;
 
-			while (e=(*e).siguiente) {
-				while (*_source!=(*e).caracter && (*e).alternativa)
-					e=(*e).alternativa;
+			while (e=e->siguiente) {
+				while (*_source!=e->caracter && e->alternativa)
+					e=e->alternativa;
 
-				if (*_source++==(*e).caracter && (*e).token) {
-					pieza=(*e).token;
+				if (*_source++==e->caracter && e->token) {
+					pieza=e->token;
 					_ivnom=_source;
 				}
 			}
@@ -337,8 +337,8 @@ void sintactico(void)
 		do {
 			if (pieza==p_ptocoma) { lexico(); break; }
 			if (pieza==p_coma) lexico();
-			if (pieza==p_id && (*o).tipo==tcons) {
-				switch((*o).cons.valor) {
+			if (pieza==p_id && o->tipo==tcons) {
+				switch(o->cons.valor) {
 					case 0: // _max_process
 						lexico();
 						if (pieza!=p_asig) error(3,7);	// se esperaba '='
@@ -439,12 +439,12 @@ void sintactico(void)
 	if (pieza!=p_id) error(1,45);	// esperando el nombre del programa
 	
 	ob=o;
-	if ((*ob).tipo!=tnone) error(0,30); // el nombre no es nuevo
-	(*ob).tipo=tproc;
-	(*ob).proc.bloque=bloque_actual=ob;
-	(*ob).proc.offset=0;
-	(*ob).proc.num_par=0;
-	nombre_program=(*ob).name;
+	if (ob->tipo!=tnone) error(0,30); // el nombre no es nuevo
+	ob->tipo=tproc;
+	ob->proc.bloque=bloque_actual=ob;
+	ob->proc.offset=0;
+	ob->proc.num_par=0;
+	nombre_program=ob->name;
 	lexico();
 	if (!free_sintax) if (pieza!=p_ptocoma) error(3,9); // esperando ';'
 	while (pieza==p_ptocoma || pieza==p_coma) lexico();
@@ -459,7 +459,7 @@ void sintactico(void)
 	while (pieza==p_import) {
 		warning(2);	// sintaxis antigua
 		lexico();
-		if (pieza!=p_lit && !(pieza==p_id && (*o).tipo==tcons && (*o).cons.literal))
+		if (pieza!=p_lit && !(pieza==p_id && o->tipo==tcons && o->cons.literal))
 			error(1,46); // se esperaba un literal
 		lexico();
 		if (!free_sintax) if (pieza!=p_ptocoma) error(3,9); // esperando ';'
@@ -476,17 +476,17 @@ void sintactico(void)
 		pasa_ptocoma();
 		while (pieza==p_id) {
 			ob=o;
-			if ((*ob).tipo!=tnone && (*ob).tipo!=tcons) error(0,30); // el nombre no es nuevo
-			(*ob).tipo=tcons;
+			if (ob->tipo!=tnone && ob->tipo!=tcons) error(0,30); // el nombre no es nuevo
+			ob->tipo=tcons;
 			lexico(); if (pieza!=p_asig) error(3,7); // esperando '='
 			
 			lexico();
-			if (pieza==p_lit || (pieza==p_id && (*o).tipo==tcons && (*o).cons.literal))
-				(*ob).cons.literal=1;
+			if (pieza==p_lit || (pieza==p_id && o->tipo==tcons && o->cons.literal))
+				ob->cons.literal=1;
 			else
-				(*ob).cons.literal=0;
+				ob->cons.literal=0;
 				
-			(*ob).cons.valor=constante();
+			ob->cons.valor=constante();
 			if (!free_sintax) if (pieza!=p_ptocoma && pieza!=p_coma) error(3,9); // esperando ';'
 			while (pieza==p_ptocoma || pieza==p_coma) lexico();
 		}
@@ -515,8 +515,8 @@ void sintactico(void)
           if (pieza==p_pointer) { // Se define un puntero a struct
 
             lexico(); if (pieza!=p_id) error(1,27); ob=o; // esperando el nombre de la estructura
-            if ((*ob).tipo==tnone) error(0,28); // No se define el pointer así
-            if ((*ob).tipo!=tsglo && (*ob).tipo!=tsloc) error(0,28);
+            if (ob->tipo==tnone) error(0,28); // No se define el pointer así
+            if (ob->tipo!=tsglo && ob->tipo!=tsloc) error(0,28);
             lexico();
             puntero_a_struct:
             analiza_pointer_struct(tpsgl,imem,ob);
@@ -537,48 +537,48 @@ void sintactico(void)
             if (pieza!=p_id) error(1,27); // esperando el nombre de la estructura
             ob=o; member=ob; lexico();
 
-            if ((*ob).tipo!=tnone) error(2,30); // el nombre no es nuevo
+            if (ob->tipo!=tnone) error(2,30); // el nombre no es nuevo
 
-            (*ob).tipo=tsglo; (*ob).sglo.offset=_imem=imem;
+            ob->tipo=tsglo; ob->sglo.offset=_imem=imem;
             if (pieza==p_corab) {
               member2=member; member=NULL; lexico();
-              if (((*ob).sglo.items1=constante())<0) error(4,43); // estructura de longitud negativa
+              if ((ob->sglo.items1=constante())<0) error(4,43); // estructura de longitud negativa
               if (pieza==p_coma) {
                 lexico();
-                if (((*ob).sglo.items2=constante())<0) error(4,43); // idem
+                if ((ob->sglo.items2=constante())<0) error(4,43); // idem
                 if (pieza==p_coma) {
                   lexico();
-                  if (((*ob).sglo.items3=constante())<0) error(4,43); // reidem
-                } else (*ob).sglo.items3=-1;
-              } else { (*ob).sglo.items2=-1; (*ob).sglo.items3=-1; }
+                  if ((ob->sglo.items3=constante())<0) error(4,43); // reidem
+                } else ob->sglo.items3=-1;
+              } else { ob->sglo.items2=-1; ob->sglo.items3=-1; }
               member=member2;
-              (*ob).sglo.totalitems=(*ob).sglo.items1+1;
-              if ((*ob).sglo.items2>-1) (*ob).sglo.totalitems*=(*ob).sglo.items2+1;
-              if ((*ob).sglo.items3>-1) (*ob).sglo.totalitems*=(*ob).sglo.items3+1;
+              ob->sglo.totalitems=ob->sglo.items1+1;
+              if (ob->sglo.items2>-1) ob->sglo.totalitems*=ob->sglo.items2+1;
+              if (ob->sglo.items3>-1) ob->sglo.totalitems*=ob->sglo.items3+1;
               if (pieza!=p_corce) error(3,19); lexico(); // espernado ']'
             } else {
-              (*ob).sglo.totalitems=1;
-              (*ob).sglo.items1=0; (*ob).sglo.items2=-1; (*ob).sglo.items3=-1;
+              ob->sglo.totalitems=1;
+              ob->sglo.items1=0; ob->sglo.items2=-1; ob->sglo.items3=-1;
             }
-            if (((*ob).sglo.len_item=analiza_struct(_imem))==0) error(0,47); // estructua vacia
+            if ((ob->sglo.len_item=analiza_struct(_imem))==0) error(0,47); // estructua vacia
             member=NULL; lexico();
-            imem=(*ob).sglo.offset; dup=(*ob).sglo.totalitems+1;
+            imem=ob->sglo.offset; dup=ob->sglo.totalitems+1;
             if (dup>1) {
-              test_buffer(&mem,&imem_max,imem+(*ob).sglo.len_item*(*ob).sglo.totalitems);
-              test_buffer(&frm,&ifrm_max,imem+(*ob).sglo.len_item*(*ob).sglo.totalitems);
+              test_buffer(&mem,&imem_max,imem+ob->sglo.len_item*ob->sglo.totalitems);
+              test_buffer(&frm,&ifrm_max,imem+ob->sglo.len_item*ob->sglo.totalitems);
               while (--dup) {
-                memcpy(&mem[imem],&mem[_imem],(*ob).sglo.len_item<<2);
-                memcpy(&frm[imem],&frm[_imem],(*ob).sglo.len_item<<2);
-                imem+=(*ob).sglo.len_item;
+                memcpy(&mem[imem],&mem[_imem],ob->sglo.len_item<<2);
+                memcpy(&frm[imem],&frm[_imem],ob->sglo.len_item<<2);
+                imem+=ob->sglo.len_item;
               }
             } imem=_imem;
             if (pieza==p_asig) {
               save_error(1);
               lexico(); tglo_init(0);
-              if (imem-_imem-1>=(*ob).sglo.len_item*(*ob).sglo.totalitems) error(4,55); // demasiados valores para la estructura
+              if (imem-_imem-1>=ob->sglo.len_item*ob->sglo.totalitems) error(4,55); // demasiados valores para la estructura
             } while (pieza==p_ptocoma) lexico();
 
-            imem=_imem+(*ob).sglo.len_item*(*ob).sglo.totalitems;
+            imem=_imem+ob->sglo.len_item*ob->sglo.totalitems;
             test_buffer(&mem,&imem_max,imem);
           }
 
@@ -600,39 +600,39 @@ void sintactico(void)
           } else {
 
             if (pieza!=p_id) error(1,29); // esperando el nombre de la cadena
-            ob=o; if ((*ob).tipo!=tnone) error(0,30); lexico();	// el nombre no es nuevo
-            (*ob).tipo=tcglo;
+            ob=o; if (ob->tipo!=tnone) error(0,30); lexico();	// el nombre no es nuevo
+            ob->tipo=tcglo;
             _imem=imem;
-            (*ob).cglo.offset=_imem+1;
+            ob->cglo.offset=_imem+1;
             if (pieza==p_corab) {
               lexico();
               if (pieza==p_corce) {
                 lexico();
-                (*ob).cglo.totalen=255;
+                ob->cglo.totalen=255;
               } else {
-                if (((*ob).cglo.totalen=constante())<0) error(4,31); // cadena de long. negativa
-                if ((*ob).cglo.totalen>0xFFFFF) error(4,32); // cadena demasiado larga
+                if ((ob->cglo.totalen=constante())<0) error(4,31); // cadena de long. negativa
+                if (ob->cglo.totalen>0xFFFFF) error(4,32); // cadena demasiado larga
                 if (pieza!=p_corce) error(3,19); // esperando ']'
                 lexico();
               }
-            } else (*ob).cglo.totalen=255;
+            } else ob->cglo.totalen=255;
             if (pieza==p_asig) {
               save_error(1);
               _itxt=itxt;
               lexico();
-              if (pieza!=p_lit && !(pieza==p_id && (*o).tipo==tcons && (*o).cons.literal))
+              if (pieza!=p_lit && !(pieza==p_id && o->tipo==tcons && o->cons.literal))
                 error(3,46); // se esperaba un literal
-              if (strlen((char*)&mem[pieza_num])>(*ob).cglo.totalen+1)
+              if (strlen((char*)&mem[pieza_num])>ob->cglo.totalen+1)
                 error(4,49); // literal demasiado largo
-              imem=_imem+1+((*ob).cglo.totalen+5)/4; // ej. c[32] -> c[0]..c[32],NUL
+              imem=_imem+1+(ob->cglo.totalen+5)/4; // ej. c[32] -> c[0]..c[32],NUL
               test_buffer(&mem,&imem_max,imem);
               strcpy((char*)&mem[_imem+1],(char*)&mem[pieza_num]);
               itxt=_itxt; // Saca la cadena del segmento de textos
               lexico();
             } else {
-              imem=_imem+1+((*ob).cglo.totalen+5)/4;
+              imem=_imem+1+(ob->cglo.totalen+5)/4;
               test_buffer(&mem,&imem_max,imem);
-            } mem[_imem]=0xDAD00000|(*ob).cglo.totalen;
+            } mem[_imem]=0xDAD00000|ob->cglo.totalen;
           }
 
           if (pieza==p_coma) pieza=p_string; else {
@@ -658,54 +658,54 @@ void sintactico(void)
           } else {
 
             if (pieza!=p_id) error(1,23); // esperando un nombre
-            ob=o; if ((*ob).tipo!=tnone) error(0,30); lexico(); // el nombre no es nuevo
-            (*ob).tipo=tbglo; (*ob).bglo.offset=_imem=imem;
+            ob=o; if (ob->tipo!=tnone) error(0,30); lexico(); // el nombre no es nuevo
+            ob->tipo=tbglo; ob->bglo.offset=_imem=imem;
             if (pieza==p_corab) {
               lexico();
               if (pieza==p_corce) {
                 lexico(); if (pieza!=p_asig) error(3,7); lexico(); // esperando '='
                 oimemptr=(byte*)&mem[imem];
                 tglo_init(2);
-                (*ob).bglo.len1=imemptr-oimemptr-1;
-                (*ob).bglo.len2=-1;
-                (*ob).bglo.len3=-1;
-                (*ob).bglo.totalen=((*ob).bglo.len1+4)/4;
+                ob->bglo.len1=imemptr-oimemptr-1;
+                ob->bglo.len2=-1;
+                ob->bglo.len3=-1;
+                ob->bglo.totalen=(ob->bglo.len1+4)/4;
               } else {
-                if (((*ob).bglo.len1=constante())<0) error(4,40); // tabla de longitud negativa
+                if ((ob->bglo.len1=constante())<0) error(4,40); // tabla de longitud negativa
                 if (pieza==p_coma) {
                   lexico();
-                  if (((*ob).bglo.len2=constante())<0) error(4,40); // idem
+                  if ((ob->bglo.len2=constante())<0) error(4,40); // idem
                   if (pieza==p_coma) {
                     lexico();
-                    if (((*ob).bglo.len3=constante())<0) error(4,40); // reidem
-                  } else (*ob).bglo.len3=-1;
-                } else { (*ob).bglo.len2=-1; (*ob).bglo.len3=-1; }
+                    if ((ob->bglo.len3=constante())<0) error(4,40); // reidem
+                  } else ob->bglo.len3=-1;
+                } else { ob->bglo.len2=-1; ob->bglo.len3=-1; }
 
-                (*ob).bglo.totalen=(*ob).bglo.len1+1;
-                if ((*ob).bglo.len2>-1) (*ob).bglo.totalen*=(*ob).bglo.len2+1;
-                if ((*ob).bglo.len3>-1) (*ob).bglo.totalen*=(*ob).bglo.len3+1;
+                ob->bglo.totalen=ob->bglo.len1+1;
+                if (ob->bglo.len2>-1) ob->bglo.totalen*=ob->bglo.len2+1;
+                if (ob->bglo.len3>-1) ob->bglo.totalen*=ob->bglo.len3+1;
                 if (pieza!=p_corce) error(3,19); lexico(); // esperando ']'
                 if (pieza==p_asig) {
                   save_error(1);
                   lexico();
                   oimemptr=(byte*)&mem[imem];
                   tglo_init(2);
-                  if (imemptr-oimemptr>(*ob).bglo.totalen) error(4,48); // demasiados valores para la tabla
-                } (*ob).bglo.totalen=((*ob).bglo.totalen+3)/4;
+                  if (imemptr-oimemptr>ob->bglo.totalen) error(4,48); // demasiados valores para la tabla
+                } ob->bglo.totalen=(ob->bglo.totalen+3)/4;
               }
             } else {                                          // Byte global
-              (*ob).tipo=tbglo; (*ob).bglo.offset=imem;
-              (*ob).bglo.len1=0;
-              (*ob).bglo.len2=-1;
-              (*ob).bglo.len3=-1;
-              (*ob).bglo.totalen=1; // 1 int
+              ob->tipo=tbglo; ob->bglo.offset=imem;
+              ob->bglo.len1=0;
+              ob->bglo.len2=-1;
+              ob->bglo.len3=-1;
+              ob->bglo.totalen=1; // 1 int
               if (pieza==p_asig) {
                 save_error(1);
                 lexico();
                 mem[imem]=constante();
                 if (mem[imem]<0 || mem[imem]>255) error(4,50); // valor byte fuera de rango
               }
-            } imem=_imem+(*ob).bglo.totalen; test_buffer(&mem,&imem_max,imem);
+            } imem=_imem+ob->bglo.totalen; test_buffer(&mem,&imem_max,imem);
           }
 
           if (pieza==p_coma) pieza=p_byte; else {
@@ -731,54 +731,54 @@ void sintactico(void)
           } else {
 
             if (pieza!=p_id) error(1,23); // esperando un nombre
-            ob=o; if ((*ob).tipo!=tnone) error(0,30); lexico(); // el nombre no es nuevo
-            (*ob).tipo=twglo; (*ob).wglo.offset=_imem=imem;
+            ob=o; if (ob->tipo!=tnone) error(0,30); lexico(); // el nombre no es nuevo
+            ob->tipo=twglo; ob->wglo.offset=_imem=imem;
             if (pieza==p_corab) {
               lexico();
               if (pieza==p_corce) {
                 lexico(); if (pieza!=p_asig) error(3,7); lexico(); // esperando '='
                 oimemptr=(byte*)&mem[imem];
                 tglo_init(1);
-                (*ob).wglo.len1=(imemptr-oimemptr)/2-1;
-                (*ob).wglo.len2=-1;
-                (*ob).wglo.len3=-1;
-                (*ob).wglo.totalen=((*ob).wglo.len1+2)/2;
+                ob->wglo.len1=(imemptr-oimemptr)/2-1;
+                ob->wglo.len2=-1;
+                ob->wglo.len3=-1;
+                ob->wglo.totalen=(ob->wglo.len1+2)/2;
               } else {
-                if (((*ob).wglo.len1=constante())<0) error(4,40); // tabla de longitud negativa
+                if ((ob->wglo.len1=constante())<0) error(4,40); // tabla de longitud negativa
                 if (pieza==p_coma) {
                   lexico();
-                  if (((*ob).wglo.len2=constante())<0) error(4,40); // idem
+                  if ((ob->wglo.len2=constante())<0) error(4,40); // idem
                   if (pieza==p_coma) {
                     lexico();
-                    if (((*ob).wglo.len3=constante())<0) error(4,40); // reidem
-                  } else (*ob).wglo.len3=-1;
-                } else { (*ob).wglo.len2=-1; (*ob).wglo.len3=-1; }
+                    if ((ob->wglo.len3=constante())<0) error(4,40); // reidem
+                  } else ob->wglo.len3=-1;
+                } else { ob->wglo.len2=-1; ob->wglo.len3=-1; }
 
-                (*ob).wglo.totalen=(*ob).wglo.len1+1;
-                if ((*ob).wglo.len2>-1) (*ob).wglo.totalen*=(*ob).wglo.len2+1;
-                if ((*ob).wglo.len3>-1) (*ob).wglo.totalen*=(*ob).wglo.len3+1;
+                ob->wglo.totalen=ob->wglo.len1+1;
+                if (ob->wglo.len2>-1) ob->wglo.totalen*=ob->wglo.len2+1;
+                if (ob->wglo.len3>-1) ob->wglo.totalen*=ob->wglo.len3+1;
                 if (pieza!=p_corce) error(3,19); lexico(); // esperando ']'
                 if (pieza==p_asig) {
                   save_error(1);
                   lexico();
                   oimemptr=(byte*)&mem[imem];
                   tglo_init(1);
-                  if (imemptr-oimemptr>(*ob).wglo.totalen*2) error(4,48); // demasiados valores para la tabla
-                } (*ob).wglo.totalen=((*ob).wglo.totalen+1)/2;
+                  if (imemptr-oimemptr>ob->wglo.totalen*2) error(4,48); // demasiados valores para la tabla
+                } ob->wglo.totalen=(ob->wglo.totalen+1)/2;
               }
             } else {                                          // Word global
-              (*ob).tipo=twglo; (*ob).wglo.offset=imem;
-              (*ob).wglo.len1=0;
-              (*ob).wglo.len2=-1;
-              (*ob).wglo.len3=-1;
-              (*ob).wglo.totalen=1; // 1 int
+              ob->tipo=twglo; ob->wglo.offset=imem;
+              ob->wglo.len1=0;
+              ob->wglo.len2=-1;
+              ob->wglo.len3=-1;
+              ob->wglo.totalen=1; // 1 int
               if (pieza==p_asig) {
                 save_error(1);
                 lexico();
                 mem[imem]=constante();
                 if (mem[imem]<0 || mem[imem]>65535) error(4,51); // valor word fuera de rango
               }
-            } imem=_imem+(*ob).wglo.totalen; test_buffer(&mem,&imem_max,imem);
+            } imem=_imem+ob->wglo.totalen; test_buffer(&mem,&imem_max,imem);
           }
 
           if (pieza==p_coma) pieza=p_word; else {
@@ -806,43 +806,43 @@ void sintactico(void)
 
           } else {
 
-            ob=o; if ((*ob).tipo!=tnone) error(0,30); lexico(); // el nombre no es nuevo
+            ob=o; if (ob->tipo!=tnone) error(0,30); lexico(); // el nombre no es nuevo
             if (pieza==p_corab) {                           // Tabla global
               lexico();
-              (*ob).tipo=ttglo; (*ob).tglo.offset=_imem=imem;
+              ob->tipo=ttglo; ob->tglo.offset=_imem=imem;
               if (pieza==p_corce) {
                 lexico(); if (pieza!=p_asig) error(3,7); lexico(); // esperando '='
                 tglo_init(3);
-                (*ob).tglo.len1=imem-_imem-1;
-                (*ob).tglo.len2=-1;
-                (*ob).tglo.len3=-1;
-                (*ob).tglo.totalen=imem-_imem;
+                ob->tglo.len1=imem-_imem-1;
+                ob->tglo.len2=-1;
+                ob->tglo.len3=-1;
+                ob->tglo.totalen=imem-_imem;
               } else {
-                if (((*ob).tglo.len1=constante())<0) error(4,40); // tabla de longitud negativa
+                if ((ob->tglo.len1=constante())<0) error(4,40); // tabla de longitud negativa
                 if (pieza==p_coma) {
                   lexico();
-                  if (((*ob).tglo.len2=constante())<0) error(4,40); // idem
+                  if ((ob->tglo.len2=constante())<0) error(4,40); // idem
                   if (pieza==p_coma) {
                     lexico();
-                    if (((*ob).tglo.len3=constante())<0) error(4,40); // reidem
-                  } else (*ob).tglo.len3=-1;
-                } else { (*ob).tglo.len2=-1; (*ob).tglo.len3=-1; }
-                (*ob).tglo.totalen=(*ob).tglo.len1+1;
-                if ((*ob).tglo.len2>-1) (*ob).tglo.totalen*=(*ob).tglo.len2+1;
-                if ((*ob).tglo.len3>-1) (*ob).tglo.totalen*=(*ob).tglo.len3+1;
+                    if ((ob->tglo.len3=constante())<0) error(4,40); // reidem
+                  } else ob->tglo.len3=-1;
+                } else { ob->tglo.len2=-1; ob->tglo.len3=-1; }
+                ob->tglo.totalen=ob->tglo.len1+1;
+                if (ob->tglo.len2>-1) ob->tglo.totalen*=ob->tglo.len2+1;
+                if (ob->tglo.len3>-1) ob->tglo.totalen*=ob->tglo.len3+1;
                 if (pieza!=p_corce) error(3,19); lexico(); // esperando ']'
                 if (pieza==p_asig) {
                   save_error(1);
                   lexico(); tglo_init(3);
-                  if (imem-_imem>(*ob).tglo.totalen) error(4,48); // demasiados valores para la tabla
+                  if (imem-_imem>ob->tglo.totalen) error(4,48); // demasiados valores para la tabla
                 }
               }
-              imem=_imem+(*ob).tglo.totalen;
+              imem=_imem+ob->tglo.totalen;
               test_buffer(&mem,&imem_max,imem);
 
             } else {                                          // Variable global
 
-              (*ob).tipo=tvglo; (*ob).vglo.offset=imem;
+              ob->tipo=tvglo; ob->vglo.offset=imem;
               if (pieza==p_asig) { lexico(); mem[imem]=constante(); }
               test_buffer(&mem,&imem_max,++imem);
 
@@ -874,8 +874,8 @@ void sintactico(void)
           if (pieza==p_pointer) { // Se define un puntero a struct
 
             lexico(); if (pieza!=p_id) error(1,27); ob=o; // esperando el nombre de la estructura
-            if ((*ob).tipo==tnone) error(0,28); // No se define el pointer así
-            if ((*ob).tipo!=tsglo && (*ob).tipo!=tsloc) error(0,28);
+            if (ob->tipo==tnone) error(0,28); // No se define el pointer así
+            if (ob->tipo!=tsglo && ob->tipo!=tsloc) error(0,28);
             lexico();
             puntero_a_struct_local:
             analiza_pointer_struct(tpslo,iloc,ob);
@@ -896,46 +896,46 @@ void sintactico(void)
             if (pieza!=p_id) error(1,27); // esperando el nombre de la estructura
             ob=o; member=ob; lexico();
 
-            if ((*ob).tipo!=tnone) error(2,30); // el nombre no es nuevo
+            if (ob->tipo!=tnone) error(2,30); // el nombre no es nuevo
 
-            (*ob).tipo=tsloc; (*ob).sloc.offset=_imem=iloc;
+            ob->tipo=tsloc; ob->sloc.offset=_imem=iloc;
             if (pieza==p_corab) {
               member2=member; member=NULL; lexico();
-              if (((*ob).sloc.items1=constante())<0) error(4,43); // estructura de longitud negativa
+              if ((ob->sloc.items1=constante())<0) error(4,43); // estructura de longitud negativa
               if (pieza==p_coma) {
                 lexico();
-                if (((*ob).sloc.items2=constante())<0) error(4,43); // idem
+                if ((ob->sloc.items2=constante())<0) error(4,43); // idem
                 if (pieza==p_coma) {
                   lexico();
-                  if (((*ob).sloc.items3=constante())<0) error(4,43); // reidem
-                } else (*ob).sloc.items3=-1;
-              } else { (*ob).sloc.items2=-1; (*ob).sloc.items3=-1; }
+                  if ((ob->sloc.items3=constante())<0) error(4,43); // reidem
+                } else ob->sloc.items3=-1;
+              } else { ob->sloc.items2=-1; ob->sloc.items3=-1; }
               member=member2;
-              (*ob).sloc.totalitems=(*ob).sloc.items1+1;
-              if ((*ob).sloc.items2>-1) (*ob).sloc.totalitems*=(*ob).sloc.items2+1;
-              if ((*ob).sloc.items3>-1) (*ob).sloc.totalitems*=(*ob).sloc.items3+1;
+              ob->sloc.totalitems=ob->sloc.items1+1;
+              if (ob->sloc.items2>-1) ob->sloc.totalitems*=ob->sloc.items2+1;
+              if (ob->sloc.items3>-1) ob->sloc.totalitems*=ob->sloc.items3+1;
               if (pieza!=p_corce) error(3,19); lexico(); // esperando ']'
             } else {
-              (*ob).sloc.totalitems=1;
-              (*ob).sloc.items1=0; (*ob).sloc.items2=-1; (*ob).sloc.items3=-1;
+              ob->sloc.totalitems=1;
+              ob->sloc.items1=0; ob->sloc.items2=-1; ob->sloc.items3=-1;
             }
-            if (((*ob).sloc.len_item=analiza_struct_local(_imem))==0) error(0,47); // estructura vacia
+            if ((ob->sloc.len_item=analiza_struct_local(_imem))==0) error(0,47); // estructura vacia
             member=NULL; lexico();
-            iloc=(*ob).sloc.offset; dup=(*ob).sloc.totalitems+1;
+            iloc=ob->sloc.offset; dup=ob->sloc.totalitems+1;
             if (dup>1) {
-              test_buffer(&loc,&iloc_max,iloc+(*ob).sloc.len_item*(*ob).sloc.totalitems);
-              test_buffer(&frm,&ifrm_max,imem+(*ob).sloc.len_item*(*ob).sloc.totalitems);
+              test_buffer(&loc,&iloc_max,iloc+ob->sloc.len_item*ob->sloc.totalitems);
+              test_buffer(&frm,&ifrm_max,imem+ob->sloc.len_item*ob->sloc.totalitems);
               while (--dup) {
-                memcpy(&loc[iloc],&loc[_imem],(*ob).sloc.len_item<<2);
-                memcpy(&frm[iloc],&frm[_imem],(*ob).sloc.len_item<<2);
-                iloc+=(*ob).sloc.len_item;
+                memcpy(&loc[iloc],&loc[_imem],ob->sloc.len_item<<2);
+                memcpy(&frm[iloc],&frm[_imem],ob->sloc.len_item<<2);
+                iloc+=ob->sloc.len_item;
               }
             } iloc=_imem;
             if (pieza==p_asig) {
               save_error(1); lexico(); tloc_init(0);
-              if (iloc-_imem-1>=(*ob).sloc.len_item*(*ob).sloc.totalitems) error(4,55); // demasiados valores para la estructura
+              if (iloc-_imem-1>=ob->sloc.len_item*ob->sloc.totalitems) error(4,55); // demasiados valores para la estructura
             } while (pieza==p_ptocoma) lexico();
-            iloc=_imem+(*ob).sloc.len_item*(*ob).sloc.totalitems;
+            iloc=_imem+ob->sloc.len_item*ob->sloc.totalitems;
             test_buffer(&loc,&iloc_max,iloc);
           }
 
@@ -957,39 +957,39 @@ void sintactico(void)
           } else {
 
             if (pieza!=p_id) error(1,29); // esperando el nombre de la cadena
-            ob=o; if ((*ob).tipo!=tnone) error(0,30); lexico(); // el nombre no es nuevo
-            (*ob).tipo=tcloc;
+            ob=o; if (ob->tipo!=tnone) error(0,30); lexico(); // el nombre no es nuevo
+            ob->tipo=tcloc;
             _imem=iloc;
-            (*ob).cloc.offset=_imem+1;
+            ob->cloc.offset=_imem+1;
             if (pieza==p_corab) {
               lexico();
               if (pieza==p_corce) {
                 lexico();
-                (*ob).cloc.totalen=255;
+                ob->cloc.totalen=255;
               } else {
-                if (((*ob).cloc.totalen=constante())<0) error(4,31); // cadena de long. negativa
-                if ((*ob).cloc.totalen>0xFFFFF) error(4,32); // cadena demasiado larga
+                if ((ob->cloc.totalen=constante())<0) error(4,31); // cadena de long. negativa
+                if (ob->cloc.totalen>0xFFFFF) error(4,32); // cadena demasiado larga
                 if (pieza!=p_corce) error(3,19); // esperando ']'
                 lexico();
               }
-            } else (*ob).cloc.totalen=255;
+            } else ob->cloc.totalen=255;
             if (pieza==p_asig) {
               save_error(1);
               _itxt=itxt;
               lexico();
-              if (pieza!=p_lit && !(pieza==p_id && (*o).tipo==tcons && (*o).cons.literal))
+              if (pieza!=p_lit && !(pieza==p_id && o->tipo==tcons && o->cons.literal))
                 error(3,46); // se esperaba un literal
-              if (strlen((char*)&mem[pieza_num])>(*ob).cloc.totalen+1)
+              if (strlen((char*)&mem[pieza_num])>ob->cloc.totalen+1)
                 error(4,49); // literal demasiado largo
-              iloc=_imem+1+((*ob).cloc.totalen+5)/4; // ej. c[32] -> c[0]..c[32],NUL
+              iloc=_imem+1+(ob->cloc.totalen+5)/4; // ej. c[32] -> c[0]..c[32],NUL
               test_buffer(&loc,&iloc_max,iloc);
               strcpy((char*)&loc[_imem+1],(char*)&mem[pieza_num]);
               itxt=_itxt; // Saca la cadena del segmento de textos
               lexico();
             } else {
-              iloc=_imem+1+((*ob).cloc.totalen+5)/4;
+              iloc=_imem+1+(ob->cloc.totalen+5)/4;
               test_buffer(&loc,&iloc_max,iloc);
-            } loc[_imem]=0xDAD00000|(*ob).cloc.totalen;
+            } loc[_imem]=0xDAD00000|ob->cloc.totalen;
           }
 
           if (pieza==p_coma) pieza=p_string; else {
@@ -1015,54 +1015,54 @@ void sintactico(void)
           } else {
 
             if (pieza!=p_id) error(1,23); // esperando un nombre
-            ob=o; if ((*ob).tipo!=tnone) error(0,30); lexico(); // el nombre no es nuevo
-            (*ob).tipo=tbloc; (*ob).bloc.offset=_imem=iloc;
+            ob=o; if (ob->tipo!=tnone) error(0,30); lexico(); // el nombre no es nuevo
+            ob->tipo=tbloc; ob->bloc.offset=_imem=iloc;
             if (pieza==p_corab) {
               lexico();
               if (pieza==p_corce) {
                 lexico(); if (pieza!=p_asig) error(3,7); lexico(); // esperando '='
                 oimemptr=(byte*)&loc[iloc];
                 tloc_init(2);
-                (*ob).bloc.len1=imemptr-oimemptr-1;
-                (*ob).bloc.len2=-1;
-                (*ob).bloc.len3=-1;
-                (*ob).bloc.totalen=((*ob).bloc.len1+4)/4;
+                ob->bloc.len1=imemptr-oimemptr-1;
+                ob->bloc.len2=-1;
+                ob->bloc.len3=-1;
+                ob->bloc.totalen=(ob->bloc.len1+4)/4;
               } else {
-                if (((*ob).bloc.len1=constante())<0) error(4,40); // tabla de long. negativa
+                if ((ob->bloc.len1=constante())<0) error(4,40); // tabla de long. negativa
                 if (pieza==p_coma) {
                   lexico();
-                  if (((*ob).bloc.len2=constante())<0) error(4,40); // idem
+                  if ((ob->bloc.len2=constante())<0) error(4,40); // idem
                   if (pieza==p_coma) {
                     lexico();
-                    if (((*ob).bloc.len3=constante())<0) error(4,40); // reidem
-                  } else (*ob).bloc.len3=-1;
-                } else { (*ob).bloc.len2=-1; (*ob).bloc.len3=-1; }
+                    if ((ob->bloc.len3=constante())<0) error(4,40); // reidem
+                  } else ob->bloc.len3=-1;
+                } else { ob->bloc.len2=-1; ob->bloc.len3=-1; }
 
-                (*ob).bloc.totalen=(*ob).bloc.len1+1;
-                if ((*ob).bloc.len2>-1) (*ob).bloc.totalen*=(*ob).bloc.len2+1;
-                if ((*ob).bloc.len3>-1) (*ob).bloc.totalen*=(*ob).bloc.len3+1;
+                ob->bloc.totalen=ob->bloc.len1+1;
+                if (ob->bloc.len2>-1) ob->bloc.totalen*=ob->bloc.len2+1;
+                if (ob->bloc.len3>-1) ob->bloc.totalen*=ob->bloc.len3+1;
                 if (pieza!=p_corce) error(3,19); lexico(); // esperando ']'
                 if (pieza==p_asig) {
                   save_error(1);
                   lexico();
                   oimemptr=(byte*)&loc[iloc];
                   tloc_init(2);
-                  if (imemptr-oimemptr>(*ob).bloc.totalen) error(4,48); // demasiados valores para la tabla
-                } (*ob).bloc.totalen=((*ob).bloc.totalen+3)/4;
+                  if (imemptr-oimemptr>ob->bloc.totalen) error(4,48); // demasiados valores para la tabla
+                } ob->bloc.totalen=(ob->bloc.totalen+3)/4;
               }
             } else {                                          // Byte local
-              (*ob).tipo=tbloc; (*ob).bloc.offset=iloc;
-              (*ob).bloc.len1=0;
-              (*ob).bloc.len2=-1;
-              (*ob).bloc.len3=-1;
-              (*ob).bloc.totalen=1; // 1 int
+              ob->tipo=tbloc; ob->bloc.offset=iloc;
+              ob->bloc.len1=0;
+              ob->bloc.len2=-1;
+              ob->bloc.len3=-1;
+              ob->bloc.totalen=1; // 1 int
               if (pieza==p_asig) {
                 save_error(1);
                 lexico();
                 loc[iloc]=constante();
                 if (loc[iloc]<0 || loc[iloc]>255) error(4,50); // valor byte fuera de rango
               }
-            } iloc=_imem+(*ob).bloc.totalen; test_buffer(&loc,&iloc_max,iloc);
+            } iloc=_imem+ob->bloc.totalen; test_buffer(&loc,&iloc_max,iloc);
           }
 
           if (pieza==p_coma) pieza=p_byte; else {
@@ -1088,54 +1088,54 @@ void sintactico(void)
           } else {
 
             if (pieza!=p_id) error(1,23); // esperando un nombre
-            ob=o; if ((*ob).tipo!=tnone) error(0,30); lexico(); // el nombre no es nuevo
-            (*ob).tipo=twloc; (*ob).wloc.offset=_imem=iloc;
+            ob=o; if (ob->tipo!=tnone) error(0,30); lexico(); // el nombre no es nuevo
+            ob->tipo=twloc; ob->wloc.offset=_imem=iloc;
             if (pieza==p_corab) {
               lexico();
               if (pieza==p_corce) {
                 lexico(); if (pieza!=p_asig) error(3,7); lexico(); // esperando '='
                 oimemptr=(byte*)&loc[iloc];
                 tloc_init(1);
-                (*ob).wloc.len1=(imemptr-oimemptr)/2-1;
-                (*ob).wloc.len2=-1;
-                (*ob).wloc.len3=-1;
-                (*ob).wloc.totalen=((*ob).wloc.len1+2)/2;
+                ob->wloc.len1=(imemptr-oimemptr)/2-1;
+                ob->wloc.len2=-1;
+                ob->wloc.len3=-1;
+                ob->wloc.totalen=(ob->wloc.len1+2)/2;
               } else {
-                if (((*ob).wloc.len1=constante())<0) error(4,40); // tabla de long. negativa
+                if ((ob->wloc.len1=constante())<0) error(4,40); // tabla de long. negativa
                 if (pieza==p_coma) {
                   lexico();
-                  if (((*ob).wloc.len2=constante())<0) error(4,40); // idem
+                  if ((ob->wloc.len2=constante())<0) error(4,40); // idem
                   if (pieza==p_coma) {
                     lexico();
-                    if (((*ob).wloc.len3=constante())<0) error(4,40); // reidem
-                  } else (*ob).wloc.len3=-1;
-                } else { (*ob).wloc.len2=-1; (*ob).wloc.len3=-1; }
+                    if ((ob->wloc.len3=constante())<0) error(4,40); // reidem
+                  } else ob->wloc.len3=-1;
+                } else { ob->wloc.len2=-1; ob->wloc.len3=-1; }
 
-                (*ob).wloc.totalen=(*ob).wloc.len1+1;
-                if ((*ob).wloc.len2>-1) (*ob).wloc.totalen*=(*ob).wloc.len2+1;
-                if ((*ob).wloc.len3>-1) (*ob).wloc.totalen*=(*ob).wloc.len3+1;
+                ob->wloc.totalen=ob->wloc.len1+1;
+                if (ob->wloc.len2>-1) ob->wloc.totalen*=ob->wloc.len2+1;
+                if (ob->wloc.len3>-1) ob->wloc.totalen*=ob->wloc.len3+1;
                 if (pieza!=p_corce) error(3,19); lexico(); // esperando ']'
                 if (pieza==p_asig) {
                   save_error(1);
                   lexico();
                   oimemptr=(byte*)&loc[iloc];
                   tloc_init(1);
-                  if (imemptr-oimemptr>(*ob).wloc.totalen*2) error(4,48); // demasiados valores para la tabla
-                } (*ob).wloc.totalen=((*ob).wloc.totalen+1)/2;
+                  if (imemptr-oimemptr>ob->wloc.totalen*2) error(4,48); // demasiados valores para la tabla
+                } ob->wloc.totalen=(ob->wloc.totalen+1)/2;
               }
             } else {                                          // Word local
-              (*ob).tipo=twloc; (*ob).wloc.offset=iloc;
-              (*ob).wloc.len1=0;
-              (*ob).wloc.len2=-1;
-              (*ob).wloc.len3=-1;
-              (*ob).wloc.totalen=1; // 1 int
+              ob->tipo=twloc; ob->wloc.offset=iloc;
+              ob->wloc.len1=0;
+              ob->wloc.len2=-1;
+              ob->wloc.len3=-1;
+              ob->wloc.totalen=1; // 1 int
               if (pieza==p_asig) {
                 save_error(1);
                 lexico();
                 loc[iloc]=constante();
                 if (loc[iloc]<0 || loc[iloc]>65535) error(4,51); // valor word fuera de rango
               }
-            } iloc=_imem+(*ob).wloc.totalen; test_buffer(&loc,&iloc_max,iloc);
+            } iloc=_imem+ob->wloc.totalen; test_buffer(&loc,&iloc_max,iloc);
           }
 
           if (pieza==p_coma) pieza=p_word; else {
@@ -1163,42 +1163,42 @@ void sintactico(void)
 
           } else {
 
-            ob=o; if ((*ob).tipo!=tnone) error(0,30); lexico(); // el nombre no es nuevo
+            ob=o; if (ob->tipo!=tnone) error(0,30); lexico(); // el nombre no es nuevo
             if (pieza==p_corab) {                             // Tabla local
               lexico();
-              (*ob).tipo=ttloc; (*ob).tloc.offset=_imem=iloc;
+              ob->tipo=ttloc; ob->tloc.offset=_imem=iloc;
               if (pieza==p_corce) {
                 lexico(); if (pieza!=p_asig) error(3,7); lexico(); // esperando '='
                 tloc_init(3);
-                (*ob).tloc.len1=iloc-_imem-1;
-                (*ob).tloc.len2=-1;
-                (*ob).tloc.len3=-1;
-                (*ob).tloc.totalen=iloc-_imem;
+                ob->tloc.len1=iloc-_imem-1;
+                ob->tloc.len2=-1;
+                ob->tloc.len3=-1;
+                ob->tloc.totalen=iloc-_imem;
               } else {
-                if (((*ob).tloc.len1=constante())<0) error(4,40); // tabla de long. negativa
+                if ((ob->tloc.len1=constante())<0) error(4,40); // tabla de long. negativa
                 if (pieza==p_coma) {
                   lexico();
-                  if (((*ob).tloc.len2=constante())<0) error(4,40); // idem
+                  if ((ob->tloc.len2=constante())<0) error(4,40); // idem
                   if (pieza==p_coma) {
                     lexico();
-                    if (((*ob).tloc.len3=constante())<0) error(4,40); // reidem
-                  } else (*ob).tloc.len3=-1;
-                } else { (*ob).tloc.len2=-1; (*ob).tloc.len3=-1; }
-                (*ob).tloc.totalen=(*ob).tloc.len1+1;
-                if ((*ob).tloc.len2>-1) (*ob).tloc.totalen*=(*ob).tloc.len2+1;
-                if ((*ob).tloc.len3>-1) (*ob).tloc.totalen*=(*ob).tloc.len3+1;
+                    if ((ob->tloc.len3=constante())<0) error(4,40); // reidem
+                  } else ob->tloc.len3=-1;
+                } else { ob->tloc.len2=-1; ob->tloc.len3=-1; }
+                ob->tloc.totalen=ob->tloc.len1+1;
+                if (ob->tloc.len2>-1) ob->tloc.totalen*=ob->tloc.len2+1;
+                if (ob->tloc.len3>-1) ob->tloc.totalen*=ob->tloc.len3+1;
                 if (pieza!=p_corce) error(3,19); lexico(); // esperando ']'
                 if (pieza==p_asig) {
                   save_error(1);
                   lexico(); tloc_init(3);
-                  if (iloc-_imem>(*ob).tloc.totalen) error(4,48); } // demasiados valores para la tabla
+                  if (iloc-_imem>ob->tloc.totalen) error(4,48); } // demasiados valores para la tabla
               }
-              iloc=_imem+(*ob).tloc.totalen;
+              iloc=_imem+ob->tloc.totalen;
               test_buffer(&loc,&iloc_max,iloc);
 
             } else {                                          // Variable local
 
-              (*ob).tipo=tvloc; (*ob).vloc.offset=iloc;
+              ob->tipo=tvloc; ob->vloc.offset=iloc;
               if (pieza==p_asig) { lexico(); loc[iloc]=constante(); }
               test_buffer(&loc,&iloc_max,++iloc);
 
@@ -1229,7 +1229,7 @@ void sintactico(void)
     if (pieza==p_import) {
 		warning(2);	// sintaxis antigua
 		lexico();
-		if (pieza!=p_lit && !(pieza==p_id && (*o).tipo==tcons && (*o).cons.literal))
+		if (pieza!=p_lit && !(pieza==p_id && o->tipo==tcons && o->cons.literal))
 			error(1,46); // se esperaba un literal
 		lexico();
 		if (!free_sintax) if (pieza!=p_ptocoma) error(3,9); // esperando ';'
@@ -1282,15 +1282,15 @@ void sintactico(void)
       n=pieza; inicio_sentencia(); lexico();
       if (pieza!=p_id) error(1,70); // esperando el nombre del proceso o funcion
       ob=o; lexico();
-      if ((*ob).tipo==tproc && (*ob).usado) {
-        num_par=(*ob).proc.num_par; bloque_lexico=bloque_actual=ob;
-        _imem=(*ob).proc.offset; while(_imem) {
+      if (ob->tipo==tproc && ob->usado) {
+        num_par=ob->proc.num_par; bloque_lexico=bloque_actual=ob;
+        _imem=ob->proc.offset; while(_imem) {
            _imem_old=mem[_imem]; mem[_imem]=imem; _imem=_imem_old; }
-      } else if ((*ob).tipo==tnone) {
-        (*ob).usado=0; (*ob).tipo=tproc;
-        (*ob).proc.bloque=bloque_lexico=bloque_actual=ob;
+      } else if (ob->tipo==tnone) {
+        ob->usado=0; ob->tipo=tproc;
+        ob->proc.bloque=bloque_lexico=bloque_actual=ob;
       } else error(2,30); // el nombre no es nuevo
-      (*ob).proc.offset=imem; (*ob).proc.num_par=0;
+      ob->proc.offset=imem; ob->proc.num_par=0;
 
       g2(ltyp,(int)bloque_actual);
       if (n==p_function) g1(lnop);
@@ -1300,12 +1300,12 @@ void sintactico(void)
       parametros=1; n=iloc; lexico();
 
       while (pieza!=p_cerrar) {
-        (*ob).proc.num_par++; expresion_cpa();
+        ob->proc.num_par++; expresion_cpa();
         if (pieza!=p_cerrar) if (pieza!=p_coma) error(3,35); // se esperaba una coma
           else { lexico(); if (pieza==p_cerrar) error(3,36); } // se esperaba otro parámetro
       }
-      if ((*ob).usado) {
-        if (num_par==(*ob).proc.num_par) (*ob).usado=0; else error(0,38); // nº de parametros incorrecto
+      if (ob->usado) {
+        if (num_par==ob->proc.num_par) ob->usado=0; else error(0,38); // nº de parametros incorrecto
       }
       pasa_ptocoma(); final_sentencia();
 
@@ -1315,7 +1315,7 @@ void sintactico(void)
 
       parametros=-1; // Para que los parámetros se puedan repetir como PRIVATE
 
-      num_par=mem[_imem]=(*ob).proc.num_par;
+      num_par=mem[_imem]=ob->proc.num_par;
 
       analiza_private(); parametros=0;
 
@@ -1416,27 +1416,27 @@ lex_scan:
 					o=*ptr_o;
 					pieza=p_id;
 					
-					while(o!=NULL && ( ((*o).bloque && bloque_lexico!=(*o).bloque) ||
-					 ((*o).member!=member) ))
-					 	o=(*o).anterior;
+					while(o!=NULL && ( (o->bloque && bloque_lexico!=o->bloque) ||
+					 (o->member!=member) ))
+					 	o=o->anterior;
 
    					if(o==NULL) { // No encontrado
-   						o=iobj++; (*o).anterior=*ptr_o; *ptr_o=o;
-   						(*o).name=(byte*)(ptr_o+1);
-   						(*o).member=member;
-   						(*o).param=0;
-						(*o).dll=-1;
-   						if (parametros) (*o).bloque=bloque_actual;
+   						o=iobj++; o->anterior=*ptr_o; *ptr_o=o;
+   						o->name=(byte*)(ptr_o+1);
+   						o->member=member;
+   						o->param=0;
+						o->dll=-1;
+   						if (parametros) o->bloque=bloque_actual;
    						if (num_obj++==max_obj)
    							error(0,6); // excedida la capacidad de la tabla de objetos
    					}
    					else {
 						//printf("->->-> %s\n",(char*)_ivnom+8);
-   						if ((*o).tipo==tcons)
-   							pieza_num=(*o).cons.valor;
-						if((*o).dll!=-1) {
+   						if (o->tipo==tcons)
+   							pieza_num=o->cons.valor;
+						if(o->dll!=-1) {
 							for(i=0;i<numdlls;i++) {
-								if(nuevo_orden[i]==(*o).dll) {
+								if(nuevo_orden[i]==o->dll) {
    									dlls[i].usado=1;
 									break;
 								}
@@ -1451,10 +1451,10 @@ lex_scan:
 				*ptr_o=o=iobj++;
 				pieza=p_id;
 				
-				(*o).name=(byte*)_ivnom+8;
-				(*o).member=member;
-				(*o).dll=-1;
-				if (parametros) (*o).bloque=bloque_actual;
+				o->name=(byte*)_ivnom+8;
+				o->member=member;
+				o->dll=-1;
+				if (parametros) o->bloque=bloque_actual;
 				if (num_obj++==max_obj)
 					error(0,6);	// excedida la capacidad de la tabla de objetos
 			}
@@ -1548,15 +1548,15 @@ lex_scan:
 
 			e=lex_case[*_source++];
 			_ivnom=_source;
-			pieza=(*e).token;
+			pieza=e->token;
 			
-			while (e=(*e).siguiente) {
+			while (e=e->siguiente) {
 			
-				while (*_source!=(*e).caracter && (*e).alternativa)
-					e=(*e).alternativa;
+				while (*_source!=e->caracter && e->alternativa)
+					e=e->alternativa;
 					
-				if (*_source++==(*e).caracter && (*e).token) {
-					pieza=(*e).token;
+				if (*_source++==e->caracter && e->token) {
+					pieza=e->token;
 					_ivnom=_source;
 				}
 			}
@@ -1698,15 +1698,15 @@ lex_scan:
 
 		default: // puntero a un lex_ele
 			e=lex_case[*_source++];
-			next_pieza=(*e).token;
+			next_pieza=e->token;
 			_ivnom=_source;
 
-			while (e=(*e).siguiente) {
-				while (*_source!=(*e).caracter && (*e).alternativa)
-					e=(*e).alternativa;
+			while (e=e->siguiente) {
+				while (*_source!=e->caracter && e->alternativa)
+					e=e->alternativa;
 					
-				if (*_source++==(*e).caracter && (*e).token) {
-					next_pieza=(*e).token;
+				if (*_source++==e->caracter && e->token) {
+					next_pieza=e->token;
 					_ivnom=_source;
 				}
 			}
@@ -1776,8 +1776,8 @@ void analiza_private(void) {
         if (pieza==p_pointer) { // Se define un puntero a struct
 
           lexico(); if (pieza!=p_id) error(1,27); ob=o; // esperando el nombre de la estructura
-          if ((*ob).tipo==tnone) error(0,28); // No se define el pointer así
-          if ((*ob).tipo!=tsglo && (*ob).tipo!=tsloc) error(0,28);
+          if (ob->tipo==tnone) error(0,28); // No se define el pointer así
+          if (ob->tipo!=tsglo && ob->tipo!=tsloc) error(0,28);
           lexico();
           puntero_a_struct:
           if (analiza_pointer_struct(tpslo,iloc,ob)==1) {
@@ -1800,51 +1800,51 @@ void analiza_private(void) {
           if (pieza!=p_id) error(1,27); // esperando el nombre de la estructura
           ob=o; member=ob; lexico();
 
-          if ((*ob).tipo!=tnone) error(2,30); // el nombre no es nuevo
+          if (ob->tipo!=tnone) error(2,30); // el nombre no es nuevo
 
-          (*ob).tipo=tsloc; (*ob).sloc.offset=_imem=imem;
+          ob->tipo=tsloc; ob->sloc.offset=_imem=imem;
           if (pieza==p_corab) {
             member2=member; member=NULL; lexico();
-            if (((*ob).sloc.items1=constante())<0) error(4,43); // estructura de long. negativa
+            if ((ob->sloc.items1=constante())<0) error(4,43); // estructura de long. negativa
             if (pieza==p_coma) {
               lexico();
-              if (((*ob).sloc.items2=constante())<0) error(4,43); // idem
+              if ((ob->sloc.items2=constante())<0) error(4,43); // idem
               if (pieza==p_coma) {
                 lexico();
-                if (((*ob).sloc.items3=constante())<0) error(4,43); // reidem
-              } else (*ob).sloc.items3=-1;
-            } else { (*ob).sloc.items2=-1; (*ob).sloc.items3=-1; }
+                if ((ob->sloc.items3=constante())<0) error(4,43); // reidem
+              } else ob->sloc.items3=-1;
+            } else { ob->sloc.items2=-1; ob->sloc.items3=-1; }
             member=member2;
-            (*ob).sloc.totalitems=(*ob).sloc.items1+1;
-            if ((*ob).sloc.items2>-1) (*ob).sloc.totalitems*=(*ob).sloc.items2+1;
-            if ((*ob).sloc.items3>-1) (*ob).sloc.totalitems*=(*ob).sloc.items3+1;
+            ob->sloc.totalitems=ob->sloc.items1+1;
+            if (ob->sloc.items2>-1) ob->sloc.totalitems*=ob->sloc.items2+1;
+            if (ob->sloc.items3>-1) ob->sloc.totalitems*=ob->sloc.items3+1;
             if (pieza!=p_corce) error(3,19); lexico(); // esperando ']'
           } else {
-            (*ob).sloc.totalitems=1;
-            (*ob).sloc.items1=0; (*ob).sloc.items2=-1; (*ob).sloc.items3=-1;
+            ob->sloc.totalitems=1;
+            ob->sloc.items1=0; ob->sloc.items2=-1; ob->sloc.items3=-1;
           }
-          if (((*ob).sloc.len_item=analiza_struct_private(_imem))==0) error(0,47); // estructura vacia
+          if ((ob->sloc.len_item=analiza_struct_private(_imem))==0) error(0,47); // estructura vacia
 
           member=NULL; lexico();
 
-          imem=(*ob).sloc.offset; dup=(*ob).sloc.totalitems+1;
+          imem=ob->sloc.offset; dup=ob->sloc.totalitems+1;
           if (dup>1) {
-            test_buffer(&mem,&imem_max,imem+(*ob).sloc.len_item*(*ob).sloc.totalitems);
-            test_buffer(&frm,&ifrm_max,imem+(*ob).sloc.len_item*(*ob).sloc.totalitems);
+            test_buffer(&mem,&imem_max,imem+ob->sloc.len_item*ob->sloc.totalitems);
+            test_buffer(&frm,&ifrm_max,imem+ob->sloc.len_item*ob->sloc.totalitems);
             while (--dup) {
-              memcpy(&mem[imem],&mem[_imem],(*ob).sloc.len_item<<2);
-              memcpy(&frm[imem],&frm[_imem],(*ob).sloc.len_item<<2);
-              imem+=(*ob).sloc.len_item;
+              memcpy(&mem[imem],&mem[_imem],ob->sloc.len_item<<2);
+              memcpy(&frm[imem],&frm[_imem],ob->sloc.len_item<<2);
+              imem+=ob->sloc.len_item;
             }
           } imem=_imem;
 
           if (pieza==p_asig) {
             save_error(1); lexico(); tglo_init(0);
-            if (imem-_imem-1>=(*ob).sloc.len_item*(*ob).sloc.totalitems) error(4,55); // demasiados valores para la estructura
+            if (imem-_imem-1>=ob->sloc.len_item*ob->sloc.totalitems) error(4,55); // demasiados valores para la estructura
           } while (pieza==p_ptocoma) lexico();
 
-          imem=_imem+(*ob).sloc.len_item*(*ob).sloc.totalitems;
-          (*ob).sloc.offset=iloc; iloc+=(*ob).sloc.len_item*(*ob).sloc.totalitems;
+          imem=_imem+ob->sloc.len_item*ob->sloc.totalitems;
+          ob->sloc.offset=iloc; iloc+=ob->sloc.len_item*ob->sloc.totalitems;
           test_buffer(&mem,&imem_max,imem);
         }
 
@@ -1867,9 +1867,9 @@ void analiza_private(void) {
         } else {
 
           if (pieza!=p_id) error(1,29); // esperando el nombre de la cadena
-          ob=o; if ((*ob).tipo!=tnone) { // Mira si se repite un parámetro ...
-            if (parametros==-1 && (*ob).param==1 && (*ob).bloque==bloque_actual) {
-              if ((*ob).tipo==tcloc) { // Se repite un string
+          ob=o; if (ob->tipo!=tnone) { // Mira si se repite un parámetro ...
+            if (parametros==-1 && ob->param==1 && ob->bloque==bloque_actual) {
+              if (ob->tipo==tcloc) { // Se repite un string
                 save_error(0);
                 lexico();
                 if (pieza==p_corab) {
@@ -1883,50 +1883,50 @@ void analiza_private(void) {
                     lexico();
                   }
                 } else dup=255;
-                if (dup!=(*ob).cloc.totalen) error(4,41); // la longitud no coincide con la declaración anterior
+                if (dup!=ob->cloc.totalen) error(4,41); // la longitud no coincide con la declaración anterior
                 else if (pieza==p_asig) error(0,42); // no se puede inicializar un parámetro
                 else {
                   while (pieza==p_ptocoma || pieza==p_coma) lexico();
-                  (*ob).param++;
+                  ob->param++;
                   continue;
                 }
               } else error(0,30); // el nombre no es nuevo
             } else error(0,30);
           } else lexico();
 
-          (*ob).tipo=tcloc;
+          ob->tipo=tcloc;
           _imem=imem;
           if (pieza==p_corab) {
             lexico();
             if (pieza==p_corce) {
               lexico();
-              (*ob).cloc.totalen=255;
+              ob->cloc.totalen=255;
             } else {
-              if (((*ob).cloc.totalen=constante())<0) error(4,31); // cadena de long. negativa
-              if ((*ob).cloc.totalen>0xFFFFF) error(4,32); // cadena demasiado larga
+              if ((ob->cloc.totalen=constante())<0) error(4,31); // cadena de long. negativa
+              if (ob->cloc.totalen>0xFFFFF) error(4,32); // cadena demasiado larga
               if (pieza!=p_corce) error(3,19); // esperando ']'
               lexico();
             }
-          } else (*ob).cloc.totalen=255;
+          } else ob->cloc.totalen=255;
           if (pieza==p_asig) {
             save_error(1);
             _itxt=itxt;
             lexico();
-            if (pieza!=p_lit && !(pieza==p_id && (*o).tipo==tcons && (*o).cons.literal))
+            if (pieza!=p_lit && !(pieza==p_id && o->tipo==tcons && o->cons.literal))
               error(3,46); // se esperaba un literal
-            if (strlen((char*)&mem[pieza_num])>(*ob).cloc.totalen+1)
+            if (strlen((char*)&mem[pieza_num])>ob->cloc.totalen+1)
               error(4,49); // literal demasiado largo
-            imem=_imem+1+((*ob).cloc.totalen+5)/4; // ej. c[32] -> c[0]..c[32],NUL
+            imem=_imem+1+(ob->cloc.totalen+5)/4; // ej. c[32] -> c[0]..c[32],NUL
             test_buffer(&mem,&imem_max,imem);
             strcpy((char*)&mem[_imem+1],(char*)&mem[pieza_num]);
             itxt=_itxt; // Saca la cadena del segmento de textos
             lexico();
           } else {
-            imem=_imem+1+((*ob).cloc.totalen+5)/4;
+            imem=_imem+1+(ob->cloc.totalen+5)/4;
             test_buffer(&mem,&imem_max,imem);
-          } mem[_imem]=0xDAD00000|(*ob).cloc.totalen;
-          (*ob).cloc.offset=iloc+1;
-          iloc+=1+((*ob).cloc.totalen+5)/4;
+          } mem[_imem]=0xDAD00000|ob->cloc.totalen;
+          ob->cloc.offset=iloc+1;
+          iloc+=1+(ob->cloc.totalen+5)/4;
         }
 
         if (pieza==p_coma) pieza=p_string; else {
@@ -1953,9 +1953,9 @@ void analiza_private(void) {
         } else {
 
           if (pieza!=p_id) error(1,23); // esperando un nombre
-          ob=o; if ((*ob).tipo!=tnone) {
-            if (parametros==-1 && (*ob).param==1 && (*ob).bloque==bloque_actual) {
-              if ((*ob).tipo==tbloc) { // Se repite un byte parámetro
+          ob=o; if (ob->tipo!=tnone) {
+            if (parametros==-1 && ob->param==1 && ob->bloque==bloque_actual) {
+              if (ob->tipo==tbloc) { // Se repite un byte parámetro
                 lexico();
                 if (pieza==p_corab) error(2,33); // no se puede pasar una tabla como parámetro
                 else if (pieza==p_asig) error(0,42); // no se puede inicializar un parámetro
@@ -1963,53 +1963,53 @@ void analiza_private(void) {
                   while (pieza==p_ptocoma || pieza==p_coma) {
                     lexico();
                   }
-                  (*ob).param++;
+                  ob->param++;
                   continue;
                 }
               } else error(0,30); // el nombre no es nuevo
             } else error(0,30);
           } else lexico();
 
-          (*ob).tipo=tbloc; _imem=imem;
+          ob->tipo=tbloc; _imem=imem;
           if (pieza==p_corab) {
             lexico();
             if (pieza==p_corce) {
               lexico(); if (pieza!=p_asig) error(3,7); lexico(); // esperando '='
               oimemptr=(byte*)&mem[imem];
               tglo_init(2);
-              (*ob).bloc.len1=imemptr-oimemptr-1;
-              (*ob).bloc.len2=-1;
-              (*ob).bloc.len3=-1;
-              (*ob).bloc.totalen=((*ob).bloc.len1+4)/4;
+              ob->bloc.len1=imemptr-oimemptr-1;
+              ob->bloc.len2=-1;
+              ob->bloc.len3=-1;
+              ob->bloc.totalen=(ob->bloc.len1+4)/4;
             } else {
-              if (((*ob).bloc.len1=constante())<0) error(4,40); // tabla de long. negativa
+              if ((ob->bloc.len1=constante())<0) error(4,40); // tabla de long. negativa
               if (pieza==p_coma) {
                 lexico();
-                if (((*ob).bloc.len2=constante())<0) error(4,40); // idem
+                if ((ob->bloc.len2=constante())<0) error(4,40); // idem
                 if (pieza==p_coma) {
                   lexico();
-                  if (((*ob).bloc.len3=constante())<0) error(4,40); // reidem
-                } else (*ob).bloc.len3=-1;
-              } else { (*ob).bloc.len2=-1; (*ob).bloc.len3=-1; }
+                  if ((ob->bloc.len3=constante())<0) error(4,40); // reidem
+                } else ob->bloc.len3=-1;
+              } else { ob->bloc.len2=-1; ob->bloc.len3=-1; }
 
-              (*ob).bloc.totalen=(*ob).bloc.len1+1;
-              if ((*ob).bloc.len2>-1) (*ob).bloc.totalen*=(*ob).bloc.len2+1;
-              if ((*ob).bloc.len3>-1) (*ob).bloc.totalen*=(*ob).bloc.len3+1;
+              ob->bloc.totalen=ob->bloc.len1+1;
+              if (ob->bloc.len2>-1) ob->bloc.totalen*=ob->bloc.len2+1;
+              if (ob->bloc.len3>-1) ob->bloc.totalen*=ob->bloc.len3+1;
               if (pieza!=p_corce) error(3,19); lexico(); // esperando ']'
               if (pieza==p_asig) {
                 save_error(1);
                 lexico();
                 oimemptr=(byte*)&mem[imem];
                 tglo_init(2);
-                if (imemptr-oimemptr>(*ob).bloc.totalen) error(4,48); // demasiados valores para la tabla
-              } (*ob).bloc.totalen=((*ob).bloc.totalen+3)/4;
+                if (imemptr-oimemptr>ob->bloc.totalen) error(4,48); // demasiados valores para la tabla
+              } ob->bloc.totalen=(ob->bloc.totalen+3)/4;
             }
           } else {                                          // Byte privado
-            (*ob).tipo=tbloc; (*ob).bloc.offset=imem;
-            (*ob).bloc.len1=0;
-            (*ob).bloc.len2=-1;
-            (*ob).bloc.len3=-1;
-            (*ob).bloc.totalen=1; // 1 int
+            ob->tipo=tbloc; ob->bloc.offset=imem;
+            ob->bloc.len1=0;
+            ob->bloc.len2=-1;
+            ob->bloc.len3=-1;
+            ob->bloc.totalen=1; // 1 int
             if (pieza==p_asig) {
               save_error(1);
               lexico();
@@ -2017,8 +2017,8 @@ void analiza_private(void) {
               if (mem[imem]<0 || mem[imem]>255) error(4,50); // valor byte fuera de rango
             }
           }
-          imem=_imem+(*ob).bloc.totalen; test_buffer(&mem,&imem_max,imem);
-          (*ob).bloc.offset=iloc; iloc+=(*ob).bloc.totalen;
+          imem=_imem+ob->bloc.totalen; test_buffer(&mem,&imem_max,imem);
+          ob->bloc.offset=iloc; iloc+=ob->bloc.totalen;
         }
 
         if (pieza==p_coma) pieza=p_byte; else {
@@ -2045,9 +2045,9 @@ void analiza_private(void) {
         } else {
 
           if (pieza!=p_id) error(1,23); // esperando un nombre
-          ob=o; if ((*ob).tipo!=tnone) {
-            if (parametros==-1 && (*ob).param==1 && (*ob).bloque==bloque_actual) {
-              if ((*ob).tipo==twloc) { // Se repite un word parámetro
+          ob=o; if (ob->tipo!=tnone) {
+            if (parametros==-1 && ob->param==1 && ob->bloque==bloque_actual) {
+              if (ob->tipo==twloc) { // Se repite un word parámetro
                 lexico();
                 if (pieza==p_corab) error(2,33); // no se puede pasar una tabla como parámetro
                 else if (pieza==p_asig) error(0,42); // no se puede inicializar un parámetro
@@ -2055,53 +2055,53 @@ void analiza_private(void) {
                   while (pieza==p_ptocoma || pieza==p_coma) {
                     lexico();
                   }
-                  (*ob).param++;
+                  ob->param++;
                   continue;
                 }
               } else error(0,30); // el nombre no es nuevo
             } else error(0,30);
           } else lexico();
 
-          (*ob).tipo=twloc; _imem=imem;
+          ob->tipo=twloc; _imem=imem;
           if (pieza==p_corab) {
             lexico();
             if (pieza==p_corce) {
               lexico(); if (pieza!=p_asig) error(3,7); lexico(); // esperando '='
               oimemptr=(byte*)&mem[imem];
               tglo_init(1);
-              (*ob).wloc.len1=(imemptr-oimemptr)/2-1;
-              (*ob).wloc.len2=-1;
-              (*ob).wloc.len3=-1;
-              (*ob).wloc.totalen=((*ob).wloc.len1+2)/2;
+              ob->wloc.len1=(imemptr-oimemptr)/2-1;
+              ob->wloc.len2=-1;
+              ob->wloc.len3=-1;
+              ob->wloc.totalen=(ob->wloc.len1+2)/2;
             } else {
-              if (((*ob).wloc.len1=constante())<0) error(4,40); // tabla de long. negativa
+              if ((ob->wloc.len1=constante())<0) error(4,40); // tabla de long. negativa
               if (pieza==p_coma) {
                 lexico();
-                if (((*ob).wloc.len2=constante())<0) error(4,40); // idem
+                if ((ob->wloc.len2=constante())<0) error(4,40); // idem
                 if (pieza==p_coma) {
                   lexico();
-                  if (((*ob).wloc.len3=constante())<0) error(4,40); // reidem
-                } else (*ob).wloc.len3=-1;
-              } else { (*ob).wloc.len2=-1; (*ob).wloc.len3=-1; }
+                  if ((ob->wloc.len3=constante())<0) error(4,40); // reidem
+                } else ob->wloc.len3=-1;
+              } else { ob->wloc.len2=-1; ob->wloc.len3=-1; }
 
-              (*ob).wloc.totalen=(*ob).wloc.len1+1;
-              if ((*ob).wloc.len2>-1) (*ob).wloc.totalen*=(*ob).wloc.len2+1;
-              if ((*ob).wloc.len3>-1) (*ob).wloc.totalen*=(*ob).wloc.len3+1;
+              ob->wloc.totalen=ob->wloc.len1+1;
+              if (ob->wloc.len2>-1) ob->wloc.totalen*=ob->wloc.len2+1;
+              if (ob->wloc.len3>-1) ob->wloc.totalen*=ob->wloc.len3+1;
               if (pieza!=p_corce) error(3,19); lexico(); // esperando ']'
               if (pieza==p_asig) {
                 save_error(1);
                 lexico();
                 oimemptr=(byte*)&mem[imem];
                 tglo_init(1);
-                if (imemptr-oimemptr>(*ob).wloc.totalen*2) error(4,48); // demasiados valores para la tabla
-              } (*ob).wloc.totalen=((*ob).wloc.totalen+1)/2;
+                if (imemptr-oimemptr>ob->wloc.totalen*2) error(4,48); // demasiados valores para la tabla
+              } ob->wloc.totalen=(ob->wloc.totalen+1)/2;
             }
           } else {                                          // Word privado
-            (*ob).tipo=twloc; (*ob).wloc.offset=imem;
-            (*ob).wloc.len1=0;
-            (*ob).wloc.len2=-1;
-            (*ob).wloc.len3=-1;
-            (*ob).wloc.totalen=1; // 1 int
+            ob->tipo=twloc; ob->wloc.offset=imem;
+            ob->wloc.len1=0;
+            ob->wloc.len2=-1;
+            ob->wloc.len3=-1;
+            ob->wloc.totalen=1; // 1 int
             if (pieza==p_asig) {
               save_error(1);
               lexico();
@@ -2109,8 +2109,8 @@ void analiza_private(void) {
               if (mem[imem]<0 || mem[imem]>65535) error(4,51); // valor word fuera de rango
             }
           }
-          imem=_imem+(*ob).wloc.totalen; test_buffer(&mem,&imem_max,imem);
-          (*ob).wloc.offset=iloc; iloc+=(*ob).wloc.totalen;
+          imem=_imem+ob->wloc.totalen; test_buffer(&mem,&imem_max,imem);
+          ob->wloc.offset=iloc; iloc+=ob->wloc.totalen;
         }
 
         if (pieza==p_coma) pieza=p_word; else {
@@ -2141,9 +2141,9 @@ void analiza_private(void) {
 
           // Si el objeto no es tnone, se repite un parámetro o bien es un error
 
-          ob=o; if ((*ob).tipo!=tnone) {
-            if (parametros==-1 && (*ob).param==1 && (*ob).bloque==bloque_actual) {
-              if ((*ob).tipo==tvloc) { // Se repite una variable local
+          ob=o; if (ob->tipo!=tnone) {
+            if (parametros==-1 && ob->param==1 && ob->bloque==bloque_actual) {
+              if (ob->tipo==tvloc) { // Se repite una variable local
                 lexico();
                 if (pieza==p_corab) error(2,33); // no se puede pasar una tabla como parámetro
                 else if (pieza==p_asig) error(0,42); // no se puede inicializar un parámetro
@@ -2151,7 +2151,7 @@ void analiza_private(void) {
                   while (pieza==p_ptocoma || pieza==p_coma) {
                     lexico();
                   }
-                  (*ob).param++;
+                  ob->param++;
                   continue;
                 }
               } else error(0,30); // el nombre no es nuevo
@@ -2160,46 +2160,46 @@ void analiza_private(void) {
 
           if (pieza==p_corab) {                             // Tabla privada
             lexico();
-            (*ob).tipo=ttloc; _imem=imem;
+            ob->tipo=ttloc; _imem=imem;
             if (pieza==p_corce) {
               lexico(); if (pieza!=p_asig) error(3,7); lexico(); // esperando '='
               tglo_init(3);
-              (*ob).tloc.len1=imem-_imem-1;
-              (*ob).tloc.len2=-1;
-              (*ob).tloc.len3=-1;
-              (*ob).tloc.totalen=imem-_imem;
+              ob->tloc.len1=imem-_imem-1;
+              ob->tloc.len2=-1;
+              ob->tloc.len3=-1;
+              ob->tloc.totalen=imem-_imem;
             } else {
-              if (((*ob).tloc.len1=constante())<0) error(4,40); // tabla de long. negativa
+              if ((ob->tloc.len1=constante())<0) error(4,40); // tabla de long. negativa
               if (pieza==p_coma) {
                 lexico();
-                if (((*ob).tloc.len2=constante())<0) error(4,40); // idem
+                if ((ob->tloc.len2=constante())<0) error(4,40); // idem
                 if (pieza==p_coma) {
                   lexico();
-                  if (((*ob).tloc.len3=constante())<0) error(4,40); // reidem
-                } else (*ob).tloc.len3=-1;
-              } else { (*ob).tloc.len2=-1; (*ob).tloc.len3=-1; }
-              (*ob).tloc.totalen=(*ob).tloc.len1+1;
-              if ((*ob).tloc.len2>-1) (*ob).tloc.totalen*=(*ob).tloc.len2+1;
-              if ((*ob).tloc.len3>-1) (*ob).tloc.totalen*=(*ob).tloc.len3+1;
+                  if ((ob->tloc.len3=constante())<0) error(4,40); // reidem
+                } else ob->tloc.len3=-1;
+              } else { ob->tloc.len2=-1; ob->tloc.len3=-1; }
+              ob->tloc.totalen=ob->tloc.len1+1;
+              if (ob->tloc.len2>-1) ob->tloc.totalen*=ob->tloc.len2+1;
+              if (ob->tloc.len3>-1) ob->tloc.totalen*=ob->tloc.len3+1;
               if (pieza!=p_corce) error(3,19); lexico(); // esperando ']'
               if (pieza==p_asig) {
                 save_error(1); lexico(); tglo_init(3);
-                if (imem-_imem>(*ob).tloc.totalen) error(4,48); } // demasiados valores para la tabla
+                if (imem-_imem>ob->tloc.totalen) error(4,48); } // demasiados valores para la tabla
             }
-            imem=_imem+(*ob).tloc.totalen;
+            imem=_imem+ob->tloc.totalen;
             test_buffer(&mem,&imem_max,imem);
-            (*ob).tloc.offset=iloc; iloc+=(*ob).tloc.totalen;
+            ob->tloc.offset=iloc; iloc+=ob->tloc.totalen;
 
           } else {                                          // Variable privada
 
-            (*ob).tipo=tvloc; (*ob).vloc.offset=iloc++;
+            ob->tipo=tvloc; ob->vloc.offset=iloc++;
             if (pieza==p_asig) { lexico(); mem[imem]=constante(); }
             test_buffer(&mem,&imem_max,++imem);
           }
         }
         if (!free_sintax) if (pieza!=p_ptocoma && pieza!=p_coma) error(3,9); // esperando ';'
         while (pieza==p_ptocoma || pieza==p_coma) lexico();
-      } (*ob).bloque=bloque_actual;
+      } ob->bloque=bloque_actual;
     }
 
     mem[_imem_old]=imem;
@@ -2218,9 +2218,9 @@ struct objeto * analiza_pointer(int tipo, int offset)
   int len1,len2,len3;
 
   if (pieza!=p_id) error(1,23);	// esperando un nombre
-  ob=o; if ((*ob).tipo!=tnone) {
-    if (parametros==-1 && (*ob).param==1 && (*ob).bloque==bloque_actual) {
-      if ((*ob).tipo==tipo) { // Se repite un pointer parámetro como private
+  ob=o; if (ob->tipo!=tnone) {
+    if (parametros==-1 && ob->param==1 && ob->bloque==bloque_actual) {
+      if (ob->tipo==tipo) { // Se repite un pointer parámetro como private
         save_error(0); lexico();
         len1=-1; len2=-1; len3=-1;
         if (pieza==p_corab) { lexico();
@@ -2234,35 +2234,35 @@ struct objeto * analiza_pointer(int tipo, int offset)
             }
           } if (pieza!=p_corce) error(3,19); lexico(); // esperando ']'
         }
-        if (len1!=(*ob).pilo.len1 || len2!=(*ob).pilo.len2 || len3!=(*ob).pilo.len3) error(4,41); // la longitud no coincide con la declaración anterior
+        if (len1!=ob->pilo.len1 || len2!=ob->pilo.len2 || len3!=ob->pilo.len3) error(4,41); // la longitud no coincide con la declaración anterior
         else if (pieza==p_asig) error(0,42); // no se puede inicializar un parámetro
         else {
           while (pieza==p_ptocoma || pieza==p_coma) lexico();
-          (*ob).param++; // No permite volver a redeclararlo
+          ob->param++; // No permite volver a redeclararlo
           return(NULL);
         }
       } else error(0,30); // el nombre no es nuevo
     } else error(0,30);
   } else lexico();
-  if (parametros==-1) (*ob).bloque=bloque_actual;
-  (*ob).pilo.len1=-1; (*ob).pilo.len2=-1; (*ob).pilo.len3=-1;
+  if (parametros==-1) ob->bloque=bloque_actual;
+  ob->pilo.len1=-1; ob->pilo.len2=-1; ob->pilo.len3=-1;
   if (pieza==p_corab) { lexico();
-    if (((*ob).pilo.len1=constante())<0) error(4,40); // tabla de longitud negativa
+    if ((ob->pilo.len1=constante())<0) error(4,40); // tabla de longitud negativa
     if (pieza==p_coma) {
       lexico();
-      if (((*ob).pilo.len2=constante())<0) error(4,40); // tabla de longitud negativa
+      if ((ob->pilo.len2=constante())<0) error(4,40); // tabla de longitud negativa
       if (pieza==p_coma) {
         lexico();
-        if (((*ob).pilo.len3=constante())<0) error(4,40); // tabla de longitud negativa
+        if ((ob->pilo.len3=constante())<0) error(4,40); // tabla de longitud negativa
       }
     }
     if (pieza!=p_corce) error(3,19); lexico(); // esperando ']'
-  } (*ob).pilo.totalen=0;
-  if ((*ob).pilo.len1>-1) (*ob).pilo.totalen=(*ob).pilo.len1+1;
-  if ((*ob).pilo.len2>-1) (*ob).pilo.totalen*=(*ob).pilo.len2+1;
-  if ((*ob).pilo.len3>-1) (*ob).pilo.totalen*=(*ob).pilo.len3+1;
+  } ob->pilo.totalen=0;
+  if (ob->pilo.len1>-1) ob->pilo.totalen=ob->pilo.len1+1;
+  if (ob->pilo.len2>-1) ob->pilo.totalen*=ob->pilo.len2+1;
+  if (ob->pilo.len3>-1) ob->pilo.totalen*=ob->pilo.len3+1;
 
-  (*ob).tipo=tipo; (*ob).pilo.offset=offset;
+  ob->tipo=tipo; ob->pilo.offset=offset;
 
   return(ob);
 }
@@ -2288,8 +2288,8 @@ int analiza_struct(int offstruct) { // tras " struct id [ <const> ] " // idðmem
         old_member=member; member=NULL; lexico(); member=old_member;
         if (pieza!=p_id) error(1,27); ob=o; // esperando el nombre de la estructura
 
-        if ((*ob).tipo==tnone) error(0,28); // No se define el pointer así
-        if ((*ob).tipo!=tsglo && (*ob).tipo!=tsloc) error(0,28);
+        if (ob->tipo==tnone) error(0,28); // No se define el pointer así
+        if (ob->tipo!=tsglo && ob->tipo!=tsloc) error(0,28);
         lexico();
         puntero_a_struct:
         analiza_pointer_struct(tpsgl,len,ob);
@@ -2312,41 +2312,41 @@ int analiza_struct(int offstruct) { // tras " struct id [ <const> ] " // idðmem
         if (pieza!=p_id) error(1,27); // esperando el nombre de la estructura
         ob=o;
         old_member=member; member=ob; lexico();
-        if ((*ob).tipo!=tnone) error(2,30); // el nombre no es nuevo
+        if (ob->tipo!=tnone) error(2,30); // el nombre no es nuevo
 
-        (*ob).tipo=tsglo; (*ob).sglo.offset=len;
+        ob->tipo=tsglo; ob->sglo.offset=len;
         if (pieza==p_corab) {
           member2=member; member=NULL; lexico();
-          if (((*ob).sglo.items1=constante())<0) error(4,43); // estructura de longitud negativa
+          if ((ob->sglo.items1=constante())<0) error(4,43); // estructura de longitud negativa
           if (pieza==p_coma) {
             lexico();
-            if (((*ob).sglo.items2=constante())<0) error(4,43); // idem
+            if ((ob->sglo.items2=constante())<0) error(4,43); // idem
             if (pieza==p_coma) {
               lexico();
-              if (((*ob).sglo.items3=constante())<0) error(4,43); // reidem
-            } else (*ob).sglo.items3=-1;
-          } else { (*ob).sglo.items2=-1; (*ob).sglo.items3=-1; }
+              if ((ob->sglo.items3=constante())<0) error(4,43); // reidem
+            } else ob->sglo.items3=-1;
+          } else { ob->sglo.items2=-1; ob->sglo.items3=-1; }
           member=member2;
-          (*ob).sglo.totalitems=(*ob).sglo.items1+1;
-          if ((*ob).sglo.items2>-1) (*ob).sglo.totalitems*=(*ob).sglo.items2+1;
-          if ((*ob).sglo.items3>-1) (*ob).sglo.totalitems*=(*ob).sglo.items3+1;
+          ob->sglo.totalitems=ob->sglo.items1+1;
+          if (ob->sglo.items2>-1) ob->sglo.totalitems*=ob->sglo.items2+1;
+          if (ob->sglo.items3>-1) ob->sglo.totalitems*=ob->sglo.items3+1;
           if (pieza!=p_corce) error(3,19); lexico(); // esperando ']'
         } else {
-          (*ob).sglo.totalitems=1;
-          (*ob).sglo.items1=0; (*ob).sglo.items2=-1; (*ob).sglo.items3=-1;
+          ob->sglo.totalitems=1;
+          ob->sglo.items1=0; ob->sglo.items2=-1; ob->sglo.items3=-1;
         }
-        if (((*ob).sglo.len_item=analiza_struct(offstruct+len))==0) error(0,47); // estructura vacia
-        i=offstruct+len; dup=(*ob).sglo.totalitems+1;
+        if ((ob->sglo.len_item=analiza_struct(offstruct+len))==0) error(0,47); // estructura vacia
+        i=offstruct+len; dup=ob->sglo.totalitems+1;
         if (dup>1) {
-          test_buffer(&mem,&imem_max,i+(*ob).sglo.len_item*(*ob).sglo.totalitems);
-          test_buffer(&frm,&ifrm_max,i+(*ob).sglo.len_item*(*ob).sglo.totalitems);
+          test_buffer(&mem,&imem_max,i+ob->sglo.len_item*ob->sglo.totalitems);
+          test_buffer(&frm,&ifrm_max,i+ob->sglo.len_item*ob->sglo.totalitems);
           while (--dup) {
-            memcpy(&mem[i],&mem[offstruct+len],(*ob).sglo.len_item<<2);
-            memcpy(&frm[i],&frm[offstruct+len],(*ob).sglo.len_item<<2);
-            i+=(*ob).sglo.len_item;
+            memcpy(&mem[i],&mem[offstruct+len],ob->sglo.len_item<<2);
+            memcpy(&frm[i],&frm[offstruct+len],ob->sglo.len_item<<2);
+            i+=ob->sglo.len_item;
           }
         }
-        len+=(*ob).sglo.len_item*(*ob).sglo.totalitems;
+        len+=ob->sglo.len_item*ob->sglo.totalitems;
         member=old_member; lexico();
         while (pieza==p_ptocoma) lexico();
       }
@@ -2371,20 +2371,20 @@ int analiza_struct(int offstruct) { // tras " struct id [ <const> ] " // idðmem
       } else {
 
         if (pieza!=p_id) error(1,29); // esperando el nombre de la cadena
-        ob=o; if ((*ob).tipo!=tnone) error(0,30); lexico(); // el nombre no es nuevo
-        (*ob).tipo=tcglo; (*ob).cglo.offset=len+1;
+        ob=o; if (ob->tipo!=tnone) error(0,30); lexico(); // el nombre no es nuevo
+        ob->tipo=tcglo; ob->cglo.offset=len+1;
         if (pieza==p_corab) {
           lexico();
           if (pieza==p_corce) {
             lexico();
-            (*ob).cglo.totalen=255;
+            ob->cglo.totalen=255;
           } else {
-            if (((*ob).cglo.totalen=constante())<0) error(4,31); // cadena de longitud negativa
-            if ((*ob).cglo.totalen>0xFFFFF) error(4,32); // cadena demasiado larga
+            if ((ob->cglo.totalen=constante())<0) error(4,31); // cadena de longitud negativa
+            if (ob->cglo.totalen>0xFFFFF) error(4,32); // cadena demasiado larga
             if (pieza!=p_corce) error(3,19); // esperando ']'
             lexico();
           }
-        } else (*ob).cglo.totalen=255;
+        } else ob->cglo.totalen=255;
 
         test_buffer(&frm,&ifrm_max,offstruct+len);
         frm[offstruct+len]=0xDAD00000;
@@ -2393,20 +2393,20 @@ int analiza_struct(int offstruct) { // tras " struct id [ <const> ] " // idðmem
           save_error(1);
           _itxt=itxt;
           lexico();
-          if (pieza!=p_lit && !(pieza==p_id && (*o).tipo==tcons && (*o).cons.literal))
+          if (pieza!=p_lit && !(pieza==p_id && o->tipo==tcons && o->cons.literal))
             error(3,46); // se esperaba un literal
-          if (strlen((char*)&mem[pieza_num])>(*ob).cglo.totalen+1)
+          if (strlen((char*)&mem[pieza_num])>ob->cglo.totalen+1)
             error(4,49); // literal demasiado largo
           test_buffer(&mem,&imem_max,offstruct+len);
-          mem[offstruct+len]=0xDAD00000|(*ob).cglo.totalen;
+          mem[offstruct+len]=0xDAD00000|ob->cglo.totalen;
           strcpy((char*)&mem[offstruct+len+1],(char*)&mem[pieza_num]);
-          len+=1+((*ob).cglo.totalen+5)/4;
+          len+=1+(ob->cglo.totalen+5)/4;
           itxt=_itxt; // Saca la cadena del segmento de textos
           lexico();
         } else {
           test_buffer(&mem,&imem_max,offstruct+len);
-          mem[offstruct+len]=0xDAD00000|(*ob).cglo.totalen;
-          len+=1+((*ob).cglo.totalen+5)/4;
+          mem[offstruct+len]=0xDAD00000|ob->cglo.totalen;
+          len+=1+(ob->cglo.totalen+5)/4;
         }
       }
 
@@ -2436,41 +2436,41 @@ int analiza_struct(int offstruct) { // tras " struct id [ <const> ] " // idðmem
       } else {
 
         if (pieza!=p_id) error(1,23); // esperando un nombre
-        ob=o; if ((*ob).tipo!=tnone) error(0,30); lexico(); // el nombre no es nuevo
-        (*ob).tipo=tbglo; (*ob).bglo.offset=len;
+        ob=o; if (ob->tipo!=tnone) error(0,30); lexico(); // el nombre no es nuevo
+        ob->tipo=tbglo; ob->bglo.offset=len;
         if (pieza==p_corab) { lexico();
-          if (((*ob).bglo.len1=constante())<0) error(4,40); // tabla de longitud negativa
+          if ((ob->bglo.len1=constante())<0) error(4,40); // tabla de longitud negativa
           if (pieza==p_coma) {
             lexico();
-            if (((*ob).bglo.len2=constante())<0) error(4,40); // idem
+            if ((ob->bglo.len2=constante())<0) error(4,40); // idem
             if (pieza==p_coma) {
               lexico();
-              if (((*ob).bglo.len3=constante())<0) error(4,40); // reidem
-            } else (*ob).bglo.len3=-1;
-          } else { (*ob).bglo.len2=-1; (*ob).bglo.len3=-1; }
-          (*ob).bglo.totalen=(*ob).bglo.len1+1;
-          if ((*ob).bglo.len2>-1) (*ob).bglo.totalen*=(*ob).bglo.len2+1;
-          if ((*ob).bglo.len3>-1) (*ob).bglo.totalen*=(*ob).bglo.len3+1;
+              if ((ob->bglo.len3=constante())<0) error(4,40); // reidem
+            } else ob->bglo.len3=-1;
+          } else { ob->bglo.len2=-1; ob->bglo.len3=-1; }
+          ob->bglo.totalen=ob->bglo.len1+1;
+          if (ob->bglo.len2>-1) ob->bglo.totalen*=ob->bglo.len2+1;
+          if (ob->bglo.len3>-1) ob->bglo.totalen*=ob->bglo.len3+1;
           if (pieza!=p_corce) error(3,19); lexico(); // esperando ']'
-          test_buffer(&mem,&imem_max,offstruct+len+((*ob).bglo.totalen+3)/4);
+          test_buffer(&mem,&imem_max,offstruct+len+(ob->bglo.totalen+3)/4);
 
-          test_buffer(&frm,&ifrm_max,offstruct+len+((*ob).bglo.totalen+3)/4);
-          memset(&frm[offstruct+len],2,(*ob).bglo.totalen);
+          test_buffer(&frm,&ifrm_max,offstruct+len+(ob->bglo.totalen+3)/4);
+          memset(&frm[offstruct+len],2,ob->bglo.totalen);
 
           if (pieza==p_asig) {
             _imem=imem; imem=offstruct+len;
             save_error(1); lexico();
             oimemptr=(byte*)&mem[imem];
             tglo_init(2);
-            if (imemptr-oimemptr>(*ob).bglo.totalen) error(4,48); // demasiados valores para la tabla
+            if (imemptr-oimemptr>ob->bglo.totalen) error(4,48); // demasiados valores para la tabla
             imem=_imem;
-          } (*ob).bglo.totalen=((*ob).bglo.totalen+3)/4;
+          } ob->bglo.totalen=(ob->bglo.totalen+3)/4;
         } else {
-          (*ob).tipo=tbglo; (*ob).bglo.offset=len;
-          (*ob).bglo.len1=0;
-          (*ob).bglo.len2=-1;
-          (*ob).bglo.len3=-1;
-          (*ob).bglo.totalen=1; // 1 int
+          ob->tipo=tbglo; ob->bglo.offset=len;
+          ob->bglo.len1=0;
+          ob->bglo.len2=-1;
+          ob->bglo.len3=-1;
+          ob->bglo.totalen=1; // 1 int
 
           test_buffer(&frm,&ifrm_max,offstruct+len);
           frm[offstruct+len]=2;
@@ -2482,7 +2482,7 @@ int analiza_struct(int offstruct) { // tras " struct id [ <const> ] " // idðmem
             mem[offstruct+len]=constante();
             if (mem[offstruct+len]<0 || mem[offstruct+len]>255) error(4,50); // valor byte fuera de rango
           }
-        } len+=(*ob).bglo.totalen;
+        } len+=ob->bglo.totalen;
       }
 
       if (pieza==p_coma) pieza=p_byte; else {
@@ -2510,41 +2510,41 @@ int analiza_struct(int offstruct) { // tras " struct id [ <const> ] " // idðmem
       } else {
 
         if (pieza!=p_id) error(1,23); // esperando un nombre
-        ob=o; if ((*ob).tipo!=tnone) error(0,30); lexico(); // el nombre no es nuevo
-        (*ob).tipo=twglo; (*ob).wglo.offset=len;
+        ob=o; if (ob->tipo!=tnone) error(0,30); lexico(); // el nombre no es nuevo
+        ob->tipo=twglo; ob->wglo.offset=len;
         if (pieza==p_corab) { lexico();
-          if (((*ob).wglo.len1=constante())<0) error(4,40); // tabla de longitud negativa
+          if ((ob->wglo.len1=constante())<0) error(4,40); // tabla de longitud negativa
           if (pieza==p_coma) {
             lexico();
-            if (((*ob).wglo.len2=constante())<0) error(4,40); // idem
+            if ((ob->wglo.len2=constante())<0) error(4,40); // idem
             if (pieza==p_coma) {
               lexico();
-              if (((*ob).wglo.len3=constante())<0) error(4,40); // idem
-            } else (*ob).wglo.len3=-1;
-          } else { (*ob).wglo.len2=-1; (*ob).wglo.len3=-1; }
-          (*ob).wglo.totalen=(*ob).wglo.len1+1;
-          if ((*ob).wglo.len2>-1) (*ob).wglo.totalen*=(*ob).wglo.len2+1;
-          if ((*ob).wglo.len3>-1) (*ob).wglo.totalen*=(*ob).wglo.len3+1;
+              if ((ob->wglo.len3=constante())<0) error(4,40); // idem
+            } else ob->wglo.len3=-1;
+          } else { ob->wglo.len2=-1; ob->wglo.len3=-1; }
+          ob->wglo.totalen=ob->wglo.len1+1;
+          if (ob->wglo.len2>-1) ob->wglo.totalen*=ob->wglo.len2+1;
+          if (ob->wglo.len3>-1) ob->wglo.totalen*=ob->wglo.len3+1;
           if (pieza!=p_corce) error(3,19); lexico(); // esperando ']'
-          test_buffer(&mem,&imem_max,offstruct+len+((*ob).wglo.totalen+1)/2);
+          test_buffer(&mem,&imem_max,offstruct+len+(ob->wglo.totalen+1)/2);
 
-          test_buffer(&frm,&ifrm_max,offstruct+len+((*ob).wglo.totalen+1)/2);
-          memset(&frm[offstruct+len],1,(*ob).wglo.totalen*2);
+          test_buffer(&frm,&ifrm_max,offstruct+len+(ob->wglo.totalen+1)/2);
+          memset(&frm[offstruct+len],1,ob->wglo.totalen*2);
 
           if (pieza==p_asig) {
             _imem=imem; imem=offstruct+len;
             save_error(1); lexico();
             oimemptr=(byte*)&mem[imem];
             tglo_init(1);
-            if (imemptr-oimemptr>(*ob).wglo.totalen*2) error(4,48); // demasiados valores para la tabla
+            if (imemptr-oimemptr>ob->wglo.totalen*2) error(4,48); // demasiados valores para la tabla
             imem=_imem;
-          } (*ob).wglo.totalen=((*ob).wglo.totalen+1)/2;
+          } ob->wglo.totalen=(ob->wglo.totalen+1)/2;
         } else {
-          (*ob).tipo=twglo; (*ob).wglo.offset=len;
-          (*ob).wglo.len1=0;
-          (*ob).wglo.len2=-1;
-          (*ob).wglo.len3=-1;
-          (*ob).wglo.totalen=1; // 1 int
+          ob->tipo=twglo; ob->wglo.offset=len;
+          ob->wglo.len1=0;
+          ob->wglo.len2=-1;
+          ob->wglo.len3=-1;
+          ob->wglo.totalen=1; // 1 int
 
           test_buffer(&frm,&ifrm_max,offstruct+len);
           frm[offstruct+len]=1;
@@ -2556,7 +2556,7 @@ int analiza_struct(int offstruct) { // tras " struct id [ <const> ] " // idðmem
             mem[offstruct+len]=constante();
             if (mem[offstruct+len]<0 || mem[offstruct+len]>65535) error(4,51); // valor word fuera de rango
           }
-        } len+=(*ob).wglo.totalen;
+        } len+=ob->wglo.totalen;
       }
 
       if (pieza==p_coma) pieza=p_word; else {
@@ -2586,34 +2586,34 @@ int analiza_struct(int offstruct) { // tras " struct id [ <const> ] " // idðmem
 
       } else {
 
-        ob=o; if ((*ob).tipo!=tnone) error(0,30); lexico(); // el nombre no es nuevo
+        ob=o; if (ob->tipo!=tnone) error(0,30); lexico(); // el nombre no es nuevo
         if (pieza==p_corab) { lexico();                   // Miembro tabla
-          (*ob).tipo=ttglo; (*ob).tglo.offset=len;
-          if (((*ob).tglo.len1=constante())<0) error(4,40); // tabla de longitud negativa
+          ob->tipo=ttglo; ob->tglo.offset=len;
+          if ((ob->tglo.len1=constante())<0) error(4,40); // tabla de longitud negativa
           if (pieza==p_coma) {
             lexico();
-            if (((*ob).tglo.len2=constante())<0) error(4,40); // idem
+            if ((ob->tglo.len2=constante())<0) error(4,40); // idem
             if (pieza==p_coma) {
               lexico();
-              if (((*ob).tglo.len3=constante())<0) error(4,40); // idem
-            } else (*ob).tglo.len3=-1;
-          } else { (*ob).tglo.len2=-1; (*ob).tglo.len3=-1; }
-          (*ob).tglo.totalen=(*ob).tglo.len1+1;
-          if ((*ob).tglo.len2>-1) (*ob).tglo.totalen*=(*ob).tglo.len2+1;
-          if ((*ob).tglo.len3>-1) (*ob).tglo.totalen*=(*ob).tglo.len3+1;
+              if ((ob->tglo.len3=constante())<0) error(4,40); // idem
+            } else ob->tglo.len3=-1;
+          } else { ob->tglo.len2=-1; ob->tglo.len3=-1; }
+          ob->tglo.totalen=ob->tglo.len1+1;
+          if (ob->tglo.len2>-1) ob->tglo.totalen*=ob->tglo.len2+1;
+          if (ob->tglo.len3>-1) ob->tglo.totalen*=ob->tglo.len3+1;
           if (pieza!=p_corce) error(3,19); lexico(); // esperando ']'
 
-          test_buffer(&mem,&imem_max,offstruct+len+(*ob).tglo.totalen);
+          test_buffer(&mem,&imem_max,offstruct+len+ob->tglo.totalen);
           if (pieza==p_asig) {
             _imem=imem; imem=offstruct+len;
             save_error(1); lexico(); tglo_init(0);
-            if (imem-(offstruct+len)>(*ob).tglo.totalen) error(4,48); // demasiados valores para la tabla
+            if (imem-(offstruct+len)>ob->tglo.totalen) error(4,48); // demasiados valores para la tabla
             imem=_imem;
-          } len+=(*ob).tglo.totalen;
+          } len+=ob->tglo.totalen;
 
         } else {                                          // Miembro variable
 
-          (*ob).tipo=tvglo; (*ob).vglo.offset=len;
+          ob->tipo=tvglo; ob->vglo.offset=len;
           test_buffer(&mem,&imem_max,offstruct+len);
           if (pieza==p_asig) {
             lexico(); mem[offstruct+len]=constante();
@@ -2648,8 +2648,8 @@ int analiza_struct_local(int offstruct) { // tras " struct id [ <const> ] " // i
         old_member=member; member=NULL; lexico(); member=old_member;
         if (pieza!=p_id) error(1,27); ob=o; // esperando el nombre de la estructura
 
-        if ((*ob).tipo==tnone) error(0,28); // No se define el pointer así
-        if ((*ob).tipo!=tsglo && (*ob).tipo!=tsloc) error(0,28);
+        if (ob->tipo==tnone) error(0,28); // No se define el pointer así
+        if (ob->tipo!=tsglo && ob->tipo!=tsloc) error(0,28);
         lexico();
         puntero_a_struct:
         analiza_pointer_struct(tpslo,len,ob);
@@ -2673,41 +2673,41 @@ int analiza_struct_local(int offstruct) { // tras " struct id [ <const> ] " // i
         ob=o;
 
         old_member=member; member=ob; lexico();
-        if ((*ob).tipo!=tnone) error(2,30); // el nombre no es nuevo
+        if (ob->tipo!=tnone) error(2,30); // el nombre no es nuevo
 
-        (*ob).tipo=tsloc; (*ob).sloc.offset=len;
+        ob->tipo=tsloc; ob->sloc.offset=len;
         if (pieza==p_corab) {
           member2=member; member=NULL; lexico();
-          if (((*ob).sloc.items1=constante())<0) error(4,43); // estructura de long. negativa
+          if ((ob->sloc.items1=constante())<0) error(4,43); // estructura de long. negativa
           if (pieza==p_coma) {
             lexico();
-            if (((*ob).sloc.items2=constante())<0) error(4,43); // idem
+            if ((ob->sloc.items2=constante())<0) error(4,43); // idem
             if (pieza==p_coma) {
               lexico();
-              if (((*ob).sloc.items3=constante())<0) error(4,43); // reidem
-            } else (*ob).sloc.items3=-1;
-          } else { (*ob).sloc.items2=-1; (*ob).sloc.items3=-1; }
+              if ((ob->sloc.items3=constante())<0) error(4,43); // reidem
+            } else ob->sloc.items3=-1;
+          } else { ob->sloc.items2=-1; ob->sloc.items3=-1; }
           member=member2;
-          (*ob).sloc.totalitems=(*ob).sloc.items1+1;
-          if ((*ob).sloc.items2>-1) (*ob).sloc.totalitems*=(*ob).sloc.items2+1;
-          if ((*ob).sloc.items3>-1) (*ob).sloc.totalitems*=(*ob).sloc.items3+1;
+          ob->sloc.totalitems=ob->sloc.items1+1;
+          if (ob->sloc.items2>-1) ob->sloc.totalitems*=ob->sloc.items2+1;
+          if (ob->sloc.items3>-1) ob->sloc.totalitems*=ob->sloc.items3+1;
           if (pieza!=p_corce) error(3,19); lexico(); // esperando ']'
         } else {
-          (*ob).sloc.totalitems=1;
-          (*ob).sloc.items1=0; (*ob).sloc.items2=-1; (*ob).sloc.items3=-1;
+          ob->sloc.totalitems=1;
+          ob->sloc.items1=0; ob->sloc.items2=-1; ob->sloc.items3=-1;
         }
-        if (((*ob).sloc.len_item=analiza_struct_local(offstruct+len))==0) error(0,47); // estructura vacia
-        i=offstruct+len; dup=(*ob).sloc.totalitems+1;
+        if ((ob->sloc.len_item=analiza_struct_local(offstruct+len))==0) error(0,47); // estructura vacia
+        i=offstruct+len; dup=ob->sloc.totalitems+1;
         if (dup>1) {
-          test_buffer(&loc,&iloc_max,i+(*ob).sloc.len_item*(*ob).sloc.totalitems);
-          test_buffer(&frm,&ifrm_max,i+(*ob).sloc.len_item*(*ob).sloc.totalitems);
+          test_buffer(&loc,&iloc_max,i+ob->sloc.len_item*ob->sloc.totalitems);
+          test_buffer(&frm,&ifrm_max,i+ob->sloc.len_item*ob->sloc.totalitems);
           while (--dup) {
-            memcpy(&loc[i],&loc[offstruct+len],(*ob).sloc.len_item<<2);
-            memcpy(&frm[i],&frm[offstruct+len],(*ob).sloc.len_item<<2);
-            i+=(*ob).sloc.len_item;
+            memcpy(&loc[i],&loc[offstruct+len],ob->sloc.len_item<<2);
+            memcpy(&frm[i],&frm[offstruct+len],ob->sloc.len_item<<2);
+            i+=ob->sloc.len_item;
           }
         }
-        len+=(*ob).sloc.len_item*(*ob).sloc.totalitems;
+        len+=ob->sloc.len_item*ob->sloc.totalitems;
         member=old_member; lexico();
         while (pieza==p_ptocoma) lexico();
       }
@@ -2732,20 +2732,20 @@ int analiza_struct_local(int offstruct) { // tras " struct id [ <const> ] " // i
       } else {
 
         if (pieza!=p_id) error(1,29); // esperando el nombre de la cadena
-        ob=o; if ((*ob).tipo!=tnone) error(0,30); lexico(); // el nombre no es nuevo
-        (*ob).tipo=tcloc; (*ob).cloc.offset=len+1;
+        ob=o; if (ob->tipo!=tnone) error(0,30); lexico(); // el nombre no es nuevo
+        ob->tipo=tcloc; ob->cloc.offset=len+1;
         if (pieza==p_corab) {
           lexico();
           if (pieza==p_corce) {
             lexico();
-            (*ob).cloc.totalen=255;
+            ob->cloc.totalen=255;
           } else {
-            if (((*ob).cloc.totalen=constante())<0) error(4,31); // cadena de long. negativa
-            if ((*ob).cloc.totalen>0xFFFFF) error(4,32); // cadena demasiado larga
+            if ((ob->cloc.totalen=constante())<0) error(4,31); // cadena de long. negativa
+            if (ob->cloc.totalen>0xFFFFF) error(4,32); // cadena demasiado larga
             if (pieza!=p_corce) error(3,19); // esperando ']'
             lexico();
           }
-        } else (*ob).cloc.totalen=255;
+        } else ob->cloc.totalen=255;
 
         test_buffer(&frm,&ifrm_max,offstruct+len);
         frm[offstruct+len]=0xDAD00000;
@@ -2754,20 +2754,20 @@ int analiza_struct_local(int offstruct) { // tras " struct id [ <const> ] " // i
           save_error(1);
           _itxt=itxt;
           lexico();
-          if (pieza!=p_lit && !(pieza==p_id && (*o).tipo==tcons && (*o).cons.literal))
+          if (pieza!=p_lit && !(pieza==p_id && o->tipo==tcons && o->cons.literal))
             error(3,46); // se esperaba un literal
-          if (strlen((char*)&mem[pieza_num])>(*ob).cloc.totalen+1)
+          if (strlen((char*)&mem[pieza_num])>ob->cloc.totalen+1)
             error(4,49); // literal demasiado largo
           test_buffer(&loc,&iloc_max,offstruct+len);
-          loc[offstruct+len]=0xDAD00000|(*ob).cloc.totalen;
+          loc[offstruct+len]=0xDAD00000|ob->cloc.totalen;
           strcpy((char*)&loc[offstruct+len+1],(char*)&mem[pieza_num]);
-          len+=1+((*ob).cloc.totalen+5)/4;
+          len+=1+(ob->cloc.totalen+5)/4;
           itxt=_itxt; // Saca la cadena del segmento de textos
           lexico();
         } else {
           test_buffer(&loc,&iloc_max,offstruct+len);
-          loc[offstruct+len]=0xDAD00000|(*ob).cloc.totalen;
-          len+=1+((*ob).cloc.totalen+5)/4;
+          loc[offstruct+len]=0xDAD00000|ob->cloc.totalen;
+          len+=1+(ob->cloc.totalen+5)/4;
         }
       }
 
@@ -2796,42 +2796,42 @@ int analiza_struct_local(int offstruct) { // tras " struct id [ <const> ] " // i
       } else {
 
         if (pieza!=p_id) error(1,23); // esperando un nombre
-        ob=o; if ((*ob).tipo!=tnone) error(0,30); lexico(); // el nombre no es nuevo
-        (*ob).tipo=tbloc; (*ob).bloc.offset=len;
+        ob=o; if (ob->tipo!=tnone) error(0,30); lexico(); // el nombre no es nuevo
+        ob->tipo=tbloc; ob->bloc.offset=len;
         if (pieza==p_corab) { lexico();
-          if (((*ob).bloc.len1=constante())<0) error(4,40); // tabla de long. negativa
+          if ((ob->bloc.len1=constante())<0) error(4,40); // tabla de long. negativa
           if (pieza==p_coma) {
             lexico();
-            if (((*ob).bloc.len2=constante())<0) error(4,40); // idem
+            if ((ob->bloc.len2=constante())<0) error(4,40); // idem
             if (pieza==p_coma) {
               lexico();
-              if (((*ob).bloc.len3=constante())<0) error(4,40); // reidem
-            } else (*ob).bloc.len3=-1;
-          } else { (*ob).bloc.len2=-1; (*ob).bloc.len3=-1; }
-          (*ob).bloc.totalen=(*ob).bloc.len1+1;
-          if ((*ob).bloc.len2>-1) (*ob).bloc.totalen*=(*ob).bloc.len2+1;
-          if ((*ob).bloc.len3>-1) (*ob).bloc.totalen*=(*ob).bloc.len3+1;
+              if ((ob->bloc.len3=constante())<0) error(4,40); // reidem
+            } else ob->bloc.len3=-1;
+          } else { ob->bloc.len2=-1; ob->bloc.len3=-1; }
+          ob->bloc.totalen=ob->bloc.len1+1;
+          if (ob->bloc.len2>-1) ob->bloc.totalen*=ob->bloc.len2+1;
+          if (ob->bloc.len3>-1) ob->bloc.totalen*=ob->bloc.len3+1;
           if (pieza!=p_corce) error(3,19); lexico(); // esperando ']'
 
-          test_buffer(&loc,&iloc_max,offstruct+len+((*ob).bloc.totalen+3)/4);
+          test_buffer(&loc,&iloc_max,offstruct+len+(ob->bloc.totalen+3)/4);
 
-          test_buffer(&frm,&ifrm_max,offstruct+len+((*ob).bloc.totalen+3)/4);
-          memset(&frm[offstruct+len],2,(*ob).bloc.totalen);
+          test_buffer(&frm,&ifrm_max,offstruct+len+(ob->bloc.totalen+3)/4);
+          memset(&frm[offstruct+len],2,ob->bloc.totalen);
 
           if (pieza==p_asig) {
             _iloc=iloc; iloc=offstruct+len;
             save_error(1); lexico();
             oimemptr=(byte*)&loc[iloc];
             tloc_init(2);
-            if (imemptr-oimemptr>(*ob).bloc.totalen) error(4,48); // demasiados valores para la tabla
+            if (imemptr-oimemptr>ob->bloc.totalen) error(4,48); // demasiados valores para la tabla
             iloc=_iloc;
-          } (*ob).bloc.totalen=((*ob).bloc.totalen+3)/4;
+          } ob->bloc.totalen=(ob->bloc.totalen+3)/4;
         } else {
-          (*ob).tipo=tbloc; (*ob).bloc.offset=len;
-          (*ob).bloc.len1=0;
-          (*ob).bloc.len2=-1;
-          (*ob).bloc.len3=-1;
-          (*ob).bloc.totalen=1; // 1 int
+          ob->tipo=tbloc; ob->bloc.offset=len;
+          ob->bloc.len1=0;
+          ob->bloc.len2=-1;
+          ob->bloc.len3=-1;
+          ob->bloc.totalen=1; // 1 int
 
           test_buffer(&frm,&ifrm_max,offstruct+len);
           frm[offstruct+len]=2;
@@ -2843,7 +2843,7 @@ int analiza_struct_local(int offstruct) { // tras " struct id [ <const> ] " // i
             loc[offstruct+len]=constante();
             if (loc[offstruct+len]<0 || loc[offstruct+len]>255) error(4,51); // valor byte fuera de rango
           }
-        } len+=(*ob).bloc.totalen;
+        } len+=ob->bloc.totalen;
       }
 
       if (pieza==p_coma) pieza=p_byte; else {
@@ -2871,42 +2871,42 @@ int analiza_struct_local(int offstruct) { // tras " struct id [ <const> ] " // i
       } else {
 
         if (pieza!=p_id) error(1,23); // esperando un nombre
-        ob=o; if ((*ob).tipo!=tnone) error(0,30); lexico(); // el nombre no es nuevo
-        (*ob).tipo=twloc; (*ob).wloc.offset=len;
+        ob=o; if (ob->tipo!=tnone) error(0,30); lexico(); // el nombre no es nuevo
+        ob->tipo=twloc; ob->wloc.offset=len;
         if (pieza==p_corab) { lexico();
-          if (((*ob).wloc.len1=constante())<0) error(4,40); // tabla de long. negativa
+          if ((ob->wloc.len1=constante())<0) error(4,40); // tabla de long. negativa
           if (pieza==p_coma) {
             lexico();
-            if (((*ob).wloc.len2=constante())<0) error(4,40); // idem
+            if ((ob->wloc.len2=constante())<0) error(4,40); // idem
             if (pieza==p_coma) {
               lexico();
-              if (((*ob).wloc.len3=constante())<0) error(4,40); // reidem
-            } else (*ob).wloc.len3=-1;
-          } else { (*ob).wloc.len2=-1; (*ob).wloc.len3=-1; }
-          (*ob).wloc.totalen=(*ob).wloc.len1+1;
-          if ((*ob).wloc.len2>-1) (*ob).wloc.totalen*=(*ob).wloc.len2+1;
-          if ((*ob).wloc.len3>-1) (*ob).wloc.totalen*=(*ob).wloc.len3+1;
+              if ((ob->wloc.len3=constante())<0) error(4,40); // reidem
+            } else ob->wloc.len3=-1;
+          } else { ob->wloc.len2=-1; ob->wloc.len3=-1; }
+          ob->wloc.totalen=ob->wloc.len1+1;
+          if (ob->wloc.len2>-1) ob->wloc.totalen*=ob->wloc.len2+1;
+          if (ob->wloc.len3>-1) ob->wloc.totalen*=ob->wloc.len3+1;
           if (pieza!=p_corce) error(3,19); lexico(); // esperando ']'
 
-          test_buffer(&loc,&iloc_max,offstruct+len+((*ob).wloc.totalen+1)/2);
+          test_buffer(&loc,&iloc_max,offstruct+len+(ob->wloc.totalen+1)/2);
 
-          test_buffer(&frm,&ifrm_max,offstruct+len+((*ob).wloc.totalen+1)/2);
-          memset(&frm[offstruct+len],1,(*ob).wloc.totalen*2);
+          test_buffer(&frm,&ifrm_max,offstruct+len+(ob->wloc.totalen+1)/2);
+          memset(&frm[offstruct+len],1,ob->wloc.totalen*2);
 
           if (pieza==p_asig) {
             _iloc=iloc; iloc=offstruct+len;
             save_error(1); lexico();
             oimemptr=(byte*)&loc[iloc];
             tloc_init(1);
-            if (imemptr-oimemptr>(*ob).wloc.totalen*2) error(4,48); // demasiados valores para la tabla
+            if (imemptr-oimemptr>ob->wloc.totalen*2) error(4,48); // demasiados valores para la tabla
             iloc=_iloc;
-          } (*ob).wloc.totalen=((*ob).wloc.totalen+1)/2;
+          } ob->wloc.totalen=(ob->wloc.totalen+1)/2;
         } else {
-          (*ob).tipo=twloc; (*ob).wloc.offset=len;
-          (*ob).wloc.len1=0;
-          (*ob).wloc.len2=-1;
-          (*ob).wloc.len3=-1;
-          (*ob).wloc.totalen=1; // 1 int
+          ob->tipo=twloc; ob->wloc.offset=len;
+          ob->wloc.len1=0;
+          ob->wloc.len2=-1;
+          ob->wloc.len3=-1;
+          ob->wloc.totalen=1; // 1 int
 
           test_buffer(&frm,&ifrm_max,offstruct+len);
           frm[offstruct+len]=1;
@@ -2918,7 +2918,7 @@ int analiza_struct_local(int offstruct) { // tras " struct id [ <const> ] " // i
             loc[offstruct+len]=constante();
             if (loc[offstruct+len]<0 || loc[offstruct+len]>65535) error(4,51); // valor word fuera de rango
           }
-        } len+=(*ob).wloc.totalen;
+        } len+=ob->wloc.totalen;
       }
 
       if (pieza==p_coma) pieza=p_word; else {
@@ -2948,34 +2948,34 @@ int analiza_struct_local(int offstruct) { // tras " struct id [ <const> ] " // i
 
       } else {
 
-        ob=o; if ((*ob).tipo!=tnone) error(0,30); lexico(); // el nombre no es nuevo
+        ob=o; if (ob->tipo!=tnone) error(0,30); lexico(); // el nombre no es nuevo
         if (pieza==p_corab) { lexico();    // Miembro tabla
-          (*ob).tipo=ttloc; (*ob).tloc.offset=len;
-          if (((*ob).tloc.len1=constante())<0) error(4,40); // tabla de long. negativa
+          ob->tipo=ttloc; ob->tloc.offset=len;
+          if ((ob->tloc.len1=constante())<0) error(4,40); // tabla de long. negativa
           if (pieza==p_coma) {
             lexico();
-            if (((*ob).tloc.len2=constante())<0) error(4,40); // idem
+            if ((ob->tloc.len2=constante())<0) error(4,40); // idem
             if (pieza==p_coma) {
               lexico();
-              if (((*ob).tloc.len3=constante())<0) error(4,40); // reidem
-            } else (*ob).tloc.len3=-1;
-          } else { (*ob).tloc.len2=-1; (*ob).tloc.len3=-1; }
-          (*ob).tloc.totalen=(*ob).tloc.len1+1;
-          if ((*ob).tloc.len2>-1) (*ob).tloc.totalen*=(*ob).tloc.len2+1;
-          if ((*ob).tloc.len3>-1) (*ob).tloc.totalen*=(*ob).tloc.len3+1;
+              if ((ob->tloc.len3=constante())<0) error(4,40); // reidem
+            } else ob->tloc.len3=-1;
+          } else { ob->tloc.len2=-1; ob->tloc.len3=-1; }
+          ob->tloc.totalen=ob->tloc.len1+1;
+          if (ob->tloc.len2>-1) ob->tloc.totalen*=ob->tloc.len2+1;
+          if (ob->tloc.len3>-1) ob->tloc.totalen*=ob->tloc.len3+1;
           if (pieza!=p_corce) error(3,19); lexico(); // esperando ']'
 
-          test_buffer(&loc,&iloc_max,offstruct+len+(*ob).tloc.totalen);
+          test_buffer(&loc,&iloc_max,offstruct+len+ob->tloc.totalen);
           if (pieza==p_asig) {
             _iloc=iloc; iloc=offstruct+len;
             save_error(1); lexico(); tloc_init(0);
-            if (iloc-(offstruct+len)>(*ob).tloc.totalen) error(4,48); // demasiados valores para la tabla
+            if (iloc-(offstruct+len)>ob->tloc.totalen) error(4,48); // demasiados valores para la tabla
             iloc=_iloc;
-          } len+=(*ob).tloc.totalen;
+          } len+=ob->tloc.totalen;
 
         } else {                                          // Miembro variable
 
-          (*ob).tipo=tvloc; (*ob).vloc.offset=len;
+          ob->tipo=tvloc; ob->vloc.offset=len;
           test_buffer(&loc,&iloc_max,offstruct+len);
           if (pieza==p_asig) {
             lexico(); loc[offstruct+len]=constante();
@@ -2986,7 +2986,7 @@ int analiza_struct_local(int offstruct) { // tras " struct id [ <const> ] " // i
       if (!free_sintax) if (pieza!=p_ptocoma && pieza!=p_coma) error(3,9); // esperando ';'
       while (pieza==p_ptocoma || pieza==p_coma) lexico();
     } else { error(0,39); do lexico(); while (pieza==p_ptocoma); } // esperando un elemento de la estructura
-    (*ob).bloque=bloque_lexico;
+    ob->bloque=bloque_lexico;
   } return(len);
 }
 
@@ -3012,8 +3012,8 @@ int analiza_struct_private(int offstruct) { // tras " struct id [ <const> ] " //
         old_member=member; member=NULL; lexico(); member=old_member;
         if (pieza!=p_id) error(1,27); ob=o; // esperando el nombre de la estructura
 
-        if ((*ob).tipo==tnone) error(0,28); // No se define el pointer así
-        if ((*ob).tipo!=tsglo && (*ob).tipo!=tsloc) error(0,28);
+        if (ob->tipo==tnone) error(0,28); // No se define el pointer así
+        if (ob->tipo!=tsglo && ob->tipo!=tsloc) error(0,28);
         lexico();
         puntero_a_struct:
         analiza_pointer_struct(tpslo,len,ob);
@@ -3037,41 +3037,41 @@ int analiza_struct_private(int offstruct) { // tras " struct id [ <const> ] " //
         ob=o;
 
         old_member=member; member=ob; lexico();
-        if ((*ob).tipo!=tnone) error(2,30); // el nombre no es nuevo
+        if (ob->tipo!=tnone) error(2,30); // el nombre no es nuevo
 
-        (*ob).tipo=tsloc; (*ob).sloc.offset=len;
+        ob->tipo=tsloc; ob->sloc.offset=len;
         if (pieza==p_corab) {
           member2=member; member=NULL; lexico();
-          if (((*ob).sloc.items1=constante())<0) error(4,43); // estructura de long. negativa
+          if ((ob->sloc.items1=constante())<0) error(4,43); // estructura de long. negativa
           if (pieza==p_coma) {
             lexico();
-            if (((*ob).sloc.items2=constante())<0) error(4,43); // idem
+            if ((ob->sloc.items2=constante())<0) error(4,43); // idem
             if (pieza==p_coma) {
               lexico();
-              if (((*ob).sloc.items3=constante())<0) error(4,43); // reidem
-            } else (*ob).sloc.items3=-1;
-          } else { (*ob).sloc.items2=-1; (*ob).sloc.items3=-1; }
+              if ((ob->sloc.items3=constante())<0) error(4,43); // reidem
+            } else ob->sloc.items3=-1;
+          } else { ob->sloc.items2=-1; ob->sloc.items3=-1; }
           member=member2;
-          (*ob).sloc.totalitems=(*ob).sloc.items1+1;
-          if ((*ob).sloc.items2>-1) (*ob).sloc.totalitems*=(*ob).sloc.items2+1;
-          if ((*ob).sloc.items3>-1) (*ob).sloc.totalitems*=(*ob).sloc.items3+1;
+          ob->sloc.totalitems=ob->sloc.items1+1;
+          if (ob->sloc.items2>-1) ob->sloc.totalitems*=ob->sloc.items2+1;
+          if (ob->sloc.items3>-1) ob->sloc.totalitems*=ob->sloc.items3+1;
           if (pieza!=p_corce) error(3,19); lexico(); // esperando ']'
         } else {
-          (*ob).sloc.totalitems=1;
-          (*ob).sloc.items1=0; (*ob).sloc.items2=-1; (*ob).sloc.items3=-1;
+          ob->sloc.totalitems=1;
+          ob->sloc.items1=0; ob->sloc.items2=-1; ob->sloc.items3=-1;
         }
-        if (((*ob).sloc.len_item=analiza_struct_private(offstruct+len))==0) error(0,55); // demasiados valores para la estructura
-        i=offstruct+len; dup=(*ob).sloc.totalitems+1;
+        if ((ob->sloc.len_item=analiza_struct_private(offstruct+len))==0) error(0,55); // demasiados valores para la estructura
+        i=offstruct+len; dup=ob->sloc.totalitems+1;
         if (dup>1) {
-          test_buffer(&mem,&imem_max,i+(*ob).sloc.len_item*(*ob).sloc.totalitems);
-          test_buffer(&frm,&ifrm_max,i+(*ob).sloc.len_item*(*ob).sloc.totalitems);
+          test_buffer(&mem,&imem_max,i+ob->sloc.len_item*ob->sloc.totalitems);
+          test_buffer(&frm,&ifrm_max,i+ob->sloc.len_item*ob->sloc.totalitems);
           while (--dup) {
-            memcpy(&mem[i],&mem[offstruct+len],(*ob).sloc.len_item<<2);
-            memcpy(&frm[i],&frm[offstruct+len],(*ob).sloc.len_item<<2);
-            i+=(*ob).sloc.len_item;
+            memcpy(&mem[i],&mem[offstruct+len],ob->sloc.len_item<<2);
+            memcpy(&frm[i],&frm[offstruct+len],ob->sloc.len_item<<2);
+            i+=ob->sloc.len_item;
           }
         }
-        len+=(*ob).sloc.len_item*(*ob).sloc.totalitems;
+        len+=ob->sloc.len_item*ob->sloc.totalitems;
         member=old_member; lexico();
         while (pieza==p_ptocoma) lexico();
       }
@@ -3096,20 +3096,20 @@ int analiza_struct_private(int offstruct) { // tras " struct id [ <const> ] " //
       } else {
 
         if (pieza!=p_id) error(1,23); // esperando un nombre
-        ob=o; if ((*ob).tipo!=tnone) error(0,30); lexico(); // el nombre no es nuevo
-        (*ob).tipo=tcloc; (*ob).cloc.offset=len+1;
+        ob=o; if (ob->tipo!=tnone) error(0,30); lexico(); // el nombre no es nuevo
+        ob->tipo=tcloc; ob->cloc.offset=len+1;
         if (pieza==p_corab) {
           lexico();
           if (pieza==p_corce) {
             lexico();
-            (*ob).cloc.totalen=255;
+            ob->cloc.totalen=255;
           } else {
-            if (((*ob).cloc.totalen=constante())<0) error(4,31); // cadena de long. negativa
-            if ((*ob).cloc.totalen>0xFFFFF) error(4,32); // cadena demasiado larga
+            if ((ob->cloc.totalen=constante())<0) error(4,31); // cadena de long. negativa
+            if (ob->cloc.totalen>0xFFFFF) error(4,32); // cadena demasiado larga
             if (pieza!=p_corce) error(3,19); // esperando ']'
             lexico();
           }
-        } else (*ob).cloc.totalen=255;
+        } else ob->cloc.totalen=255;
 
         test_buffer(&frm,&ifrm_max,offstruct+len);
         frm[offstruct+len]=0xDAD00000;
@@ -3118,20 +3118,20 @@ int analiza_struct_private(int offstruct) { // tras " struct id [ <const> ] " //
           save_error(1);
           _itxt=itxt;
           lexico();
-          if (pieza!=p_lit && !(pieza==p_id && (*o).tipo==tcons && (*o).cons.literal))
+          if (pieza!=p_lit && !(pieza==p_id && o->tipo==tcons && o->cons.literal))
             error(3,46); // se esperaba un literal
-          if (strlen((char*)&mem[pieza_num])>(*ob).cloc.totalen+1)
+          if (strlen((char*)&mem[pieza_num])>ob->cloc.totalen+1)
             error(4,49); // literal demasiado largo
           test_buffer(&mem,&imem_max,offstruct+len);
-          mem[offstruct+len]=0xDAD00000|(*ob).cloc.totalen;
+          mem[offstruct+len]=0xDAD00000|ob->cloc.totalen;
           strcpy((char*)&mem[offstruct+len+1],(char*)&mem[pieza_num]);
-          len+=1+((*ob).cloc.totalen+5)/4;
+          len+=1+(ob->cloc.totalen+5)/4;
           itxt=_itxt; // Saca la cadena del segmento de textos
           lexico();
         } else {
           test_buffer(&mem,&imem_max,offstruct+len);
-          mem[offstruct+len]=0xDAD00000|(*ob).cloc.totalen;
-          len+=1+((*ob).cloc.totalen+5)/4;
+          mem[offstruct+len]=0xDAD00000|ob->cloc.totalen;
+          len+=1+(ob->cloc.totalen+5)/4;
         }
       }
 
@@ -3160,41 +3160,41 @@ int analiza_struct_private(int offstruct) { // tras " struct id [ <const> ] " //
       } else {
 
         if (pieza!=p_id) error(1,23); // esperando un nombre
-        ob=o; if ((*ob).tipo!=tnone) error(0,30); lexico(); // el nombre no es nuevo
-        (*ob).tipo=tbloc; (*ob).bloc.offset=len;
+        ob=o; if (ob->tipo!=tnone) error(0,30); lexico(); // el nombre no es nuevo
+        ob->tipo=tbloc; ob->bloc.offset=len;
         if (pieza==p_corab) { lexico();
-          if (((*ob).bloc.len1=constante())<0) error(4,40); // tabla de long. negativa
+          if ((ob->bloc.len1=constante())<0) error(4,40); // tabla de long. negativa
           if (pieza==p_coma) {
             lexico();
-            if (((*ob).bloc.len2=constante())<0) error(4,40); // idem
+            if ((ob->bloc.len2=constante())<0) error(4,40); // idem
             if (pieza==p_coma) {
               lexico();
-              if (((*ob).bloc.len3=constante())<0) error(4,40); // reidem
-            } else (*ob).bloc.len3=-1;
-          } else { (*ob).bloc.len2=-1; (*ob).bloc.len3=-1; }
-          (*ob).bloc.totalen=(*ob).bloc.len1+1;
-          if ((*ob).bloc.len2>-1) (*ob).bloc.totalen*=(*ob).bloc.len2+1;
-          if ((*ob).bloc.len3>-1) (*ob).bloc.totalen*=(*ob).bloc.len3+1;
+              if ((ob->bloc.len3=constante())<0) error(4,40); // reidem
+            } else ob->bloc.len3=-1;
+          } else { ob->bloc.len2=-1; ob->bloc.len3=-1; }
+          ob->bloc.totalen=ob->bloc.len1+1;
+          if (ob->bloc.len2>-1) ob->bloc.totalen*=ob->bloc.len2+1;
+          if (ob->bloc.len3>-1) ob->bloc.totalen*=ob->bloc.len3+1;
           if (pieza!=p_corce) error(3,19); lexico(); // esperando ']'
-          test_buffer(&mem,&imem_max,offstruct+len+((*ob).bloc.totalen+3)/4);
+          test_buffer(&mem,&imem_max,offstruct+len+(ob->bloc.totalen+3)/4);
 
-          test_buffer(&frm,&ifrm_max,offstruct+len+((*ob).bloc.totalen+3)/4);
-          memset(&frm[offstruct+len],2,(*ob).bloc.totalen);
+          test_buffer(&frm,&ifrm_max,offstruct+len+(ob->bloc.totalen+3)/4);
+          memset(&frm[offstruct+len],2,ob->bloc.totalen);
 
           if (pieza==p_asig) {
             _imem=imem; imem=offstruct+len;
             save_error(1); lexico();
             oimemptr=(byte*)&mem[imem];
             tglo_init(2);
-            if (imemptr-oimemptr>(*ob).bloc.totalen) error(4,48); // demasiados valores para la tabla
+            if (imemptr-oimemptr>ob->bloc.totalen) error(4,48); // demasiados valores para la tabla
             imem=_imem;
-          } (*ob).bloc.totalen=((*ob).bloc.totalen+3)/4;
+          } ob->bloc.totalen=(ob->bloc.totalen+3)/4;
         } else {
-          (*ob).tipo=tbloc; (*ob).bloc.offset=len;
-          (*ob).bloc.len1=0;
-          (*ob).bloc.len2=-1;
-          (*ob).bloc.len3=-1;
-          (*ob).bloc.totalen=1; // 1 int
+          ob->tipo=tbloc; ob->bloc.offset=len;
+          ob->bloc.len1=0;
+          ob->bloc.len2=-1;
+          ob->bloc.len3=-1;
+          ob->bloc.totalen=1; // 1 int
 
           test_buffer(&frm,&ifrm_max,offstruct+len);
           frm[offstruct+len]=2;
@@ -3206,7 +3206,7 @@ int analiza_struct_private(int offstruct) { // tras " struct id [ <const> ] " //
             mem[offstruct+len]=constante();
             if (mem[offstruct+len]<0 || mem[offstruct+len]>255) error(4,50); // valor byte fuera de rango
           }
-        } len+=(*ob).bloc.totalen;
+        } len+=ob->bloc.totalen;
       }
 
       if (pieza==p_coma) pieza=p_byte; else {
@@ -3234,41 +3234,41 @@ int analiza_struct_private(int offstruct) { // tras " struct id [ <const> ] " //
       } else {
 
         if (pieza!=p_id) error(1,23); // esperando un nombre
-        ob=o; if ((*ob).tipo!=tnone) error(0,30); lexico(); // el nombre no es nuevo
-        (*ob).tipo=twloc; (*ob).wloc.offset=len;
+        ob=o; if (ob->tipo!=tnone) error(0,30); lexico(); // el nombre no es nuevo
+        ob->tipo=twloc; ob->wloc.offset=len;
         if (pieza==p_corab) { lexico();
-          if (((*ob).wloc.len1=constante())<0) error(4,40); // tabla de long. negativa
+          if ((ob->wloc.len1=constante())<0) error(4,40); // tabla de long. negativa
           if (pieza==p_coma) {
             lexico();
-            if (((*ob).wloc.len2=constante())<0) error(4,40); // idem
+            if ((ob->wloc.len2=constante())<0) error(4,40); // idem
             if (pieza==p_coma) {
               lexico();
-              if (((*ob).wloc.len3=constante())<0) error(4,40); // reidem
-            } else (*ob).wloc.len3=-1;
-          } else { (*ob).wloc.len2=-1; (*ob).wloc.len3=-1; }
-          (*ob).wloc.totalen=(*ob).wloc.len1+1;
-          if ((*ob).wloc.len2>-1) (*ob).wloc.totalen*=(*ob).wloc.len2+1;
-          if ((*ob).wloc.len3>-1) (*ob).wloc.totalen*=(*ob).wloc.len3+1;
+              if ((ob->wloc.len3=constante())<0) error(4,40); // reidem
+            } else ob->wloc.len3=-1;
+          } else { ob->wloc.len2=-1; ob->wloc.len3=-1; }
+          ob->wloc.totalen=ob->wloc.len1+1;
+          if (ob->wloc.len2>-1) ob->wloc.totalen*=ob->wloc.len2+1;
+          if (ob->wloc.len3>-1) ob->wloc.totalen*=ob->wloc.len3+1;
           if (pieza!=p_corce) error(3,19); lexico(); // esperando ']'
-          test_buffer(&mem,&imem_max,offstruct+len+((*ob).wloc.totalen+1)/2);
+          test_buffer(&mem,&imem_max,offstruct+len+(ob->wloc.totalen+1)/2);
 
-          test_buffer(&frm,&ifrm_max,offstruct+len+((*ob).wloc.totalen+1)/2);
-          memset(&frm[offstruct+len],1,(*ob).wloc.totalen*2);
+          test_buffer(&frm,&ifrm_max,offstruct+len+(ob->wloc.totalen+1)/2);
+          memset(&frm[offstruct+len],1,ob->wloc.totalen*2);
 
           if (pieza==p_asig) {
             _imem=imem; imem=offstruct+len;
             save_error(1); lexico();
             oimemptr=(byte*)&mem[imem];
             tglo_init(1);
-            if (imemptr-oimemptr>(*ob).wloc.totalen*2) error(4,48); // demasiados valores para la tabla
+            if (imemptr-oimemptr>ob->wloc.totalen*2) error(4,48); // demasiados valores para la tabla
             imem=_imem;
-          } (*ob).wloc.totalen=((*ob).wloc.totalen+1)/2;
+          } ob->wloc.totalen=(ob->wloc.totalen+1)/2;
         } else {
-          (*ob).tipo=twloc; (*ob).wloc.offset=len;
-          (*ob).wloc.len1=0;
-          (*ob).wloc.len2=-1;
-          (*ob).wloc.len3=-1;
-          (*ob).wloc.totalen=1; // 1 int
+          ob->tipo=twloc; ob->wloc.offset=len;
+          ob->wloc.len1=0;
+          ob->wloc.len2=-1;
+          ob->wloc.len3=-1;
+          ob->wloc.totalen=1; // 1 int
 
           test_buffer(&frm,&ifrm_max,offstruct+len);
           frm[offstruct+len]=1;
@@ -3280,7 +3280,7 @@ int analiza_struct_private(int offstruct) { // tras " struct id [ <const> ] " //
             mem[offstruct+len]=constante();
             if (mem[offstruct+len]<0 || mem[offstruct+len]>65535) error(4,51); // valor word fuera de rango
           }
-        } len+=(*ob).wloc.totalen;
+        } len+=ob->wloc.totalen;
       }
 
       if (pieza==p_coma) pieza=p_word; else {
@@ -3310,34 +3310,34 @@ int analiza_struct_private(int offstruct) { // tras " struct id [ <const> ] " //
 
       } else {
 
-        ob=o; if ((*ob).tipo!=tnone) error(0,30); lexico(); // el nombre no es nuevo
+        ob=o; if (ob->tipo!=tnone) error(0,30); lexico(); // el nombre no es nuevo
         if (pieza==p_corab) { lexico();    // Miembro tabla
-          (*ob).tipo=ttloc; (*ob).tloc.offset=len;
-          if (((*ob).tloc.len1=constante())<0) error(4,40); // tabla de long. negativa
+          ob->tipo=ttloc; ob->tloc.offset=len;
+          if ((ob->tloc.len1=constante())<0) error(4,40); // tabla de long. negativa
           if (pieza==p_coma) {
             lexico();
-            if (((*ob).tloc.len2=constante())<0) error(4,40); // idem
+            if ((ob->tloc.len2=constante())<0) error(4,40); // idem
             if (pieza==p_coma) {
               lexico();
-              if (((*ob).tloc.len3=constante())<0) error(4,40); // reidem
-            } else (*ob).tloc.len3=-1;
-          } else { (*ob).tloc.len2=-1; (*ob).tloc.len3=-1; }
-          (*ob).tloc.totalen=(*ob).tloc.len1+1;
-          if ((*ob).tloc.len2>-1) (*ob).tloc.totalen*=(*ob).tloc.len2+1;
-          if ((*ob).tloc.len3>-1) (*ob).tloc.totalen*=(*ob).tloc.len3+1;
+              if ((ob->tloc.len3=constante())<0) error(4,40); // reidem
+            } else ob->tloc.len3=-1;
+          } else { ob->tloc.len2=-1; ob->tloc.len3=-1; }
+          ob->tloc.totalen=ob->tloc.len1+1;
+          if (ob->tloc.len2>-1) ob->tloc.totalen*=ob->tloc.len2+1;
+          if (ob->tloc.len3>-1) ob->tloc.totalen*=ob->tloc.len3+1;
           if (pieza!=p_corce) error(3,19); lexico(); // esperando ']'
 
-          test_buffer(&mem,&imem_max,offstruct+len+(*ob).tloc.totalen);
+          test_buffer(&mem,&imem_max,offstruct+len+ob->tloc.totalen);
           if (pieza==p_asig) {
             _imem=imem; imem=offstruct+len;
             save_error(1); lexico(); tglo_init(0);
-            if (imem-(offstruct+len)>(*ob).tloc.totalen) error(4,48); // demasiados valores para la tabla
+            if (imem-(offstruct+len)>ob->tloc.totalen) error(4,48); // demasiados valores para la tabla
             imem=_imem;
-          } len+=(*ob).tloc.totalen;
+          } len+=ob->tloc.totalen;
 
         } else {                                          // Miembro variable
 
-          (*ob).tipo=tvloc; (*ob).vloc.offset=len;
+          ob->tipo=tvloc; ob->vloc.offset=len;
 
           test_buffer(&mem,&imem_max,offstruct+len);
           if (pieza==p_asig) {
@@ -3351,7 +3351,7 @@ int analiza_struct_private(int offstruct) { // tras " struct id [ <const> ] " //
       while (pieza==p_ptocoma || pieza==p_coma) lexico();
 
     } else { error(0,39); do lexico(); while (pieza==p_ptocoma); } // esperando un elemento de la estructura
-    (*ob).bloque=bloque_lexico;
+    ob->bloque=bloque_lexico;
   } return(len);
 }
 
@@ -3364,9 +3364,9 @@ int analiza_pointer_struct(int tipo, int offset, struct objeto * estructura)
   int items1,items2,items3;
 
   if (pieza!=p_id) error(1,23); // esperando un nombre
-  ob=o; if ((*ob).tipo!=tnone) {
-    if (parametros==-1 && (*ob).param==1 && (*ob).bloque==bloque_actual) {
-      if ((*ob).tipo==tipo) { // Se repite un pointer parámetro como private
+  ob=o; if (ob->tipo!=tnone) {
+    if (parametros==-1 && ob->param==1 && ob->bloque==bloque_actual) {
+      if (ob->tipo==tipo) { // Se repite un pointer parámetro como private
         save_error(0); lexico();
         items1=-1; items2=-1; items3=-1;
         if (pieza==p_corab) { lexico();
@@ -3380,37 +3380,37 @@ int analiza_pointer_struct(int tipo, int offset, struct objeto * estructura)
             }
           } if (pieza!=p_corce) error(3,19); lexico(); // esperando ']'
         }
-        if (items1!=(*ob).psgl.items1 || items2!=(*ob).psgl.items2 || items3!=(*ob).psgl.items3)  error(4,41); // la longitud no coincide con la declaración anterior
+        if (items1!=ob->psgl.items1 || items2!=ob->psgl.items2 || items3!=ob->psgl.items3)  error(4,41); // la longitud no coincide con la declaración anterior
         else if (pieza==p_asig) error(0,42); // no se puede inicializar un parámetro
         else {
-          (*ob).param++; return(0); // No permite volver a redeclararlo
+          ob->param++; return(0); // No permite volver a redeclararlo
         }
       } else error(0,30); // el nombre no es nuevo
     } else error(0,30);
   } else lexico();
-  if (parametros==-1) (*ob).bloque=bloque_actual;
-  (*ob).psgl.items1=-1; (*ob).psgl.items2=-1; (*ob).psgl.items3=-1;
+  if (parametros==-1) ob->bloque=bloque_actual;
+  ob->psgl.items1=-1; ob->psgl.items2=-1; ob->psgl.items3=-1;
   if (pieza==p_corab) { lexico();
-    if (((*ob).psgl.items1=constante())<0) error(4,43); // estructura de longitud negativa
+    if ((ob->psgl.items1=constante())<0) error(4,43); // estructura de longitud negativa
     if (pieza==p_coma) {
       lexico();
-      if (((*ob).psgl.items2=constante())<0) error(4,43); // estructura de longitud negativa
+      if ((ob->psgl.items2=constante())<0) error(4,43); // estructura de longitud negativa
       if (pieza==p_coma) {
         lexico();
-        if (((*ob).psgl.items3=constante())<0) error(4,43); // estructura de longitud negativa
+        if ((ob->psgl.items3=constante())<0) error(4,43); // estructura de longitud negativa
       }
     }
     if (pieza!=p_corce) error(3,19); lexico(); // esperando ']'
-  } (*ob).psgl.totalitems=0;
-  if ((*ob).psgl.items1>-1) (*ob).psgl.totalitems=(*ob).psgl.items1+1;
-  if ((*ob).psgl.items2>-1) (*ob).psgl.totalitems*=(*ob).psgl.items2+1;
-  if ((*ob).psgl.items3>-1) (*ob).psgl.totalitems*=(*ob).psgl.items3+1;
+  } ob->psgl.totalitems=0;
+  if (ob->psgl.items1>-1) ob->psgl.totalitems=ob->psgl.items1+1;
+  if (ob->psgl.items2>-1) ob->psgl.totalitems*=ob->psgl.items2+1;
+  if (ob->psgl.items3>-1) ob->psgl.totalitems*=ob->psgl.items3+1;
 
-  (*ob).tipo=tipo;                // tpsgl o tpslo
-  (*ob).psgl.offset=offset;       // del pointer
-  (*ob).psgl.ostruct=estructura;  // struct original
+  ob->tipo=tipo;                // tpsgl o tpslo
+  ob->psgl.offset=offset;       // del pointer
+  ob->psgl.ostruct=estructura;  // struct original
 
-  // (*ob).psgl.len_item ð (*((*ob).psgl.ostruct)).len_item;
+  // ob->psgl.len_item ð (*(ob->psgl.ostruct)).len_item;
 
   return(1);
 }
@@ -3503,7 +3503,7 @@ void tglo_init2(int tipo) {
       dup=2; lexico();
       if (pieza!=p_abrir) error(3,22); // esperando '('
 
-    } else if (pieza==p_lit || (pieza==p_id && (*o).tipo==tcons && (*o).cons.literal)) {
+    } else if (pieza==p_lit || (pieza==p_id && o->tipo==tcons && o->cons.literal)) {
 
       valor=pieza_num; lexico();
       if (pieza==p_abrir || pieza==p_dup) error(2,52); // no se puede duplicar 0 o menos veces (se ha indicado un literal como número de veces)

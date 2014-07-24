@@ -68,13 +68,13 @@ int offset;
 		return 2;		// genera un error "el nombre no es nuevo"
 	} else {
         *ptr=_ivnom; ptr_o=(void*)(_ivnom+4); *ptr_o=o=iobj++; // id nuevo
-        (*o).name=(byte*)_ivnom+8;
-        (*o).member=member;
+        o->name=(byte*)_ivnom+8;
+        o->member=member;
         if (num_obj++==max_obj) return 3;	// error "demasiados objetos"
 	}
 	
-	(*o).dll=numdlls;
-//	(*o).usado_dll=0;
+	o->dll=numdlls;
+//	o->usado_dll=0;
 	
 	return 0;
 }*/
@@ -129,14 +129,14 @@ int EDIV_Export(char* cadena, int nparam, void* hfuncion)
 
 	ob=o;
 
-	if ((*ob).tipo!=tnone) {
+	if (ob->tipo!=tnone) {
 		dll_error(5,cadena);
 		return 0;
 	}
 
-    (*ob).tipo=tfext;
-    (*ob).fext.codigo=n_externs;
-    (*ob).fext.num_par=nparam; // es necesario?*/
+    ob->tipo=tfext;
+    ob->fext.codigo=n_externs;
+    ob->fext.num_par=nparam; // es necesario?*/
 
 	extfuncs[n_externs]=hfuncion;
 	extparms[n_externs]=nparam;
@@ -203,14 +203,14 @@ int EDIV_Export_Const(char* cadena, int valor)
 
 	ob=o;
 
-	if ((*ob).tipo!=tnone) {
+	if (ob->tipo!=tnone) {
 		dll_error(5,cadena);
 		return 0;
 	}
 
-	(*ob).tipo=tcons;
-	(*ob).cons.valor=valor;
-	(*ob).cons.literal=0;
+	ob->tipo=tcons;
+	ob->cons.valor=valor;
+	ob->cons.literal=0;
 */
 	return 1;
 }
@@ -239,13 +239,13 @@ int EDIV_Export_Global(char* cadena, int valor)
 
 	ob=o;
 
-	if ((*ob).tipo!=tnone) {
+	if (ob->tipo!=tnone) {
 		dll_error(5,cadena);
 		return 0;
 	}
 
-	(*ob).tipo=tvglo;
-	(*ob).vglo.offset=imem;
+	ob->tipo=tvglo;
+	ob->vglo.offset=imem;
 	mem[imem]=valor;
 */
 	return dimem++;
@@ -275,17 +275,17 @@ int EDIV_Export_Global_Tab(char* cadena, int numregs)
 
 	ob=o;
 
-	if ((*ob).tipo!=tnone) {
+	if (ob->tipo!=tnone) {
 		dll_error(5,cadena);
 		return 0;
 	}
 
-	(*ob).tipo=ttglo;
-	(*ob).tglo.offset=imem;
-	(*ob).tglo.len1=len=numregs;
-	(*ob).tglo.len2=-1;
-	(*ob).tglo.len3=-1;
-	(*ob).tglo.totalen=len+1;
+	ob->tipo=ttglo;
+	ob->tglo.offset=imem;
+	ob->tglo.len1=len=numregs;
+	ob->tglo.len2=-1;
+	ob->tglo.len3=-1;
+	ob->tglo.totalen=len+1;
 
 	// Inicializamos la tabla a 0
 	do {
@@ -324,19 +324,19 @@ int EDIV_Export_Global_Struct(char* cadena, int numregs)
 
 	ob=o;
 
-	if ((*ob).tipo!=tnone) {
+	if (ob->tipo!=tnone) {
 		dll_error(5,cadena);
 		return 0;
 	}
 
 	decl_struct=1;
 
-	(*ob).tipo=tsglo;
-	(*ob).sglo.offset=imem;
-	(*ob).sglo.items1=numregs;
-	(*ob).sglo.items2=(*ob).sglo.items3=-1;
-	(*ob).sglo.totalitems=numregs+1;
-	(*ob).sglo.len_item=0;
+	ob->tipo=tsglo;
+	ob->sglo.offset=imem;
+	ob->sglo.items1=numregs;
+	ob->sglo.items2=ob->sglo.items3=-1;
+	ob->sglo.totalitems=numregs+1;
+	ob->sglo.len_item=0;
 	member=ob;
 	len=0;
 */
@@ -374,18 +374,18 @@ int EDIV_Export_Member_Int(char* cadena, int valor)
 		return 0;
 	}
 
-	if((*ob).tipo==tsglo) {			// int miembro de struct global
+	if(ob->tipo==tsglo) {			// int miembro de struct global
 		(*ob2).tipo=tvglo;
 		(*ob2).vglo.offset=len++;
 		mem[imem]=valor;
-		(*ob).sglo.len_item++;
+		ob->sglo.len_item++;
 		return imem++;
 	}
 	else {							// int miembro de struct local
         (*ob2).tipo=tvloc;
         (*ob2).vloc.offset=len++;
         loc[iloc]=valor;
-        (*ob).sloc.len_item++;
+        ob->sloc.len_item++;
         return iloc++;
 	}
 	*/
@@ -422,7 +422,7 @@ int EDIV_Export_Member_Str(char* cadena, int tamano)
 		return 0;
 	}
 
-	if((*ob).tipo==tsglo) {			// string miembro de struct global
+	if(ob->tipo==tsglo) {			// string miembro de struct global
 
 		(*ob2).tipo=tcglo;
 		(*ob2).cglo.offset=len+1;
@@ -440,7 +440,7 @@ int EDIV_Export_Member_Str(char* cadena, int tamano)
 		len+=1+((*ob2).cglo.totalen+5)/4;
 		mem[imem+1]=0;
 		imem+=1+((*ob2).cglo.totalen+5)/4;
-		(*ob).sglo.len_item+=1+((*ob2).cglo.totalen+5)/4;
+		ob->sglo.len_item+=1+((*ob2).cglo.totalen+5)/4;
 		
 		return (*ob2).cglo.offset;
 	}
@@ -462,7 +462,7 @@ int EDIV_Export_Member_Str(char* cadena, int tamano)
 		len+=1+((*ob2).cloc.totalen+5)/4;
 		loc[iloc+1]=0;
 		iloc+=1+((*ob2).cloc.totalen+5)/4;
-		(*ob).sloc.len_item+=1+((*ob2).cloc.totalen+5)/4;
+		ob->sloc.len_item+=1+((*ob2).cloc.totalen+5)/4;
 		
 		return (*ob2).cloc.offset;
 	}*/
@@ -503,7 +503,7 @@ int EDIV_Export_Member_Tab(char* cadena, int numregs)
 		return 0;
 	}
 
-	if((*ob).tipo==tsglo) {			// array miembro de struct global
+	if(ob->tipo==tsglo) {			// array miembro de struct global
 		(*ob2).tipo=ttglo;
 		(*ob2).tglo.offset=len;
 		(*ob2).tglo.len1=numregs;
@@ -513,7 +513,7 @@ int EDIV_Export_Member_Tab(char* cadena, int numregs)
 		len+=numregs+1;
 		memset(&mem[imem],0,(numregs+1)*4);
 		imem+=numregs+1;
-		(*ob).sglo.len_item+=numregs+1;
+		ob->sglo.len_item+=numregs+1;
 		
 		return (*ob2).tglo.offset;
 	}
@@ -527,7 +527,7 @@ int EDIV_Export_Member_Tab(char* cadena, int numregs)
 		len+=numregs+1;
 		memset(&loc[iloc],0,(numregs+1)*4);
 		iloc+=numregs+1;
-		(*ob).sloc.len_item+=numregs+1;
+		ob->sloc.len_item+=numregs+1;
 		
 		return (*ob2).tloc.offset;
 	}*/
@@ -551,32 +551,32 @@ int EDIV_Export_EndStruct()
 
 	member=NULL;
 
-	if((*ob).tipo==tsglo) {			// cierra estructura global
-		if ((*ob).sglo.len_item==0) {
+	if(ob->tipo==tsglo) {			// cierra estructura global
+		if (ob->sglo.len_item==0) {
 			dll_error(10);
 			return 0;
 		}
-		if ((*ob).sglo.totalitems>1) {
-			len=((*ob).sglo.totalitems-1)*(*ob).sglo.len_item-1;
+		if (ob->sglo.totalitems>1) {
+			len=(ob->sglo.totalitems-1)*ob->sglo.len_item-1;
 			do {
-				mem[imem]=mem[imem-(*ob).sglo.len_item];
+				mem[imem]=mem[imem-ob->sglo.len_item];
 				imem++;
 			} while (len--);
 		}
 	}
 	else {							// cierra estructura local
-		if ((*ob).sloc.len_item==0) {
+		if (ob->sloc.len_item==0) {
 			dll_error(10);
 			return 0;
 		}
-		if ((*ob).sloc.totalitems>1) {
-			len=((*ob).sloc.totalitems-1)*(*ob).sloc.len_item-1;
+		if (ob->sloc.totalitems>1) {
+			len=(ob->sloc.totalitems-1)*ob->sloc.len_item-1;
 			do {
-				loc[iloc]=loc[iloc-(*ob).sloc.len_item];
+				loc[iloc]=loc[iloc-ob->sloc.len_item];
 				iloc++;
 			} while (len--);
 		}
-//        iloc+=(*ob).sloc.totalitems*(*ob).sloc.len_item;
+//        iloc+=ob->sloc.totalitems*ob->sloc.len_item;
 	}
 */
 	if(len==0) dll_error(10);
@@ -613,13 +613,13 @@ int EDIV_Export_Local(char* cadena, int valor)
 
 	ob=o;
 
-	if ((*ob).tipo!=tnone) {
+	if (ob->tipo!=tnone) {
 		dll_error(5,cadena);
 		return 0;
 	}
 
-    (*ob).tipo=tvloc;
-    (*ob).vloc.offset=iloc;
+    ob->tipo=tvloc;
+    ob->vloc.offset=iloc;
     loc[iloc]=valor;
 */
     return diloc++;
@@ -649,24 +649,24 @@ int EDIV_Export_Local_Tab(char* cadena, int numregs)
 
 	ob=o;
 
-	if ((*ob).tipo!=tnone) {
+	if (ob->tipo!=tnone) {
 		dll_error(5,cadena);
 		return 0;
 	}
 
-	(*ob).tipo=ttloc;
-	(*ob).tloc.offset=iloc;
-	(*ob).tloc.len1=len=numregs;
-	(*ob).tloc.len2=-1;
-	(*ob).tloc.len3=-1;
-	(*ob).tloc.totalen=len+1;
+	ob->tipo=ttloc;
+	ob->tloc.offset=iloc;
+	ob->tloc.len1=len=numregs;
+	ob->tloc.len2=-1;
+	ob->tloc.len3=-1;
+	ob->tloc.totalen=len+1;
 
 	// Inicializamos la tabla a 0
 	do {
 		loc[iloc++]=0;
 	} while (len--);
 
-	return (*ob).tloc.offset;*/
+	return ob->tloc.offset;*/
 
 	offset=diloc;
 	diloc+=numregs;
@@ -700,19 +700,19 @@ int EDIV_Export_Local_Struct(char* cadena, int numregs)
 
 	ob=o;
 
-	if ((*ob).tipo!=tnone) {
+	if (ob->tipo!=tnone) {
 		dll_error(5,cadena);
 		return 0;
 	}
 
 	decl_struct=1;
 
-	(*ob).tipo=tsloc;
-	(*ob).sloc.offset=iloc;
-	(*ob).sloc.items1=numregs;
-	(*ob).sloc.items2=(*ob).sloc.items3=-1;
-	(*ob).sloc.totalitems=numregs+1;
-	(*ob).sloc.len_item=0;
+	ob->tipo=tsloc;
+	ob->sloc.offset=iloc;
+	ob->sloc.items1=numregs;
+	ob->sloc.items2=ob->sloc.items3=-1;
+	ob->sloc.totalitems=numregs+1;
+	ob->sloc.len_item=0;
 	member=ob;
 	len=0;
 */

@@ -123,27 +123,27 @@ void analiza_ltlex(void){
 						if (num_nodos++==max_nodos)
 							ltlex_error(3);
 						e=lex_case[*buf]=ilex_simb++;
-						(*e).caracter=*buf++;			
+						e->caracter=*buf++;			
 					} 
 					else
 						buf++;
 					while (*buf!=' ' && *buf!=tab && *buf!=cr) {
 						if (lower[*buf]) ltlex_error(4);
-						if ((*e).siguiente==0)
+						if (e->siguiente==0)
 							if (num_nodos++==max_nodos) ltlex_error(3);
-							else e=(*e).siguiente=ilex_simb++;
+							else e=e->siguiente=ilex_simb++;
 						else {
-							e=(*e).siguiente;
-							while ((*e).caracter!=*buf && (*e).alternativa)
-								e=(*e).alternativa;
-							if ((*e).caracter!=*buf) {
+							e=e->siguiente;
+							while (e->caracter!=*buf && e->alternativa)
+								e=e->alternativa;
+							if (e->caracter!=*buf) {
 								if (num_nodos++==max_nodos) ltlex_error(3);
-								else e=(*e).alternativa=ilex_simb++;
+								else e=e->alternativa=ilex_simb++;
 							}
 						}
-						(*e).caracter=*buf++;
+						e->caracter=*buf++;
 					}
-					(*e).token=t;
+					e->token=t;
 				} break;
 		}} while (cont);
 

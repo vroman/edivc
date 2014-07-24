@@ -153,25 +153,25 @@ void generar_expresion(void) {
   struct objeto * ob;
 
   do {
-    switch ((*e).tipo) {
+    switch (e->tipo) {
       case econs:
-        g2(lcar,(*e).valor); break;
+        g2(lcar,e->valor); break;
       case estring:
-        g2(lcar,(*e).valor); break;
+        g2(lcar,e->valor); break;
       case erango:
-        g2(lrng,(*e).valor); break;
+        g2(lrng,e->valor); break;
       case ewhoami:
         g1(lcid); break;
       case ecall:
-        ob=(*e).objeto; g2(lcal,(*ob).proc.offset);
-        if ((*ob).usado) (*ob).proc.offset=imem-1; break;
+        ob=e->objeto; g2(lcal,ob->proc.offset);
+        if (ob->usado) ob->proc.offset=imem-1; break;
       case efext:
-        ob=(*e).objeto; g2(lext,(*ob).fext.codigo); break;
+        ob=e->objeto; g2(lext,ob->fext.codigo); break;
       case echeck:
         g1(lchk); break;
       case enull:
         g1(lnul); break;
-      case eoper: switch((*e).token) {
+      case eoper: switch(e->token) {
         case p_asig: g1(lasi); break;
         case p_or: g1(lori); break;
         case p_xor: g1(lxor); break;
@@ -282,13 +282,13 @@ int constante (void) {
 	_linea=linea; _ierror=ierror; exp00(0);
 	swap(linea,_linea); __ierror=ierror; ierror=_ierror;
 
-	do switch ((*e).tipo) {
+	do switch (e->tipo) {
     case econs:
-      pila[++i]=(*e).valor; break;
+      pila[++i]=e->valor; break;
     case estring:
-      pila[++i]=(*e).valor; break;
+      pila[++i]=e->valor; break;
 
-    case eoper: switch((*e).token) {
+    case eoper: switch(e->token) {
       case p_or: pila[i-1]|=pila[i]; i--; break;
       case p_xor: pila[i-1]^=pila[i]; i--; break;
       case p_and: pila[i-1]&=pila[i]; i--; break;
@@ -525,8 +525,8 @@ void exp6() { /* Operador de acceso a variables o tablas locales ajenas */
      * (bueno, si, hacer aquí una búsqueda del p_punto entre e-1 y _exp ...)
 	 */
 
-    if ((*e).tipo==eoper && (*e).token==p_punto)
-      (*e).token=p_add; else error(4,17); /* local no se puede acceder */
+    if (e->tipo==eoper && e->token==p_punto)
+      e->token=p_add; else error(4,17); /* local no se puede acceder */
 
   }
 }
@@ -570,14 +570,14 @@ void factor(void) {
 
     case p_type:
       lexico(); if (pieza!=p_id) error(0,21); /* esperando el nombre de un proceso */
-      switch((*o).tipo) {
+      switch(o->tipo) {
         case tnone:
-          (*o).linea=linea; (*o).ierror=ierror;
-          (*_exp).tipo=econs; (*_exp++).valor=(int)o; (*o).usado=1; break;
+          o->linea=linea; o->ierror=ierror;
+          (*_exp).tipo=econs; (*_exp++).valor=(int)o; o->usado=1; break;
         case tproc:
           (*_exp).tipo=econs; (*_exp++).valor=(int)o; break;
         case tsglo:
-			if (!strcmp((*o).name,"mouse")) { /* "type mouse" = "0"  */
+			if (!strcmp(o->name,"mouse")) { /* "type mouse" = "0"  */
             (*_exp).tipo=econs; (*_exp++).valor=0; break;
           }
         default: error(0,20); /* no es un tipo de proceso */
@@ -588,17 +588,17 @@ void factor(void) {
       lexico(); if (pieza!=p_abrir) error(3,22);	/* esperando '(' */
       lexico(); if (pieza!=p_id) error(3,23);		/* esperando un nombre */
       (*_exp).tipo=econs;
-      switch((*o).tipo) {
+      switch(o->tipo) {
         case tsglo: case tsloc:
-          (*_exp++).valor=(*o).sglo.len_item*(*o).sglo.totalitems; break;
+          (*_exp++).valor=o->sglo.len_item*o->sglo.totalitems; break;
         case tpsgl: case tpslo:
-          (*_exp++).valor=(*((*o).psgl.ostruct)).sglo.len_item*(*o).sglo.totalitems; break;
+          (*_exp++).valor=(*(o->psgl.ostruct)).sglo.len_item*o->sglo.totalitems; break;
         case ttglo: case ttloc:
         case tbglo: case tbloc:
         case twglo: case twloc:
-          (*_exp++).valor=(*o).tglo.totalen; break;
+          (*_exp++).valor=o->tglo.totalen; break;
         case tcglo: case tcloc:
-          (*_exp++).valor=((*o).cglo.totalen+5)/4; break;
+          (*_exp++).valor=(o->cglo.totalen+5)/4; break;
         case tvglo: case tvloc:
           (*_exp++).valor=1; break;
         default: error(0,24); /* no se puede calcular el tamaño */
@@ -612,13 +612,13 @@ void factor(void) {
         lexico();
         if (pieza!=p_pointer) error(0,26); /* No se define el pointer así */
         lexico(); if (pieza!=p_id) error(1,27); obs=o;
-        if ((*obs).tipo==tnone) error(0,28); /* No se define el pointer así */
-        if ((*obs).tipo!=tsglo && (*obs).tipo!=tsloc) error(0,28);
+        if (obs->tipo==tnone) error(0,28); /* No se define el pointer así */
+        if (obs->tipo!=tsglo && obs->tipo!=tsloc) error(0,28);
         lexico(); ob=o;
         analiza_pointer_struct(tpslo,iloc++,obs);
-        (*ob).linea=linea; (*ob).ierror=ierror;
-        (*ob).param=1; parametros++;
-        (*_exp).tipo=econs; (*_exp++).valor=(*ob).pslo.offset;
+        ob->linea=linea; ob->ierror=ierror;
+        ob->param=1; parametros++;
+        (*_exp).tipo=econs; (*_exp++).valor=ob->pslo.offset;
         (*_exp).tipo=eoper; (*_exp++).token=p_punto;
         (*_exp).tipo=eoper; (*_exp++).token=p_pointer;
       } break;
@@ -631,42 +631,42 @@ void factor(void) {
         if (pieza==p_pointer) { /* Recibe un puntero a string */
           lexico();
           ob=analiza_pointer(tpclo,iloc++);
-          (*ob).linea=linea; (*ob).ierror=ierror;
-          (*ob).param=1; parametros++;
-          (*_exp).tipo=econs; (*_exp++).valor=(*ob).pclo.offset;
+          ob->linea=linea; ob->ierror=ierror;
+          ob->param=1; parametros++;
+          (*_exp).tipo=econs; (*_exp++).valor=ob->pclo.offset;
           (*_exp).tipo=eoper; (*_exp++).token=p_punto;
           (*_exp).tipo=eoper; (*_exp++).token=p_pointer;
           break;
         }
         if (pieza!=p_id) error(1,29);	/* esperando el nombre de la cadena */
-        ob=o; if ((*ob).tipo!=tnone) error(0,30);	/* el nombre no es nuevo */
-        (*ob).linea=linea; (*ob).ierror=ierror;
-        (*ob).param=1;
-        (*ob).tipo=tcloc; lexico();
+        ob=o; if (ob->tipo!=tnone) error(0,30);	/* el nombre no es nuevo */
+        ob->linea=linea; ob->ierror=ierror;
+        ob->param=1;
+        ob->tipo=tcloc; lexico();
         if (pieza==p_corab) {
           lexico();
           if (pieza==p_corce) {
             lexico();
-            (*ob).cloc.totalen=255;
+            ob->cloc.totalen=255;
           } else {
             e=_exp;
-            if (((*ob).cloc.totalen=constante())<0) error(4,31); /* cadena de long. negativa */
-            if ((*ob).cloc.totalen>0xFFFFF) error(4,32); /* cadena demasiado larga */
+            if ((ob->cloc.totalen=constante())<0) error(4,31); /* cadena de long. negativa */
+            if (ob->cloc.totalen>0xFFFFF) error(4,32); /* cadena demasiado larga */
             if (pieza!=p_corce) error(3,19);	/* esperando ']' */
             lexico();
             _exp=e;
           }
-        } else (*ob).cloc.totalen=255;
+        } else ob->cloc.totalen=255;
         if (parametros>1) g2(lpar,parametros-1); parametros=1;
         g2(lpri,0); _imem=imem;
-        imem+=1+((*ob).cloc.totalen+5)/4;
+        imem+=1+(ob->cloc.totalen+5)/4;
         test_buffer(&mem,&imem_max,imem);
-        mem[_imem]=0xDAD00000|(*ob).cloc.totalen;
-        memset(&mem[imem+1],0,(((*ob).cloc.totalen+5)&-5));
-        (*ob).cloc.offset=iloc+1;
-        iloc+=1+((*ob).cloc.totalen+5)/4;
+        mem[_imem]=0xDAD00000|ob->cloc.totalen;
+        memset(&mem[imem+1],0,((ob->cloc.totalen+5)&-5));
+        ob->cloc.offset=iloc+1;
+        iloc+=1+(ob->cloc.totalen+5)/4;
         mem[_imem-1]=imem; // pri
-        (*_exp).tipo=estring; (*_exp++).valor=(*ob).cloc.offset;
+        (*_exp).tipo=estring; (*_exp++).valor=ob->cloc.offset;
         (*_exp).tipo=eoper; (*_exp++).token=p_punto;
         (*_exp).tipo=eoper; (*_exp++).token=p_string;
       } break;
@@ -679,25 +679,25 @@ void factor(void) {
         if (pieza==p_pointer) {
           lexico();
           ob=analiza_pointer(tpblo,iloc++);
-          (*ob).linea=linea; (*ob).ierror=ierror;
-          (*ob).param=1; parametros++;
-          (*_exp).tipo=econs; (*_exp++).valor=(*ob).pblo.offset;
+          ob->linea=linea; ob->ierror=ierror;
+          ob->param=1; parametros++;
+          (*_exp).tipo=econs; (*_exp++).valor=ob->pblo.offset;
           (*_exp).tipo=eoper; (*_exp++).token=p_punto;
           (*_exp).tipo=eoper; (*_exp++).token=p_pointer;
           break;
         }
         if (pieza!=p_id) error(1,23); /* esperando un nombre */
-        ob=o; if ((*ob).tipo!=tnone) error(0,30); /* el nombre no es nuevo */
-        (*ob).linea=linea; (*ob).ierror=ierror;
-        (*ob).param=1;
-        (*ob).tipo=tbloc; lexico();
+        ob=o; if (ob->tipo!=tnone) error(0,30); /* el nombre no es nuevo */
+        ob->linea=linea; ob->ierror=ierror;
+        ob->param=1;
+        ob->tipo=tbloc; lexico();
         if (pieza==p_corab) error(2,33); /* no se puede pasar una tabla como parametro */
-        parametros++; (*ob).bloc.offset=iloc++;
-        (*ob).bloc.len1=0;
-        (*ob).bloc.len2=-1;
-        (*ob).bloc.len3=-1;
-        (*ob).bloc.totalen=1;
-        (*_exp).tipo=econs; (*_exp++).valor=(*ob).bloc.offset;
+        parametros++; ob->bloc.offset=iloc++;
+        ob->bloc.len1=0;
+        ob->bloc.len2=-1;
+        ob->bloc.len3=-1;
+        ob->bloc.totalen=1;
+        (*_exp).tipo=econs; (*_exp++).valor=ob->bloc.offset;
         (*_exp).tipo=eoper; (*_exp++).token=p_punto;
         (*_exp).tipo=econs; (*_exp++).valor=0;
         (*_exp).tipo=eoper; (*_exp++).token=p_pointerbyte;
@@ -711,25 +711,25 @@ void factor(void) {
         if (pieza==p_pointer) {
           lexico();
           ob=analiza_pointer(tpwlo,iloc++);
-          (*ob).linea=linea; (*ob).ierror=ierror;
-          (*ob).param=1; parametros++;
-          (*_exp).tipo=econs; (*_exp++).valor=(*ob).pwlo.offset;
+          ob->linea=linea; ob->ierror=ierror;
+          ob->param=1; parametros++;
+          (*_exp).tipo=econs; (*_exp++).valor=ob->pwlo.offset;
           (*_exp).tipo=eoper; (*_exp++).token=p_punto;
           (*_exp).tipo=eoper; (*_exp++).token=p_pointer;
           break;
         }
         if (pieza!=p_id) error(1,23); /* esperando un nombre */
-        ob=o; if ((*ob).tipo!=tnone) error(0,30); /* el nombre no es nuevo */
-        (*ob).linea=linea; (*ob).ierror=ierror;
-        (*ob).param=1;
-        (*ob).tipo=twloc; lexico();
+        ob=o; if (ob->tipo!=tnone) error(0,30); /* el nombre no es nuevo */
+        ob->linea=linea; ob->ierror=ierror;
+        ob->param=1;
+        ob->tipo=twloc; lexico();
         if (pieza==p_corab) error(2,33); /* no se puede pasar una tabla como parametro */
-        parametros++; (*ob).wloc.offset=iloc++;
-        (*ob).wloc.len1=0;
-        (*ob).wloc.len2=-1;
-        (*ob).wloc.len3=-1;
-        (*ob).wloc.totalen=1;
-        (*_exp).tipo=econs; (*_exp++).valor=(*ob).wloc.offset;
+        parametros++; ob->wloc.offset=iloc++;
+        ob->wloc.len1=0;
+        ob->wloc.len2=-1;
+        ob->wloc.len3=-1;
+        ob->wloc.totalen=1;
+        (*_exp).tipo=econs; (*_exp++).valor=ob->wloc.offset;
         (*_exp).tipo=eoper; (*_exp++).token=p_punto;
         (*_exp).tipo=econs; (*_exp++).valor=0;
         (*_exp).tipo=eoper; (*_exp++).token=p_pointerword;
@@ -748,38 +748,38 @@ void factor(void) {
           } parametros++;
           lexico();
           ob=analiza_pointer(tpilo,iloc++);
-          (*ob).linea=linea; (*ob).ierror=ierror;
-          (*ob).param=1;
-          (*_exp).tipo=econs; (*_exp++).valor=(*ob).pilo.offset;
+          ob->linea=linea; ob->ierror=ierror;
+          ob->param=1;
+          (*_exp).tipo=econs; (*_exp++).valor=ob->pilo.offset;
           (*_exp).tipo=eoper; (*_exp++).token=p_punto;
           (*_exp).tipo=eoper; (*_exp++).token=p_pointer;
           break;
         } else if (pieza!=p_id) error(1,23); /* esperando un nombre */
       }
 
-    case p_id: switch ((*o).tipo) {
+    case p_id: switch (o->tipo) {
 
       case tnone:
-        ob=o; (*ob).linea=linea; (*ob).ierror=ierror; lexico();
+        ob=o; ob->linea=linea; ob->ierror=ierror; lexico();
         if (pieza!=p_abrir) {
           if (parametros>0) {
             if (pieza==p_corab) error(2,33); /* no se puede pasar una tabla como parametro */
             parametros++;
-            (*ob).tipo=tvloc; (*ob).vloc.offset=iloc++;
-            (*ob).param=1;
-            (*_exp).tipo=econs; (*_exp++).valor=(*ob).vloc.offset;
+            ob->tipo=tvloc; ob->vloc.offset=iloc++;
+            ob->param=1;
+            (*_exp).tipo=econs; (*_exp++).valor=ob->vloc.offset;
             (*_exp).tipo=eoper; (*_exp++).token=p_punto;
             (*_exp).tipo=eoper; (*_exp++).token=p_pointer; break;
           } else {
-          	error(2,34,(*ob).name); /* nombre desconocido */
+          	error(2,34,ob->name); /* nombre desconocido */
           	lexico();
           }
         }
-        (*ob).usado=1; (*ob).tipo=tproc;
-        (*ob).proc.bloque=ob; (*ob).proc.offset=0; (*ob).proc.num_par=0;
+        ob->usado=1; ob->tipo=tproc;
+        ob->proc.bloque=ob; ob->proc.offset=0; ob->proc.num_par=0;
         lexico();
         while (pieza!=p_cerrar) {
-          (*ob).proc.num_par++;
+          ob->proc.num_par++;
           exp00(0);
           if (pieza!=p_cerrar) {
           	if (pieza!=p_coma) error(3,35); /* se esperaba una coma */
@@ -788,7 +788,7 @@ void factor(void) {
         } (*_exp).tipo=ecall; (*_exp++).objeto=ob; lexico();  break;
 
       case tcons:
-        if ((*o).cons.literal) {
+        if (o->cons.literal) {
           tipo_factor=2;
           if (tipo_expresion==1) {
             (*_exp).tipo=econs; (*_exp++).valor=(byte)mem[pieza_num];
@@ -796,45 +796,45 @@ void factor(void) {
             (*_exp).tipo=econs; (*_exp++).valor=pieza_num;
             (*_exp).tipo=eoper; (*_exp++).token=p_strlen;
           } else {
-            (*_exp).tipo=econs; (*_exp++).valor=(*o).cons.valor;
+            (*_exp).tipo=econs; (*_exp++).valor=o->cons.valor;
           }
         } else {
-          (*_exp).tipo=econs; (*_exp++).valor=(*o).cons.valor;
+          (*_exp).tipo=econs; (*_exp++).valor=o->cons.valor;
         } lexico(); break;
 
       case tvglo:
-        (*_exp).tipo=econs; (*_exp++).valor=(*o).vglo.offset;
+        (*_exp).tipo=econs; (*_exp++).valor=o->vglo.offset;
         (*_exp).tipo=eoper; (*_exp++).token=p_pointer; lexico();  break;
         break;
 
       case ttglo:
       case tpigl:
-        ob=o; offset=(*ob).tglo.offset;
+        ob=o; offset=ob->tglo.offset;
         lexico();
         (*_exp).tipo=econs; (*_exp++).valor=offset;
         if (pieza==p_corab) {
-          if ((*ob).tipo==tpigl) {
+          if (ob->tipo==tpigl) {
             (*_exp).tipo=eoper; (*_exp++).token=p_pointer;
             if (comprueba_null) (*_exp++).tipo=enull;
           }
           lexico();
           exp00(0);
-          if ((*ob).tglo.len1>-1) if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).tglo.len1; }
-          if ((*ob).tglo.len2>-1) {
+          if (ob->tglo.len1>-1) if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->tglo.len1; }
+          if (ob->tglo.len2>-1) {
             if (pieza!=p_coma) error(3,35); /* se esperaba una coma (multidimension) */
             lexico();
             exp00(0);
-            if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).tglo.len2; }
-            if ((*ob).tglo.len3>-1) {
+            if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->tglo.len2; }
+            if (ob->tglo.len3>-1) {
               if (pieza!=p_coma) error(3,35); /* se esperaba una coma */
               lexico();
               exp00(0);
-              if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).tglo.len3; }
-              (*_exp).tipo=econs; (*_exp++).valor=(*ob).tglo.len2+1;
+              if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->tglo.len3; }
+              (*_exp).tipo=econs; (*_exp++).valor=ob->tglo.len2+1;
               (*_exp).tipo=eoper; (*_exp++).token=p_mul;
               (*_exp).tipo=eoper; (*_exp++).token=p_add;
             }
-            (*_exp).tipo=econs; (*_exp++).valor=(*ob).tglo.len1+1;
+            (*_exp).tipo=econs; (*_exp++).valor=ob->tglo.len1+1;
             (*_exp).tipo=eoper; (*_exp++).token=p_mul;
             (*_exp).tipo=eoper; (*_exp++).token=p_add;
           }
@@ -846,10 +846,10 @@ void factor(void) {
       case tbglo:
       case tpbgl:
       case tpcgl:
-        ob=o; offset=(*ob).bglo.offset;
+        ob=o; offset=ob->bglo.offset;
         lexico();
         (*_exp).tipo=econs; (*_exp++).valor=offset;
-        if ((*ob).tipo==tpbgl || (*ob).tipo==tpcgl) {
+        if (ob->tipo==tpbgl || ob->tipo==tpcgl) {
           (*_exp).tipo=eoper; (*_exp++).token=p_pointer;
           if (pieza!=p_corab) break;
           if (comprueba_null) (*_exp++).tipo=enull;
@@ -857,22 +857,22 @@ void factor(void) {
         if (pieza==p_corab) {
           lexico();
           exp00(0);
-          if ((*ob).bglo.len1>-1) if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).bglo.len1; }
-          if ((*ob).bglo.len2>-1) {
+          if (ob->bglo.len1>-1) if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->bglo.len1; }
+          if (ob->bglo.len2>-1) {
             if (pieza!=p_coma) error(3,35); /* se esperaba una coma */
             lexico();
             exp00(0);
-            if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).bglo.len2; }
-            if ((*ob).bglo.len3>-1) {
+            if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->bglo.len2; }
+            if (ob->bglo.len3>-1) {
               if (pieza!=p_coma) error(3,35); /* se esperaba una coma */
               lexico();
               exp00(0);
-              if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).bglo.len3; }
-              (*_exp).tipo=econs; (*_exp++).valor=(*ob).bglo.len2+1;
+              if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->bglo.len3; }
+              (*_exp).tipo=econs; (*_exp++).valor=ob->bglo.len2+1;
               (*_exp).tipo=eoper; (*_exp++).token=p_mul;
               (*_exp).tipo=eoper; (*_exp++).token=p_add;
             }
-            (*_exp).tipo=econs; (*_exp++).valor=(*ob).bglo.len1+1;
+            (*_exp).tipo=econs; (*_exp++).valor=ob->bglo.len1+1;
             (*_exp).tipo=eoper; (*_exp++).token=p_mul;
             (*_exp).tipo=eoper; (*_exp++).token=p_add;
           }
@@ -884,10 +884,10 @@ void factor(void) {
 
       case twglo:
       case tpwgl:
-        ob=o; offset=(*ob).wglo.offset;
+        ob=o; offset=ob->wglo.offset;
         lexico();
         (*_exp).tipo=econs; (*_exp++).valor=offset;
-        if ((*ob).tipo==tpwgl) {
+        if (ob->tipo==tpwgl) {
           (*_exp).tipo=eoper; (*_exp++).token=p_pointer;
           if (pieza!=p_corab) break;
           if (comprueba_null) (*_exp++).tipo=enull;
@@ -895,22 +895,22 @@ void factor(void) {
         if (pieza==p_corab) {
           lexico();
           exp00(0);
-          if ((*ob).wglo.len1>-1) if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).wglo.len1; }
-          if ((*ob).wglo.len2>-1) {
+          if (ob->wglo.len1>-1) if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->wglo.len1; }
+          if (ob->wglo.len2>-1) {
             if (pieza!=p_coma) error(3,35); /* se esperaba una coma */
             lexico();
             exp00(0);
-            if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).wglo.len2; }
-            if ((*ob).wglo.len3>-1) {
+            if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->wglo.len2; }
+            if (ob->wglo.len3>-1) {
               if (pieza!=p_coma) error(3,35); /* se esperaba una coma */
               lexico();
               exp00(0);
-              if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).wglo.len3; }
-              (*_exp).tipo=econs; (*_exp++).valor=(*ob).wglo.len2+1;
+              if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->wglo.len3; }
+              (*_exp).tipo=econs; (*_exp++).valor=ob->wglo.len2+1;
               (*_exp).tipo=eoper; (*_exp++).token=p_mul;
               (*_exp).tipo=eoper; (*_exp++).token=p_add;
             }
-            (*_exp).tipo=econs; (*_exp++).valor=(*ob).wglo.len1+1;
+            (*_exp).tipo=econs; (*_exp++).valor=ob->wglo.len1+1;
             (*_exp).tipo=eoper; (*_exp++).token=p_mul;
             (*_exp).tipo=eoper; (*_exp++).token=p_add;
           }
@@ -921,13 +921,13 @@ void factor(void) {
         } (*_exp).tipo=eoper; (*_exp++).token=p_pointerword; break;
 
       case tcglo:
-        ob=o; offset=(*ob).cglo.offset;
+        ob=o; offset=ob->cglo.offset;
         lexico();
         (*_exp).tipo=estring; (*_exp++).valor=offset;
         if (pieza==p_corab) {
           lexico();
           exp00(0);
-          if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).cglo.totalen; }
+          if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->cglo.totalen; }
           if (pieza!=p_corce) error(3,19); /* esperando ']' */
           lexico();
           (*_exp).tipo=eoper; (*_exp++).token=p_pointerchar;
@@ -944,8 +944,8 @@ void factor(void) {
 
       case tsglo:
       case tpsgl:
-        ob=o; lexico(); (*_exp).tipo=econs; (*_exp++).valor=(*ob).sglo.offset;
-        if ((*ob).tipo==tpsgl) {
+        ob=o; lexico(); (*_exp).tipo=econs; (*_exp++).valor=ob->sglo.offset;
+        if (ob->tipo==tpsgl) {
           (*_exp).tipo=eoper; (*_exp++).token=p_pointer;
           if (pieza!=p_corab && pieza!=p_punto) break;
           if (comprueba_null) (*_exp++).tipo=enull;
@@ -953,37 +953,37 @@ void factor(void) {
         if (pieza==p_corab) {
           lexico();
           exp00(0);
-          if ((*ob).sglo.items1>-1) if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).sglo.items1; }
-          if ((*ob).sglo.items2>-1) {
+          if (ob->sglo.items1>-1) if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->sglo.items1; }
+          if (ob->sglo.items2>-1) {
             if (pieza!=p_coma) error(3,35); /* se esperaba una coma */
             lexico();
             exp00(0);
-            if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).sglo.items2; }
-            if ((*ob).sglo.items3>-1) {
+            if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->sglo.items2; }
+            if (ob->sglo.items3>-1) {
               if (pieza!=p_coma) error(3,35); /* se esperaba una coma */
               lexico();
               exp00(0);
-              if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).sglo.items3; }
-              (*_exp).tipo=econs; (*_exp++).valor=(*ob).sglo.items2+1;
+              if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->sglo.items3; }
+              (*_exp).tipo=econs; (*_exp++).valor=ob->sglo.items2+1;
               (*_exp).tipo=eoper; (*_exp++).token=p_mul;
               (*_exp).tipo=eoper; (*_exp++).token=p_add;
             }
-            (*_exp).tipo=econs; (*_exp++).valor=(*ob).sglo.items1+1;
+            (*_exp).tipo=econs; (*_exp++).valor=ob->sglo.items1+1;
             (*_exp).tipo=eoper; (*_exp++).token=p_mul;
             (*_exp).tipo=eoper; (*_exp++).token=p_add;
           }
           if (pieza!=p_corce) error(3,19); lexico(); /* esperando ']' */
-          if ((*ob).tipo==tpsgl) {
-            (*_exp).tipo=econs; (*_exp++).valor=(*((*ob).psgl.ostruct)).sglo.len_item;
+          if (ob->tipo==tpsgl) {
+            (*_exp).tipo=econs; (*_exp++).valor=(*(ob->psgl.ostruct)).sglo.len_item;
           } else {
-            (*_exp).tipo=econs; (*_exp++).valor=(*ob).sglo.len_item;
+            (*_exp).tipo=econs; (*_exp++).valor=ob->sglo.len_item;
           }
           (*_exp).tipo=eoper; (*_exp++).token=p_mul;
           (*_exp).tipo=eoper; (*_exp++).token=p_add;
         }
         if (pieza==p_punto) {
           struct_pointer=p_pointer;
-          if ((*ob).tipo==tpsgl) member=(*ob).psgl.ostruct; else member=ob;
+          if (ob->tipo==tpsgl) member=ob->psgl.ostruct; else member=ob;
           lexico(); factor_struct();
           (*_exp).tipo=eoper; (*_exp++).token=struct_pointer;
         } else {
@@ -991,42 +991,42 @@ void factor(void) {
         } break;
 
       case tvloc:
-        if (acceso_remoto && (*o).bloque) error(0,37); /* no se puede acceder a PRIVATE externos */
-        (*_exp).tipo=econs; (*_exp++).valor=(*o).vloc.offset;
+        if (acceso_remoto && o->bloque) error(0,37); /* no se puede acceder a PRIVATE externos */
+        (*_exp).tipo=econs; (*_exp++).valor=o->vloc.offset;
         (*_exp).tipo=eoper; (*_exp++).token=p_punto;
         (*_exp).tipo=eoper; (*_exp++).token=p_pointer; lexico(); break;
 
       case ttloc:
       case tpilo:
-        if (acceso_remoto && (*o).bloque) error(0,37); /* no se puede acceder a PRIVATE externos */
-        ob=o; offset=(*ob).tloc.offset;
+        if (acceso_remoto && o->bloque) error(0,37); /* no se puede acceder a PRIVATE externos */
+        ob=o; offset=ob->tloc.offset;
         lexico();
         (*_exp).tipo=econs; (*_exp++).valor=offset;
         (*_exp).tipo=eoper; (*_exp++).token=p_punto;
         if (pieza==p_corab) {
-          if ((*ob).tipo==tpilo) {
+          if (ob->tipo==tpilo) {
             (*_exp).tipo=eoper; (*_exp++).token=p_pointer;
             if (comprueba_null) (*_exp++).tipo=enull;
           }
           acceso_remoto=0;
           lexico();
           exp00(0);
-          if ((*ob).tloc.len1>-1) if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).tloc.len1; }
-          if ((*ob).tloc.len2>-1) {
+          if (ob->tloc.len1>-1) if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->tloc.len1; }
+          if (ob->tloc.len2>-1) {
             if (pieza!=p_coma) error(3,35); /* se esperaba una coma */
             lexico();
             exp00(0);
-            if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).tloc.len2; }
-            if ((*ob).tloc.len3>-1) {
+            if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->tloc.len2; }
+            if (ob->tloc.len3>-1) {
               if (pieza!=p_coma) error(3,35); /* se esperaba una coma */
               lexico();
               exp00(0);
-              if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).tloc.len3; }
-              (*_exp).tipo=econs; (*_exp++).valor=(*ob).tloc.len2+1;
+              if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->tloc.len3; }
+              (*_exp).tipo=econs; (*_exp++).valor=ob->tloc.len2+1;
               (*_exp).tipo=eoper; (*_exp++).token=p_mul;
               (*_exp).tipo=eoper; (*_exp++).token=p_add;
             }
-            (*_exp).tipo=econs; (*_exp++).valor=(*ob).tloc.len1+1;
+            (*_exp).tipo=econs; (*_exp++).valor=ob->tloc.len1+1;
             (*_exp).tipo=eoper; (*_exp++).token=p_mul;
             (*_exp).tipo=eoper; (*_exp++).token=p_add;
           }
@@ -1039,12 +1039,12 @@ void factor(void) {
       case tbloc:
       case tpblo:
       case tpclo:
-        if (acceso_remoto && (*o).bloque) error(0,37); /* no se puede acceder a PRIVATE externos */
-        ob=o; offset=(*ob).bloc.offset;
+        if (acceso_remoto && o->bloque) error(0,37); /* no se puede acceder a PRIVATE externos */
+        ob=o; offset=ob->bloc.offset;
         lexico();
         (*_exp).tipo=econs; (*_exp++).valor=offset;
         (*_exp).tipo=eoper; (*_exp++).token=p_punto;
-        if ((*ob).tipo==tpblo || (*ob).tipo==tpclo) {
+        if (ob->tipo==tpblo || ob->tipo==tpclo) {
           (*_exp).tipo=eoper; (*_exp++).token=p_pointer;
           if (pieza!=p_corab) break;
           if (comprueba_null) (*_exp++).tipo=enull;
@@ -1053,22 +1053,22 @@ void factor(void) {
           acceso_remoto=0;
           lexico();
           exp00(0);
-          if ((*ob).bloc.len1>-1) if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).bloc.len1; }
-          if ((*ob).bloc.len2>-1) {
+          if (ob->bloc.len1>-1) if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->bloc.len1; }
+          if (ob->bloc.len2>-1) {
             if (pieza!=p_coma) error(3,35); /* se esperaba una coma */
             lexico();
             exp00(0);
-            if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).bloc.len2; }
-            if ((*ob).bloc.len3>-1) {
+            if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->bloc.len2; }
+            if (ob->bloc.len3>-1) {
               if (pieza!=p_coma) error(3,35); /* se esperaba una coma */
               lexico();
               exp00(0);
-              if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).bloc.len3; }
-              (*_exp).tipo=econs; (*_exp++).valor=(*ob).bloc.len2+1;
+              if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->bloc.len3; }
+              (*_exp).tipo=econs; (*_exp++).valor=ob->bloc.len2+1;
               (*_exp).tipo=eoper; (*_exp++).token=p_mul;
               (*_exp).tipo=eoper; (*_exp++).token=p_add;
             }
-            (*_exp).tipo=econs; (*_exp++).valor=(*ob).bloc.len1+1;
+            (*_exp).tipo=econs; (*_exp++).valor=ob->bloc.len1+1;
             (*_exp).tipo=eoper; (*_exp++).token=p_mul;
             (*_exp).tipo=eoper; (*_exp++).token=p_add;
           }
@@ -1080,12 +1080,12 @@ void factor(void) {
 
       case twloc:
       case tpwlo:
-        if (acceso_remoto && (*o).bloque) error(0,37); /* no se puede acceder a PRIVATE externos */
-        ob=o; offset=(*ob).wloc.offset;
+        if (acceso_remoto && o->bloque) error(0,37); /* no se puede acceder a PRIVATE externos */
+        ob=o; offset=ob->wloc.offset;
         lexico();
         (*_exp).tipo=econs; (*_exp++).valor=offset;
         (*_exp).tipo=eoper; (*_exp++).token=p_punto;
-        if ((*ob).tipo==tpwlo) {
+        if (ob->tipo==tpwlo) {
           (*_exp).tipo=eoper; (*_exp++).token=p_pointer;
           if (pieza!=p_corab) break;
           if (comprueba_null) (*_exp++).tipo=enull;
@@ -1094,22 +1094,22 @@ void factor(void) {
           acceso_remoto=0;
           lexico();
           exp00(0);
-          if ((*ob).wloc.len1>-1) if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).wloc.len1; }
-          if ((*ob).wloc.len2>-1) {
+          if (ob->wloc.len1>-1) if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->wloc.len1; }
+          if (ob->wloc.len2>-1) {
             if (pieza!=p_coma) error(3,35); /* se esperaba una coma */
             lexico();
             exp00(0);
-            if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).wloc.len2; }
-            if ((*ob).wloc.len3>-1) {
+            if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->wloc.len2; }
+            if (ob->wloc.len3>-1) {
               if (pieza!=p_coma) error(3,35); /* se esperaba una coma */
               lexico();
               exp00(0);
-              if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).wloc.len3; }
-              (*_exp).tipo=econs; (*_exp++).valor=(*ob).wloc.len2+1;
+              if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->wloc.len3; }
+              (*_exp).tipo=econs; (*_exp++).valor=ob->wloc.len2+1;
               (*_exp).tipo=eoper; (*_exp++).token=p_mul;
               (*_exp).tipo=eoper; (*_exp++).token=p_add;
             }
-            (*_exp).tipo=econs; (*_exp++).valor=(*ob).wloc.len1+1;
+            (*_exp).tipo=econs; (*_exp++).valor=ob->wloc.len1+1;
             (*_exp).tipo=eoper; (*_exp++).token=p_mul;
             (*_exp).tipo=eoper; (*_exp++).token=p_add;
           }
@@ -1120,8 +1120,8 @@ void factor(void) {
         } (*_exp).tipo=eoper; (*_exp++).token=p_pointerword; break;
 
       case tcloc:
-        if (acceso_remoto && (*o).bloque) error(0,37);  /* no se puede acceder a PRIVATE externos */
-        ob=o; offset=(*ob).cloc.offset;
+        if (acceso_remoto && o->bloque) error(0,37);  /* no se puede acceder a PRIVATE externos */
+        ob=o; offset=ob->cloc.offset;
         lexico();
         (*_exp).tipo=estring; (*_exp++).valor=offset;
         (*_exp).tipo=eoper; (*_exp++).token=p_punto;
@@ -1129,7 +1129,7 @@ void factor(void) {
           acceso_remoto=0;
           lexico();
           exp00(0);
-          if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).cloc.totalen; }
+          if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->cloc.totalen; }
           if (pieza!=p_corce) error(3,19); /* esperando ']' */
           lexico();
           (*_exp).tipo=eoper; (*_exp++).token=p_pointerchar;
@@ -1146,10 +1146,10 @@ void factor(void) {
 
       case tsloc:
       case tpslo:
-        if (acceso_remoto && (*o).bloque) error(0,37); /* no se puede acceder a PRIVATE externos */
-        ob=o; lexico(); (*_exp).tipo=econs; (*_exp++).valor=(*ob).sloc.offset;
+        if (acceso_remoto && o->bloque) error(0,37); /* no se puede acceder a PRIVATE externos */
+        ob=o; lexico(); (*_exp).tipo=econs; (*_exp++).valor=ob->sloc.offset;
         (*_exp).tipo=eoper; (*_exp++).token=p_punto;
-        if ((*ob).tipo==tpslo) {
+        if (ob->tipo==tpslo) {
           (*_exp).tipo=eoper; (*_exp++).token=p_pointer;
           if (pieza!=p_corab && pieza!=p_punto) break;
           if (comprueba_null) (*_exp++).tipo=enull;
@@ -1158,37 +1158,37 @@ void factor(void) {
           acceso_remoto=0;
           lexico();
           exp00(0);
-          if ((*ob).sloc.items1>-1) if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).sloc.items1; }
-          if ((*ob).sloc.items2>-1) {
+          if (ob->sloc.items1>-1) if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->sloc.items1; }
+          if (ob->sloc.items2>-1) {
             if (pieza!=p_coma) error(3,35); /* se esperaba una coma */
             lexico();
             exp00(0);
-            if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).sloc.items2; }
-            if ((*ob).sloc.items3>-1) {
+            if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->sloc.items2; }
+            if (ob->sloc.items3>-1) {
               if (pieza!=p_coma) error(3,35); /* se esperaba una coma */
               lexico();
               exp00(0);
-              if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).sloc.items3; }
-              (*_exp).tipo=econs; (*_exp++).valor=(*ob).sloc.items2+1;
+              if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->sloc.items3; }
+              (*_exp).tipo=econs; (*_exp++).valor=ob->sloc.items2+1;
               (*_exp).tipo=eoper; (*_exp++).token=p_mul;
               (*_exp).tipo=eoper; (*_exp++).token=p_add;
             }
-            (*_exp).tipo=econs; (*_exp++).valor=(*ob).sloc.items1+1;
+            (*_exp).tipo=econs; (*_exp++).valor=ob->sloc.items1+1;
             (*_exp).tipo=eoper; (*_exp++).token=p_mul;
             (*_exp).tipo=eoper; (*_exp++).token=p_add;
           }
           if (pieza!=p_corce) error(3,19); lexico(); /* esperando ']' */
-          if ((*ob).tipo==tpslo) {
-            (*_exp).tipo=econs; (*_exp++).valor=(*((*ob).pslo.ostruct)).sloc.len_item;
+          if (ob->tipo==tpslo) {
+            (*_exp).tipo=econs; (*_exp++).valor=(*(ob->pslo.ostruct)).sloc.len_item;
           } else {
-            (*_exp).tipo=econs; (*_exp++).valor=(*ob).sloc.len_item;
+            (*_exp).tipo=econs; (*_exp++).valor=ob->sloc.len_item;
           }
           (*_exp).tipo=eoper; (*_exp++).token=p_mul;
           (*_exp).tipo=eoper; (*_exp++).token=p_add;
         }
         if (pieza==p_punto) {
           struct_pointer=p_pointer;
-          if ((*ob).tipo==tpslo) member=(*ob).psgl.ostruct; else member=ob;
+          if (ob->tipo==tpslo) member=ob->psgl.ostruct; else member=ob;
           lexico(); factor_struct();
           (*_exp).tipo=eoper; (*_exp++).token=struct_pointer;
         } else {
@@ -1205,7 +1205,7 @@ void factor(void) {
           	else { lexico(); if (pieza==p_cerrar) error(3,36); } /* se esperaba otro parametro */
           }
         }
-        if (p!=(*ob).proc.num_par) error(1,38); /* numero de parametros incorrecto */
+        if (p!=ob->proc.num_par) error(1,38); /* numero de parametros incorrecto */
         (*_exp).tipo=ecall; (*_exp++).objeto=ob; lexico(); break;
 
       // POR HACER: implementar soporte para qsort (ver comentario aquí arriba)
@@ -1224,8 +1224,8 @@ void factor(void) {
 
 		while(1) {
 			if(ob==NULL) break;
-			if((*ob).tipo==tfext && (*ob).fext.num_par==p) break;
-			ob=(*ob).anterior;
+			if(ob->tipo==tfext && ob->fext.num_par==p) break;
+			ob=ob->anterior;
 		}
 		if(ob==NULL) error(1,38); /* numero de parametros incorrecto */
         (*_exp).tipo=efext; (*_exp++).objeto=ob; lexico(); break;
@@ -1280,42 +1280,42 @@ void factor_struct(void) {
   struct objeto * ob;
 
   if (pieza!=p_id) error(3,39); /* esperando un elemento de la estructura */
-  switch ((*o).tipo) {
+  switch (o->tipo) {
 
     case tvglo:
-      (*_exp).tipo=econs; (*_exp++).valor=(*o).vglo.offset;
+      (*_exp).tipo=econs; (*_exp++).valor=o->vglo.offset;
       (*_exp).tipo=eoper; (*_exp++).token=p_add;
       member=NULL; lexico();
       break;
 
     case ttglo:
     case tpigl:
-      (*_exp).tipo=econs; (*_exp++).valor=(*o).tglo.offset; ob=o;
+      (*_exp).tipo=econs; (*_exp++).valor=o->tglo.offset; ob=o;
       (*_exp).tipo=eoper; (*_exp++).token=p_add;
       member=NULL; lexico();
       if (pieza==p_corab) {
-        if ((*ob).tipo==tpigl) {
+        if (ob->tipo==tpigl) {
           (*_exp).tipo=eoper; (*_exp++).token=p_pointer;
           if (comprueba_null) (*_exp++).tipo=enull;
         }
         lexico();
         exp00(0);
-        if ((*ob).tglo.len1>-1) if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).tglo.len1; }
-        if ((*ob).tglo.len2>-1) {
+        if (ob->tglo.len1>-1) if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->tglo.len1; }
+        if (ob->tglo.len2>-1) {
           if (pieza!=p_coma) error(3,35); /* se esperaba una coma */
           lexico();
           exp00(0);
-          if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).tglo.len2; }
-          if ((*ob).tglo.len3>-1) {
+          if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->tglo.len2; }
+          if (ob->tglo.len3>-1) {
             if (pieza!=p_coma) error(3,35); /* se esperaba una coma */
             lexico();
             exp00(0);
-            if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).tglo.len3; }
-            (*_exp).tipo=econs; (*_exp++).valor=(*ob).tglo.len2+1;
+            if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->tglo.len3; }
+            (*_exp).tipo=econs; (*_exp++).valor=ob->tglo.len2+1;
             (*_exp).tipo=eoper; (*_exp++).token=p_mul;
             (*_exp).tipo=eoper; (*_exp++).token=p_add;
           }
-          (*_exp).tipo=econs; (*_exp++).valor=(*ob).tglo.len1+1;
+          (*_exp).tipo=econs; (*_exp++).valor=ob->tglo.len1+1;
           (*_exp).tipo=eoper; (*_exp++).token=p_mul;
           (*_exp).tipo=eoper; (*_exp++).token=p_add;
         }
@@ -1326,10 +1326,10 @@ void factor_struct(void) {
     case tbglo:
     case tpbgl:
     case tpcgl:
-      (*_exp).tipo=econs; (*_exp++).valor=(*o).bglo.offset; ob=o;
+      (*_exp).tipo=econs; (*_exp++).valor=o->bglo.offset; ob=o;
       (*_exp).tipo=eoper; (*_exp++).token=p_add;
       member=NULL; lexico();
-      if ((*ob).tipo==tpbgl || (*ob).tipo==tpcgl) {
+      if (ob->tipo==tpbgl || ob->tipo==tpcgl) {
         if (pieza!=p_corab) break;
         (*_exp).tipo=eoper; (*_exp++).token=p_pointer;
         if (comprueba_null) (*_exp++).tipo=enull;
@@ -1337,22 +1337,22 @@ void factor_struct(void) {
       if (pieza==p_corab) {
         lexico();
         exp00(0);
-        if ((*ob).bglo.len1>-1) if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).bglo.len1; }
-        if ((*ob).bglo.len2>-1) {
+        if (ob->bglo.len1>-1) if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->bglo.len1; }
+        if (ob->bglo.len2>-1) {
           if (pieza!=p_coma) error(3,35); /* se esperaba una coma */
           lexico();
           exp00(0);
-          if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).bglo.len2; }
-          if ((*ob).bglo.len3>-1) {
+          if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->bglo.len2; }
+          if (ob->bglo.len3>-1) {
             if (pieza!=p_coma) error(3,35); /* se esperaba una coma */
             lexico();
             exp00(0);
-            if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).bglo.len3; }
-            (*_exp).tipo=econs; (*_exp++).valor=(*ob).bglo.len2+1;
+            if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->bglo.len3; }
+            (*_exp).tipo=econs; (*_exp++).valor=ob->bglo.len2+1;
             (*_exp).tipo=eoper; (*_exp++).token=p_mul;
             (*_exp).tipo=eoper; (*_exp++).token=p_add;
           }
-          (*_exp).tipo=econs; (*_exp++).valor=(*ob).bglo.len1+1;
+          (*_exp).tipo=econs; (*_exp++).valor=ob->bglo.len1+1;
           (*_exp).tipo=eoper; (*_exp++).token=p_mul;
           (*_exp).tipo=eoper; (*_exp++).token=p_add;
         }
@@ -1363,10 +1363,10 @@ void factor_struct(void) {
 
     case twglo:
     case tpwgl:
-      (*_exp).tipo=econs; (*_exp++).valor=(*o).wglo.offset; ob=o;
+      (*_exp).tipo=econs; (*_exp++).valor=o->wglo.offset; ob=o;
       (*_exp).tipo=eoper; (*_exp++).token=p_add;
       member=NULL; lexico();
-      if ((*ob).tipo==tpwgl) {
+      if (ob->tipo==tpwgl) {
         if (pieza!=p_corab) break;
         (*_exp).tipo=eoper; (*_exp++).token=p_pointer;
         if (comprueba_null) (*_exp++).tipo=enull;
@@ -1374,22 +1374,22 @@ void factor_struct(void) {
       if (pieza==p_corab) {
         lexico();
         exp00(0);
-        if ((*ob).wglo.len1>-1) if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).wglo.len1; }
-        if ((*ob).wglo.len2>-1) {
+        if (ob->wglo.len1>-1) if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->wglo.len1; }
+        if (ob->wglo.len2>-1) {
           if (pieza!=p_coma) error(3,35); /* se esperaba una coma */
           lexico();
           exp00(0);
-          if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).wglo.len2; }
-          if ((*ob).wglo.len3>-1) {
+          if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->wglo.len2; }
+          if (ob->wglo.len3>-1) {
             if (pieza!=p_coma) error(3,35); /* se esperaba una coma */
             lexico();
             exp00(0);
-            if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).wglo.len3; }
-            (*_exp).tipo=econs; (*_exp++).valor=(*ob).wglo.len2+1;
+            if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->wglo.len3; }
+            (*_exp).tipo=econs; (*_exp++).valor=ob->wglo.len2+1;
             (*_exp).tipo=eoper; (*_exp++).token=p_mul;
             (*_exp).tipo=eoper; (*_exp++).token=p_add;
           }
-          (*_exp).tipo=econs; (*_exp++).valor=(*ob).wglo.len1+1;
+          (*_exp).tipo=econs; (*_exp++).valor=ob->wglo.len1+1;
           (*_exp).tipo=eoper; (*_exp++).token=p_mul;
           (*_exp).tipo=eoper; (*_exp++).token=p_add;
         }
@@ -1399,13 +1399,13 @@ void factor_struct(void) {
       } struct_pointer=p_pointerword; break;
 
     case tcglo:
-      (*_exp).tipo=estring; (*_exp++).valor=(*o).cglo.offset; ob=o;
+      (*_exp).tipo=estring; (*_exp++).valor=o->cglo.offset; ob=o;
       (*_exp).tipo=eoper; (*_exp++).token=p_add;
       member=NULL; lexico();
       if (pieza==p_corab) {
         lexico();
         exp00(0);
-        if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).cglo.totalen; }
+        if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->cglo.totalen; }
         if (pieza!=p_corce) error(3,19); /* esperando ']' */
         lexico();
         struct_pointer=p_pointerchar;
@@ -1422,10 +1422,10 @@ void factor_struct(void) {
 
     case tsglo:
     case tpsgl:
-      (*_exp).tipo=econs; (*_exp++).valor=(*o).sglo.offset; ob=o;
+      (*_exp).tipo=econs; (*_exp++).valor=o->sglo.offset; ob=o;
       (*_exp).tipo=eoper; (*_exp++).token=p_add;
       member=NULL; lexico();
-      if ((*ob).tipo==tpsgl) {
+      if (ob->tipo==tpsgl) {
         if (pieza!=p_corab && pieza!=p_punto) break;
         (*_exp).tipo=eoper; (*_exp++).token=p_pointer;
         if (comprueba_null) (*_exp++).tipo=enull;
@@ -1433,72 +1433,72 @@ void factor_struct(void) {
       if (pieza==p_corab) {
         lexico();
         exp00(0);
-        if ((*ob).sglo.items1>-1) if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).sglo.items1; }
-        if ((*ob).sglo.items2>-1) {
+        if (ob->sglo.items1>-1) if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->sglo.items1; }
+        if (ob->sglo.items2>-1) {
           if (pieza!=p_coma) error(3,35); /* se esperaba una coma */
           lexico();
           exp00(0);
-          if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).sglo.items2; }
-          if ((*ob).sglo.items3>-1) {
+          if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->sglo.items2; }
+          if (ob->sglo.items3>-1) {
             if (pieza!=p_coma) error(3,35); /* se esperaba una coma */
             lexico();
             exp00(0);
-            if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).sglo.items3; }
-            (*_exp).tipo=econs; (*_exp++).valor=(*ob).sglo.items2+1;
+            if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->sglo.items3; }
+            (*_exp).tipo=econs; (*_exp++).valor=ob->sglo.items2+1;
             (*_exp).tipo=eoper; (*_exp++).token=p_mul;
             (*_exp).tipo=eoper; (*_exp++).token=p_add;
           }
-          (*_exp).tipo=econs; (*_exp++).valor=(*ob).sglo.items1+1;
+          (*_exp).tipo=econs; (*_exp++).valor=ob->sglo.items1+1;
           (*_exp).tipo=eoper; (*_exp++).token=p_mul;
           (*_exp).tipo=eoper; (*_exp++).token=p_add;
         }
         if (pieza!=p_corce) error(3,19); lexico(); /* esperando ']' */
-        if ((*ob).tipo==tpsgl) {
-          (*_exp).tipo=econs; (*_exp++).valor=(*((*ob).psgl.ostruct)).sglo.len_item;
+        if (ob->tipo==tpsgl) {
+          (*_exp).tipo=econs; (*_exp++).valor=(*(ob->psgl.ostruct)).sglo.len_item;
         } else {
-          (*_exp).tipo=econs; (*_exp++).valor=(*ob).sglo.len_item;
+          (*_exp).tipo=econs; (*_exp++).valor=ob->sglo.len_item;
         }
         (*_exp).tipo=eoper; (*_exp++).token=p_mul;
         (*_exp).tipo=eoper; (*_exp++).token=p_add;
       }
       if (pieza==p_punto) {
-        if ((*ob).tipo==tpsgl) member=(*ob).psgl.ostruct; else member=ob;
+        if (ob->tipo==tpsgl) member=ob->psgl.ostruct; else member=ob;
         lexico(); factor_struct();
       } break;
 
     case tvloc:
-      (*_exp).tipo=econs; (*_exp++).valor=(*o).vloc.offset;
+      (*_exp).tipo=econs; (*_exp++).valor=o->vloc.offset;
       (*_exp).tipo=eoper; (*_exp++).token=p_add;
       member=NULL; lexico(); break;
 
     case ttloc:
     case tpilo:
-      (*_exp).tipo=econs; (*_exp++).valor=(*o).tloc.offset; ob=o;
+      (*_exp).tipo=econs; (*_exp++).valor=o->tloc.offset; ob=o;
       (*_exp).tipo=eoper; (*_exp++).token=p_add;
       member=NULL; lexico();
       if (pieza==p_corab) {
-        if ((*ob).tipo==tpilo) {
+        if (ob->tipo==tpilo) {
           (*_exp).tipo=eoper; (*_exp++).token=p_pointer;
           if (comprueba_null) (*_exp++).tipo=enull;
         }
         lexico();
         exp00(0);
-        if ((*ob).tloc.len1>-1) if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).tloc.len1; }
-        if ((*ob).tloc.len2>-1) {
+        if (ob->tloc.len1>-1) if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->tloc.len1; }
+        if (ob->tloc.len2>-1) {
           if (pieza!=p_coma) error(3,35); /* se esperaba una coma */
           lexico();
           exp00(0);
-          if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).tloc.len2; }
-          if ((*ob).tloc.len3>-1) {
+          if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->tloc.len2; }
+          if (ob->tloc.len3>-1) {
             if (pieza!=p_coma) error(3,35); /* se esperaba una coma */
             lexico();
             exp00(0);
-            if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).tloc.len3; }
-            (*_exp).tipo=econs; (*_exp++).valor=(*ob).tloc.len2+1;
+            if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->tloc.len3; }
+            (*_exp).tipo=econs; (*_exp++).valor=ob->tloc.len2+1;
             (*_exp).tipo=eoper; (*_exp++).token=p_mul;
             (*_exp).tipo=eoper; (*_exp++).token=p_add;
           }
-          (*_exp).tipo=econs; (*_exp++).valor=(*ob).tloc.len1+1;
+          (*_exp).tipo=econs; (*_exp++).valor=ob->tloc.len1+1;
           (*_exp).tipo=eoper; (*_exp++).token=p_mul;
           (*_exp).tipo=eoper; (*_exp++).token=p_add;
         }
@@ -1509,10 +1509,10 @@ void factor_struct(void) {
     case tbloc:
     case tpblo:
     case tpclo:
-      (*_exp).tipo=econs; (*_exp++).valor=(*o).bloc.offset; ob=o;
+      (*_exp).tipo=econs; (*_exp++).valor=o->bloc.offset; ob=o;
       (*_exp).tipo=eoper; (*_exp++).token=p_add;
       member=NULL; lexico();
-      if ((*ob).tipo==tpblo || (*ob).tipo==tpcgl) {
+      if (ob->tipo==tpblo || ob->tipo==tpcgl) {
         if (pieza!=p_corab) break;
         (*_exp).tipo=eoper; (*_exp++).token=p_pointer;
         if (comprueba_null) (*_exp++).tipo=enull;
@@ -1520,22 +1520,22 @@ void factor_struct(void) {
       if (pieza==p_corab) {
         lexico();
         exp00(0);
-        if ((*ob).bloc.len1>-1) if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).bloc.len1; }
-        if ((*ob).bloc.len2>-1) {
+        if (ob->bloc.len1>-1) if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->bloc.len1; }
+        if (ob->bloc.len2>-1) {
           if (pieza!=p_coma) error(3,35); /* se esperaba una coma */
           lexico();
           exp00(0);
-          if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).bloc.len2; }
-          if ((*ob).bloc.len3>-1) {
+          if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->bloc.len2; }
+          if (ob->bloc.len3>-1) {
             if (pieza!=p_coma) error(3,35); /* se esperaba una coma */
             lexico();
             exp00(0);
-            if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).bloc.len3; }
-            (*_exp).tipo=econs; (*_exp++).valor=(*ob).bloc.len2+1;
+            if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->bloc.len3; }
+            (*_exp).tipo=econs; (*_exp++).valor=ob->bloc.len2+1;
             (*_exp).tipo=eoper; (*_exp++).token=p_mul;
             (*_exp).tipo=eoper; (*_exp++).token=p_add;
           }
-          (*_exp).tipo=econs; (*_exp++).valor=(*ob).bloc.len1+1;
+          (*_exp).tipo=econs; (*_exp++).valor=ob->bloc.len1+1;
           (*_exp).tipo=eoper; (*_exp++).token=p_mul;
           (*_exp).tipo=eoper; (*_exp++).token=p_add;
         }
@@ -1546,10 +1546,10 @@ void factor_struct(void) {
 
     case twloc:
     case tpwlo:
-      (*_exp).tipo=econs; (*_exp++).valor=(*o).wloc.offset; ob=o;
+      (*_exp).tipo=econs; (*_exp++).valor=o->wloc.offset; ob=o;
       (*_exp).tipo=eoper; (*_exp++).token=p_add;
       member=NULL; lexico();
-      if ((*ob).tipo==tpwlo) {
+      if (ob->tipo==tpwlo) {
         if (pieza!=p_corab) break;
         (*_exp).tipo=eoper; (*_exp++).token=p_pointer;
         if (comprueba_null) (*_exp++).tipo=enull;
@@ -1557,22 +1557,22 @@ void factor_struct(void) {
       if (pieza==p_corab) {
         lexico();
         exp00(0);
-        if ((*ob).wloc.len1>-1) if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).wloc.len1; }
-        if ((*ob).wloc.len2>-1) {
+        if (ob->wloc.len1>-1) if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->wloc.len1; }
+        if (ob->wloc.len2>-1) {
           if (pieza!=p_coma) error(3,35); /* se esperaba una coma */
           lexico();
           exp00(0);
-          if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).wloc.len2; }
-          if ((*ob).wloc.len3>-1) {
+          if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->wloc.len2; }
+          if (ob->wloc.len3>-1) {
             if (pieza!=p_coma) error(3,35); /* se esperaba una coma */
             lexico();
             exp00(0);
-            if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).wloc.len3; }
-            (*_exp).tipo=econs; (*_exp++).valor=(*ob).wloc.len2+1;
+            if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->wloc.len3; }
+            (*_exp).tipo=econs; (*_exp++).valor=ob->wloc.len2+1;
             (*_exp).tipo=eoper; (*_exp++).token=p_mul;
             (*_exp).tipo=eoper; (*_exp++).token=p_add;
           }
-          (*_exp).tipo=econs; (*_exp++).valor=(*ob).wloc.len1+1;
+          (*_exp).tipo=econs; (*_exp++).valor=ob->wloc.len1+1;
           (*_exp).tipo=eoper; (*_exp++).token=p_mul;
           (*_exp).tipo=eoper; (*_exp++).token=p_add;
         }
@@ -1582,13 +1582,13 @@ void factor_struct(void) {
       } struct_pointer=p_pointerword; break;
 
     case tcloc:
-      (*_exp).tipo=estring; (*_exp++).valor=(*o).cloc.offset; ob=o;
+      (*_exp).tipo=estring; (*_exp++).valor=o->cloc.offset; ob=o;
       (*_exp).tipo=eoper; (*_exp++).token=p_add;
       member=NULL; lexico();
       if (pieza==p_corab) {
         lexico();
         exp00(0);
-        if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).cloc.totalen; }
+        if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->cloc.totalen; }
         if (pieza!=p_corce) error(3,19); /* esperando ']' */
         lexico();
         struct_pointer=p_pointerchar;
@@ -1605,10 +1605,10 @@ void factor_struct(void) {
 
     case tsloc:
     case tpslo:
-      (*_exp).tipo=econs; (*_exp++).valor=(*o).sloc.offset; ob=o;
+      (*_exp).tipo=econs; (*_exp++).valor=o->sloc.offset; ob=o;
       (*_exp).tipo=eoper; (*_exp++).token=p_add;
       member=NULL; lexico();
-      if ((*ob).tipo==tpslo) {
+      if (ob->tipo==tpslo) {
         if (pieza!=p_corab && pieza!=p_punto) break;
         (*_exp).tipo=eoper; (*_exp++).token=p_pointer;
         if (comprueba_null) (*_exp++).tipo=enull;
@@ -1616,36 +1616,36 @@ void factor_struct(void) {
       if (pieza==p_corab) {
         lexico();
         exp00(0);
-        if ((*ob).sloc.items1>-1) if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).sloc.items1; }
-        if ((*ob).sloc.items2>-1) {
+        if (ob->sloc.items1>-1) if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->sloc.items1; }
+        if (ob->sloc.items2>-1) {
           if (pieza!=p_coma) error(3,35); /* se esperaba una coma */
           lexico();
           exp00(0);
-          if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).sloc.items2; }
-          if ((*ob).sloc.items3>-1) {
+          if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->sloc.items2; }
+          if (ob->sloc.items3>-1) {
             if (pieza!=p_coma) error(3,35); /* se esperaba una coma */
             lexico();
             exp00(0);
-            if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=(*ob).sloc.items3; }
-            (*_exp).tipo=econs; (*_exp++).valor=(*ob).sloc.items2+1;
+            if (comprueba_rango) { (*_exp).tipo=erango; (*_exp++).valor=ob->sloc.items3; }
+            (*_exp).tipo=econs; (*_exp++).valor=ob->sloc.items2+1;
             (*_exp).tipo=eoper; (*_exp++).token=p_mul;
             (*_exp).tipo=eoper; (*_exp++).token=p_add;
           }
-          (*_exp).tipo=econs; (*_exp++).valor=(*ob).sloc.items1+1;
+          (*_exp).tipo=econs; (*_exp++).valor=ob->sloc.items1+1;
           (*_exp).tipo=eoper; (*_exp++).token=p_mul;
           (*_exp).tipo=eoper; (*_exp++).token=p_add;
         }
         if (pieza!=p_corce) error(3,19); lexico(); /* esperando ']' */
-        if ((*ob).tipo==tpslo) {
-          (*_exp).tipo=econs; (*_exp++).valor=(*((*ob).pslo.ostruct)).sloc.len_item;
+        if (ob->tipo==tpslo) {
+          (*_exp).tipo=econs; (*_exp++).valor=(*(ob->pslo.ostruct)).sloc.len_item;
         } else {
-          (*_exp).tipo=econs; (*_exp++).valor=(*ob).sloc.len_item;
+          (*_exp).tipo=econs; (*_exp++).valor=ob->sloc.len_item;
         }
         (*_exp).tipo=eoper; (*_exp++).token=p_mul;
         (*_exp).tipo=eoper; (*_exp++).token=p_add;
       }
       if (pieza==p_punto) {
-        if ((*ob).tipo==tpslo) member=(*ob).pslo.ostruct; else member=ob;
+        if (ob->tipo==tpslo) member=ob->pslo.ostruct; else member=ob;
         lexico(); factor_struct();
       } break;
 
