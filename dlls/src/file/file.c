@@ -2,9 +2,29 @@
 #include <stdio.h>
 #include <errno.h>
 
-#include <export.h>
+#include "export.h"
 #include "file.h"
 
+FILE *fichero[0xFF] ;
+int existe[0xFF] ;
+
+static void _cierratodo()
+{
+	int i = 0;
+
+        for (; i < 0xFF ; i++ )
+                if ( existe[i] == 0 )
+			fclose(fichero[i]);
+}
+
+static void _limpiatodo()
+{
+        int i = 0;
+
+        for (; i < 0xFF ; i++ )
+                if ( existe[i] == 0 )
+                        fflush(fichero[i]);
+}
 
 int ExportaFuncs(EXPORTAFUNCS_PARAMS)
 {
@@ -29,9 +49,6 @@ int ExportaFuncs(EXPORTAFUNCS_PARAMS)
 	return TRUE ;
 
 }
-
-FILE *fichero[0xFF] ;
-int existe[0xFF] ;
 
 /* 
  * POR HACER:
@@ -148,19 +165,18 @@ int eDiv_Fseek(FUNCTION_PARAMS)
 	
 int eDiv_Flush(FUNCTION_PARAMS)
 {
-	return flushall() ;	/* flushall()-numfiles */
+	_limpiatodo();
+	return TRUE;
 }
 
 int eDiv_Fclose(FUNCTION_PARAMS)
 {
 	int handle=getparm(), num ;
 
-	if ( handle == 0 )
-		if ( ( num = fcloseall() ) == EOF )
-			return 0 ;
-		else
-			return num ;
-	else
+	if ( handle == 0 ) {
+		_cierratodo();
+		return 0;
+	} else
 		if ( !existe[handle] ) {
 			fp->Runtime_Error(170);
 			return 0 ;
