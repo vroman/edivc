@@ -23,6 +23,6 @@ for FILE in $FILES; do
 	OBJECTS+="$FILE.o "
 done
 
-gcc $OBJECTS -o ../../bin/stub -lz
+gcc $OBJECTS -o ../../bin/stub -lz -ldl
 
 rm $OBJECTS
