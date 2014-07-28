@@ -38,7 +38,7 @@ Even though you would Beat Me Up, I'm still a really cool player too(My gamename
 DIV MANIAC
 
 Status: Offline
-� posted on 4/11/01 at 12:13 PM
+Â  posted on 4/11/01 at 12:13 PM
 well if I'd like to see hardware accelerated 2D, the DLL writing process cleaned up, ie to allow use of dll's writeen in VB , delphi C/c++, probably have to be rewritten but so be it!
 theres alot of things but I don't see the point of dissusing them until at least DIV2 makes an appearence!! ____________________
 Dazzy
@@ -47,7 +47,7 @@ DIV Regular
 
 
 Status: Offline
-� posted on 4/11/01 at 10:57 PM
+Â  posted on 4/11/01 at 10:57 PM
 I would be for a complete rewrite of the div engine. 
 Limited Support for OOP (Object Orientated Programming).
 DirectX based (of course)
@@ -65,13 +65,13 @@ DIV Regular
 
 
 Status: Offline
-� posted on 6/11/01 at 09:57 AM
+Â  posted on 6/11/01 at 09:57 AM
 I'm with that (the food part anyway)
       Er_Makina
 DIV Junior
 
 Status: Offline
- � posted on 6/12/01 at 05:16 AM
+ Â  posted on 6/12/01 at 05:16 AM
 if you don't mind, i'm collecting these suggestions for implementing them (or some of them) in eDIV.
 byez.. 
 Er_Makina
@@ -87,7 +87,7 @@ DIV Senior
 
 
 Status: Offline
-� posted on 8/12/01 at 13:09
+Â  posted on 8/12/01 at 13:09
 ..semi-transperency..
  ____________________
 Behind you..
@@ -98,7 +98,7 @@ DIV MANIAC
 
 
 Status: Offline
-� posted on 8/12/01 at 18:22
+Â  posted on 8/12/01 at 18:22
 Here's some random stupidity:
 New Commands:
 --------------------------------------------------------------------------------------------
@@ -129,7 +129,7 @@ DIV Senior
 
 
 Status: Offline
-� posted on 8/12/01 at 18:31
+Â  posted on 8/12/01 at 18:31
 A really cool particly explosion would be something like "AAAAAAAAAAAAAHHH". Hmm well i like explosions.  ____________________
 Behind you..
 [ MystiqGames.cjb.net ] [ Email ]
@@ -139,7 +139,7 @@ DIV Regular
 
 
 Status: Offline
-� posted on 10/12/01 at 15:45
+Â  posted on 10/12/01 at 15:45
 I want the following function added in:
 make_game(game genre,game coolness);
 game coolness being an integer from 1 to 100.
@@ -148,7 +148,7 @@ DIV Junior
 
 
 Status: Offline
-� posted on 10/12/01 at 21:59
+Â  posted on 10/12/01 at 21:59
 quote:
 I want the following function added in:
 make_game(game genre,game coolness);
@@ -160,7 +160,7 @@ or just fissit my (old, but totally flash based) home page ;-)
 DIV Regular
 
 Status: Online
-� posted on 10/12/01 at 22:46
+Â  posted on 10/12/01 at 22:46
 dont_randomly_crash_on_me();
 tear_my_hair_out_for_me();
 feed_me(); ____________________
@@ -170,7 +170,7 @@ DIV Regular
 
 
 Status: Offline
-� posted on 11/12/01 at 09:47
+Â  posted on 11/12/01 at 09:47
 Some old people actually have life support systems with those functions built in.
 
 [jeDIVe] oye yo tengo una sugerencia pal ediv
@@ -243,7 +243,7 @@ Some old people actually have life support systems with those functions built in
 [18:58] [rst] pues
 [18:58] > sip
 [18:58] [rst] que el editor nos colorease esa zona
-[18:58] [rst] comprendes p�r donde voy ?
+[18:58] [rst] comprendes pÃ²r donde voy ?
 [18:59] [rst] facilidad de visualizacion del codigo
 [18:59] > hmm mas u menos
 [18:59] > si
@@ -270,7 +270,7 @@ rellena el fondo con un color
 
 Incluir Psycle (tracker musical) en el IDE: http://sourceforge.net/projects/psycle/
 
-punteros a estructuras genericos (que no haga falta indicarle a qu� tipo de estructura apuntan)
+punteros a estructuras genericos (que no haga falta indicarle a quÃ© tipo de estructura apuntan)
 
 poder cargar fuentes de letra directamente a partir de .map
 
@@ -307,7 +307,7 @@ graficos mediante beziers!! http://www.newimage.com/~rhk/roaddemo/
 
 [20:07] > en el caso de ediv
 [20:07] [Xtrai2] igual vosotros incrementais antes ip
-[20:07] > hacemos ip++ nada m�s leer el opcode
+[20:07] > hacemos ip++ nada mÃ¡s leer el opcode
 [20:07] > es decir
 [20:07] [Xtrai2] ah
 [20:07] [Xtrai2] ok ok
@@ -320,7 +320,7 @@ equivalente al KeyHit() del blitzbasic: parecido a key() solo que solo devuelve 
 
 tabla global mtime (igual que time) per devuelve en millsecs
 
-librer�as de objetos 3D (p.e. FPO, fichero para objetos)
+librerÃ­as de objetos 3D (p.e. FPO, fichero para objetos)
 
 char = signed byte
 short = signed word

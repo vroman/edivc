@@ -7,8 +7,8 @@ para que ediv cree exes hay que hacer esto: (Act. no disponible)
 - compilar stub
 - en el directorio /bin, ejecutar makelib.bat
 
-Esto crear� el edivrun.lib, que es el stub comprimido y encriptado.
-y nada m�s. Hasta Luego
+Esto crearÃÂ¡ el edivrun.lib, que es el stub comprimido y encriptado.
+y nada mÃÂ¡s. Hasta Luego
 
 Er_Makina
 Sion Entertainment

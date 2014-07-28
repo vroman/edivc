@@ -5,7 +5,7 @@
 
 2. Metemos el export.h y el .c principal
 
-3. A�adimos el .DEF al proyecto con el siguiente contenido:
+3. AÃÂ±adimos el .DEF al proyecto con el siguiente contenido:
 
    LIBRARY nombre_de_la_libreria
    EXPORTS
@@ -13,7 +13,7 @@
 
 3. Metemos en dllmain (vacio, debe devolver TRUE)
 
-4. Creamos la funci�n ExportaFuncs:
+4. Creamos la funciÃÂ³n ExportaFuncs:
 
    int ExportaFuncs(TYPEOF_EDIV_Export *pEDIV_Export)
    {
@@ -21,7 +21,7 @@
    }
 
 
-PARA A�ADIR FUNCIONES:
+PARA AÃÂADIR FUNCIONES:
 
 5. Hacemos las funciones de la siguiente forma:
 
@@ -32,7 +32,7 @@ PARA A�ADIR FUNCIONES:
       param_2=getparm();
       param_1=getparm();
 
-      // todo el c�digo de la funcion
+      // todo el cÃÂ³digo de la funcion
 
       return valor_de_retorno;
    }
@@ -42,13 +42,13 @@ PARA A�ADIR FUNCIONES:
 
 6. Declaramos la funcion (en el .h o en el .c), lo digo porque esto suele olvidarse
 
-7. Y por �ltimo, a�adimos el EDIV_Export correspondiente en la funci�n ExportaFuncs. Se usa de esta manera:
+7. Y por ÃÂºltimo, aÃÂ±adimos el EDIV_Export correspondiente en la funciÃÂ³n ExportaFuncs. Se usa de esta manera:
 
    EDIV_Export ("cadena",nparametros,nombre_funcion);
 
-   - "cadena" es la cadena a comparar en el programa (el nombre que tendr� la funci�n en el lenguaje)
+   - "cadena" es la cadena a comparar en el programa (el nombre que tendrÃÂ¡ la funciÃÂ³n en el lenguaje)
 
-   - nparametros es el n�mero de par�metros que recibe la funci�n
+   - nparametros es el nÃÂºmero de parÃÂ¡metros que recibe la funciÃÂ³n
 
-   - nombre_funcion es el nombre de la funci�n en la DLL (es decir, aqu� se pasa un puntero a la funci�n)
+   - nombre_funcion es el nombre de la funciÃÂ³n en la DLL (es decir, aquÃÂ­ se pasa un puntero a la funciÃÂ³n)
 

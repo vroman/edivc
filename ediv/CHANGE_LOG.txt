@@ -9,42 +9,42 @@
 28/1/2005
 ---------
  * He investigado un poco el asunto de los juegos de caracteres. Se me ha ocurrido una
-   forma de estar preparados para el Unicode por si un d�a lo llegamos a implementar.
-   De momento, he obtenido datos t�cnicos sobre los bmp's que sub�, los he anotado en
-   "juegos de caracteres.txt", en el directorio de la text.dll. As� he podido asignar
+   forma de estar preparados para el Unicode por si un dÃ­a lo llegamos a implementar.
+   De momento, he obtenido datos tÃ©cnicos sobre los bmp's que subÃ­, los he anotado en
+   "juegos de caracteres.txt", en el directorio de la text.dll. AsÃ­ he podido asignar
    un id con sentido a cada uno. (Er_Makina)
- * He a�adido una global a la text.dll llamada charset. Por defecto vale charset_msdos.
+ * He aÃ±adido una global a la text.dll llamada charset. Por defecto vale charset_msdos.
    Para utilizar el latin1, hay que poner charset=charset_latin1; al inicio del pro-
-   grama (de momento no tiene ning�n efecto). (Er_Makina)
- * He creado una carpeta en el m�dulo utils llamada "cosas �tiles" (valga la redundan-
-   cia :P), para meter c�digo fuente suelto, textos, y otras cosas que puedan ser de
+   grama (de momento no tiene ningÃºn efecto). (Er_Makina)
+ * He creado una carpeta en el mÃ³dulo utils llamada "cosas Ãºtiles" (valga la redundan-
+   cia :P), para meter cÃ³digo fuente suelto, textos, y otras cosas que puedan ser de
    utilidad para hacer ciertas cosas. He metido la kplib de Ken Silverman y una
-   librer�a para SDL que resulta que es de donde sali� el rotozoomer. Tiene un contro-
-   lador de FPS, que deber�amos ir metiendo en el stub. (para m�s informaci�n, mirad
+   librerÃ­a para SDL que resulta que es de donde saliÃ³ el rotozoomer. Tiene un contro-
+   lador de FPS, que deberÃ­amos ir metiendo en el stub. (para mÃ¡s informaciÃ³n, mirad
    los archivos de texto que hay en las respectivas carpetas). (Er_Makina)
 
 25/1/2005
 ---------
  * Probando si rula el commit :P (|RooT|)
- * Subo los archivos de idioma al CVS, que se me hab�a olvidado ^_^u y de paso corrijo
-   algunos errores que ten�an :p (Er_Makina)
+ * Subo los archivos de idioma al CVS, que se me habÃ­a olvidado ^_^u y de paso corrijo
+   algunos errores que tenÃ­an :p (Er_Makina)
 
 22/1/2005
 ---------
- * Ahora, en teor�a, bmp2fnt compilar� correctamente en Linux. (Er_Makina)
+ * Ahora, en teorÃ­a, bmp2fnt compilarÃ¡ correctamente en Linux. (Er_Makina)
  * Quitados un par de warnings de doku.c (Er_Makina)
- * He a�adido una utilidad, builtinfont, que toma un .bmp con una fuente monocroma 6x8
-   y crea un .h con la informaci�n binaria correspondiente. Es para hacer la fuente de
+ * He aÃ±adido una utilidad, builtinfont, que toma un .bmp con una fuente monocroma 6x8
+   y crea un .h con la informaciÃ³n binaria correspondiente. Es para hacer la fuente de
    sistema de la text.dll. He incluido junto al codigo fuente de la text.dll dos bmp's,
    sys06x08_msdos y sys06x08_latin1. La primera es la fuente de DIV2 de toda la vida,
    y la segunda es similar pero convertida a latin1 (el juego de caracteres de Windows).
-   As� podremos usar acentos, etc con la fuente de sistema. Habr� que incluir las dos
-   en la text.dll y a�adir una global o una funci�n para poder elegir en el programa
-   cu�l de las dos queremos usar. (Er_Makina)
+   AsÃ­ podremos usar acentos, etc con la fuente de sistema. HabrÃ¡ que incluir las dos
+   en la text.dll y aÃ±adir una global o una funciÃ³n para poder elegir en el programa
+   cuÃ¡l de las dos queremos usar. (Er_Makina)
 
 21/1/2005
 ---------
- * Ahora, tras cargar una fuente, �sta se convierte al formato de color del modo actual.
+ * Ahora, tras cargar una fuente, Ã©sta se convierte al formato de color del modo actual.
    Aunque seguramente no sirva de mucho, porque creo que vamos a cambiar bastante la
    text.dll (Er_Makina)
  * Ahora se carga la paleta por defecto en el primer frame, y no en set_mode (el cambiar
@@ -52,40 +52,40 @@
 
 20/1/2005
 ---------
- * �Mejorado brutalmente el sistema de traducciones! He metido cada idioma en un .h,
-   y ahora es mucho m�s facil editarlos e incorporarlos en eDIV. Est�n en
+ * Â¡Mejorado brutalmente el sistema de traducciones! He metido cada idioma en un .h,
+   y ahora es mucho mÃ¡s facil editarlos e incorporarlos en eDIV. EstÃ¡n en
    shared/language. es.h y en.h contienen instrucciones para que puedan ser usados como
-   plantillas de traducci�n. Ah, y he se�alado con FIXME las partes que est�n sin
+   plantillas de traducciÃ³n. Ah, y he seÃ±alado con FIXME las partes que estÃ¡n sin
    traducir. (Er_Makina)
- * He cambiado la versi�n de 0.1.3 (Betelgeuse) a 0.1.3b (Rigel), s�lo para distinguir
+ * He cambiado la versiÃ³n de 0.1.3 (Betelgeuse) a 0.1.3b (Rigel), sÃ³lo para distinguir
    el nuevo eDIV del antiguo. (Nota: Betelgeuse es la estrella Alpha Orion, y Rigel es
-   Beta Orion. Creo que est� claro por qu� coger estrellas de la constelaci�n de Ori�n,
+   Beta Orion. Creo que estÃ¡ claro por quÃ© coger estrellas de la constelaciÃ³n de OriÃ³n,
    verdad? ;) (Er_Makina)
 
 19/1/2005
 ---------
- * �Vuelve eDIV? |RooT| y yo no hemos tenido noticias de eDIV ni de Julius desde que
+ * Â¿Vuelve eDIV? |RooT| y yo no hemos tenido noticias de eDIV ni de Julius desde que
    abandonamos Sion, y hemos hablado acerca de retomar el proyecto por nuestra cuenta.
-   A�n tenemos que hablar con Riseven, y ponernos un poco de acuerdo a ver si vamos a seguir
+   AÃºn tenemos que hablar con Riseven, y ponernos un poco de acuerdo a ver si vamos a seguir
    adelante, pero yo por si acaso voy adelantando algunas cosillas. (Er_Makina)
- * Para empezar, he creado la carpeta "old" para meter all� los ficheros que voy a cargarme,
-   por si acaso. La �ltima versi�n de eDIV es la 0.1.3.030602b (Betelgeuse). Estoy seguro de
+ * Para empezar, he creado la carpeta "old" para meter allÃ­ los ficheros que voy a cargarme,
+   por si acaso. La Ãºltima versiÃ³n de eDIV es la 0.1.3.030602b (Betelgeuse). Estoy seguro de
    que en Sion no lo han tocado desde entonces, ya que estaban bastante ocupados con Julius.
-   Voy a hacer un diagn�stico general del proyecto, a ver por d�nde hay que empezar a meter
-   mano. Limpiar� bugs.txt y todo.txt y meter� all� la informaci�n nueva. (Er_Makina)
+   Voy a hacer un diagnÃ³stico general del proyecto, a ver por dÃ³nde hay que empezar a meter
+   mano. LimpiarÃ© bugs.txt y todo.txt y meterÃ© allÃ­ la informaciÃ³n nueva. (Er_Makina)
  * Limpiada un poco la rutina del ALT+P. (Er_Makina)
    
 2/6/2003
 --------
- * Modificada la funci�n Dibuja (otra vez :P) ahora permite indicarle los flags (aunque s�lo
-   hace caso a los flags 1 y 2) y s�, funcionan :D (Er_Makina)
- * Ya funciona perfectamente el rotozoomer, y respeta el centro del gr�fico :D (Er_Makina)
+ * Modificada la funciÃ³n Dibuja (otra vez :P) ahora permite indicarle los flags (aunque sÃ³lo
+   hace caso a los flags 1 y 2) y sÃ­, funcionan :D (Er_Makina)
+ * Ya funciona perfectamente el rotozoomer, y respeta el centro del grÃ¡fico :D (Er_Makina)
  * Algunas variables del mouse ya funcionan (Er_Makina)
- * Las regiones daban fallos, ya est� solucionado (Er_Makina)
+ * Las regiones daban fallos, ya estÃ¡ solucionado (Er_Makina)
 
 1/6/2003
 --------
- * He dividido la graphics en varios .c, buena falta le hac�a :P (Er_Makina)
+ * He dividido la graphics en varios .c, buena falta le hacÃ­a :P (Er_Makina)
  * He pasado define_region() a la graphics, estaba en la edivstd (Er_Makina)
  * Documentada casi toda la graphics con el doxygen, solo falta SDL_rotozoom.c
    y .h, k se me olvido xD incluyo proyecto para el doxywizard, en
@@ -93,37 +93,37 @@
 
 29/5/2003
 ---------
- * A�adida la estructura fp->graphics. Ahora cualquier DLL puede saber si hay
-   una librer�a gr�fica inicializada (en cuyo caso estar� activado el bit
-   GR_ACTIVE de fp->graphics->resflags) y conocer el modo de v�deo actual.
+ * AÃ±adida la estructura fp->graphics. Ahora cualquier DLL puede saber si hay
+   una librerÃ­a grÃ¡fica inicializada (en cuyo caso estarÃ¡ activado el bit
+   GR_ACTIVE de fp->graphics->resflags) y conocer el modo de vÃ­deo actual.
    fp->graphics->flags se usa para los flags que se setean desde set_mode
-   (de momento s�lo est� GR_FULLSCREEN, o _fullscreen desde el lenguaje).
+   (de momento sÃ³lo estÃ¡ GR_FULLSCREEN, o _fullscreen desde el lenguaje).
    fp->graphics->resflags se usa para los flags internos del sistema ("res"
-   viene de "reserved" :P) actualmente est�n GR_ACTIVE y GR_CHANGED. Esta
-   �ltima se activa cuando modificamos el modo de v�deo con set_mode, y se
-   apaga en el entrypoint frame de la graphics. De esta forma las dem�s
-   DLL's podr�n darse cuenta de cu�ndo se cambia el modo de v�deo y actuar
-   en consecuencia (por ejemplo, la text.dll tendr� que eliminar los textos,
-   la scroll.dll tendr� que eliminar las ventanas de scroll, etc). Por cierto,
-   la estructura tambi�n contiene sendos punteros al backbuffer y al buffer del
+   viene de "reserved" :P) actualmente estÃ¡n GR_ACTIVE y GR_CHANGED. Esta
+   Ãºltima se activa cuando modificamos el modo de vÃ­deo con set_mode, y se
+   apaga en el entrypoint frame de la graphics. De esta forma las demÃ¡s
+   DLL's podrÃ¡n darse cuenta de cuÃ¡ndo se cambia el modo de vÃ­deo y actuar
+   en consecuencia (por ejemplo, la text.dll tendrÃ¡ que eliminar los textos,
+   la scroll.dll tendrÃ¡ que eliminar las ventanas de scroll, etc). Por cierto,
+   la estructura tambiÃ©n contiene sendos punteros al backbuffer y al buffer del
    fondo, pero apuntan directamente al bitmap, no son SDL_Surface's, ya que como
    explico mas abajo el SDK y el stub son independientes de SDL ahora. (Er_Makina)
  * Ya se inicializa la paleta cuando iniciamos un modo de 8 bpp. Pone la paleta
    por defecto del DIV2. (Er_Makina)
  * Corregido el put_pixel, que estaba bastante chapuza :P ahora usa SDL_MapRGB.
    (Er_Makina)
- * A�adido nuevo (en verdad no tan nuevo) ejemplo, torus3.prg, es igual que
+ * AÃ±adido nuevo (en verdad no tan nuevo) ejemplo, torus3.prg, es igual que
    torus.prg solo que inicializa el modo de video a 800x600x8 en fullscreen, y
    el toroide se ve grandote, centrado y ocupando toda la pantalla. (Er_Makina)
- * El stub ya es totalmente independiente de SDL (weno, todav�a keda una cosilla
+ * El stub ya es totalmente independiente de SDL (weno, todavÃ­a keda una cosilla
    por cambiar, el sistema de fpg's) el caso es que ahora es en la graphics donde
    se gestiona todo lo relacionado con SDL, incluidos los eventos (la X de la
    ventana, evitar ke el windows lo de por blokeado..), el ALT+X, el ALT+P, etc.
-   Esto facilitar� el hacer graphics ke usen distintas librer�as (DX, OGL...)
+   Esto facilitarÃ¡ el hacer graphics ke usen distintas librerÃ­as (DX, OGL...)
    (Er_Makina)
  * He mejorado el ALT+P, ahora la captura no se guarda siempre en el mismo BMP,
-   sino que a�ade al nombre del fichero un numero de cuatro cifras que va
-   aumentando seg�n est� disponible (0000, 0001, 0002...) (Er_Makina)
+   sino que aÃ±ade al nombre del fichero un numero de cuatro cifras que va
+   aumentando segÃºn estÃ© disponible (0000, 0001, 0002...) (Er_Makina)
 
 28/5/2003
 ---------
@@ -131,43 +131,43 @@
 
 27/5/2003
 ---------
- * A�adida la funci�n fp->Custom_Error(int tipoerror, char* mensaje) al
+ * AÃ±adida la funciÃ³n fp->Custom_Error(int tipoerror, char* mensaje) al
    SDK. Permite a las DLL's definir sus propios mensajes de error, tanto
    runtime como critical. Ver los comentarios de custom_error() en error.c
-   del stub para ver c�mo funciona. (Er_Makina)
- * A�adido set_mode(). De momento es necesario ke se inicialice un modo de
-   24 o 32 bits para poder ver algo en pantalla. Los flags a�n no funcionan.
+   del stub para ver cÃ³mo funciona. (Er_Makina)
+ * AÃ±adido set_mode(). De momento es necesario ke se inicialice un modo de
+   24 o 32 bits para poder ver algo en pantalla. Los flags aÃºn no funcionan.
    Hay que modificar otras cosas para que rule bien (regiones, eliminar
    textos, etc) y hay que avisar a las DLL's de cuando se produce el cambio.
    (Er_Makina)
 
 26/5/2003
 ---------
- * Ya est�n comprobados todos los nuevos opcodes de string, parece ke
-   rulan bien :) Encontr� un bug en el opcode optimizado caraidcpa,
-   ya est� arreglado. (Er_Makina)
- * A�adido el opcode extasp (optimizaci�n de ext + asp). (Er_Makina)
+ * Ya estÃ¡n comprobados todos los nuevos opcodes de string, parece ke
+   rulan bien :) EncontrÃ© un bug en el opcode optimizado caraidcpa,
+   ya estÃ¡ arreglado. (Er_Makina)
+ * AÃ±adido el opcode extasp (optimizaciÃ³n de ext + asp). (Er_Makina)
  * Adaptada finalmente la strings.dll, ya es perfectamente usable :)
    Ya soporta todas las funciones de cadenas de DIV2, excepto calculate(),
-   y adem�s, atoi() (en DIV2 s�lo hab�a calculate() pero a veces nos
-   puede interesar que se haga una simple conversion sin que se eval�en
+   y ademÃ¡s, atoi() (en DIV2 sÃ³lo habÃ­a calculate() pero a veces nos
+   puede interesar que se haga una simple conversion sin que se evalÃºen
    expresiones) y atof(), para cuando metamos floats.
-   Por cierto, si en alguna de estas funciones usamos un n�mero menor
-   de 256 en vez de una cadena como par�metro, lo tomar� como una cadena
-   que s�lo contiene un caracter con ese ascii. :) por ejemplo,
-   strcat("hol",65) devolver� "holA". (Er_Makina)
+   Por cierto, si en alguna de estas funciones usamos un nÃºmero menor
+   de 256 en vez de una cadena como parÃ¡metro, lo tomarÃ¡ como una cadena
+   que sÃ³lo contiene un caracter con ese ascii. :) por ejemplo,
+   strcat("hol",65) devolverÃ¡ "holA". (Er_Makina)
 
 25/5/2003
 ---------
- * A�adido soporte para datos STRING. A�n quedan por comprobar algunos
-   opcodes, los estoy se�alando en el string.txt. Hay que averiguar el
+ * AÃ±adido soporte para datos STRING. AÃºn quedan por comprobar algunos
+   opcodes, los estoy seÃ±alando en el string.txt. Hay que averiguar el
    origen del bug de Huevox (ver bug1.prg y bug1sol.prg). Curiosamente,
-   (o cabreantemente :P) el EML generado para los dos PRG es id�ntico, 
-   pero a�n as� se comportan de forma distinta. (Er_Makina)
+   (o cabreantemente :P) el EML generado para los dos PRG es idÃ©ntico, 
+   pero aÃºn asÃ­ se comportan de forma distinta. (Er_Makina)
 
 4/4/2003
 --------
- * A�adido soporte para datos WORD. (Er_Makina)
+ * AÃ±adido soporte para datos WORD. (Er_Makina)
 
 3/4/2003
 --------
@@ -175,26 +175,26 @@
    gran bug, la causa era una gran chorrada.. en fin.. el robots.prg ya
    es casi hasta jugable (si no fuera por las colisiones ke colisionan
    como les da la gana xD) (Er_Makina)
- * A�adidos torus.prg y torus2.prg en el directorio bin/test (Er_Makina)
+ * AÃ±adidos torus.prg y torus2.prg en el directorio bin/test (Er_Makina)
 
 30/3/2003
 ---------
  * Corregidos los operadores -- y ++ con las variables BYTE. eran de esos
    opcodes que originalmente se hacian en una linea pero al pasar a VS hay
-   ke partirlos en dos (y en este caso, a�adir una variable temporal) >:P
+   ke partirlos en dos (y en este caso, aÃ±adir una variable temporal) >:P
    (Er_Makina)
 
 5/3/2003
 --------
- * Hay alg�n fallo cuando se elimina un proceso, tiene que ver con la
-   eliminaci�n de procesos de procs_s y proc_orden y la creaci�n y
-   ejecuci�n de nuevos procesos (probad a rular robots.prg y pasaros el
-   primer nivel, os dar� un error "redefinici�n del tipo de proceso" cuando
-   intent�is mover el personaje). (Er_Makina)
+ * Hay algÃºn fallo cuando se elimina un proceso, tiene que ver con la
+   eliminaciÃ³n de procesos de procs_s y proc_orden y la creaciÃ³n y
+   ejecuciÃ³n de nuevos procesos (probad a rular robots.prg y pasaros el
+   primer nivel, os darÃ¡ un error "redefiniciÃ³n del tipo de proceso" cuando
+   intentÃ©is mover el personaje). (Er_Makina)
 
 4/3/2003
 --------
- * signal() arreglado, ya funcionan las se�ales tree (Er_Makina)
+ * signal() arreglado, ya funcionan las seÃ±ales tree (Er_Makina)
 
 18/12/2002
 ----------
@@ -213,7 +213,7 @@
 
 12/12/2002
 ----------
- * Corregido fallo en la math.c... el seno de 90� no es infinito, sino 1 ��
+ * Corregido fallo en la math.c... el seno de 90Âº no es infinito, sino 1 Â¬Â¬
    suspenso en mates para el k lo hizo... (Er_Makina)
  * Incluido ejemplo torus.prg, probadlo, es precioso =) (ojo, si no se usa
    el math.dll con el fallo del seno corregido, en vez de un toroide sale
@@ -221,69 +221,69 @@
 
 2/12/2002
 ---------
- * He a�adido en la web una secci�n desde donde se puede ver este changelog.
-   El script pilla el fichero directamente del CVS, o de divsite si no est�
+ * He aÃ±adido en la web una secciÃ³n desde donde se puede ver este changelog.
+   El script pilla el fichero directamente del CVS, o de divsite si no estÃ¡
    disponible, y parsea el fichero y lo muestra con un aspecto muy majo :)
-   Pod�is seguir escribiendo los mensajes como hasta ahora, no os olvid�is
+   PodÃ©is seguir escribiendo los mensajes como hasta ahora, no os olvidÃ©is
    de firmarlos. Para que el script funcione bien la firma tiene que ser lo
-   �ltimo que se encuentre en el mensaje, cuidado no se os escape un punto
-   despu�s de la firma, o algo asi. (Er_Makina)
+   Ãºltimo que se encuentre en el mensaje, cuidado no se os escape un punto
+   despuÃ©s de la firma, o algo asi. (Er_Makina)
 
 30/10/2002
 ----------
- * A�adido la variable RESOLUTION, que a la hora de compilar el TUTOR2.PRG daba problemas.
+ * AÃ±adido la variable RESOLUTION, que a la hora de compilar el TUTOR2.PRG daba problemas.
    Ya se puede usar RESOLUTION =) (|RooT|)
  * Corregido en la graphics donde ponia "trasparente" por "traNsparente".
    (Er_Makina)
- * �Funciona Signal! =) Solo falta testearlo... (Er_Makina)
+ * Â¡Funciona Signal! =) Solo falta testearlo... (Er_Makina)
 
 29/10/2002
 ----------
- * A�adido un Capturador de Pantalla que crea screenshoots pulsando ALT+P 
-   en la ejecuci�n de un PROGRAMA. Se guarda con el nombre del programa
+ * AÃ±adido un Capturador de Pantalla que crea screenshoots pulsando ALT+P 
+   en la ejecuciÃ³n de un PROGRAMA. Se guarda con el nombre del programa
    estoy arreglando para que se guarde en JPG y se puedan guardar varias capturas de el (|RooT|)
- * A�adido al EXPORT.H y EXTERN.H a la estructura 'fp' la variable
+ * AÃ±adido al EXPORT.H y EXTERN.H a la estructura 'fp' la variable
    screen. Para poder acceder a la SCREEN desde el STUB (|RooT|)
  * Bug arreglado: el programa se bloqueaba al llegar a cierta cantidad de
-   procesos. El problema estaba en que los procesos no desechaban los par�metros
-   de la pila despu�s de leerlos. He cuidado que funcione bien tanto con
-   optimizaci�n como sin ella :D (Er_Makina)
+   procesos. El problema estaba en que los procesos no desechaban los parÃ¡metros
+   de la pila despuÃ©s de leerlos. He cuidado que funcione bien tanto con
+   optimizaciÃ³n como sin ella :D (Er_Makina)
  * Para evitar cosas como esta (desbordamientos de pila) he puesto un "PANIC!"
    en modo _DEBUG cuando se termina de ejecutar un frame y quedan cosas en la
    pila. (Er_Makina)
- * Bug arreglado: los procesos no devolv�an el id. La causa del bug era la misma
-   que el de m�s arriba :) (Er_Makina)
+ * Bug arreglado: los procesos no devolvÃ­an el id. La causa del bug era la misma
+   que el de mÃ¡s arriba :) (Er_Makina)
  * Ahora se dibujan todos los blits con la Z correcta. He quitado el sistema
-   que hab�a antes (orden[]) y lo he reemplazado por un qsort justo antes de
-   dibujarlo todo, adem�s supongo que es m�s r�pido que ir insertando cosas
+   que habÃ­a antes (orden[]) y lo he reemplazado por un qsort justo antes de
+   dibujarlo todo, ademÃ¡s supongo que es mÃ¡s rÃ¡pido que ir insertando cosas
    cada vez que se llamaba a Dibuja(). (Er_Makina)
 
 28/10/2002
 ----------
- * A�adida la variable SIZE.
-   ��OJO!! La funci�n Dibuja ha cambiado!! Ahora es int Dibuja(SDL_Surface *src , SDL_Rect srcrect ,
+ * AÃ±adida la variable SIZE.
+   Â¡Â¡OJO!! La funciÃ³n Dibuja ha cambiado!! Ahora es int Dibuja(SDL_Surface *src , SDL_Rect srcrect ,
    SDL_Rect dstrect , int z , int trans,int size,int angle); por defecto no hay size=0, ni angle=0.
    ya que size=0, es equivalente a size=100; Esto lo hago para posibles despistes como por ejemplo
-   en la TEXT, que llama a la funci�n dibuja y ese parametro como es 0, pues si no, no se veria el 
-   texto al no ser que se colocara el 100, en la funci�n dibuja. (|RooT|)
- * A�adida una global SMOOTH, para hacer o no, smooth, a la hora de ampliar graficos (|RooT|)
+   en la TEXT, que llama a la funciÃ³n dibuja y ese parametro como es 0, pues si no, no se veria el 
+   texto al no ser que se colocara el 100, en la funciÃ³n dibuja. (|RooT|)
+ * AÃ±adida una global SMOOTH, para hacer o no, smooth, a la hora de ampliar graficos (|RooT|)
  * Limpieza de la graphics (Codigos viejos, Comentarios inservibles,...) (|RooT|)
  * He colocado un SDL_FreeSurface para liberar Surfaces y que no chupara tanta RAM (|RooT|)
 
 27/10/2002
 ----------
- * A�adidos los fp->Runtime_Error, excepto en la graphics, strings (�hace
+ * AÃ±adidos los fp->Runtime_Error, excepto en la graphics, strings (Â¿hace
    falta?) y scroll (obviamente). (Er_Makina)
- * A�adido unit_size en file.dll. (Er_Makina)
+ * AÃ±adido unit_size en file.dll. (Er_Makina)
 
 24/10/2002
 ----------
  * Ahora los id's de los procesos son siempre impares. (Er_Makina)
  * Arreglado collision. He sustituido el algoritmo de choque entre dos cajas,
-   aunque no hac�a falta, pero quiz�s as� queda un poco m�s limpio. (Er_Makina)
- * A�adido timer[], pero s�lo en Win32. Hay que adaptarlo a Linux. (Er_Makina)
+   aunque no hacÃ­a falta, pero quizÃ¡s asÃ­ queda un poco mÃ¡s limpio. (Er_Makina)
+ * AÃ±adido timer[], pero sÃ³lo en Win32. Hay que adaptarlo a Linux. (Er_Makina)
  * tutor0b ya rula.. el robots asesinos ya parece que rula bien pero no puedo
-   mover al personaje, no se por qu�... fallo en la input? (Er_Makina)
+   mover al personaje, no se por quÃ©... fallo en la input? (Er_Makina)
 
 21/10/2002
 ----------
@@ -302,51 +302,51 @@
 
 19/10/2002
 ----------
- * A�ado la rutina e_free() en ediv.c. Se encarga de comprobar si hay un puntero
+ * AÃ±ado la rutina e_free() en ediv.c. Se encarga de comprobar si hay un puntero
    en uso, y si es cierto lo libera primero y luego le asigna NULL. (Daijo)
- * A�ado el archivo errors.h a la carpeta shared con el motivo de que sea mas
+ * AÃ±ado el archivo errors.h a la carpeta shared con el motivo de que sea mas
    claro identificar errores mediante un nombre en lugar de un numero. (Daijo)
  * Limpio el archivo extern.h y comentarizo segun las normas de ANSI C99. (Daijo)
  * Elimino varias variables no utilizadas en las dll's. (Daijo)
- * Ahora el stub con trazador es aplicaci�n de consola, desde la que podemos
-   trazar el programa con un "mini-trazador" que lleva incorporado. As� podemos
-   descubrir f�cilmente d�nde petan los programas (por ejemplo, robots.prg
+ * Ahora el stub con trazador es aplicaciÃ³n de consola, desde la que podemos
+   trazar el programa con un "mini-trazador" que lleva incorporado. AsÃ­ podemos
+   descubrir fÃ¡cilmente dÃ³nde petan los programas (por ejemplo, robots.prg
    peta en el collision). Por cierto, lo que muestra el trazador entre corchetes
-   al principio de cada l�nea es el imem donde comienza la sentencia.
+   al principio de cada lÃ­nea es el imem donde comienza la sentencia.
    (Er_Makina)
  * Haciendo el mini_trazador he modificado inicio_sentencia(), ahora no tiene
-   bucle, s�lo un par de asignaciones, as� que en teor�a eDIV deber�a compilar
+   bucle, sÃ³lo un par de asignaciones, asÃ­ que en teorÃ­a eDIV deberÃ­a compilar
    ya correctamente en Windows 98. (Er_Makina)
- * Cuando eDIV compila con la opci�n -d (y compilado en modo Debug), genera un
-   fichero ediv.lin donde se muestra la informaci�n que usa el trazador para
-   localizar el c�digo correspondiente al imem actual. (Er_Makina)
+ * Cuando eDIV compila con la opciÃ³n -d (y compilado en modo Debug), genera un
+   fichero ediv.lin donde se muestra la informaciÃ³n que usa el trazador para
+   localizar el cÃ³digo correspondiente al imem actual. (Er_Makina)
 
 18/10/2002
 ----------
- * A�adido el entrypoint "quit". Usadlo para liberar los recursos de la dll.
+ * AÃ±adido el entrypoint "quit". Usadlo para liberar los recursos de la dll.
    (Er_Makina)
  * Arreglado get_id, que (en teoria) no se reseteaba al hacer frame. Ademas he
    hecho que use las variables de la estructura reserved. (Er_Makina)
  * Ahora se inicializan las locales son, father, bigbro y smallbro. (Er_Makina)
- * A�adido exit() (accede a stub_quit mediante fp->Stub_Quit). (Er_Makina)
+ * AÃ±adido exit() (accede a stub_quit mediante fp->Stub_Quit). (Er_Makina)
 
 17/10/2002
 ----------
  * Eliminados archivos parser.* y compiler.* de la carpeta STUB ya que no los
    utilizabamos (Daijo)
  * Eliminados archivos de la libreria grafica de Fenix de GRAPHICS (Daijo)
- * A�adidos los fp->RuntimeError(x) y eliminados printf\exit en el eDIV_LOAD_FPG
+ * AÃ±adidos los fp->RuntimeError(x) y eliminados printf\exit en el eDIV_LOAD_FPG
    (Daijo)
 
 10/10/2002
 ----------
- * Corregido peque�o bug en load_bmp, que no seteaba correctamente el centro del
+ * Corregido pequeÃ±o bug en load_bmp, que no seteaba correctamente el centro del
    grafico (Er_Makina)
- * Ya funciona el mouse. Faltan algunas cosas de la estructura mouse por a�adir.
-   La ruedecilla del rat�n no funciona, hay que leerla en SDL_PollEvents (en el
+ * Ya funciona el mouse. Faltan algunas cosas de la estructura mouse por aÃ±adir.
+   La ruedecilla del ratÃ³n no funciona, hay que leerla en SDL_PollEvents (en el
    stub :P) (Er_Makina)
- * A�adido "type mouse". Debe actualizarse collision() para que reconozca colisio-
-   nes con el rat�n (si recibe como par�metro un 0 es que se ha usado type mouse)
+ * AÃ±adido "type mouse". Debe actualizarse collision() para que reconozca colisio-
+   nes con el ratÃ³n (si recibe como parÃ¡metro un 0 es que se ha usado type mouse)
    (Er_Makina)
 
 7/10/2002
@@ -355,17 +355,17 @@
  * Actualizados proyectos para Visual Studio .NET, ahora al
    compilar en release no da errores. (Daijo)
  * En Windows XP el ejecutable generado con eDIV *NO* se ejecuta,
-   �sugerencias de por qu� se produce el fallo? (Daijo)
- * Esto �ltimo ya est� arreglado (Er_Makina)
+   Â¿sugerencias de por quÃ© se produce el fallo? (Daijo)
+ * Esto Ãºltimo ya estÃ¡ arreglado (Er_Makina)
 
 6/10/2002
 ---------
- * A�adida estructura mouse en la input.dll. Lo malo es que peta al hacer
+ * AÃ±adida estructura mouse en la input.dll. Lo malo es que peta al hacer
    el blit :P supongo que no uso bien fp->Dibuja. (Er_Makina)
 
 28/9/2002
 ---------
- * El t�tulo por defecto de la ventana del juego compilado es el nombre in-
+ * El tÃ­tulo por defecto de la ventana del juego compilado es el nombre in-
    dicado en la sentencia program. (Er_Makina)
 
 26/9/2002
@@ -373,82 +373,82 @@
  * Algunos bugfixes y cambios menores. CicTec y yo andamos tras la pista de
    algunos bugs:
    - En Windows 98, ediv peta cuando compila algunos programas que no tienen
-     compiler_options y no tienen una l�nea en blanco (o de comentarios)
-     antes del program. Al parecer el fallo est� en inicio_sentencia().
+     compiler_options y no tienen una lÃ­nea en blanco (o de comentarios)
+     antes del program. Al parecer el fallo estÃ¡ en inicio_sentencia().
    - Al pasar de 512 procesos y cerrar el juego, se produce un error. Aparen-
-     temente salta al llegar a SDL_Quit, as� que he deducido que puede ser
+     temente salta al llegar a SDL_Quit, asÃ­ que he deducido que puede ser
      porque no se liberan los recursos (surfaces, etc) antes de salir. Para
-     permitir esto, a�adir� un entrypoint "quit" que ser� llamado desde
-     stub_quit (lo dejo para ma�ana). Aunque, curiosamente, este fallo no se
-     produce si no usamos procesos con m�s de un par�metro.
+     permitir esto, aÃ±adirÃ© un entrypoint "quit" que serÃ¡ llamado desde
+     stub_quit (lo dejo para maÃ±ana). Aunque, curiosamente, este fallo no se
+     produce si no usamos procesos con mÃ¡s de un parÃ¡metro.
    - Al llegar a x procesos (600, 900...) el programa se queda bloqueado.
    (Er_Makina)
 
 25/9/2002
 ---------
- * A�adido un control para evitar que haya m�s de "max_process" procesos. Si
-   ocurre, se produce un critical_error. A veces permite un peque�o margen,
-   en funci�n de la memoria disponible. (Er_Makina)
+ * AÃ±adido un control para evitar que haya mÃ¡s de "max_process" procesos. Si
+   ocurre, se produce un critical_error. A veces permite un pequeÃ±o margen,
+   en funciÃ³n de la memoria disponible. (Er_Makina)
  * Aconsejo usar en cualquier momento stub_quit() en lugar de exit(), ya que
-   ah� se libera varindex y se ejecuta SDL_Quit. (Er_Makina)
- * A�adidos los opcodes optimizados al stub. He puesto no_optimization a 0 en
+   ahÃ­ se libera varindex y se ejecuta SDL_Quit. (Er_Makina)
+ * AÃ±adidos los opcodes optimizados al stub. He puesto no_optimization a 0 en
    el ediv.cfg. He compilado los test y parece que rulan perfectamente.
    (Er_Makina)
- * Corregido un peque�o fallo en el opcode ljpf. (Er_Makina)
+ * Corregido un pequeÃ±o fallo en el opcode ljpf. (Er_Makina)
  * Se permite sobrecarga de funciones en las DLLs. Se pueden declarar varias
-   funciones con el mismo nombre siempre que tengan distinto n�mero de par�-
-   metros. Dentro de la funci�n se puede saber cu�ntos par�metros se han re-
-   cibido con fp->num_params. Ver doc/ExportaFuncs.txt para m�s detalles
-   (ya lo pasar� a .dok :P) (Er_Makina)
+   funciones con el mismo nombre siempre que tengan distinto nÃºmero de parÃ¡-
+   metros. Dentro de la funciÃ³n se puede saber cuÃ¡ntos parÃ¡metros se han re-
+   cibido con fp->num_params. Ver doc/ExportaFuncs.txt para mÃ¡s detalles
+   (ya lo pasarÃ© a .dok :P) (Er_Makina)
 
 24/9/2002
 ---------
- * ��A�adido indexado de variables din�mico!! (�contento Rise?) :D
+ * Â¡Â¡AÃ±adido indexado de variables dinÃ¡mico!! (Â¿contento Rise?) :D
    +------------------------------+
-   | LEER ESTO CON MUCHA ATENCI�N |
+   | LEER ESTO CON MUCHA ATENCIÃN |
    +------------------------------+
-   1) Compilad la documentaci�n (doc/html/makedokNT.bat) y leed bien el
+   1) Compilad la documentaciÃ³n (doc/html/makedokNT.bat) y leed bien el
       varindex-howto.html. Las macros a que hace referencia se encuentran en
       varindex.h (para el stub) y export.h (para las dll's), por si quereis
       verlas.
-   2) NO INCLUY�IS VARINDEX.H EN LAS DLL's, s�lamente export.h
+   2) NO INCLUYÃIS VARINDEX.H EN LAS DLL's, sÃ³lamente export.h
 
-   Ya ten�is acceso a cualquier variable, tabla o estructura de cualquier dll
+   Ya tenÃ©is acceso a cualquier variable, tabla o estructura de cualquier dll
    desde cualquier otra dll. Falta hacer un sistema de dependencias, rara vez
-   se va a dar el caso de que una dll dependa de otra (a excepci�n de la
-   graphics o la edivstd), pero vendr� muy bien de todas formas y aseguraremos
+   se va a dar el caso de que una dll dependa de otra (a excepciÃ³n de la
+   graphics o la edivstd), pero vendrÃ¡ muy bien de todas formas y aseguraremos
    la robustez de ediv, especialmente de cara a dll's hechas por usuarios.
    Al compilar, ediv (compilado como Debug) guarda en varindex.out la tabla
    de variables sin comprimir, que podeis comparar con la lista que muestra
    el stub en stdout al arrancar, por si hay que comprobar errores. (Er_Makina)
  * Naturalmente ha sido necesario adaptar el stub y todas las dlls. De paso he
-   aprovechado para cambiar alguna cosilla por ah� para quitar warnings (uf
+   aprovechado para cambiar alguna cosilla por ahÃ­ para quitar warnings (uf
    la graphics tiene cada warnings mas peligrosos.. variables sin inicializar..
    de to) :P (Er_Makina)
- * ��Corregido bug de los 154 procesos!! (Er_Makina)
- * ��Ya se inicializan las variables locales!! (Er_Makina)
+ * Â¡Â¡Corregido bug de los 154 procesos!! (Er_Makina)
+ * Â¡Â¡Ya se inicializan las variables locales!! (Er_Makina)
  * Cambiado max_process en ediv.cfg de 20 a 1024 (Er_Makina)
- * Por hacer: controlar el m�ximo de procesos permitidos. (Er_Makina)
+ * Por hacer: controlar el mÃ¡ximo de procesos permitidos. (Er_Makina)
       
 9/9/2002
 --------
- * Le he a�adido icono al stub, y tambi�n he hecho un programa (iconchanger)
-   para cambi�rselo despu�s de haber compilado un programa con ediv. mola
-   eh? :) incluyo tambi�n un icono de pacman de ejemplo ke me ked� mu majo.
+ * Le he aÃ±adido icono al stub, y tambiÃ©n he hecho un programa (iconchanger)
+   para cambiÃ¡rselo despuÃ©s de haber compilado un programa con ediv. mola
+   eh? :) incluyo tambiÃ©n un icono de pacman de ejemplo ke me kedÃ³ mu majo.
    (Er_Makina)
  * Agregados all_drawing y all_text a sus correspondientes dll's. (Er_Makina)
  * He incluido en la estructura fp funciones para errores (Runtime_Error y
-   Critical_Error). ��Empezad a usarlas YA!! Ten�is una lista completa de los
-   errores en el language.c del stub. Pod�is a�adir nuevos errores aprovechando
-   los huecos, pero no a�ad�is a menos que est�is seguros de que ese error no
-   existe ya (si la descripci�n no es como os gusta, pos la cambi�is un poco,
+   Critical_Error). Â¡Â¡Empezad a usarlas YA!! TenÃ©is una lista completa de los
+   errores en el language.c del stub. PodÃ©is aÃ±adir nuevos errores aprovechando
+   los huecos, pero no aÃ±adÃ¡is a menos que estÃ©is seguros de que ese error no
+   existe ya (si la descripciÃ³n no es como os gusta, pos la cambiÃ¡is un poco,
    hala). (Er_Makina)
 
 6/9/2002
 --------
  * Mejorado ligeramente el sistema de indexado de variables, ya no estan
    esos #defines tan engorrosos porke los identificadores van con enum.
-   Recordad recompilar si insertais alguna variable nueva. �Ojo! Tienen que
+   Recordad recompilar si insertais alguna variable nueva. Â¡Ojo! Tienen que
    estar ordenadas por global, reserved y local, no vale saltearlas, de esta
    forma se localizan mas rapidamente. (Er_Makina)
 
@@ -456,7 +456,7 @@
 ---------
  * Modificado el formato de los exes en modo debug. En lugar de la ruta
    absoluta hacia el prg, se guarda el codigo fuente completo comprimido
-   (primero el tama�o descomprimido, luego el tama�o comprimido y luego el
+   (primero el tamaÃ±o descomprimido, luego el tamaÃ±o comprimido y luego el
    codigo comprimido) (Er_Makina)
 
 26/6/2002
@@ -464,8 +464,8 @@
  * El ediv_export daba error si se declaraban dos objetos con igual nombre en
    distintos niveles de struct (problema con el "height" de la estructura
    "video_modes" de la graphics.dll y la local "height" de edivstd.dll).
-   Creo que el problema est� corregido (ver crea_objeto() en parser.c) pero
-   hace falta testearlo un poco m�s (Er_Makina)
+   Creo que el problema estÃ¡ corregido (ver crea_objeto() en parser.c) pero
+   hace falta testearlo un poco mÃ¡s (Er_Makina)
    
 16/3/2002
 ---------
@@ -474,7 +474,7 @@
 
 22/2/2002
 ---------
- * Corregido bug al leer las Dlls. Estas si contenian caracteres en may�sculas
+ * Corregido bug al leer las Dlls. Estas si contenian caracteres en mayÃºsculas
    no las encontraba, solo encontraba aquellas cuyo nombre estaba escrito en
    minusculas. Ahora las carga perfectamente, incluso en Linux, aunque es mas
    probable ver mIDlL.dLL en Windows, que mISo.sO en lnx :).
@@ -486,7 +486,7 @@
 
 21/2/2002
 ---------
- * Quitados los archivos _ml.* y a�adidos los utils.*, estos ultimos servir�n
+ * Quitados los archivos _ml.* y aÃ±adidos los utils.*, estos ultimos servirÃ¡n
    para albergar todas las rutinas utiles que creemos. Actualmente contiene
    'strcasecmp' y 'strncasecmp' definidas para Win32, en los sistemas **IX ya
    existian. (Daijo)
@@ -495,14 +495,14 @@
 19/2/2002
 ---------
 
- * Comenzada la debug.dll. Se trata de una aplicaci�n Qt que se ejecuta con el
-   entrypoint "debug". Tiene prioridad -512, ya que nunca debe ser a�adida
-   manualmente, el compilador la a�ade siempre autom�ticamente cuando se compila
-   con la opci�n -d. S�lo funciona con el stub que tiene el trazador activado
-   (*.dbg), recordad compilarlo antes de probar el trazador. Tambi�n he a�adido
-   el entrypoint "trace", �til para trazar el programa sentencia por sentencia.
-   Naturalmente, el trazador aun est� en bragas x) tengo el dise�o hecho aparte,
-   de momento es un calco del trazador de DIV2 pero luego le iremos a�adiendo
+ * Comenzada la debug.dll. Se trata de una aplicaciÃ³n Qt que se ejecuta con el
+   entrypoint "debug". Tiene prioridad -512, ya que nunca debe ser aÃ±adida
+   manualmente, el compilador la aÃ±ade siempre automÃ¡ticamente cuando se compila
+   con la opciÃ³n -d. SÃ³lo funciona con el stub que tiene el trazador activado
+   (*.dbg), recordad compilarlo antes de probar el trazador. TambiÃ©n he aÃ±adido
+   el entrypoint "trace", Ãºtil para trazar el programa sentencia por sentencia.
+   Naturalmente, el trazador aun estÃ¡ en bragas x) tengo el diseÃ±o hecho aparte,
+   de momento es un calco del trazador de DIV2 pero luego le iremos aÃ±adiendo
    cosas (quickwatches y cosas de esas molonas). (Er_Makina)
 
  * Corregidos algunos serios bugs relacionados con la carga de DLL's (otra vez
@@ -512,11 +512,11 @@
 18/2/2002
 ---------
 
- * Ahora en la 2� fase del compilador y en el stub se le a�ade la extensi�n a
+ * Ahora en la 2Âª fase del compilador y en el stub se le aÃ±ade la extensiÃ³n a
    una DLL antes de cargarla. Esto no taba problemas en Windows 2000, pero
-   pod�a darlos en Windows XP/9x/Me. (Er_Makina)
+   podÃ­a darlos en Windows XP/9x/Me. (Er_Makina)
 
- * A�adido Call_Entrypoint. Teneis que recompilar todas las DLL's que tengais
+ * AÃ±adido Call_Entrypoint. Teneis que recompilar todas las DLL's que tengais
    para que funcionen correctamente. (Er_Makina)
 
 
@@ -530,7 +530,7 @@
    capaz de ejecutar correctamente programas mas complejos, usando variables
    globales, privadas, locales, etc (Er_Makina)
 
- * A�adido #ifndef _CABECERA_H - #define _CABECERA_H - ... - #endif para evitar
+ * AÃ±adido #ifndef _CABECERA_H - #define _CABECERA_H - ... - #endif para evitar
    includes recursivos. No habia ningun problema con esto, pero es mejor
    evitarlos desde un principio. (Daijo)
 
@@ -538,7 +538,7 @@
 16/2/2002
 ---------
 
- * Completadas algunas instrucciones EML del int�rprete. (Er_Makina)
+ * Completadas algunas instrucciones EML del intÃ©rprete. (Er_Makina)
 
  * Arreglado un bug por el cual no se cargaban las dlls adecuadas. (Er_Makina)
 
@@ -547,25 +547,25 @@
 ---------
 
  * Bug arreglado: cuando en Win32 se encontraba la primera DLL, se contabilizaba
-   aunque no fuera v�lida. (Er_Makina)
+   aunque no fuera vÃ¡lida. (Er_Makina)
 
- * Ahora el nombre de las DLL's se almacena sin extensi�n. (Er_Makina)
+ * Ahora el nombre de las DLL's se almacena sin extensiÃ³n. (Er_Makina)
 
- * En el ediv.cfg ahora hay una secci�n llamada dll_priority, donde se pueden
+ * En el ediv.cfg ahora hay una secciÃ³n llamada dll_priority, donde se pueden
    ajustar prioridades a las DLL's, las cuales se superponen a las prioridades
    por defecto de cada DLL. (Er_Makina)
 
- * Si una DLL tiene como prioridad 512 (P_SIEMPRE), se tomar� siempre como
+ * Si una DLL tiene como prioridad 512 (P_SIEMPRE), se tomarÃ¡ siempre como
    necesaria. Si tiene -512 (P_NUNCA), se ignora la DLL. (Er_Makina)
 
  * El directorio donde se encuentran las DLL's puede configurarse en el ediv.cfg
    (Er_Makina)
 
  * En edivcentral.com he creado una carpeta llamada "actual" donde hay
-   documentos que cambian frecuentemente, �tiles para mantenerse informado sobre
-   el desarrollo de eDIV. All� est�n el TODO, el ChangeLog, el MOTD, y tambi�n
+   documentos que cambian frecuentemente, Ãºtiles para mantenerse informado sobre
+   el desarrollo de eDIV. AllÃ­ estÃ¡n el TODO, el ChangeLog, el MOTD, y tambiÃ©n
    el language.txt. Se puede acceder a ellos en www.edivcentral.com/actual. El
-   changelog se puede ver r�pidamente en changelog.edivcentral.com.
+   changelog se puede ver rÃ¡pidamente en changelog.edivcentral.com.
    (Er_Makina + Daijo)
 
  * El sistema de prioridades de las DLL's ya funciona perfectamente, la tabla de
@@ -577,7 +577,7 @@
 ---------
 
  * Bug arreglado: en WinNT el stub fallaba al cargar una DLL. He puesto
-   que use las funciones de windows (LoadLibrary y compa�ia), pero
+   que use las funciones de windows (LoadLibrary y compaÃ±ia), pero
    dll_load.c sigue siendo necesaria para cargar dll's embebidas en el
    exe. (Er_Makina)
 
@@ -606,41 +606,41 @@
 13/1/2002
 ---------
 
- * El compilador lee un archivo de configuraci�n (ediv.cfg) de donde
-   obtiene las opciones de compilaci�n por defecto, el servidor para el
+ * El compilador lee un archivo de configuraciÃ³n (ediv.cfg) de donde
+   obtiene las opciones de compilaciÃ³n por defecto, el servidor para el
    MOTD, un idioma forzado y el directorio de las dll's. Falta por incluir
-   una secci�n [dll_priority] donde indicar las prioridades por defecto de
-   las dll's. �stas ir�n, por ahora, de -512 a 512. El valor por defecto
-   es 0. Una dll con 512 de prioridad se cargar� siempre aunque no se
-   indique ninguna referencia a una funci�n de la dll en el PRG (�ste es
+   una secciÃ³n [dll_priority] donde indicar las prioridades por defecto de
+   las dll's. Ãstas irÃ¡n, por ahora, de -512 a 512. El valor por defecto
+   es 0. Una dll con 512 de prioridad se cargarÃ¡ siempre aunque no se
+   indique ninguna referencia a una funciÃ³n de la dll en el PRG (Ã©ste es
    el caso de la edivstd y la graphics). Una prioridad de -512 hace que
-   la dll no se cargue nunca (�til para tener varias dll's que hagan lo
+   la dll no se cargue nunca (Ãºtil para tener varias dll's que hagan lo
    mismo, por ejemplo una sound que use fmod y otra que use sdl).
    (Daijo & Er_Makina)
 
  * He incluido errores run-time leves y graves en el stub (mirar error.c).
-   En error.c explico tambi�n el planteamiento de poner msgbox en linux
+   En error.c explico tambiÃ©n el planteamiento de poner msgbox en linux
    para los errores. Los mensajes de error leves son los mismos que en
    div2, esto es importante para mantener la compatibilidad con
    ignore_error(). (Er_Makina)
 
- * He mejorado la comunicaci�n HTTP/1.1 para obtener el MOTD. Ahora
-   detecta si la informaci�n recibida es de texto plano, y no admite fi-
-   cheros de m�s de 1024 bytes. (Er_Makina)
+ * He mejorado la comunicaciÃ³n HTTP/1.1 para obtener el MOTD. Ahora
+   detecta si la informaciÃ³n recibida es de texto plano, y no admite fi-
+   cheros de mÃ¡s de 1024 bytes. (Er_Makina)
 
  * Implementado el sistema de entrypoints en el compilador y extern.h,
    queda meterlo en el stub. (Er_Makina)
 
- * Carga de dll's a medio hacer en el stub (ya funciona la instrucci�n IMP),
+ * Carga de dll's a medio hacer en el stub (ya funciona la instrucciÃ³n IMP),
    le falta un ediv_export.c, por tanto no compila. El stub busca las dll's
    primero en el directorio actual y luego en dll\ (so/ en el caso de Linux).
    (Er_Makina)
 
  * dll_load.c y dll_load.h movidos a la carpeta shared. (Er_Makina)
 
- * Arreglado peque�o desastre con el fichero extern.h (Er_Makina)
+ * Arreglado pequeÃ±o desastre con el fichero extern.h (Er_Makina)
 
- * Varios peque�os bugs arreglados. (Er_Makina)
+ * Varios pequeÃ±os bugs arreglados. (Er_Makina)
 
 
 1/12/2001
@@ -648,35 +648,35 @@
 
  * Ligeramente modificado el SDK, las funciones ediv_export ya no retornan
    un puntero C a los datos exportados, sino un puntero DIV, es decir, la
-   posici�n en mem[] o loc[] donde han sido colocados. Esto permitir� hacer
+   posiciÃ³n en mem[] o loc[] donde han sido colocados. Esto permitirÃ¡ hacer
    el sistema de indexado para que unas DLLs (o el stub) puedan acceder a
    datos de otras, y para que se pueda acceder a los datos locales mediante
    mem[id+offset]. (Er_Makina)
 
- * Tambi�n he metido algunos #defines para hacer las funciones predefinidas
-   o autoejecutables de las DLL, se declarar�n con una funci�n tipo
+ * TambiÃ©n he metido algunos #defines para hacer las funciones predefinidas
+   o autoejecutables de las DLL, se declararÃ¡n con una funciÃ³n tipo
    EDIV_Export_Auto(id_funcion,handle). Aun no tengo muy claro como fun-
-   cionar� el asunto en general, imagino que todo se desencadenar� a partir
-   de EDIV_post_process y a partir de ah� todas las DLLs ir�n llamando a las
-   correspondientes autoejecutables de las dem�s. Si alguien no entiende esto,
-   que me lo pregunte y me rallar� mas xD (Er_Makina)
+   cionarÃ¡ el asunto en general, imagino que todo se desencadenarÃ¡ a partir
+   de EDIV_post_process y a partir de ahÃ­ todas las DLLs irÃ¡n llamando a las
+   correspondientes autoejecutables de las demÃ¡s. Si alguien no entiende esto,
+   que me lo pregunte y me rallarÃ© mas xD (Er_Makina)
 
- * A�adida capacidad para leer un MOTD situado en www.edivcentral.com/motd.txt
-   con la opci�n -n, --news (de momento s�lo rula en Win32) (Daijo + Er_Makina)
+ * AÃ±adida capacidad para leer un MOTD situado en www.edivcentral.com/motd.txt
+   con la opciÃ³n -n, --news (de momento sÃ³lo rula en Win32) (Daijo + Er_Makina)
 
 
 30/11/2001
 ----------
 
- * A�adido archivo language.txt en el directorio raiz, para que sea mas facil
-   hacer traducciones. El que haga alguna traducci�n nueva, que la mande
+ * AÃ±adido archivo language.txt en el directorio raiz, para que sea mas facil
+   hacer traducciones. El que haga alguna traducciÃ³n nueva, que la mande
    a ediv@divsite.net para que la implementemos en el language.c. (Er_Makina)
 
 
 29/11/2001
 ----------
 
- * A�adido soporte multi-idioma (ojo, la traduccion al portugues esta por
+ * AÃ±adido soporte multi-idioma (ojo, la traduccion al portugues esta por
    terminar, y el #ifdef de detectar_idioma lo puse mal como WIN322 o algo asi
    pa probar como rularia en linux. Probad a trastear con la variable de
    entorno LANG... ;) (Er_Makina)
@@ -690,7 +690,7 @@
  * Los incluides, workspaces y librerias de ZLIB y SDL han sido eliminadas como
    parte del codigo de eDiv. (Daijo)
 
- * El archivo 'ediv 2� etapa.txt' tambien lo he quitado. (Daijo)
+ * El archivo 'ediv 2Âª etapa.txt' tambien lo he quitado. (Daijo)
 
  * He arreglado unas incompatibilidades del STUB con las cabeceras de Windows,
 en
@@ -721,7 +721,7 @@ exis-
    ten variables locales privadas del interprete que sirven para el
 funcionamien-
    to del interprete. Estas variables cuinciden casi exactamente con las que
-   hice en procs_s[], esto debe ser buena se�al no? al parecer el funcionamiento
+   hice en procs_s[], esto debe ser buena seÃ±al no? al parecer el funcionamiento
    interno del interprete de dani y el que estoy haciendo se parecen mas de lo
    que hubiera imaginado en un principio. Mejor, asi es menos probable que nos
    aparezcan errores inesperados de incompatibilidad :)
@@ -733,7 +733,7 @@ grafi-
    El stub peta si al llegar al frame hay mas de un proceso activo, aun no muy
    bien el motivo. ( Riseven )
 
- * He notado que la iloc_len es mas peque�a de lo que deberia ser, solo en
+ * He notado que la iloc_len es mas pequeÃ±a de lo que deberia ser, solo en
    variables locales predefinidas ya hay 42, mientras que iloc_len vale 37.
    ( Riseven )
 
@@ -766,7 +766,7 @@ conseguido
    pila ( pila[sp] )
    ( Riseven )
 
- * A�adidas las variables locales al interprete, falta testearlo. Se trata de
+ * AÃ±adidas las variables locales al interprete, falta testearlo. Se trata de
 los
    mnemonicos AID y CID. AID suma id a la pila, y CID carga id en la pila. Esto
    es debido a k las variables locales funcionan sumando id+offset_variable,
@@ -828,27 +828,27 @@ publicas
 8/11/2001
 ---------
 
- * Implementada compilaci�n cruzada: ahora es posible indicar el sistema
-   al que se quiere compilar con la opci�n -s, seguida del nombre del sistema
-   (deber� existir un fichero de stub con el nombre de ese sistema, ver si-
+ * Implementada compilaciÃ³n cruzada: ahora es posible indicar el sistema
+   al que se quiere compilar con la opciÃ³n -s, seguida del nombre del sistema
+   (deberÃ¡ existir un fichero de stub con el nombre de ese sistema, ver si-
    guiente punto) (Er_Makina)
 
- * Implementado sistema de doble stub: uno con extensi�n .rel para compila-
-   ciones definitivas y otro con extensi�n .dbg para compilaciones de debug.
+ * Implementado sistema de doble stub: uno con extensiÃ³n .rel para compila-
+   ciones definitivas y otro con extensiÃ³n .dbg para compilaciones de debug.
    Para elegir si compilar el .rel o el .dbg se debe elegir "Select
-   configuration..." en el men� Build de Visual C y elegir por ejemplo
-   "Win32 Debug" para la versi�n .rel y "Win32 Debug con trazador" para la
-   versi�n .dbg. La diferencia entre los dos es que el .dbg se compila con
+   configuration..." en el menÃº Build de Visual C y elegir por ejemplo
+   "Win32 Debug" para la versiÃ³n .rel y "Win32 Debug con trazador" para la
+   versiÃ³n .dbg. La diferencia entre los dos es que el .dbg se compila con
    la macro DBG definida, y por tanto se activan las rutinas de depurado de
    eDIV. (Er_Makina)
 
- * El script makelib.bat tambi�n ha sido modificado para implementar lo de
-   los nuevos stubs y AHORA SE EJECUTA AUTOM�TICAMENTE DESPU�S DE COMPILAR
-   EL STUB, por lo que ya no hace falta hacerlo manualmente. Esto est�
-   configurado en la pesta�a "post-build step" en las opciones del proyecto
+ * El script makelib.bat tambiÃ©n ha sido modificado para implementar lo de
+   los nuevos stubs y AHORA SE EJECUTA AUTOMÃTICAMENTE DESPUÃS DE COMPILAR
+   EL STUB, por lo que ya no hace falta hacerlo manualmente. Esto estÃ¡
+   configurado en la pestaÃ±a "post-build step" en las opciones del proyecto
    stub. (Er_Makina)
 
- * A�adidas rutinas de stub y kernel de Riseven y |RooT|. (Daijo)
+ * AÃ±adidas rutinas de stub y kernel de Riseven y |RooT|. (Daijo)
 
 
 7/11/2001
@@ -857,9 +857,9 @@ publicas
  * Cambiado el 'magic' de la edivrun.lib de "dj!" a "eDIV Stub" (Er_Makina)
    Nota: PROHIBIDO CAMBIARLO OTRA VEZ :PPPPPP
 
- * El stub ahora descomprime el c�digo y lo guarda en memoria. (Er_Makina)
+ * El stub ahora descomprime el cÃ³digo y lo guarda en memoria. (Er_Makina)
 
- * La clave de encriptaci�n, el 'magic' de la edivrun.lib y otros datos
+ * La clave de encriptaciÃ³n, el 'magic' de la edivrun.lib y otros datos
    que son comunes a varios programas ahora se encuentran en el archivo
    shared.h para poder modificar algun dato sin tener que hacerlo en varios
    ficheros a la vez (Daijo)
@@ -874,23 +874,23 @@ publicas
 29/6/2001
 ---------
 
- * Corregidos miles de bugs de la versi�n para Win32. ':) Ahora se lee el
-   fichero prg en modo "rb" en vez de "r" ya que el gracioso de g�indows
+ * Corregidos miles de bugs de la versiÃ³n para Win32. ':) Ahora se lee el
+   fichero prg en modo "rb" en vez de "r" ya que el gracioso de gÃŒindows
    en modo "r" te sustituye los CRLF por LF a secas >:( y el programa no
-   resultaba tan grande como el tama�o del propio archivo, por lo que
+   resultaba tan grande como el tamaÃ±o del propio archivo, por lo que
    encontraba "caracteres no reconocidos" (basura) antes de llegar al EOF
-   (el car�cter de ASCII 0).
+   (el carÃ¡cter de ASCII 0).
 
- * A�adida opci�n -c o --check que hace que no se guarde el exe. �til para
+ * AÃ±adida opciÃ³n -c o --check que hace que no se guarde el exe. Ãtil para
    comprobar sintaxis, sacar listados, etc sin sobreescribir el exe actual
    o simplemente sin malgastar espacio (y el trabajo de borrar el exe) xD
 
- * Comenzada documentaci�n... de solo mirar el indice ya da la sensaci�n
-   de estar leyendo una tesis doctoral... xD Tambi�n comenc� una referencia
-   de EML pero me acab� aburriendo as� que ya lo terminar� un d�a que est�
+ * Comenzada documentaciÃ³n... de solo mirar el indice ya da la sensaciÃ³n
+   de estar leyendo una tesis doctoral... xD TambiÃ©n comencÃ© una referencia
+   de EML pero me acabÃ© aburriendo asÃ­ que ya lo terminarÃ© un dÃ­a que estÃ©
    realmente aburrido y no tenga ganas de hacer otra cosa :p
-   Por cierto, la introducci�n me ha salido muy chunga, parece como si
-   hubiera escrito un anuncio del div3 o algo asi :( as� que el que quiera
+   Por cierto, la introducciÃ³n me ha salido muy chunga, parece como si
+   hubiera escrito un anuncio del div3 o algo asi :( asÃ­ que el que quiera
    modificarla que lo haga por favor, o mejor dicho hacedlo, ke seguro ke
    teneis mas inspiracion ke yo xD
 
@@ -901,26 +901,26 @@ publicas
 ---------
 
  * Re-construidos proyectos para Win32, he puesto los includes de la zlib y
-   SDL en /inc, y sus libs correspondientes en /zlib. En /src/visual c est�
+   SDL en /inc, y sus libs correspondientes en /zlib. En /src/visual c estÃ¡
    el workspace con el ediv, stub y encrypt. Cada dll tiene su propio work-
    space en el directorio de su source.
 
- * A�adida la ruta absoluta del PRG en Win32 al compilar en modo debug.
+ * AÃ±adida la ruta absoluta del PRG en Win32 al compilar en modo debug.
 
- * Ligeramente modificado el formato de los EXE, ahora se a�ade el tama�o de
-   los datos comprimidos despu�s del tama�o de los datos descomprimidos. El
+ * Ligeramente modificado el formato de los EXE, ahora se aÃ±ade el tamaÃ±o de
+   los datos comprimidos despuÃ©s del tamaÃ±o de los datos descomprimidos. El
    numerito tiene formato de unsigned long, que no recuerdo ahora mismo
    cuantos bytes eran.
 
- * Parece que hay un fallo en Win32 al reconocer qu� DLLs se usan en el PRG.
-   Al compilar C.PRG, s�lo reconoce que se usa edivstd.dll, cuando en reali-
-   dad deber�a usar tambi�n sample.dll. Esto se puede arreglar con una
-   sesi�n de debug pero ahora no tengo tiempo, ma�ana me ocupar� de eso.
-   (o esta noche si no me entra sue�o xD)
+ * Parece que hay un fallo en Win32 al reconocer quÃ© DLLs se usan en el PRG.
+   Al compilar C.PRG, sÃ³lo reconoce que se usa edivstd.dll, cuando en reali-
+   dad deberÃ­a usar tambiÃ©n sample.dll. Esto se puede arreglar con una
+   sesiÃ³n de debug pero ahora no tengo tiempo, maÃ±ana me ocuparÃ© de eso.
+   (o esta noche si no me entra sueÃ±o xD)
 
- * He modificado un poco el export.h para hacerlo m�s compatible con win32.
-   He comentarizado tambi�n el asunto del DllMain, tanto en el export.h como
-   en las DLLs, ya que aparte de darme problemas en win32, no ten�a utilidad
+ * He modificado un poco el export.h para hacerlo mÃ¡s compatible con win32.
+   He comentarizado tambiÃ©n el asunto del DllMain, tanto en el export.h como
+   en las DLLs, ya que aparte de darme problemas en win32, no tenÃ­a utilidad
    en Linux.
 
    (Er_Makina)
@@ -930,28 +930,28 @@ publicas
 ---------
 
  * Arreglado un bug por el cual se echaba a perder todo el eml. En un sitio
-   escrib� mem en vez de imem y... ^_^ Tambi�n he arreglado la generaci�n de
+   escribÃ­ mem en vez de imem y... ^_^ TambiÃ©n he arreglado la generaciÃ³n de
    la rutina de carga de DLLs, ahora recuerdo que no se puede volver de un
    JMP con un RET xD
 
- * Arreglado ELSEIF. No volver� a ser tan chapuzas, lo juro xD
+ * Arreglado ELSEIF. No volverÃ© a ser tan chapuzas, lo juro xD
    Y esta vez lo he comprobado bien, repasando el desensamblado y todo :)
 
  * Se escribe stub_size al final del ejecutable
 
- * La opci�n -d (--debug) ya funciona. El formato del ejecutable de debug es
+ * La opciÃ³n -d (--debug) ya funciona. El formato del ejecutable de debug es
    el siguiente: primero el stub y el EML, como en los ejecutables normales.
-   Luego, la ruta absoluta del PRG (hay que terminar la funci�n escribe_lin
-   para hacer esto en win32). Luego la informaci�n que relaciona el bytecode
+   Luego, la ruta absoluta del PRG (hay que terminar la funciÃ³n escribe_lin
+   para hacer esto en win32). Luego la informaciÃ³n que relaciona el bytecode
    con el texto (lin), es decir, indica donde empieza y donde termina cada
    sentencia tanto en el bytecode (mem[]) como en el prg. Naturalmente esto
-   es �til para el trazador. Luego viene la tabla de objetos (dbg), como en el
-   fichero .tab pero m�s cr�ptico, obviamente. Primero est� el volcado de la
+   es Ãºtil para el trazador. Luego viene la tabla de objetos (dbg), como en el
+   fichero .tab pero mÃ¡s crÃ­ptico, obviamente. Primero estÃ¡ el volcado de la
    tabla de objetos, sustituyendo los nombres por offsets a su nombre
    correspondiente en el volcado de vnom (vector de nombres), que es lo que
-   viene justo despu�s. Por �ltimo, se escriben 3 valores: el comienzo de la
-   secci�n "lin" en el fichero (justo donde termina el bytecode y empieza la
-   ruta del prg), el comienzo de la secci�n "dbg", y stub_size. Ah, el
+   viene justo despuÃ©s. Por Ãºltimo, se escriben 3 valores: el comienzo de la
+   secciÃ³n "lin" en el fichero (justo donde termina el bytecode y empieza la
+   ruta del prg), el comienzo de la secciÃ³n "dbg", y stub_size. Ah, el
    ejecutable se marca como debug en el bit 6 de mem[0] (+64).
 
    (Er_Makina)
@@ -960,20 +960,20 @@ publicas
 26/6/2001
 ---------
 
- * Opciones de l�nea de comando. Ahora se puede elegir generar una tabla de
-   objetos *.tab (--table) y/o el listado EML (--list). La opci�n --debug no
-   est� disponible todavia. He metido estas nuevas opciones en listados.c
+ * Opciones de lÃ­nea de comando. Ahora se puede elegir generar una tabla de
+   objetos *.tab (--table) y/o el listado EML (--list). La opciÃ³n --debug no
+   estÃ¡ disponible todavia. He metido estas nuevas opciones en listados.c
 
- * Arreglado el estropicio que borr� todos los mensajes de error a partir
-   del 55, por un despiste mio, que me puse un ediv.c que me pas� daijo y no
+ * Arreglado el estropicio que borrÃ³ todos los mensajes de error a partir
+   del 55, por un despiste mio, que me puse un ediv.c que me pasÃ³ daijo y no
    estaba actualizado
 
  * Desactivado el sistema de "multi-error", lo he metido en #ifdefs por si
    alguien en algun futuro quiere activarlo o por si le hace ilu.
 
  * Arreglado horrible bug por el cual no se borraba vhash[] y las propias
-   dlls daban errores del tipo "el nombre no es nuevo" despu�s de la
-   precompilaci�n.
+   dlls daban errores del tipo "el nombre no es nuevo" despuÃ©s de la
+   precompilaciÃ³n.
 
  y creo ke ya ta... (Er_Makina)
 
@@ -981,7 +981,7 @@ publicas
 25/6/2001
 ---------
 
- * Terminado el proceso de remcompilaci�n para ahorrar la memoria de las
+ * Terminado el proceso de remcompilaciÃ³n para ahorrar la memoria de las
    DLLs no usadas
 
  * Ya se crea el EXE, por ahora tiene la misma estructura que los EXE de
@@ -995,10 +995,10 @@ publicas
 
  * Modularizadas las rutinas de carga de DLLs (Daijo)
 
- * Terminada secci�n PRIVATE, c�digo principal y PROCESOS (funci�n
+ * Terminada secciÃ³n PRIVATE, cÃ³digo principal y PROCESOS (funciÃ³n
    sintactico()). (Er_Makina)
 
- * Terminadas todas las sentencias (funci�n sentencia()) y a�adido ELSEIF,
+ * Terminadas todas las sentencias (funciÃ³n sentencia()) y aÃ±adido ELSEIF,
    ojo que LTLEX.DEF ha sido modificado, y obviamente los #defines de p_xxxx
    de PARSER.H tambien (Er_Makina)
 
@@ -1008,7 +1008,7 @@ publicas
 
  * Completadas las variables y constantes predefinidas en edivstd.dll
 
- * Terminada secci�n LOCAL
+ * Terminada secciÃ³n LOCAL
 
  * He comprobado y arreglado algunos errores, el 39 y algun otro que no me
    acuerdo
@@ -1019,7 +1019,7 @@ publicas
 21/6/2001
 ---------
 
- * Terminada secci�n GLOBAL con todas sus declaraciones. ':)
+ * Terminada secciÃ³n GLOBAL con todas sus declaraciones. ':)
 
  * Corregidos algunos detalles y fallos de las expresiones constantes.
 
@@ -1034,40 +1034,40 @@ publicas
 ---------
 
  * EVALUADOR DE EXPRESIONES CONSTANTES TERMINADO :D
-   Bueno, en realidad casi, tan s�lo falta comprobar todos los errores. Como
-   el DIV original deten�a la compilaci�n al encontrar un error y eDIV no,
-   hay que a�adir c�digo despu�s de las llamadas a error() para hacer que el
+   Bueno, en realidad casi, tan sÃ³lo falta comprobar todos los errores. Como
+   el DIV original detenÃ­a la compilaciÃ³n al encontrar un error y eDIV no,
+   hay que aÃ±adir cÃ³digo despuÃ©s de las llamadas a error() para hacer que el
    parsing siga como si no hubiera pasado nada. A veces esto se arregla con
-   poner simplemente lexico(); pero la mayor�a de las veces hay que hacer
-   algo m�s para ignorar el error.
+   poner simplemente lexico(); pero la mayorÃ­a de las veces hay que hacer
+   algo mÃ¡s para ignorar el error.
 
- * Tambien he incluido el generador de c�digo y el optimizador peephole, y
-   de hecho ya ser�a capaz de compilar cosas, aunque s�lo a la memoria (es
+ * Tambien he incluido el generador de cÃ³digo y el optimizador peephole, y
+   de hecho ya serÃ­a capaz de compilar cosas, aunque sÃ³lo a la memoria (es
    decir, al buffer mem[]). De momento solo reconoce el compiler_options.
    Paciencia.
  
  * Como podeis ver, ya hay unos cuantos mensajes de error, un problema es
-   que no sabemos c�mo ten�a el DIV original organizados los errores, as�
-   que hay que investigar por qu� se produce el error y qu� mensaje le
-   viene bien. He usado mensajes originales del DIV2, fij�ndome en el
+   que no sabemos cÃ³mo tenÃ­a el DIV original organizados los errores, asÃ­
+   que hay que investigar por quÃ© se produce el error y quÃ© mensaje le
+   viene bien. He usado mensajes originales del DIV2, fijÃ¡ndome en el
    errores.html que me hice a partir de la ayuda del DIV2. Por desgracia no
-   est�n en orden :(
+   estÃ¡n en orden :(
  
- * En el DIV2 hay errores que tienen varios c�digos para un solo mensaje,
-   esto es para que la ayuda de ese error sea m�s espec�fica en el contexto
-   en que se ha producido el error. Aqu� yo he puesto un solo c�digo para
-   cada mensaje, si m�s tarde queremos hacer la ayuda multi-contexto ya se
-   cambiar�.
+ * En el DIV2 hay errores que tienen varios cÃ³digos para un solo mensaje,
+   esto es para que la ayuda de ese error sea mÃ¡s especÃ­fica en el contexto
+   en que se ha producido el error. AquÃ­ yo he puesto un solo cÃ³digo para
+   cada mensaje, si mÃ¡s tarde queremos hacer la ayuda multi-contexto ya se
+   cambiarÃ¡.
  
- * Aun no podemos considerar expresion.c terminado, ya que queda el c�digo
-   para la evaluaci�n de sentencias de asignaci�n, expresiones variables y
+ * Aun no podemos considerar expresion.c terminado, ya que queda el cÃ³digo
+   para la evaluaciÃ³n de sentencias de asignaciÃ³n, expresiones variables y
    condiciones.
  
  * Se que el codigo, tal como esta ahora es ilegible, (especialmente
    expresion.c y parser.c), pero me hubiera llevado semanas ordenarlo tal
-   como lo he hecho con plexico() por ejemplo, ya me pondr� un d�a a hacerlo
+   como lo he hecho con plexico() por ejemplo, ya me pondrÃ© un dÃ­a a hacerlo
    y de paso destriparlo bien y poner todos los comentarios que pueda (por
-   ahora he puesto comentarios a todos los errores, para saber cu�les son)
+   ahora he puesto comentarios a todos los errores, para saber cuÃ¡les son)
 
  * Ah, y he hecho una dll llamada "edivstd" se que ya la odiais de solo ver
    el nombre, pero es necesaria una libreria "estandar" para cosas tan basicas
@@ -1082,17 +1082,17 @@ publicas
 18/6/2001
 ---------
 
- * La versi�n de Linux ya carga y registra los *.so al igual que la de win
-   hac�a con las *.dll. Terminado el ediv_export.c, ya soporta datos locales
-   aunque a�n hay que retocar un poco la exportaci�n de funciones. Por
-   cierto, se me olvid� decir que elimin� el rollo del /src/gcc-linux porque
+ * La versiÃ³n de Linux ya carga y registra los *.so al igual que la de win
+   hacÃ­a con las *.dll. Terminado el ediv_export.c, ya soporta datos locales
+   aunque aÃºn hay que retocar un poco la exportaciÃ³n de funciones. Por
+   cierto, se me olvidÃ³ decir que eliminÃ© el rollo del /src/gcc-linux porque
    ahora que tenemos makefiles decentes ya no sirve para nada. (Er_Makina)
 
 
 17/6/2001
 ---------
 
- * La versi�n de Linux ya tiene todos sus makefiles y ya encuentra las *.so.
+ * La versiÃ³n de Linux ya tiene todos sus makefiles y ya encuentra las *.so.
    He modificado ligeramente el export.h para hacerlo compatible y he inclu-
    ido una dll de muestra, sample. Aun no he probado a compilarla en win32.
    (Er_Makina)
@@ -1105,8 +1105,8 @@ publicas
    Hay que leer el archivo "MUY IMPORTANTE" que se encuentra en ese directorio.
    Estos archivos solo son para desarrollo, es decir que requieren las rutas
    relativas del CVS y por tanto NO DEBEN SER INCLUIDOS EN LOS PAQUETES DIS-
-   TRIBUIDOS. Alg�n d�a meter� ah� un directorio con un script que genere
-   autom�ticamente el paquete de c�digo fuente para Linux, al estilo GNU.
+   TRIBUIDOS. AlgÃºn dÃ­a meterÃ© ahÃ­ un directorio con un script que genere
+   automÃ¡ticamente el paquete de cÃ³digo fuente para Linux, al estilo GNU.
    (Er_Makina)
 
 
@@ -1126,7 +1126,7 @@ de
 15/4/2001
 ----------
 
- * A�adido CheckWindowsVersion a Dll_Load.c. Ahora esta funcion se
+ * AÃ±adido CheckWindowsVersion a Dll_Load.c. Ahora esta funcion se
    llama justo antes de InitializeDllLoad para ajustar g_bIsWinNT a
    1 o 0, dependiendo si usamos WINNT/WIN2K o Win'9x/Me. (Daijo)
 

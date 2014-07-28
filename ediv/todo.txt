@@ -2,24 +2,24 @@ Cosas por hacer cuanto antes:
 
 - eso de cerrar la ventanita con la X, que se pueda activar/desactivar de alguna forma
 - A la hora de implementar la funcion qsort(), hay que introducir una nueva
-  funci�n a ediv_export y modificar la toma y compilaci�n de par�metros en
+  funciÃ³n a ediv_export y modificar la toma y compilaciÃ³n de parÃ¡metros en
   expresion.c
 - Revisar la text.dll
-- Meter fuente n� 0 (text.dll)
-- A�adir una funci�n al SDK para que la graphics llame a una determinada funci�n cuando
-  toque dibujar una determinada z. Algo as� como fp->Dibuja(), pero en vez de pasarle el
-  sprite, que llame a la funci�n de la dll y la deje dibujar a ella en el buffer. Podr�
-  sustituir a fp->Dibuja() en muchos sitios, con lo que se ahorrar�a velocidad y memoria.
+- Meter fuente nÂº 0 (text.dll)
+- AÃ±adir una funciÃ³n al SDK para que la graphics llame a una determinada funciÃ³n cuando
+  toque dibujar una determinada z. Algo asÃ­ como fp->Dibuja(), pero en vez de pasarle el
+  sprite, que llame a la funciÃ³n de la dll y la deje dibujar a ella en el buffer. PodrÃ¡
+  sustituir a fp->Dibuja() en muchos sitios, con lo que se ahorrarÃ­a velocidad y memoria.
 - Convertir los scripts (los que se pueda) a Lua, para que sean compatibles entre todas
   las plataformas.
 --------
 
 - Hacer desaparecer la tabla procs_s y sustituirla por variables indexadas
-- Revisar much�simo el kernel del stub (compilar cosas, debugear...)
+- Revisar muchÃ­simo el kernel del stub (compilar cosas, debugear...)
 - Actualizar los makefiles y proyectos de KDevelop, y comprobar que rule
   bien bajo Linux
 - Hacer unos msgbox decentes para Linux, con X11 a pelo o con una libreria
-  peke�ita (ver error.c del stub)
+  pekeÃ±ita (ver error.c del stub)
 - Adaptar la rutina de MOTD a Linux <- ya rula?
 - Documentarlo todo, ahora tenemos el DOKU, kien no lo tenga ke se lo pida
   a Er_Makina :)
@@ -27,10 +27,10 @@ Cosas por hacer cuanto antes:
 
 Cosas a implementar a medio plazo:
 - Compilar para otros sistemas, como MacOS X (sourceforge rlz)
-  lo dificil ser� encontrar gente pa testear :P
+  lo dificil serÃ¡ encontrar gente pa testear :P
 - Trazador
 - Macroinstrucciones EML?
-  (nota: si se hacen, SE A�ADEN a los opcodes que ya hay, podriamos hacer
+  (nota: si se hacen, SE AÃADEN a los opcodes que ya hay, podriamos hacer
   un "nivel 2 de compilacion". de lo ke paso totalmente es de sustituir los
   opcodes actuales, lo que supondria reescribir el compilador y el stub)
 
@@ -39,24 +39,24 @@ Cosas a implementar a medio plazo:
   string str[3,4][20]  <-- inicializa una tabla de strings de 3x4 registros
                            de 20 caracteres cada uno
 
-- Tipos definidos por usuario, como en Fenix <- �?
+- Tipos definidos por usuario, como en Fenix <- Â¿?
 
 
 Cosas ya hechas:
 
 - Archivos de configuracion, ediv.cfg (opciones de compilacion, server de
   MOTD, etc) y priority.cfg (prioridades de DLLs)
-- Depurar bestialmente ediv_export y cosas relacionadas (y a�adir funciones
+- Depurar bestialmente ediv_export y cosas relacionadas (y aÃ±adir funciones
   autoejecutables estilo post_process_buffer)
-- Al final todo el asunto de los graficos lo gestionar� la graphics.dll, ten-
-  dr� prioridad 512 (m�xima) y utilizar� el sistema de entrypoints
+- Al final todo el asunto de los graficos lo gestionarÃ¡ la graphics.dll, ten-
+  drÃ¡ prioridad 512 (mÃ¡xima) y utilizarÃ¡ el sistema de entrypoints
 - Meter en el STUB las rutinas de |RooT| y Riseven
-- Redise�ar el sistema de stubs para dar cabida a versiones con y sin debugger:
+- RediseÃ±ar el sistema de stubs para dar cabida a versiones con y sin debugger:
 
   Win32.dbg
   Win32.rel
   Linux.dbg
   Linux.rel
 
-  Indicar al compilador a qu� sistema compilar usando el par�metro -s, --system
-  (compilaci�n cruzada), por defecto el sistema actual
+  Indicar al compilador a quÃ© sistema compilar usando el parÃ¡metro -s, --system
+  (compilaciÃ³n cruzada), por defecto el sistema actual

@@ -1,41 +1,41 @@
- ** EXPORTACI�N DE DATOS EN UNA DLL DE eDIV **
+ ** EXPORTACIÃÂN DE DATOS EN UNA DLL DE eDIV **
 
-POR HACER: C�mo utilizar datos declarados en otras DLLs
+POR HACER: CÃÂ³mo utilizar datos declarados en otras DLLs
 
 En DIV 1 y 2 existen los llamados "objetos predefinidos". Estos objetos
-se declaran en el archivo LTOBJ.DEF, y hacen alusi�n a los datos que 
-m�s tarde manejar� la librer�a DIV32RUN.DLL.
+se declaran en el archivo LTOBJ.DEF, y hacen alusiÃÂ³n a los datos que 
+mÃÂ¡s tarde manejarÃÂ¡ la librerÃÂ­a DIV32RUN.DLL.
 
 En eDIV no existen objetos predefinidos, ya que absolutamente todas las
 funciones se tratan como externas, en DLLs independientes, es decir, 
-no hay una librer�a omnipresente como la DIV32RUN.DLL.
+no hay una librerÃÂ­a omnipresente como la DIV32RUN.DLL.
 
-Como es de todos sabido, desde una DLL para DIV 1 � 2 se pueden exportar
-funciones, indic�ndolo con la funci�n COM_Export, que se llama desde
-divmain. Ambas est�n declaradas en el fichero DIV.H.
+Como es de todos sabido, desde una DLL para DIV 1 ÃÂ³ 2 se pueden exportar
+funciones, indicÃÂ¡ndolo con la funciÃÂ³n COM_Export, que se llama desde
+divmain. Ambas estÃÂ¡n declaradas en el fichero DIV.H.
 
 En eDIV existe un equivalente del DIV.H, es el EXPORT.H, aunque las
-funciones y datos que pone a disposici�n de la DLL son m�s numerosos,
+funciones y datos que pone a disposiciÃÂ³n de la DLL son mÃÂ¡s numerosos,
 ya que en eDIV necesitamos una total funcionalidad para las DLLs. Por 
 tanto, el equivalente de divmain es ExportaFuncs, y el de COM_Export es
-EDIV_Export, pero no nos quedamos ah�, ya que para cubrir los objetos
+EDIV_Export, pero no nos quedamos ahÃÂ­, ya que para cubrir los objetos
 predefinidos de DIV necesitamos exportar muchos tipos de datos: 
 EDIV_Export_Const, EDIV_Export_Global, etc.
 
 Como los nombres de las funciones resultaron muy largos, hemos incluido
-en EXPORT.H una serie de #defines que hacen que la declaraci�n de datos
-a exportar sea m�s c�moda, y de paso m�s parecida a la sintaxis que se 
+en EXPORT.H una serie de #defines que hacen que la declaraciÃÂ³n de datos
+a exportar sea mÃÂ¡s cÃÂ³moda, y de paso mÃÂ¡s parecida a la sintaxis que se 
 utiliza en el LTOBJ.DEF o en el propio DIV.
 
-A continuaci�n damos una descripci�n de las sentencias que hay que utilizar en la funci�n
+A continuaciÃÂ³n damos una descripciÃÂ³n de las sentencias que hay que utilizar en la funciÃÂ³n
 ExportaFuncs para exportar objetos:
 
 
-DECLARACI�N DE FUNCIONES
+DECLARACIÃÂN DE FUNCIONES
 --------------------------
 
-Las funciones pueden retornar tanto ints como cadenas (dependiendo de c�mo se interprete).
-Los par�metros, de igual forma, tambi�n pueden ser ints o cadenas.
+Las funciones pueden retornar tanto ints como cadenas (dependiendo de cÃÂ³mo se interprete).
+Los parÃÂ¡metros, de igual forma, tambiÃÂ©n pueden ser ints o cadenas.
 
 * FUNCTION
 
@@ -43,16 +43,16 @@ Sintaxis: FUNCTION ( "nombre_funcion", n_parametros, nombre_interno ) ;
 
 Equivalente a: Function nombre_funcion(n_parametros);
 
-"nombre_funcion" es el nombre que la funci�n tendr� dentro de eDIV.
-n_parametros es el n�mero de par�metros de la funci�n.
-nombre_interno es el nombre que tiene la funci�n dentro del c�digo fuente de la DLL.
+"nombre_funcion" es el nombre que la funciÃÂ³n tendrÃÂ¡ dentro de eDIV.
+n_parametros es el nÃÂºmero de parÃÂ¡metros de la funciÃÂ³n.
+nombre_interno es el nombre que tiene la funciÃÂ³n dentro del cÃÂ³digo fuente de la DLL.
 
 Ejemplo: FUNCTION ("load_map",1,DIV_Load_Map);
 
-(020926): Se puede sobrecargar una funci�n declar�ndola varias veces con distinto
-n�mero de par�metros (da igual si se indica un puntero a una funci�n de C distinta o
-no). A cada declaraci�n se le asignar� un id distinto, como si fueran funciones dis-
-tintas. Dentro de la funci�n se puede saber cu�ntos par�metros se han recibido con
+(020926): Se puede sobrecargar una funciÃÂ³n declarÃÂ¡ndola varias veces con distinto
+nÃÂºmero de parÃÂ¡metros (da igual si se indica un puntero a una funciÃÂ³n de C distinta o
+no). A cada declaraciÃÂ³n se le asignarÃÂ¡ un id distinto, como si fueran funciones dis-
+tintas. Dentro de la funciÃÂ³n se puede saber cuÃÂ¡ntos parÃÂ¡metros se han recibido con
 fp->num_params.
 
 Ejemplo:
@@ -83,10 +83,10 @@ Ejemplo:
 	}
 
 
- DECLARACI�N DE CONSTANTES
+ DECLARACIÃÂN DE CONSTANTES
 ---------------------------
 
-Las constantes s�lo pueden ser de tipo int.
+Las constantes sÃÂ³lo pueden ser de tipo int.
 
 * CONST
 
@@ -94,53 +94,53 @@ Sintaxis: CONST ( "nombre", valor ) ;
 
 Equivalente a: Const nombre=valor;
 
-"nombre" es el nombre que tendr� la constante dentro de eDIV.
-valor es el valor que tendr� la constante.
+"nombre" es el nombre que tendrÃÂ¡ la constante dentro de eDIV.
+valor es el valor que tendrÃÂ¡ la constante.
 
 Ejemplo: CONST ("m320x200",320200);
 
 
 
- DECLARACI�N DE DATOS GLOBALES
+ DECLARACIÃÂN DE DATOS GLOBALES
 -------------------------------
 
 * GLOBAL
 
-Exporta una variable global. S�lo pueden ser de tipo int.
+Exporta una variable global. SÃÂ³lo pueden ser de tipo int.
 
 Sintaxis: GLOBAL ("nombre", valor ) ;
 
 Equivalente a: Global nombre(=valor);
 
-"nombre" es el nombre que tendr� la variable dentro de eDIV.
-valor es el valor que tendr� por defecto la variable.
+"nombre" es el nombre que tendrÃÂ¡ la variable dentro de eDIV.
+valor es el valor que tendrÃÂ¡ por defecto la variable.
 
 Ejemplo: GLOBAL ("max_process_time",500);
 
 
 * GLOBAL_ARRAY
 
-Exporta un array (tabla) global. S�lo pueden ser de tipo int (o punteros a char).
-No se puede inicializar la tabla. Todos sus registros ser�n autom�ticamente inicializados a 0 (aunque se puede modificar despu�s).
-Desde eDIV, siempre se podr� acceder al primer registro de la tabla escribiendo simplemente el nombre, o bien nombre[0]
+Exporta un array (tabla) global. SÃÂ³lo pueden ser de tipo int (o punteros a char).
+No se puede inicializar la tabla. Todos sus registros serÃÂ¡n automÃÂ¡ticamente inicializados a 0 (aunque se puede modificar despuÃÂ©s).
+Desde eDIV, siempre se podrÃÂ¡ acceder al primer registro de la tabla escribiendo simplemente el nombre, o bien nombre[0]
 
 Sintaxis: GLOBAL_ARRAY ( "nombre", numero_de_registros ) ;
 
 Equivalente a: Global nombre[numero_de_registros];
 
-"nombre" es el nombre que tendr� la tabla dentro de eDIV.
-numero_de_registros es el n�mero de registros de la tabla.
+"nombre" es el nombre que tendrÃÂ¡ la tabla dentro de eDIV.
+numero_de_registros es el nÃÂºmero de registros de la tabla.
 
 Ejemplo: GLOBAL_ARRAY ("timer",9);
 
 * GLOBAL_STRUCT
 
 Exporta una estructura o tabla de estructuras global.
-Al igual que en las tablas de int, desde eDIV siempre se podr� acceder a la primera estructura de la tabla escribiendo simplemente el nombre, o bien nombre[0]
+Al igual que en las tablas de int, desde eDIV siempre se podrÃÂ¡ acceder a la primera estructura de la tabla escribiendo simplemente el nombre, o bien nombre[0]
 
 Sintaxis: GLOBAL_STRUCT ( "nombre", numero_de_registros ) ;
 
-              // Declaraciones de miembros (ver m�s abajo)
+              // Declaraciones de miembros (ver mÃÂ¡s abajo)
 
           END_STRUCT ;
 
@@ -149,7 +149,7 @@ Equivalente a: Global Struct nombre[numero_de_registros]
                End
 
 "nombre" es el nombre de la estructura dentro de eDIV.
-numero_de_registros es el n�mero de registros de la tabla de estructuras, o bien 0 para que sea un �nico registro.
+numero_de_registros es el nÃÂºmero de registros de la tabla de estructuras, o bien 0 para que sea un ÃÂºnico registro.
 
 Ejemplo: GLOBAL_STRUCT ("video_modes",31);
              _INT("wide",0);
@@ -159,28 +159,28 @@ Ejemplo: GLOBAL_STRUCT ("video_modes",31);
 
 
 
- DECLARACI�N DE DATOS LOCALES
+ DECLARACIÃÂN DE DATOS LOCALES
 -------------------------------
 
 * LOCAL
 
-Exporta una variable local. S�lo pueden ser de tipo int.
+Exporta una variable local. SÃÂ³lo pueden ser de tipo int.
 
 Sintaxis: LOCAL ("nombre", valor ) ;
 
 Equivalente a: Local nombre(=valor);
 
-"nombre" es el nombre que tendr� la variable dentro de eDIV.
-valor es el valor que tendr� por defecto la variable en todos los procesos.
+"nombre" es el nombre que tendrÃÂ¡ la variable dentro de eDIV.
+valor es el valor que tendrÃÂ¡ por defecto la variable en todos los procesos.
 
 Ejemplo: LOCAL ("graph",0);
 
 
 * LOCAL_ARRAY
 
-Exporta un array (tabla) local. S�lo pueden ser de tipo int (o punteros a char).
-No se puede inicializar la tabla. Todos sus registros ser�n autom�ticamente inicializados a 0 (aunque se puede modificar despu�s).
-Desde eDIV, siempre se podr� acceder al primer registro de la tabla escribiendo simplemente el nombre, o bien nombre[0]
+Exporta un array (tabla) local. SÃÂ³lo pueden ser de tipo int (o punteros a char).
+No se puede inicializar la tabla. Todos sus registros serÃÂ¡n automÃÂ¡ticamente inicializados a 0 (aunque se puede modificar despuÃÂ©s).
+Desde eDIV, siempre se podrÃÂ¡ acceder al primer registro de la tabla escribiendo simplemente el nombre, o bien nombre[0]
 
 NOTA: ESTE TIPO DE DATOS NO SE UTILIZA (DE FORMA PREDEFINIDA) EN DIV2. Lo hemos incluido en eDIV por su posible utilidad en DLLs personalizadas.
 
@@ -188,18 +188,18 @@ Sintaxis: LOCAL_ARRAY ( "nombre", numero_de_registros ) ;
 
 Equivalente a: Local nombre[numero_de_registros];
 
-"nombre" es el nombre que tendr� la tabla dentro de eDIV.
-numero_de_registros es el n�mero de registros de la tabla.
+"nombre" es el nombre que tendrÃÂ¡ la tabla dentro de eDIV.
+numero_de_registros es el nÃÂºmero de registros de la tabla.
 
 
 * LOCAL_STRUCT
 
 Exporta una estructura o tabla de estructuras local.
-Al igual que en las tablas de int, desde eDIV siempre se podr� acceder a la primera estructura de la tabla escribiendo simplemente el nombre, o bien nombre[0]
+Al igual que en las tablas de int, desde eDIV siempre se podrÃÂ¡ acceder a la primera estructura de la tabla escribiendo simplemente el nombre, o bien nombre[0]
 
 Sintaxis: LOCAL_STRUCT ( "nombre", numero_de_registros ) ;
 
-              // Declaraciones de miembros (ver m�s abajo)
+              // Declaraciones de miembros (ver mÃÂ¡s abajo)
 
           END_STRUCT ;
 
@@ -208,7 +208,7 @@ Equivalente a: Local Struct nombre[numero_de_registros]
                End
 
 "nombre" es el nombre de la estructura dentro de eDIV.
-numero_de_registros es el n�mero de registros de la tabla de estructuras, o bien 0 para que sea un �nico registro.
+numero_de_registros es el nÃÂºmero de registros de la tabla de estructuras, o bien 0 para que sea un ÃÂºnico registro.
 
 Ejemplo: LOCAL_STRUCT ("reserved",0);
              _INT("process_id",0);
@@ -220,10 +220,10 @@ Ejemplo: LOCAL_STRUCT ("reserved",0);
 
 
 
- DECLARACI�N DE MIEMBROS DE ESTRUCTURAS
+ DECLARACIÃÂN DE MIEMBROS DE ESTRUCTURAS
 ----------------------------------------
 
-Las declaraciones de estructuras dentro del c�digo fuente de la DLL funcionan como bloques, parecido a como se declaran las estructuras en DIV.
+Las declaraciones de estructuras dentro del cÃÂ³digo fuente de la DLL funcionan como bloques, parecido a como se declaran las estructuras en DIV.
 
 * _INT
 
@@ -234,7 +234,7 @@ Sintaxis: _INT ( "nombre", valor ) ;
 Equivalente a: Int nombre(=valor);
 
 "nombre" es el nombre del miembro de la estructura, dentro de eDIV.
-valor es el valor que el miembro toma por defecto en la estructura. Si la estructura tiene varios registros (es decir, si es una tabla de estructuras), el miembro ser� inicializado con ese valor en todos los registros de la tabla.
+valor es el valor que el miembro toma por defecto en la estructura. Si la estructura tiene varios registros (es decir, si es una tabla de estructuras), el miembro serÃÂ¡ inicializado con ese valor en todos los registros de la tabla.
 
 Ejemplo: _INT("distance",64);
 
@@ -243,12 +243,12 @@ Ejemplo: _INT("distance",64);
 
 Declara un miembro de tipo string.
 
-Sintaxis: _STRING ( "nombre", tama�o ) ;
+Sintaxis: _STRING ( "nombre", tamaÃÂ±o ) ;
 
-Equivalente a: String nombre[tama�o];
+Equivalente a: String nombre[tamaÃÂ±o];
 
 "nombre" es el nombre del miembro de la estructura, dentro de eDIV.
-tama�o es el tama�o m�ximo que se reservar� para la cadena.
+tamaÃÂ±o es el tamaÃÂ±o mÃÂ¡ximo que se reservarÃÂ¡ para la cadena.
 
 Ejemplo: _STRING("fullpath",254);
 
@@ -256,15 +256,15 @@ Ejemplo: _STRING("fullpath",254);
 * _ARRAY
 
 Declara un miembro como tabla de ints o punteros a char.
-No se puede inicializar la tabla. Todos sus registros ser�n autom�ticamente inicializados a 0, en todos los registros de la estructura de la que es miembro (aunque esto se puede modificar despu�s).
-Desde eDIV, siempre se podr� acceder al primer registro de la tabla escribiendo simplemente el nombre, o bien nombre[0]
+No se puede inicializar la tabla. Todos sus registros serÃÂ¡n automÃÂ¡ticamente inicializados a 0, en todos los registros de la estructura de la que es miembro (aunque esto se puede modificar despuÃÂ©s).
+Desde eDIV, siempre se podrÃÂ¡ acceder al primer registro de la tabla escribiendo simplemente el nombre, o bien nombre[0]
 
 Sintaxis: _ARRAY ( "nombre", numero_de_registros ) ;
 
 Equivalente a: Int nombre[numero_de_registros];
 
 "nombre" es el nombre del miembro de la estructura, dentro de eDIV.
-numero_de_registros es el n�mero de registros de la tabla.
+numero_de_registros es el nÃÂºmero de registros de la tabla.
 
 Ejemplo: _ARRAY("name",1024);
 

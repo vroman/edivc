@@ -39,7 +39,7 @@
 [14:19] > entonces en la dll se mete una funcion llamada post_process_buffer()
 [14:19] > y ahi se mete el codigo ke se kiera
 [14:20] > en el exportafuncs, exportamos la funcion con EDIV_Export_Entrypoint(EDIV_post_process_buffer,post_process_buffer);
-[14:20] [@Daijo] ah�
+[14:20] [@Daijo] ahÃ¡
 [14:20] > El stub recoge esa exportacion y la guarda en una tabla de entrypoints
 [14:21] > entonces, nos situamos en la graphics.dll
 [14:21] > hemos pintado el fondo y todos los procesos en el buffer
@@ -49,11 +49,11 @@
 [14:23] > La funcion Call_Entrypoint recorre la tabla de entrypoints y va ejecutando uno a uno los que corresponden a EDIV_post_process_buffer (13)
 [14:24] > eso es, basicamente como funciona todo el sistema
 [14:24] > como ya comentaba en el mail
-[14:24] > podemos a�adir un entrypoint llamado EDIV_frame
+[14:24] > podemos aÃ±adir un entrypoint llamado EDIV_frame
 [14:24] > que se llama POR EL STUB en cada frame
 [14:25] > de forma que podemos colocar todas las rutinas de dibujado en graphics.dll
-[14:25] > ya que �sta tendra en su funci�n frame() las rutinas necesarias
-[14:25] > y a su vez llamar� a otros entrypoints, como buffer_to_video, put_sprite, o post_process_buffer
+[14:25] > ya que Ã©sta tendra en su funciÃ³n frame() las rutinas necesarias
+[14:25] > y a su vez llamarÃ¡ a otros entrypoints, como buffer_to_video, put_sprite, o post_process_buffer
 [14:26] > pillas la cosa? :)
 [14:26] [@Daijo] sips
 [14:26] [@Camvoya] xDDDDDDDDDDDDDD
