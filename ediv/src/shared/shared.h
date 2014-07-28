@@ -31,14 +31,10 @@
 
 #define la_clave "81ab50e9c20d"    /* Clave de cifrado   */
 
-#define uchar char
-#define byte unsigned char
-#define ushort unsigned short
-#define word unsigned short
-#define ulong unsigned int
-#define dword unsigned int
-
 #define magic "eDIVstub0\x1a\x0d\x0a\xff"
+
+typedef unsigned char byte;
+typedef unsigned short word;
 
 #define long_header 9 /* Longitud de la cabecera al inicio de los programas */
 
