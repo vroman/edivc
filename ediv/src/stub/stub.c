@@ -20,7 +20,7 @@
 
 #include <assert.h>
 
-#ifndef __APPLE__
+#ifdef _WIN32
 #include <io.h>
 #endif
 
