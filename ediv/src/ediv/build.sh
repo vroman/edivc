@@ -30,6 +30,6 @@ for FILE in $FILES; do
 	OBJECTS+="$FILE.o "
 done
 
-gcc $OBJECTS -o ../../bin/edivc -lz
+gcc $OBJECTS -o ../../bin/edivc -lz -ldl
 
 rm $OBJECTS
