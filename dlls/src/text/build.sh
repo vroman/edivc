@@ -1,6 +1,6 @@
 #!/bin/bash
-
-CCOPTS="-I. -I/usr/local/include -I../include"
+NAME="text"
+CCOPTS="-I. -I/usr/local/include -I../include -fPIC"
 
 FILES="
 text
@@ -13,6 +13,6 @@ for FILE in $FILES; do
 	OBJECTS+="$FILE.o "
 done
 
-gcc $OBJECTS -shared -o ../../bin/text.so -L/usr/local/lib -lSDL
+gcc $OBJECTS -shared -o ../../bin/${NAME}.so -L/usr/local/lib -lSDL
 
-#rm $OBJECTS
+rm $OBJECTS

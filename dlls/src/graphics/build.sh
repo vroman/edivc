@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CCOPTS="-I. -I/usr/local/include -I../include"
+CCOPTS="-I. -I/usr/local/include -I../include -fPIC"
 
 FILES="
 SDL_rotozoom

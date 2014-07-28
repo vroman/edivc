@@ -1,6 +1,6 @@
 #!/bin/bash
 NAME="strings"
-CCOPTS="-I. -I/usr/local/include -I../include"
+CCOPTS="-I. -I/usr/local/include -I../include -fPIC"
 
 FILES="strings conv"
 

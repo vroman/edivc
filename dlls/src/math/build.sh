@@ -1,6 +1,6 @@
 #!/bin/bash
 NAME="math"
-CCOPTS="-I. -I/usr/local/include -I../include"
+CCOPTS="-I. -I/usr/local/include -I../include -fPIC"
 
 FILES="math"
 
@@ -11,6 +11,6 @@ for FILE in $FILES; do
 	OBJECTS+="$FILE.o "
 done
 
-gcc $OBJECTS -shared -o ../../bin/${NAME}.so -L/usr/local/lib -lSDL
+gcc $OBJECTS -shared -o ../../bin/${NAME}.so -L/usr/local/lib -lSDL -lm
 
 rm $OBJECTS

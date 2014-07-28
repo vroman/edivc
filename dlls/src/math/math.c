@@ -24,7 +24,7 @@
 #include <time.h>
 #include <math.h>
 #include "export.h"
-#include "math.h"
+#include "ediv_math.h"
 
 int ExportaFuncs(EXPORTAFUNCS_PARAMS){
 	CONST("pi",180000);

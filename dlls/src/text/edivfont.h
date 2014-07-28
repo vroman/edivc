@@ -33,7 +33,7 @@
 #include <SDL/SDL.h>
 
 struct _fuente_control_s{
-	int offset_imagen ;
+	fpos_t offset_imagen ;
 	int size_imagen ;
 	int w , h , bytespp ;
 	SDL_Rect rect[256] ;

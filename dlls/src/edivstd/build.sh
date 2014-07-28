@@ -1,6 +1,6 @@
 #!/bin/bash
 NAME="edivstd"
-CCOPTS="-I. -I/usr/local/include -I../include"
+CCOPTS="-I. -I/usr/local/include -I../include -fPIC"
 
 FILES="edivstd"
 
