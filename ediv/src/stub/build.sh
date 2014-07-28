@@ -23,6 +23,10 @@ for FILE in $FILES; do
 	OBJECTS+="$FILE.o "
 done
 
+<<<<<<< HEAD
 gcc $OBJECTS -o ../../bin/stub -lz
+=======
+gcc $OBJECTS -o ../../bin/stub -lz -ldl
+>>>>>>> 6f1419a31008aa9314171e0f90b309fe54da51b0
 
 rm $OBJECTS
