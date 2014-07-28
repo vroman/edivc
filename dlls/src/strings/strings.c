@@ -344,7 +344,7 @@ int DIV_strdel(FUNCTION_PARAMS)
 int DIV_itoa(FUNCTION_PARAMS)
 {
 	int n=getparm();
-	itoa(n,(char*)&fp->mem[fp->nullstring[*fp->nstring]],10);
+	sprintf((char*)&fp->mem[fp->nullstring[*fp->nstring]], "%d", n);
 	n=fp->nullstring[*fp->nstring];
 	*fp->nstring=(((*fp->nstring)+1)&3);
 	return n;
