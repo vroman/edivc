@@ -189,17 +189,16 @@ void dll_func()
 			printf(translate(44),dir); /* no hay directorio so/ */
 			exit(1);
 		}
-		/* Nos saltamos las dos primeras entradas "./" y "../" */
-		for(i=0;i<2;i++) {
-			fichero_dll=readdir(directorio);
-			if(fichero_dll==0)
-				printf(translate(43)); /* no hay so's */
-		}
+
 		/* Busca las .so */
-		while (1) {
-			fichero_dll=readdir(directorio);
-			if(fichero_dll==0)
-				break;
+		while ((fichero_dll = readdir(directorio)) != 0) {
+			/* Salta los directorios actual '.' y padre ".." */
+			if (strcmp(fichero_dll->d_name, ".") == 0)
+				continue;
+
+			if (strcmp(fichero_dll->d_name, "..") == 0)
+				continue;
+
 			if(fichero_dll->d_type==DT_REG) {
 				char dllkey[256]="dll_priority:";
 				#ifdef _DEBUG
@@ -211,15 +210,25 @@ void dll_func()
 				get_rawname(fichero_dll->d_name,rawname);
 				strcpy(dllkey,"dll_priority:");
 				strcat(dllkey,rawname);
-				if(ini) if(iniparser_getint(ini,dllkey,0)<=P_NUNCA) carga=0;
-                if(carga) if(!leedll()) {
-					dlls[numdlls].nombre=(char*)e_malloc(strlen(rawname)+1);
-					strcpy(dlls[numdlls].nombre,rawname);
-					dlls[numdlls].usado=0;
-					if(ini) dlls[numdlls].prioridad=iniparser_getint(ini,dllkey,dlls[numdlls].prioridad);
-					numdlls++;
+		
+				if (ini) {
+					if (iniparser_getint(ini,dllkey,0) <= P_NUNCA)
+						carga=0;
 				}
-            }
+
+                		if(carga) {
+					if(!leedll()) {
+						dlls[numdlls].nombre=(char*)e_malloc(strlen(rawname)+1);
+						strcpy(dlls[numdlls].nombre,rawname);
+						dlls[numdlls].usado=0;
+					
+						if (ini)
+							dlls[numdlls].prioridad=iniparser_getint(ini,dllkey,dlls[numdlls].prioridad);
+					
+						numdlls++;
+					}
+				}
+			}
 		}
 
 	#endif
@@ -260,11 +269,13 @@ void dll_func2()
 			#ifdef _WIN32
 				if(ini) dir=iniparser_getstr(ini,"dll:windll");
 				if(!dir) dir="dll";
+				sprintf(fichdll,"%s\\%s.dll",dir,dlls[numdlls].nombre);
 			#else
 				if(ini) dir=iniparser_getstr(ini,"dll:nixdll");
 				if(!dir) dir="so";
+				sprintf(fichdll,"%s/%s.so",dir,dlls[numdlls].nombre);
 			#endif
-			sprintf(fichdll,"%s\\%s.dll",dir,dlls[numdlls].nombre);
+
 			if(leedll()) {
 				printf(translate(45),dlls[numdlls].nombre); /* error al cargar libreria */
 				exit(1);
@@ -276,8 +287,8 @@ void dll_func2()
 
 int leedll()
 {
-#ifdef _WIN32
 	TYPEOF_ExportaFuncs *ExportaFuncs;
+#ifdef _WIN32
 	HINSTANCE hDLL;
 
 	/* Carga la DLL */
@@ -307,8 +318,6 @@ int leedll()
 	FreeDLL(hDLL);
 
 #else   /* Linux */
-
-    TYPEOF_ExportaFuncs *ExportaFuncs;
     void *hDLL;
     char *errordll;
 
