@@ -1,6 +1,6 @@
 #!/bin/bash
-
-CCOPTS="-I. -I../shared -I/usr/local/include -DDBG"
+DEBUG="-g -ggdb3 -D_DEBUG -DDBG -DDEBUG"
+CCOPTS="-I. -I../shared -I/usr/local/include ${DEBUG} -fPIC"
 
 FILES="
 encrypt

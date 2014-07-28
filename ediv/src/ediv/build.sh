@@ -1,6 +1,6 @@
 #!/bin/bash
-
-CCOPTS="-I. -I../shared"
+DEBUG="-g -ggdb3 -D_DEBUG -DDBG -DDEBUG"
+CCOPTS="-I. -I../shared ${DEBUG} -fPIC"
 
 FILES="
 edivcfg/dictionary

@@ -20,11 +20,7 @@
 
 #include <assert.h>
 
-<<<<<<< HEAD
-#ifndef __APPLE__
-=======
 #ifdef _WIN32
->>>>>>> 6f1419a31008aa9314171e0f90b309fe54da51b0
 #include <io.h>
 #endif
 
