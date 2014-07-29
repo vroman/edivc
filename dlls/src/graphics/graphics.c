@@ -177,20 +177,26 @@ FILE * memo ;
  * nombre.
  * @param nombre_program Nombre del programa, obtenido de fp->nombre_program
  */
-void guarda_pantallazo(char* nombre_program)
+void guarda_pantallazo(unsigned char *nombre_program)
 {
 	char capturef[256];
 	int c=0;
 	FILE* f;
 
-	sprintf(capturef,"%s%04d.bmp",nombre_program,c);
-	while(f=fopen(capturef,"rb")) {
-		fclose(f);
-		c++;
-		sprintf(capturef,"%s%04d.bmp",nombre_program,c);
-		if(c==0)
+	while(1) {
+		/* 256 son mas que suficientes */
+		if (c >= 256)
 			break;
+
+		sprintf(capturef,"%s%04d.bmp",nombre_program,c);
+		f = fopen(capturef, "rb");
+
+		if (f == NULL)
+			c++;
+	
+		fclose(f);
 	}
+
 	SDL_SaveBMP(screen,capturef);
 }
 
@@ -344,25 +350,6 @@ void frame(FUNCTION_PARAMS)
 	{
 		if ( draws[i].existe )
 		{
-						
-/*			if ( draws[i].x + draws[i].Surface->w >= fp->regions[0].x && draws[i].x < fp->regions[0].x + fp->regions[0].w &&
-				draws[i].y + draws[i].Surface->h >= fp->regions[0].y && draws[i].y < fp->regions[0].y + fp->regions[0].h )
-			{
-				if ( draws[i].x >= fp->regions[0].x && draws[i].x + draws[i].Surface->w < fp->regions[0].x + fp->regions[0].w &&
-					draws[i].y >= fp->regions[0].y && draws[i].y + draws[i].Surface->h < fp->regions[0].y + fp->regions[0].h )
-				{
-					srcrect.x = 0 ;
-					srcrect.y = 0 ;
-					srcrect.w = draws[i].Surface->w ;
-					srcrect.h = draws[i].Surface->h ;
-
-					dstrect.x = draws[i].x ;
-					dstrect.y = draws[i].y ;
-					dstrect.w = 0 ; /* Se ignora *//*
-					dstrect.h = 0 ; /* Se ignora *//*
-					Dibuja( draws[i].Surface , srcrect , dstrect , z , draws[i].t,100,0) ; 
-				}
-			}*/
 			Dibuja(draws[i].Surface,draws[i].x,draws[i].y,0,0,draws[i].region,z,0,draws[i].t,100,0);
 		}
 	}

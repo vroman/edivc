@@ -554,21 +554,24 @@ transformSurfaceY (SDL_Surface * src, SDL_Surface * dst, int cx, int cy,
 
 */
 
-/*XPUT/* Sanity check */
-/* Determine if source surface is 32bit or 8bit */
-/* New source surface is 32bit with a defined RGBA ordering */
-/* Sanity check zoom factor */
-/* Check if we have a rotozoom or just a zoom */
-/* Angle!=0: full rotozoom *
-//* ----------------------- */
-/* Calculate target factors from sin/cos and zoom
+/* 
+ Sanity check 
+ Determine if source surface is 32bit or 8bit
+ New source surface is 32bit with a defined RGBA ordering
+ Sanity check zoom factor
+ Check if we have a rotozoom or just a zoom
+ Angle!=0: full rotozoom
+ Calculate target factors from sin/cos and zoom
 */
-/* Determine destination width and height by rotating a centered source box */
-/* Alloc space to completely contain the rotated surface */
-/* Target surface is 32bit with source RGBA/ABGR ordering */
-/* Lock source surface */
-/* Check which kind of surface we have */
-/* Call the 32bit transformation routine to do the rotation (using alpha) */
+
+/* 
+ Determine destination width and height by rotating a centered source box
+ Alloc space to completely contain the rotated surface
+ Target surface is 32bit with source RGBA/ABGR ordering
+ Lock source surface
+ Check which kind of surface we have
+ Call the 32bit transformation routine to do the rotation (using alpha)
+*/
 
 #define VALUE_LIMIT	0.001
 
