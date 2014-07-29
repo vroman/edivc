@@ -75,12 +75,14 @@ int main(int argc, char *argv[])
 	noexe=0;
 
 	/* Sistemas */
-	#ifdef _WIN32
+	#if defined(_WIN32)
 		strcpy(sistema,"win32");
-	#endif
-
-	#ifdef __linux__
+	#elif defined(__linux__)
 		strcpy(sistema,"linux");
+	#elif defined(__APPLE__)
+		strcpy(sistema, "osx");
+	#else
+		strcpy(sistema, "unknown");
 	#endif
 
 	ini=iniparser_load("ediv.cfg");
