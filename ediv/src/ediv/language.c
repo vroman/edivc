@@ -23,6 +23,7 @@
 #else
 #include <stdlib.h>
 #include <string.h>
+#include <stdarg.h>
 #endif
 
 #include "shared.h"
@@ -151,6 +152,35 @@ char *translate(int num)
 
 	};
 	return e[idioma][num];
+}
+
+void print_translate(int num, ...)
+{
+	va_list arg_ptr;
+	const char *message = translate(num);
+	size_t msglen = strlen(message);
+	char *strbuf = malloc(msglen + 1);
+
+	va_start(arg_ptr, message);
+	vsprintf(strbuf, message, arg_ptr);
+	va_end(arg_ptr);
+
+	printf("%s", strbuf);
+	free(strbuf);
+}
+
+const char *get_translate(int num, ...)
+{
+	va_list arg_ptr;
+	const char *message = translate(num);
+	size_t msglen = strlen(message);
+	char *strbuf = malloc(msglen + 1);
+
+	va_start(arg_ptr, message);
+	vsprintf(strbuf, message, arg_ptr);
+	va_end(arg_ptr);
+
+	return strbuf;
 }
 
 static char *ediv_strlwr(char *str)

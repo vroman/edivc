@@ -33,7 +33,7 @@
  */
 
 #ifdef _WIN32
-#	include <windows.h>
+#include <windows.h>
 #else
 #include <stdarg.h>
 #endif
@@ -55,28 +55,27 @@
 
 void error(int num, ...)
 {
-	#ifdef _WIN32
-		HWND ventanuka;
-	#endif
+#ifdef _WIN32
+	HWND ventanuka;
+#endif
 
 	va_list opparam;
 	char mensaje[256];
 
-	va_start(opparam,num);
-	sprintf(mensaje,translate(0), num);
-	vsprintf(mensaje,translate_runtime_error(num-100),opparam);
+	va_start(opparam, num);
+	sprintf(mensaje, get_translate(0), num);
+	vsprintf(mensaje, translate_runtime_error(num - 100), opparam);
 
-	#ifdef _WIN32
-		ventanuka=GetActiveWindow();
-		//MessageBox(
-		MessageBox(ventanuka,mensaje,translate(1),MB_ICONERROR);
-	#else
-		printf("%s\n",mensaje);
-	#endif
+#ifdef _WIN32
+	ventanuka = GetActiveWindow();
+	//MessageBox(
+	MessageBox(ventanuka, mensaje, print_translate(1), MB_ICONERROR);
+#else
+	printf("%s\n", mensaje);
+#endif
 
 	stub_quit(num);
 }
-
 
 /* critical_error ( numero, parametros [...] )
  *
@@ -90,19 +89,18 @@ void critical_error(int num, ...)
 	va_list opparam;
 	char mensaje[256];
 
-	va_start(opparam,num);
-	sprintf(mensaje,translate(0), num);
-	vsprintf(mensaje,translate_critical_error(num),opparam);
+	va_start(opparam, num);
+	sprintf(mensaje, get_translate(0), num);
+	vsprintf(mensaje, translate_critical_error(num), opparam);
 
-	#ifdef WIN32
-		MessageBox(0,mensaje,translate(2),MB_ICONERROR);
-	#else
-		printf("%s\n",mensaje);
-	#endif
+#ifdef WIN32
+	MessageBox(0, mensaje, print_translate(2), MB_ICONERROR);
+#else
+	printf("%s\n", mensaje);
+#endif
 
 	stub_quit(num);
 }
-
 
 /* custom_error (tipo, mensaje)
  *
@@ -119,13 +117,13 @@ void critical_error(int num, ...)
  * DESVENTAJA: se pierde la capacidad multilingüe, a menos que la incluya la propia DLL.
  */
 
-void custom_error(tipoerror tipo, char* mensaje)
+void custom_error(tipoerror tipo, char *mensaje)
 {
-	#ifdef WIN32
-		MessageBox(0,mensaje,translate(tipo),MB_ICONERROR);
-	#else
-		printf("%s\n",mensaje);
-	#endif
+#ifdef WIN32
+	MessageBox(0, mensaje, print_translate(tipo), MB_ICONERROR);
+#else
+	printf("%s\n", mensaje);
+#endif
 
-	stub_quit(500+tipo);
+	stub_quit(500 + tipo);
 }

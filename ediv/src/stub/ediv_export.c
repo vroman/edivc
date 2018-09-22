@@ -19,7 +19,7 @@
  */
 
 #ifdef _WIN32
-#	include <windows.h>
+#include <windows.h>
 #endif
 
 #include <assert.h>
@@ -44,9 +44,9 @@ struct objeto * ob2;*/
 
 int creaobj;
 
-byte decl_struct=0;		// 1 si se está declarando un struct
+byte decl_struct = 0; // 1 si se está declarando un struct
 
-byte slocal=0;			// para las structs. 0=global, 1=local
+byte slocal = 0; // para las structs. 0=global, 1=local
 int nregs;
 int offset;
 
@@ -79,24 +79,22 @@ int offset;
 	return 0;
 }*/
 
-
 // Errores específicos en la ejecución de una DLL
-
 void dll_error(int error, ...)
 {
 	va_list opparam;
 	char mensaje[256];
 
-	va_start(opparam,error);
+	va_start(opparam, error);
 
-	sprintf(mensaje,translate(3), fichdll);
-	vsprintf(mensaje,translate_dll_error(error),opparam);
+	sprintf(mensaje, get_translate(3, fichdll));
+	vsprintf(mensaje, get_translate(translate_dll_error(error)), opparam);
 
-	#ifdef _WIN32
-		MessageBox(0,mensaje,translate(4),MB_ICONERROR);
-	#else
-		printf("%s\n",mensaje);
-	#endif
+#ifdef _WIN32
+		MessageBox(0,mensaje,print_translate((4),MB_ICONERROR);
+#else
+	printf("%s\n", mensaje);
+#endif
 
 	//printf("\n");
 	//n_errors++;
@@ -104,25 +102,25 @@ void dll_error(int error, ...)
 	exit(-1);
 }
 
-
-
-int EDIV_Export(char* cadena, int nparam, void* hfuncion)
+int EDIV_Export(char *cadena, int nparam, void *hfuncion)
 {
-	if(decl_struct) {
-		dll_error(6,cadena);
+	if (decl_struct)
+	{
+		dll_error(6, cadena);
 		return 0;
 	}
 
-//	creaobj=crea_objeto((byte*)cadena);
+	//	creaobj=crea_objeto((byte*)cadena);
 
-    #ifdef DEBUG_DLL
-		printf("export_function:\t-- ID FUNCION: %d\n"
-			   "export_function:\tCadena exportada: %s\n"
-			   "export_function:\tN. parametros: %d\n"
-			   "export_function:\tOffset de la funcion: 0x%X\n",n_externs,cadena,nparam,(unsigned int)hfuncion);
-	#endif
+#ifdef DEBUG_DLL
+	printf("export_function:\t-- ID FUNCION: %d\n"
+		   "export_function:\tCadena exportada: %s\n"
+		   "export_function:\tN. parametros: %d\n"
+		   "export_function:\tOffset de la funcion: 0x%X\n",
+		   n_externs, cadena, nparam, (unsigned int)hfuncion);
+#endif
 
-/*	if(creaobj) {
+	/*	if(creaobj) {
 		dll_error(creaobj,cadena);
 		return 0;
 	}
@@ -138,56 +136,54 @@ int EDIV_Export(char* cadena, int nparam, void* hfuncion)
     ob->fext.codigo=n_externs;
     ob->fext.num_par=nparam; // es necesario?*/
 
-	extfuncs[n_externs]=hfuncion;
-	extparms[n_externs]=nparam;
+	extfuncs[n_externs] = hfuncion;
+	extparms[n_externs] = nparam;
 
-/*    for(i=0;i<numdlls;i++)
+	/*    for(i=0;i<numdlls;i++)
     	for(j=0;j<dlls[i].nfuncs;j++)
 			if(strcmp(cadena,dlls[i].ext_funcs[j].cadena)==0) {
 				dll_error(4,cadena);
 				return 0;
 			}*/
 
-/*#define actfunc dlls[numdlls-1].ext_funcs[dlls[numdlls-1].nfuncs]
+	/*#define actfunc dlls[numdlls-1].ext_funcs[dlls[numdlls-1].nfuncs]
 
 	actfunc.cadena=e_malloc(strlen(cadena)+1);
 	strcpy(actfunc.cadena,cadena);
 	actfunc.nparam = nparam;
 	actfunc.hfuncion = hfuncion;*/
 
-//	dlls[numdlls-1].nfuncs++;
+	//	dlls[numdlls-1].nfuncs++;
 	n_externs++;
 
 	return 1;
 }
 
-
-int EDIV_Export_Entrypoint(int ep, void* hfuncion)
+int EDIV_Export_Entrypoint(int ep, void *hfuncion)
 {
-	entrypoints[n_entrypoints].tipo=ep;
-	entrypoints[n_entrypoints].hfuncion=hfuncion;
-	entrypoints[n_entrypoints++].dll=numdlls;
+	entrypoints[n_entrypoints].tipo = ep;
+	entrypoints[n_entrypoints].hfuncion = hfuncion;
+	entrypoints[n_entrypoints++].dll = numdlls;
 	return 0;
 }
-
 
 int EDIV_Export_Priority(int priority)
 {
-	dlls[numdlls].prioridad=priority;
+	dlls[numdlls].prioridad = priority;
 	return 0;
 }
 
-
-int EDIV_Export_Const(char* cadena, int valor)
+int EDIV_Export_Const(char *cadena, int valor)
 {
-	if(decl_struct) {
-		dll_error(6,cadena);
+	if (decl_struct)
+	{
+		dll_error(6, cadena);
 		return 0;
 	}
 
 	// sólamente se tendrá que hacer algo en la versión con trazador
 
-/*	creaobj=crea_objeto((byte*)cadena);
+	/*	creaobj=crea_objeto((byte*)cadena);
 
 	#ifdef DEBUG_DLL
 		printf("export_const:\t-- ID OBJETO: %d\n"
@@ -215,15 +211,15 @@ int EDIV_Export_Const(char* cadena, int valor)
 	return 1;
 }
 
-
-int EDIV_Export_Global(char* cadena, int valor)
+int EDIV_Export_Global(char *cadena, int valor)
 {
-	if(decl_struct) {
-		dll_error(6,cadena);
+	if (decl_struct)
+	{
+		dll_error(6, cadena);
 		return 0;
 	}
 
-/*	creaobj=crea_objeto((byte*)cadena);
+	/*	creaobj=crea_objeto((byte*)cadena);
 
 	#ifdef DEBUG_DLL
 		printf("export_global:\t-- ID OBJETO: %d\n"
@@ -251,15 +247,15 @@ int EDIV_Export_Global(char* cadena, int valor)
 	return dimem++;
 }
 
-
-int EDIV_Export_Global_Tab(char* cadena, int numregs)
+int EDIV_Export_Global_Tab(char *cadena, int numregs)
 {
-	if(decl_struct) {
-		dll_error(6,cadena);
+	if (decl_struct)
+	{
+		dll_error(6, cadena);
 		return 0;
 	}
 
-/*	creaobj=crea_objeto((byte*)cadena);
+	/*	creaobj=crea_objeto((byte*)cadena);
 
 	#ifdef DEBUG_DLL
 		printf("export_global_tab:\t-- ID OBJETO: %d\n"
@@ -292,23 +288,23 @@ int EDIV_Export_Global_Tab(char* cadena, int numregs)
 		mem[imem++]=0;
 	} while (len--);
 */
-	offset=dimem;
-	dimem+=numregs;
+	offset = dimem;
+	dimem += numregs;
 
 	return offset;
 }
 
-
-int EDIV_Export_Global_Struct(char* cadena, int numregs)
+int EDIV_Export_Global_Struct(char *cadena, int numregs)
 {
-	if(decl_struct) {
-		dll_error(6,cadena);
+	if (decl_struct)
+	{
+		dll_error(6, cadena);
 		return 0;
 	}
 
-	nregs=numregs;
-	slocal=0;
-/*	creaobj=crea_objeto((byte*)cadena);
+	nregs = numregs;
+	slocal = 0;
+	/*	creaobj=crea_objeto((byte*)cadena);
 
 	#ifdef DEBUG_DLL
 		printf("export_global_struct:\t-- ID OBJETO: %d\n"
@@ -340,20 +336,20 @@ int EDIV_Export_Global_Struct(char* cadena, int numregs)
 	member=ob;
 	len=0;
 */
-	decl_struct=1;
-	len=0;
+	decl_struct = 1;
+	len = 0;
 	return dimem;
 }
 
-
-int EDIV_Export_Member_Int(char* cadena, int valor)
+int EDIV_Export_Member_Int(char *cadena, int valor)
 {
-	if(!decl_struct) {
-		dll_error(7,cadena);
+	if (!decl_struct)
+	{
+		dll_error(7, cadena);
 		return 0;
 	}
 
-/*	creaobj=crea_objeto((byte*)cadena);
+	/*	creaobj=crea_objeto((byte*)cadena);
 
 	#ifdef DEBUG_DLL
 		printf("export_member_int:\t-- ID OBJETO: %d\n"
@@ -393,15 +389,15 @@ int EDIV_Export_Member_Int(char* cadena, int valor)
 	return len++;
 }
 
-
-int EDIV_Export_Member_Str(char* cadena, int tamano)
+int EDIV_Export_Member_Str(char *cadena, int tamano)
 {
-	if(!decl_struct) {
-		dll_error(7,cadena);
+	if (!decl_struct)
+	{
+		dll_error(7, cadena);
 		return 0;
 	}
 
-/*	creaobj=crea_objeto((byte*)cadena);
+	/*	creaobj=crea_objeto((byte*)cadena);
 
 	#ifdef DEBUG_DLL
 		printf("export_member_str:\t-- ID OBJETO: %d\n"
@@ -467,22 +463,21 @@ int EDIV_Export_Member_Str(char* cadena, int tamano)
 		return (*ob2).cloc.offset;
 	}*/
 
-	offset=len;
-	len+=tamano;
+	offset = len;
+	len += tamano;
 
 	return offset;
-
 }
 
-
-int EDIV_Export_Member_Tab(char* cadena, int numregs)
+int EDIV_Export_Member_Tab(char *cadena, int numregs)
 {
-	if(!decl_struct) {
-		dll_error(7,cadena);
+	if (!decl_struct)
+	{
+		dll_error(7, cadena);
 		return 0;
 	}
 
-/*	creaobj=crea_objeto((byte*)cadena);
+	/*	creaobj=crea_objeto((byte*)cadena);
 
 	#ifdef DEBUG_DLL
 		printf("export_member_tab:\t-- ID OBJETO: %d\n"
@@ -532,20 +527,20 @@ int EDIV_Export_Member_Tab(char* cadena, int numregs)
 		return (*ob2).tloc.offset;
 	}*/
 
-	offset=len;
-	len+=numregs;
+	offset = len;
+	len += numregs;
 	return offset;
 }
 
-
 int EDIV_Export_EndStruct()
 {
-	if(!decl_struct) {
+	if (!decl_struct)
+	{
 		dll_error(9);
 		return 0;
 	}
 
-/*	#ifdef DEBUG_DLL
+	/*	#ifdef DEBUG_DLL
 		printf("export_endstruct:\t--- estructura cerrada\n");
 	#endif
 
@@ -579,25 +574,28 @@ int EDIV_Export_EndStruct()
 //        iloc+=ob->sloc.totalitems*ob->sloc.len_item;
 	}
 */
-	if(len==0) dll_error(10);
+	if (len == 0)
+		dll_error(10);
 
-	if(slocal) diloc+=len*nregs;
-	else dimem+=len*nregs;
+	if (slocal)
+		diloc += len * nregs;
+	else
+		dimem += len * nregs;
 
-	decl_struct=0;
+	decl_struct = 0;
 
 	return 1;
 }
 
-
-int EDIV_Export_Local(char* cadena, int valor)
+int EDIV_Export_Local(char *cadena, int valor)
 {
-	if(decl_struct) {
-		dll_error(6,cadena);
+	if (decl_struct)
+	{
+		dll_error(6, cadena);
 		return 0;
 	}
 
-/*	creaobj=crea_objeto((byte*)cadena);
+	/*	creaobj=crea_objeto((byte*)cadena);
 
 	#ifdef DEBUG_DLL
 		printf("export_local:\t-- ID OBJETO: %d\n"
@@ -622,18 +620,18 @@ int EDIV_Export_Local(char* cadena, int valor)
     ob->vloc.offset=iloc;
     loc[iloc]=valor;
 */
-    return diloc++;
+	return diloc++;
 }
 
-
-int EDIV_Export_Local_Tab(char* cadena, int numregs)
+int EDIV_Export_Local_Tab(char *cadena, int numregs)
 {
-	if(decl_struct) {
-		dll_error(6,cadena);
+	if (decl_struct)
+	{
+		dll_error(6, cadena);
 		return 0;
 	}
 
-/*	creaobj=crea_objeto((byte*)cadena);
+	/*	creaobj=crea_objeto((byte*)cadena);
 
 	#ifdef DEBUG_DLL
 		printf("export_local_tab:\t-- ID OBJETO: %d\n"
@@ -668,23 +666,23 @@ int EDIV_Export_Local_Tab(char* cadena, int numregs)
 
 	return ob->tloc.offset;*/
 
-	offset=diloc;
-	diloc+=numregs;
+	offset = diloc;
+	diloc += numregs;
 	return offset;
 }
 
-
-int EDIV_Export_Local_Struct(char* cadena, int numregs)
+int EDIV_Export_Local_Struct(char *cadena, int numregs)
 {
-	if(decl_struct) {
-		dll_error(6,cadena);
+	if (decl_struct)
+	{
+		dll_error(6, cadena);
 		return 0;
 	}
 
-	nregs=numregs;
-	slocal=1;
+	nregs = numregs;
+	slocal = 1;
 
-/*	creaobj=crea_objeto((byte*)cadena);
+	/*	creaobj=crea_objeto((byte*)cadena);
 
 	#ifdef DEBUG_DLL
 		printf("export_local_struct:\t-- ID OBJETO: %d\n"
@@ -716,11 +714,10 @@ int EDIV_Export_Local_Struct(char* cadena, int numregs)
 	member=ob;
 	len=0;
 */
-	decl_struct=1;
-	len=0;
-    return diloc;
+	decl_struct = 1;
+	len = 0;
+	return diloc;
 }
-
 
 ////////////////
 /// Call_Entrypoint
@@ -729,90 +726,92 @@ int EDIV_Export_Local_Struct(char* cadena, int numregs)
 int Call_Entrypoint(int ep, ...)
 {
 	va_list opparam;
-	int i,c=0;
-	for(i=0;i<n_entrypoints;i++) {
-		if(entrypoints[i].tipo==ep) {
+	int i, c = 0;
+	for (i = 0; i < n_entrypoints; i++)
+	{
+		if (entrypoints[i].tipo == ep)
+		{
 			c++;
-			va_start(opparam,ep);
-			switch(ep) {
+			va_start(opparam, ep);
+			switch (ep)
+			{
 
-				// void funcion(void)
-				case EDIV_set_video_mode:
-				case EDIV_process_palette:
-				case EDIV_process_active_palette:
-				case EDIV_background_to_buffer:
-				case EDIV_buffer_to_video:
-				case EDIV_post_process_scroll:
-				case EDIV_post_process_m7:
-				case EDIV_post_process_m8:
-				case EDIV_post_process_buffer:
-				case EDIV_post_process:
-				case EDIV_ss_init:
-				case EDIV_ss_frame:
-				case EDIV_ss_end:
-				case EDIV_quit:
-					{
-						void (*funcion_ep)(void);
-						funcion_ep=entrypoints[i].hfuncion;
-						funcion_ep();
-					}
-					break;
-				case EDIV_frame:
-				case EDIV_first_load:
-					{
-						void (*funcion_ep)(struct _fun_params* fp);
-						funcion_ep=entrypoints[i].hfuncion;
-						funcion_ep(&fp) ;
-					}
-					break;
-				// void funcion(char*,int)
-				case EDIV_process_sound:
-				case EDIV_process_fpg:
-				case EDIV_process_map:
-				case EDIV_process_fnt:
-					{
-						void (*funcion_ep)(char *ptr,int lenght);
-						char* _ptr=va_arg(opparam,char*);
-						int _lenght=va_arg(opparam,int);
-						funcion_ep=entrypoints[i].hfuncion;
-						funcion_ep(_ptr,_lenght);
-					}
-					break;
+			// void funcion(void)
+			case EDIV_set_video_mode:
+			case EDIV_process_palette:
+			case EDIV_process_active_palette:
+			case EDIV_background_to_buffer:
+			case EDIV_buffer_to_video:
+			case EDIV_post_process_scroll:
+			case EDIV_post_process_m7:
+			case EDIV_post_process_m8:
+			case EDIV_post_process_buffer:
+			case EDIV_post_process:
+			case EDIV_ss_init:
+			case EDIV_ss_frame:
+			case EDIV_ss_end:
+			case EDIV_quit:
+			{
+				void (*funcion_ep)(void);
+				funcion_ep = entrypoints[i].hfuncion;
+				funcion_ep();
+			}
+			break;
+			case EDIV_frame:
+			case EDIV_first_load:
+			{
+				void (*funcion_ep)(struct _fun_params * fp);
+				funcion_ep = entrypoints[i].hfuncion;
+				funcion_ep(&fp);
+			}
+			break;
+			// void funcion(char*,int)
+			case EDIV_process_sound:
+			case EDIV_process_fpg:
+			case EDIV_process_map:
+			case EDIV_process_fnt:
+			{
+				void (*funcion_ep)(char *ptr, int lenght);
+				char *_ptr = va_arg(opparam, char *);
+				int _lenght = va_arg(opparam, int);
+				funcion_ep = entrypoints[i].hfuncion;
+				funcion_ep(_ptr, _lenght);
+			}
+			break;
 
-				case EDIV_put_sprite:
-					{
-						void (*funcion_ep)(unsigned char * si, int x,int y, int an, int al,
-							int xg, int yg, int ang, int size, int flags);
-						unsigned char* _si=va_arg(opparam,unsigned char*);
-						int _x=va_arg(opparam,int);
-						int _y=va_arg(opparam,int);
-						int _an=va_arg(opparam,int);
-						int _al=va_arg(opparam,int);
-						int _xg=va_arg(opparam,int);
-						int _yg=va_arg(opparam,int);
-						int _ang=va_arg(opparam,int);
-						int _size=va_arg(opparam,int);
-						int _flags=va_arg(opparam,int);
-						funcion_ep=entrypoints[i].hfuncion;
-						funcion_ep(_si,_x,_y,_an,_al,_xg,_yg,_ang,_size,_flags);
-					}
+			case EDIV_put_sprite:
+			{
+				void (*funcion_ep)(unsigned char *si, int x, int y, int an, int al,
+								   int xg, int yg, int ang, int size, int flags);
+				unsigned char *_si = va_arg(opparam, unsigned char *);
+				int _x = va_arg(opparam, int);
+				int _y = va_arg(opparam, int);
+				int _an = va_arg(opparam, int);
+				int _al = va_arg(opparam, int);
+				int _xg = va_arg(opparam, int);
+				int _yg = va_arg(opparam, int);
+				int _ang = va_arg(opparam, int);
+				int _size = va_arg(opparam, int);
+				int _flags = va_arg(opparam, int);
+				funcion_ep = entrypoints[i].hfuncion;
+				funcion_ep(_si, _x, _y, _an, _al, _xg, _yg, _ang, _size, _flags);
+			}
 #ifdef DBG
-				// entrypoints del trazador
-				// void funcion(int,char*,int*,void*);
-				case EDIV_trace:
-				case EDIV_debug:
-					{
-						void (*funcion_ep)(int imem, char* nombreprg, int* lin, void* dbg);
-						int _imem=va_arg(opparam,int);
-						char* _nombreprg=va_arg(opparam,char*);
-						void* _lin=va_arg(opparam,void*);
-						void* _dbg=va_arg(opparam,void*);
-						//assert(0);
-						funcion_ep=entrypoints[i].hfuncion;
-						funcion_ep(_imem,_nombreprg,_lin,_dbg);
-					}
+			// entrypoints del trazador
+			// void funcion(int,char*,int*,void*);
+			case EDIV_trace:
+			case EDIV_debug:
+			{
+				void (*funcion_ep)(int imem, char *nombreprg, int *lin, void *dbg);
+				int _imem = va_arg(opparam, int);
+				char *_nombreprg = va_arg(opparam, char *);
+				void *_lin = va_arg(opparam, void *);
+				void *_dbg = va_arg(opparam, void *);
+				//assert(0);
+				funcion_ep = entrypoints[i].hfuncion;
+				funcion_ep(_imem, _nombreprg, _lin, _dbg);
+			}
 #endif /* DBG */
-
 			}
 		}
 	}

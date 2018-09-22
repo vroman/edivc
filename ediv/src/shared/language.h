@@ -40,30 +40,31 @@
 #undef TRANSLATE
 #endif
 
-#define TRANSLATE_ERROR				1
-#define TRANSLATE_WARNING			2
-#define TRANSLATE_DLL_ERROR			3
-#define TRANSLATE_LTLEX_ERROR		4
-#define TRANSLATE_COMPILER			5
-#define TRANSLATE_STUB				6
-#define TRANSLATE_RUNTIME_ERROR		7
-#define TRANSLATE_CRITICAL_ERROR	8
-
+#define TRANSLATE_ERROR 1
+#define TRANSLATE_WARNING 2
+#define TRANSLATE_DLL_ERROR 3
+#define TRANSLATE_LTLEX_ERROR 4
+#define TRANSLATE_COMPILER 5
+#define TRANSLATE_STUB 6
+#define TRANSLATE_RUNTIME_ERROR 7
+#define TRANSLATE_CRITICAL_ERROR 8
 
 int idioma;
 
 /* comunes */
 int detecta_idioma();
-char* translate(int num);
-char* translate_dll_error(int num);
+char *translate(int num);
+char *translate_dll_error(int num);
+const char *get_translate(int num, ...);
+void print_translate(int num, ...);
 
 /* compilador */
-char* translate_error(int num);
-char* translate_warning(int num);
-char* translate_ltlex_error(int num);
+char *translate_error(int num);
+char *translate_warning(int num);
+char *translate_ltlex_error(int num);
 
 /* stub */
-char* translate_runtime_error(int num);
-char* translate_critical_error(int num);
+char *translate_runtime_error(int num);
+char *translate_critical_error(int num);
 
 #endif /* __EDIV_LANGUAGE_H_ */

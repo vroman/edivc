@@ -18,74 +18,77 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-
 /**** ¡¡¡ OJO CON LAS COMAS !!! ****/
 
-
 #ifdef _WIN32
-#	include <windows.h>
+#include <windows.h>
 #else
-#	include <stdlib.h>
-#	include <string.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdarg.h>
 #endif
 
 #include "shared.h"
 #include "language.h"
 
-
-int detecta_idioma_iso(char* lang)
+int detecta_idioma_iso(char *lang)
 {
 	int i;
 	static char getid[NUM_LANGUAGES][3] = {
-		"es",	// español
-		"it",	// italiano
-		"pt",	// portugués
-		"en",	// inglés
-		"ca",	// catalán
-		"eu"	// euskera
+		"es", // español
+		"it", // italiano
+		"pt", // portugués
+		"en", // inglés
+		"ca", // catalán
+		"eu"  // euskera
 	};
-	if(lang==NULL) return DEFAULT_LANGUAGE;
-	if(strlen(lang)>2) lang[2]=0;
+	if (lang == NULL)
+		return DEFAULT_LANGUAGE;
+	if (strlen(lang) > 2)
+		lang[2] = 0;
 	strlwr(lang);
-	for(i=0;i<NUM_LANGUAGES;i++)
-		if(lang[0]==getid[i][0])
-			if(lang[1]==getid[i][1])
+	for (i = 0; i < NUM_LANGUAGES; i++)
+		if (lang[0] == getid[i][0])
+			if (lang[1] == getid[i][1])
 				break;
-	if(i==NUM_LANGUAGES) i=DEFAULT_LANGUAGE;
+	if (i == NUM_LANGUAGES)
+		i = DEFAULT_LANGUAGE;
 	return i;
 }
 
-
 int detecta_idioma()
 {
-	#ifdef _WIN32
-		int i;
-		static int getid[NUM_LANGUAGES] = {
-			0x0a,	// español
-			0x10,	// italiano
-			0x16,	// portugués
-			0x09,	// inglés
-			0x03,	// catalán
-			0x2d	// euskera
-		};
-		LANGID lang;
+#ifdef _WIN32
+	int i;
+	static int getid[NUM_LANGUAGES] = {
+		0x0a, // español
+		0x10, // italiano
+		0x16, // portugués
+		0x09, // inglés
+		0x03, // catalán
+		0x2d  // euskera
+	};
+	LANGID lang;
 
-		lang=GetSystemDefaultLangID()&0xff;
-		for(i=0;i<NUM_LANGUAGES;i++)
-			if(lang==getid[i]) break;
-		if(i==NUM_LANGUAGES) i=DEFAULT_LANGUAGE;
-		return i;
-	#else
-		char* langcfg=getenv("LANG");
-		if(langcfg==NULL) return DEFAULT_LANGUAGE;
-		else return detecta_idioma_iso(langcfg);
-	#endif
+	lang = GetSystemDefaultLangID() & 0xff;
+	for (i = 0; i < NUM_LANGUAGES; i++)
+		if (lang == getid[i])
+			break;
+	if (i == NUM_LANGUAGES)
+		i = DEFAULT_LANGUAGE;
+	return i;
+#else
+	char *langcfg = getenv("LANG");
+	if (langcfg == NULL)
+		return DEFAULT_LANGUAGE;
+	else
+		return detecta_idioma_iso(langcfg);
+#endif
 }
 
-
-char* translate(int id_cadena)
+char *translate(int id_cadena)
 {
-	static char *msg[NUM_LANGUAGES][5]= {
+	static char *msg[NUM_LANGUAGES][5] = {
 
 #define TRANSLATE TRANSLATE_STUB
 #include "language_aux.h"
@@ -94,15 +97,14 @@ char* translate(int id_cadena)
 	return msg[idioma][id_cadena];
 }
 
-
 /*
  * NOTA: los huecos vacíos (184..199) son de errores no usados en DIV2, por favor
  * aprovechadlos para añadir nuevos errores.
  */
 
-char* translate_runtime_error(int num)
+char *translate_runtime_error(int num)
 {
-	static char *e[NUM_LANGUAGES][101]= {
+	static char *e[NUM_LANGUAGES][101] = {
 
 #define TRANSLATE TRANSLATE_RUNTIME_ERROR
 #include "language_aux.h"
@@ -110,11 +112,9 @@ char* translate_runtime_error(int num)
 	};
 
 	return e[idioma][num];
-
 }
 
-
-char* translate_critical_error(int num)
+char *translate_critical_error(int num)
 {
 	static char *e[NUM_LANGUAGES][10] = {
 
@@ -126,8 +126,7 @@ char* translate_critical_error(int num)
 	return e[idioma][num];
 }
 
-
-char* translate_dll_error(int num)
+char *translate_dll_error(int num)
 {
 	static char *e[NUM_LANGUAGES][10] = {
 
@@ -138,3 +137,31 @@ char* translate_dll_error(int num)
 	return e[idioma][num];
 }
 
+void print_translate(int num, ...)
+{
+	va_list arg_ptr;
+	const char *message = translate(num);
+	size_t msglen = strlen(message);
+	char *strbuf = malloc(msglen + 1);
+
+	va_start(arg_ptr, message);
+	vsprintf(strbuf, message, arg_ptr);
+	va_end(arg_ptr);
+
+	printf("%s", strbuf);
+	free(strbuf);
+}
+
+const char *get_translate(int num, ...)
+{
+	va_list arg_ptr;
+	const char *message = translate(num);
+	size_t msglen = strlen(message);
+	char *strbuf = malloc(msglen + 1);
+
+	va_start(arg_ptr, message);
+	vsprintf(strbuf, message, arg_ptr);
+	va_end(arg_ptr);
+
+	return strbuf;
+}
