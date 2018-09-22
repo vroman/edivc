@@ -18,75 +18,83 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-
 #ifdef _WIN32
-#	include <windows.h>
+#include <windows.h>
 #else
-#	include <stdlib.h>
-#	include <string.h>
+#include <stdlib.h>
+#include <string.h>
 #endif
 
 #include "shared.h"
 #include "language.h"
 #include "edivcfg/iniparser.h"
 
+static char *ediv_strlwr(char *str);
 
-int detecta_idioma_iso(char* lang)
+int detecta_idioma_iso(char *lang)
 {
 	int i;
 	static char getid[NUM_LANGUAGES][3] = {
-		"es",	/* español   */
-		"it",	/* italiano  */
-		"pt",	/* portugués */
-		"en",	/* inglés    */
-		"ca",	/* catalán   */
-		"eu"	/* euskera   */
+		"es", /* español   */
+		"it", /* italiano  */
+		"pt", /* portugués */
+		"en", /* inglés    */
+		"ca", /* catalán   */
+		"eu"  /* euskera   */
 	};
-	if(lang==NULL) return DEFAULT_LANGUAGE;
-	if(strlen(lang)>2) lang[2]=0;
-	strlwr(lang);
-	for(i=0;i<NUM_LANGUAGES;i++)
-		if(lang[0]==getid[i][0])
-			if(lang[1]==getid[i][1])
+	if (lang == NULL)
+		return DEFAULT_LANGUAGE;
+	if (strlen(lang) > 2)
+		lang[2] = 0;
+	ediv_strlwr(lang);
+	for (i = 0; i < NUM_LANGUAGES; i++)
+		if (lang[0] == getid[i][0])
+			if (lang[1] == getid[i][1])
 				break;
-	if(i==NUM_LANGUAGES) i=DEFAULT_LANGUAGE;
+	if (i == NUM_LANGUAGES)
+		i = DEFAULT_LANGUAGE;
 	return i;
 }
 
-
 int detecta_idioma()
 {
-	char* langcfg=NULL;
-	if (ini!=NULL) langcfg=iniparser_getstr(ini,"general:lang");
-	if(langcfg==NULL) {
-		#ifdef _WIN32
-			int i;
-			static int getid[NUM_LANGUAGES] = {
-				0x0a,	/* español   */
-				0x10,	/* italiano  */
-				0x16,	/* portugués */
-				0x09,	/* inglés    */
-				0x03,	/* catalán   */
-				0x2d	/* euskera   */
-			};
-			LANGID lang;
+	char *langcfg = NULL;
+	if (ini != NULL)
+		langcfg = iniparser_getstr(ini, "general:lang");
+	if (langcfg == NULL)
+	{
+#ifdef _WIN32
+		int i;
+		static int getid[NUM_LANGUAGES] = {
+			0x0a, /* español   */
+			0x10, /* italiano  */
+			0x16, /* portugués */
+			0x09, /* inglés    */
+			0x03, /* catalán   */
+			0x2d  /* euskera   */
+		};
+		LANGID lang;
 
-			lang=GetSystemDefaultLangID()&0xff;
-			for(i=0;i<NUM_LANGUAGES;i++)
-				if(lang==getid[i]) break;
-			if(i==NUM_LANGUAGES) i=DEFAULT_LANGUAGE;
-			return i;
-		#else
-			langcfg=getenv("LANG");
-			if(langcfg==NULL) return DEFAULT_LANGUAGE;
-			else return detecta_idioma_iso(langcfg);
-		#endif
+		lang = GetSystemDefaultLangID() & 0xff;
+		for (i = 0; i < NUM_LANGUAGES; i++)
+			if (lang == getid[i])
+				break;
+		if (i == NUM_LANGUAGES)
+			i = DEFAULT_LANGUAGE;
+		return i;
+#else
+		langcfg = getenv("LANG");
+		if (langcfg == NULL)
+			return DEFAULT_LANGUAGE;
+		else
+			return detecta_idioma_iso(langcfg);
+#endif
 	}
-	else return detecta_idioma_iso(langcfg);
+	else
+		return detecta_idioma_iso(langcfg);
 }
 
-
-char* translate_error(int num)
+char *translate_error(int num)
 {
 
 	static char *e[NUM_LANGUAGES][74] = {
@@ -99,7 +107,7 @@ char* translate_error(int num)
 	return e[idioma][num];
 }
 
-char* translate_warning(int num)
+char *translate_warning(int num)
 {
 
 	static char *e[NUM_LANGUAGES][3] = {
@@ -111,8 +119,8 @@ char* translate_warning(int num)
 
 	return e[idioma][num];
 }
-	
-char* translate_dll_error(int num)
+
+char *translate_dll_error(int num)
 {
 	static char *e[NUM_LANGUAGES][10] = {
 
@@ -123,7 +131,7 @@ char* translate_dll_error(int num)
 	return e[idioma][num];
 }
 
-char* translate_ltlex_error(int num)
+char *translate_ltlex_error(int num)
 {
 	static char *e[NUM_LANGUAGES][5] = {
 
@@ -134,8 +142,7 @@ char* translate_ltlex_error(int num)
 	return e[idioma][num];
 }
 
-
-char* translate(int num)
+char *translate(int num)
 {
 	static char *e[NUM_LANGUAGES][74] = {
 
@@ -144,4 +151,17 @@ char* translate(int num)
 
 	};
 	return e[idioma][num];
+}
+
+static char *ediv_strlwr(char *str)
+{
+	unsigned char *p = (unsigned char *)str;
+
+	while (*p)
+	{
+		*p = tolower((unsigned char)*p);
+		p++;
+	}
+
+	return str;
 }
