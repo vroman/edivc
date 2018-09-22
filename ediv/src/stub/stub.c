@@ -155,7 +155,7 @@ int main(int argc, char* argv[])
 	}
 	
 	
-	if ((mem=(int*)malloc(4*imem_max+1032*5+16*1025+3))!=NULL){
+	if ((mem=malloc(4*imem_max+1032*5+16*1025+3))!=NULL){
 		
 		mem=(int*)((((int)mem+3)/4)*4);
 		
@@ -169,7 +169,7 @@ int main(int argc, char* argv[])
 		nullstring[3]=imem_max+1+258*3; mem[nullstring[3]-1]=0xDAD00402;
 		memcpy(mem,mimem,40);
 		
-		if ((ptr=(byte*)malloc(len))!=NULL) {
+		if ((ptr=malloc(len))!=NULL) {
 			
 			read(f,ptr,len);
 			
@@ -205,9 +205,9 @@ int main(int argc, char* argv[])
 				read(f,&num_indexed_vars,4);
 				read(f,&len_descomp,4);
 				read(f,&len,4);
-				ptr=(byte*)e_malloc(len);
+				ptr=e_malloc(len);
 				read(f,ptr,len);
-				vartemp=(byte*)e_malloc(len_descomp);
+				vartemp=e_malloc(len_descomp);
 				if(uncompress(vartemp,&len_descomp,ptr,len)) {
 					free(ptr);
 					free(vartemp);
@@ -215,7 +215,7 @@ int main(int argc, char* argv[])
 					critical_error(1); // error leyendo el código del programa
 				}
 
-				varindex=(varindex_t*)e_malloc(num_indexed_vars*sizeof(varindex_t));
+				varindex=e_malloc(num_indexed_vars*sizeof(varindex_t));
 				ptr=vartemp;
 
 				for(i=0;i<num_indexed_vars;i++) {
@@ -244,9 +244,9 @@ int main(int argc, char* argv[])
 				lseek(f,start_lin,SEEK_SET);
 				read(f,&descomp_size,4);
 				read(f,&comp_size,4);
-				progcomp=(char*)e_malloc(comp_size);
+				progcomp=e_malloc(comp_size);
 				read(f,progcomp,comp_size);
-				prog=(char*)e_malloc(descomp_size);
+				prog=e_malloc(descomp_size);
 				if(uncompress(prog,&descomp_size,progcomp,comp_size)) {
 					close(f);
 					free(prog);
@@ -255,7 +255,7 @@ int main(int argc, char* argv[])
 				}
 				free(progcomp);
 				read(f,&linsize,4);
-				lin=(int*)e_malloc(linsize*4*4+4);
+				lin=e_malloc(linsize*4*4+4);
 				lin[0]=linsize;
 
 				for(i=0;i<linsize;i++) {

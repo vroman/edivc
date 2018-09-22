@@ -68,7 +68,7 @@ void dll_func() // ke original, no? XD
 
 		// guarda el nombre de fichero en la tabla de DLLs
 		printf("\nGuardando el nombre de la dll...");
-		dlls[0].nombre=(char*)e_malloc(strlen(fichero_dll.name)+1);
+		dlls[0].nombre=e_malloc(strlen(fichero_dll.name)+1);
 		strcpy(dlls[0].nombre,fichero_dll.name);
 		printf("\nGuardado el nombre de la dll...");
 
@@ -86,7 +86,7 @@ void dll_func() // ke original, no? XD
         		strcat(fichdll,fichero_dll.name);
 //				dlls[numdlls].nfuncs=0;
 				if(!leedll()) {
-					dlls[numdlls].nombre=(char*)e_malloc(strlen(fichero_dll.name)+1);
+					dlls[numdlls].nombre=e_malloc(strlen(fichero_dll.name)+1);
 					strcpy(dlls[numdlls].nombre,fichero_dll.name);
 					dlls[numdlls].usado=0;
 					numdlls++;
@@ -126,7 +126,7 @@ void dll_func() // ke original, no? XD
         		strcat(fichdll,fichero_dll->d_name);
 //				dlls[numdlls].nfuncs=0;
                 if(!leedll()) {
-					dlls[numdlls].nombre=(char*)e_malloc(strlen(fichero_dll->d_name)+1);
+					dlls[numdlls].nombre=e_malloc(strlen(fichero_dll->d_name)+1);
 					strcpy(dlls[numdlls].nombre,fichero_dll->d_name);
 					dlls[numdlls].usado=0;
 					numdlls++;

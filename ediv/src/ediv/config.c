@@ -78,7 +78,7 @@ void lee_ediv_cfg(char* ediv_cfg)
 	fseek(f,0,SEEK_END);
 	tamano=ftell(f);
 	fseek(f,0,SEEK_SET);
-	buffer=(char*)e_malloc(tamano);
+	buffer = e_malloc(tamano);
 
 	fread(buffer,1,tamano,f);
 	fclose(f);

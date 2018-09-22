@@ -61,7 +61,7 @@ void analiza_ltlex(void){
 	/* Lo lee */
     fseek(def,0,SEEK_END);
 	len=ftell(def);
-    _buf=buf=(byte *) e_malloc(len+1);
+    _buf=buf= e_malloc(len+1);
     fseek(def,0,SEEK_SET);
     len=fread(buf,1,len,def);
 

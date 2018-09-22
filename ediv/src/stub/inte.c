@@ -48,7 +48,7 @@ int ini_interprete()
 	first_loaded = 1 ;
 
 	pila_max = 1024 ;
-	if ((pila=(int*)malloc(4*pila_max))==NULL)
+	if ((pila=malloc(4*pila_max))==NULL)
 		critical_error(4); // no se pudo reservar memoria para la pila
 
 	sp = 0 ; //por si acaso

@@ -137,7 +137,7 @@ void _encriptar(int encode, char * fichero, char * clave)
 	if ((f=fopen(fichero,"rb"))!=NULL) {
 		fseek(f,0,SEEK_END); 
 		size=ftell(f);
-		if ((ptr=(byte *)malloc(size))!=NULL) {
+		if ((ptr=malloc(size))!=NULL) {
 			fseek(f,0,SEEK_SET);
 			if(fread(ptr,1,size,f) ==(unsigned int) size) {
 				fclose(f);
@@ -224,7 +224,7 @@ void _comprimir(int encode, char *fichero)
 	if ((f=fopen(fichero,"rb"))!=NULL) {
 		fseek(f,0,SEEK_END); 
 		size=ftell(f);
-		if ((ptr=(byte *)malloc(size))!=NULL) {
+		if ((ptr=malloc(size))!=NULL) {
 			fseek(f,0,SEEK_SET);
 			if(fread(ptr,1,size,f) == size) {
 				fclose(f);
@@ -245,7 +245,7 @@ void _comprimir(int encode, char *fichero)
 			return;
 		stub_size=(int)size;
 		size2=size+size/100+256;
-		if ((ptr_dest=(byte *)malloc(size2))==NULL) {
+		if ((ptr_dest=malloc(size2))==NULL) {
 			free(ptr);
 			return;
 		}
@@ -268,7 +268,7 @@ void _comprimir(int encode, char *fichero)
 			return;
 		size2=*(int*)(ptr+8);
 		stub_size=(int)size2;
-		if ((ptr_dest=(byte *)malloc(size2))==NULL) {
+		if ((ptr_dest=malloc(size2))==NULL) {
 			free(ptr); 
 			return;
 		}

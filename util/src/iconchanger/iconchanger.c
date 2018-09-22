@@ -79,7 +79,7 @@ int main(int argc, char* argv[])
 		exit(4);
 	}
 
-	ico=(unsigned char*)e_malloc(tamanyo);
+	ico=e_malloc(tamanyo);
 	fseek(f,0,SEEK_SET);
 	fread(ico,tamanyo,1,f);
 	fclose(f);
@@ -92,7 +92,7 @@ int main(int argc, char* argv[])
 	fseek(f,0,SEEK_END);
 	tamanyo=ftell(f);
 	fseek(f,0,SEEK_SET);
-	exe=(unsigned char*)e_malloc(tamanyo);	/* no creo ke pase nada por unos 125 kb...
+	exe=e_malloc(tamanyo);	/* no creo ke pase nada por unos 125 kb...
 											   eso si, cuando se puedan meter el PAK y
 											   las DLL's en el exe, va a haber ke cambiar
 											   esto... */

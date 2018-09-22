@@ -137,10 +137,10 @@ void indexa_variable(tipo_t tipo, char* nombre, int ptr)
 	#endif
 
 	if(varindex) {
-		varindex=(varindex_t*)realloc(varindex,sizeof(varindex_t)*(num_indexed_vars+1));
+		varindex=realloc(varindex,sizeof(varindex_t)*(num_indexed_vars+1));
 	}
 	else {
-		varindex=(varindex_t*)e_malloc(sizeof(varindex_t)*(num_indexed_vars+1));
+		varindex=e_malloc(sizeof(varindex_t)*(num_indexed_vars+1));
 	}
 	varindex[num_indexed_vars].hash=h;
 	varindex[num_indexed_vars].tipo=tipo;

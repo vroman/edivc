@@ -136,7 +136,7 @@ int eDIV_LOAD_FPG(FUNCTION_PARAMS)
 			fread(files[0].mapa[num].cpoint,2,2*infomapa.number_of_points,f) ;
 		}
 
-		graphic = (char*)malloc(infomapa.wide*infomapa.height*bpp/8);
+		graphic = malloc(infomapa.wide*infomapa.height*bpp/8);
 		fread(graphic,1,infomapa.wide*infomapa.height*bpp/8,f);
 
 		files[0].mapa[num].Surface = SDL_CreateRGBSurfaceFrom(graphic,infomapa.wide,infomapa.height,bpp,infomapa.wide*bpp/8,0,0,0,0) ;

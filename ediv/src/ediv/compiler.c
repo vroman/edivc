@@ -83,7 +83,7 @@ void prepara_compilacion()
 
 
 	/* Inicializamos el vector de nombres */
-	vnom=(byte *) e_malloc(max_obj*long_med_id+1024);
+	vnom = e_malloc(max_obj*long_med_id+1024);
 	ivnom.b=vnom;
 
 
@@ -100,17 +100,17 @@ void prepara_compilacion()
 
 	/* Buffer para el bytecode */
 	imem_max=default_buffer; imem=0;
-	mem_ory=mem=(int*)e_malloc(imem_max*sizeof(int));
+	mem_ory = mem = e_malloc(imem_max*sizeof(int));
 	memset(mem,0,imem_max*sizeof(int));
 
 	/* Buffer para variables locales y privadas */
 	iloc_max=default_buffer/2; iloc=0; iloc_len=0;
-	loc=(int*)e_malloc(iloc_max*sizeof(int));
+	loc = e_malloc(iloc_max*sizeof(int));
 	memset(loc,0,iloc_max*sizeof(int));
 
 	/* ¿Que es esto? */
 	ifrm_max=default_buffer/2;
-	frm=(int*)e_malloc(ifrm_max*sizeof(int));
+	frm = e_malloc(ifrm_max*sizeof(int));
 	memset(frm,0,ifrm_max*sizeof(int));
 
 	imem=long_header;
@@ -328,7 +328,7 @@ void compila()
 	/* lo pasamos todo del temporal a la memoria */
 	l=ftell(fvar);
 	fseek(fvar,0,SEEK_SET);
-	varptr=(byte*)e_malloc(l);
+	varptr = e_malloc(l);
 	fread(varptr,1,l,fvar);
 	fclose(fvar);
 	#ifdef _DEBUG
@@ -340,9 +340,9 @@ void compila()
 
 	if ((f=fopen(outfilename,"ab"))!=NULL) {
 		fwrite(nombre_program,strlen((const char*)nombre_program)+1,1,f);
-		p=(byte*)e_malloc((imem+iloc)*4);
+		p = e_malloc((imem+iloc)*4);
 		m=(imem+iloc)*4+1024;
-		q=(byte*)e_malloc(m);
+		q = e_malloc(m);
 		if (p!=NULL && q!=NULL) {
 			fwrite(mem,4,9,f); /* mem[0..8] */
 			memcpy(p,&mem[9],(imem-9)*4);
@@ -354,7 +354,7 @@ void compila()
 				fwrite(q,1,m,f);
 				free(q); free(p);
 				m=l*2;
-				q=(byte*)e_malloc(m);
+				q = e_malloc(m);
 				if(!compress(q,&m,varptr,l)) { /* nºvariables,longitud_datos_descomp,longitud_datos_comp,datos_comp... */
 					fwrite(&num_indexed_vars,1,4,f);
 					fwrite(&l,1,4,f);

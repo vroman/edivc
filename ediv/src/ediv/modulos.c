@@ -144,7 +144,7 @@ void dll_func()
 			if(!leedll()) {
 				dlls[numdlls].prioridad=0;
 			/* guarda el nombre de fichero en la tabla de DLLs */
-				dlls[0].nombre=(char*)e_malloc(strlen(rawname)+1);
+				dlls[0].nombre=e_malloc(strlen(rawname)+1);
 				strcpy(dlls[0].nombre,rawname);	
 
 			/* importa las funciones de la DLL */
@@ -168,7 +168,7 @@ void dll_func()
 				strcat(dllkey,rawname);
 				if(ini) if(iniparser_getint(ini,dllkey,0)<=P_NUNCA) carga=0;
 				if(carga) if(!leedll()) {
-					dlls[numdlls].nombre=(char*)e_malloc(strlen(rawname)+1);
+					dlls[numdlls].nombre=e_malloc(strlen(rawname)+1);
 					strcpy(dlls[numdlls].nombre,rawname);
 					dlls[numdlls].usado=0;
 					if(ini) dlls[numdlls].prioridad=iniparser_getint(ini,dllkey,dlls[numdlls].prioridad);
@@ -218,7 +218,7 @@ void dll_func()
 
                 		if(carga) {
 					if(!leedll()) {
-						dlls[numdlls].nombre=(char*)e_malloc(strlen(rawname)+1);
+						dlls[numdlls].nombre=e_malloc(strlen(rawname)+1);
 						strcpy(dlls[numdlls].nombre,rawname);
 						dlls[numdlls].usado=0;
 					

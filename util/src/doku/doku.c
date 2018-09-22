@@ -88,7 +88,7 @@ int main(int argc, char* argv[])
 	fseek(f,0,SEEK_END);
 	tamano=ftell(f);
 	fseek(f,0,SEEK_SET);
-	if((buffer=(char*)malloc(tamano))==NULL) {
+	if((buffer=malloc(tamano))==NULL) {
 		printf("Error: memoria insuficiente\n");
 		exit(3);
 	}
@@ -140,7 +140,7 @@ int main(int argc, char* argv[])
 	tamano=ftell(f);
 	fseek(f,0,SEEK_SET);
 
-	if((buffer=(char*)malloc(tamano+1))==NULL) {
+	if((buffer=malloc(tamano+1))==NULL) {
 		printf("Error: memoria insuficiente\n");
 		exit(5);
 	}
@@ -253,7 +253,7 @@ void situame(char* actual, char* ant, char* sig, char* sup)
 	tam=ftell(fi);
 	fseek(fi,0,SEEK_SET);
 
-	if((buf=(char*)malloc(tam+1))==NULL) {
+	if((buf=malloc(tam+1))==NULL) {
 		printf("Error: memoria insuficiente\n");
 		exit(14);
 	}
@@ -363,7 +363,7 @@ void lee_titulo(char* fixero1, char* titulo)
 	tam=ftell(fi);
 	fseek(fi,0,SEEK_SET);
 
-	if((buf=(char*)malloc(tam+1))==NULL) {
+	if((buf=malloc(tam+1))==NULL) {
 		printf("Error: memoria insuficiente\n");
 		exit(11);
 	}
@@ -477,7 +477,7 @@ void procesa_subindice(char* actual)
 	tam=ftell(fi);
 	fseek(fi,0,SEEK_SET);
 
-	if((buf=(char*)malloc(tam+1))==NULL) {
+	if((buf=malloc(tam+1))==NULL) {
 		printf("Error: memoria insuficiente\n");
 		exit(20);
 	}

@@ -125,7 +125,7 @@ static int AddDLLReference(void *pImageBase, char *svName, DWORD dwFlags)
 	}
 
 	// Add new dll to list
-	cur=(IMAGE_PARAMETERS *)e_malloc(sizeof(IMAGE_PARAMETERS));
+	cur = e_malloc(sizeof(IMAGE_PARAMETERS));
 	if(cur==NULL) {
 		LeaveCriticalSection(&g_DLLCrit);
 		return -1;

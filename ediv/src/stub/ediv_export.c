@@ -150,7 +150,7 @@ int EDIV_Export(char* cadena, int nparam, void* hfuncion)
 
 /*#define actfunc dlls[numdlls-1].ext_funcs[dlls[numdlls-1].nfuncs]
 
-	actfunc.cadena=(char*)e_malloc(strlen(cadena)+1);
+	actfunc.cadena=e_malloc(strlen(cadena)+1);
 	strcpy(actfunc.cadena,cadena);
 	actfunc.nparam = nparam;
 	actfunc.hfuncion = hfuncion;*/
