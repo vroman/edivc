@@ -25,13 +25,11 @@
  */
 
 #include <assert.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-//#include <SDL/SDL.h>
-
 #include "extern.h"
-#include "edivfont.h"
 //#include "kernel.h"
 #include "inte.h"
 #include "main.h"
